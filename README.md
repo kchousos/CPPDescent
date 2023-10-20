@@ -1,4 +1,4 @@
-# KNN-Lib
+# CPP-Descent
 
 For more information, check the [Wiki](https://github.com/kchousos/KNN-Lib/wiki).
 
