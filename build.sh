@@ -1,3 +1,4 @@
 #!/bin/bash
-cmake --build ./build
-./build/cppdescent
+cmake -S . -B build
+cmake --build build
+./build/test
