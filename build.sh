@@ -1,4 +1,4 @@
 #!/bin/bash
 cmake -S . -B build
 cmake --build build
-./build/test
+./build/hello_test
