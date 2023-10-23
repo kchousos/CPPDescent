@@ -15,7 +15,7 @@ add_executable(cppdescent ${SOURCES})
 
 ## Google Test
 enable_testing()
-add_subdirectory(external/googletest)
+add_subdirectory(${SOURCE_DIR}/include/external/googletest)
 
 add_executable(
   hello_test
