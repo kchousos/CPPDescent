@@ -6,12 +6,12 @@ project(CPPDescent VERSION 0.0.1
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_DIR src)
-
 set(TEST_DIR test)
-
 set(SOURCES ${SOURCE_DIR}/main.cpp)
 
 add_executable(cppdescent ${SOURCES})
+
+target_include_directories(cppdescent PUBLIC include/headers)
 
 ## Google Test
 enable_testing()
