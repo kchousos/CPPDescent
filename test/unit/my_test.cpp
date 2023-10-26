@@ -4,7 +4,9 @@
 namespace {
 // We will test this dummy function but you can test
 // any function from any library that you write too.
-int GetMeaningOfLife() { return 42; }
+int GetMeaningOfLife() {
+  return 42;
+}
 }  // namespace
 
 // All tests must live within TEST* blocks
@@ -14,16 +16,16 @@ int GetMeaningOfLife() { return 42; }
 // It should be descriptive and readable to the user
 // TEST is a macro, i.e., preprocessor replaces it with some code
 TEST(TestTopic, TrivialEquality) {
-    // We can test for equality, inequality etc.
-    // If the equality does not hold, the test fails.
-    // EXPECT_* are macros, i.e., also replaced by the preprocessor.
-    EXPECT_EQ(GetMeaningOfLife(), 42);
+  // We can test for equality, inequality etc.
+  // If the equality does not hold, the test fails.
+  // EXPECT_* are macros, i.e., also replaced by the preprocessor.
+  EXPECT_EQ(GetMeaningOfLife(), 42);
 }
 
 TEST(TestTopic, MoreEqualityTests) {
-    // ASSERT_* is similar to EXPECT_* but stops the execution
-    // of the test if fails.
-    // EXPECT_* continues execution on failure too.
-    ASSERT_EQ(GetMeaningOfLife(), 42) << "Oh no, a mistake!";
-    EXPECT_FLOAT_EQ(23.23F, 23.23F);
+  // ASSERT_* is similar to EXPECT_* but stops the execution
+  // of the test if fails.
+  // EXPECT_* continues execution on failure too.
+  ASSERT_EQ(GetMeaningOfLife(), 42) << "Oh no, a mistake!";
+  EXPECT_FLOAT_EQ(23.23F, 23.23F);
 }
