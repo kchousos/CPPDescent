@@ -1,5 +1,5 @@
 #pragma once
-#include "common.h"
+#include "common.hpp"
 
 class ListNode {
    public:
@@ -17,8 +17,7 @@ class ListNode {
 
 class List {
    public:
-    List(DestroyFunc destroyValue)
-        : destroyValue(destroyValue), size(0), tail(dummy){};
+    List(DestroyFunc destroyValue);
     ~List();
     int getSize();
     void insertNext(ListNode* node, Pointer value);

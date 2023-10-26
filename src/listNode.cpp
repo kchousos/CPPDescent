@@ -1,4 +1,4 @@
-#include "linkedList.h"
+#include "linkedList.hpp"
 
 ListNode::ListNode() {
     this->next = nullptr;

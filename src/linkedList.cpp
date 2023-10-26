@@ -1,6 +1,7 @@
-#include "linkedList.h"
+#include "linkedList.hpp"
 
-List::List(DestroyFunc destroyValue) {
+List::List(DestroyFunc destroyValue)
+    : destroyValue(destroyValue), size(0), tail(dummy) {
     this->dummy = new ListNode();
     this->dummy->setNext(nullptr);
 }
