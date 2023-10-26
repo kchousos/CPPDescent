@@ -1,6 +1,7 @@
 #include <iostream>
+#include "cppdescent/cppdescent.hpp"
 
 int main(void) {
-    std::cout << "Hello World"
-              << "\n";
+  cppdescent test;
+  test.hello();
 }

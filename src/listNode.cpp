@@ -1,22 +1,28 @@
 #include "linkedList.hpp"
 
 ListNode::ListNode() {
-    this->next = nullptr;
-    this->value = nullptr;
+  this->next = nullptr;
+  this->value = nullptr;
 }
 
-ListNode::ListNode(void* value) { this->next = nullptr; }
+ListNode::ListNode(void* value) {
+  this->next = nullptr;
+}
 
 ListNode::~ListNode() {
-    this->next = nullptr;
-    this->value = nullptr;
+  this->next = nullptr;
+  this->value = nullptr;
 }
 
 int ListNode::setNext(ListNode* next) {
-    this->next = next;
-    return 0;
+  this->next = next;
+  return 0;
 }
 
-ListNode* ListNode::getNext() { return this->next; }
+ListNode* ListNode::getNext() {
+  return this->next;
+}
 
-Pointer ListNode::getValue() { return this->value; }
+Pointer ListNode::getValue() {
+  return this->value;
+}
