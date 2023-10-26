@@ -1,5 +1,4 @@
 build/**
-src/include/external
 .vscode
 .DS_Store
 
