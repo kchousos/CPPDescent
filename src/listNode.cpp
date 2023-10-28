@@ -1,4 +1,4 @@
-#include "linkedList.hpp"
+#include "cppdescent/linkedList.hpp"
 
 ListNode::ListNode() {
   this->next = nullptr;
@@ -7,16 +7,16 @@ ListNode::ListNode() {
 
 ListNode::ListNode(void* value) {
   this->next = nullptr;
+  this->value = value;
 }
 
-ListNode::~ListNode() {
-  this->next = nullptr;
-  this->value = nullptr;
-}
+// ListNode::~ListNode() {
+//   this->next = nullptr;
+//   this->value = nullptr;
+// }
 
-int ListNode::setNext(ListNode* next) {
+void ListNode::setNext(ListNode* next) {
   this->next = next;
-  return 0;
 }
 
 ListNode* ListNode::getNext() {
