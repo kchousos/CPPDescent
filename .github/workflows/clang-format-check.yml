@@ -9,7 +9,7 @@ jobs:
             path:
                 - 'src'
                 - 'test'
-                - 'include'
+                - 'include/cppdescent'
                 - 'app'
     steps:
     - uses: actions/checkout@v3
