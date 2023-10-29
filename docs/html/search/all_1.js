@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['find_0',['find',['../classList.html#ae54a4138d33f53bf59b6c324fdc8650f',1,'List']]],
-  ['findnode_1',['findNode',['../classList.html#a895016546bcec61b70d12384200360f9',1,'List']]]
+  ['cpp_2ddescent_0',['CPP-Descent',['../index.html',1,'']]],
+  ['cppdescent_1',['cppdescent',['../classcppdescent.html',1,'']]],
+  ['cppdescent_2ecpp_2',['cppdescent.cpp',['../cppdescent_8cpp.html',1,'']]]
 ];

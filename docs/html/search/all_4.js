@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['insertnext_0',['insertNext',['../classList.html#ac94b5b6247b3e607086300a4720706a4',1,'List']]]
+  ['hello_0',['hello',['../classcppdescent.html#ace8d9b9bb62867f02f969753c2969602',1,'cppdescent']]]
 ];

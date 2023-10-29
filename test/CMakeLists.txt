@@ -30,4 +30,7 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 # Declare tests
-package_add_test(linkedList.test unit/linkedList.test.cpp)
+package_add_test(ADTList.test 
+                 unit/ADTList.test.cpp
+                 ${PROJECT_SOURCE_DIR}/src/ADTList.cpp
+                 ${PROJECT_SOURCE_DIR}/src/listNode.cpp)

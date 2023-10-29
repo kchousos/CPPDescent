@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;74ba700
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;58c5b9c
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -81,7 +81,7 @@ $(function() {
 <p>ADT <a class="el" href="classList.html" title="ADT List.">List</a>.  
  <a href="classList.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="linkedList_8hpp_source.html">linkedList.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="ADTList_8hpp_source.html">ADTList.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -91,12 +91,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a70aecf37bd9d779a394e4d50377fbf5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#a70aecf37bd9d779a394e4d50377fbf5f">~List</a> ()</td></tr>
 <tr class="memdesc:a70aecf37bd9d779a394e4d50377fbf5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="classList.html" title="ADT List.">List</a> object.  <br /></td></tr>
 <tr class="separator:a70aecf37bd9d779a394e4d50377fbf5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac94b5b6247b3e607086300a4720706a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#ac94b5b6247b3e607086300a4720706a4">insertNext</a> (<a class="el" href="classListNode.html">ListNode</a> node, Pointer value)</td></tr>
-<tr class="memdesc:ac94b5b6247b3e607086300a4720706a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a node <em>after</em> the given node.  <br /></td></tr>
-<tr class="separator:ac94b5b6247b3e607086300a4720706a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7478e1e92469a7afb93abe4f5baf50eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#a7478e1e92469a7afb93abe4f5baf50eb">removeNext</a> (<a class="el" href="classListNode.html">ListNode</a> node)</td></tr>
-<tr class="memdesc:a7478e1e92469a7afb93abe4f5baf50eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the node <em>after</em> the given node.  <br /></td></tr>
-<tr class="separator:a7478e1e92469a7afb93abe4f5baf50eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab00b355aa94f8c7876a22b41aabbf6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#aab00b355aa94f8c7876a22b41aabbf6a">insertNext</a> (<a class="el" href="classListNode.html">ListNode</a> *node, Pointer value)</td></tr>
+<tr class="memdesc:aab00b355aa94f8c7876a22b41aabbf6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a node <em>after</em> the given node.  <br /></td></tr>
+<tr class="separator:aab00b355aa94f8c7876a22b41aabbf6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a328c9ac88ae5da7e0200dc8eb8eeef20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#a328c9ac88ae5da7e0200dc8eb8eeef20">removeNext</a> (<a class="el" href="classListNode.html">ListNode</a> *node)</td></tr>
+<tr class="memdesc:a328c9ac88ae5da7e0200dc8eb8eeef20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the node <em>after</em> the given node.  <br /></td></tr>
+<tr class="separator:a328c9ac88ae5da7e0200dc8eb8eeef20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae54a4138d33f53bf59b6c324fdc8650f"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#ae54a4138d33f53bf59b6c324fdc8650f">find</a> (Pointer value, CompareFunc compare)</td></tr>
 <tr class="memdesc:ae54a4138d33f53bf59b6c324fdc8650f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first value equal to the value parameter.  <br /></td></tr>
 <tr class="separator:ae54a4138d33f53bf59b6c324fdc8650f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,15 +118,15 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
 <tr class="memitem:a451bc8f2964e3ac355ba58578fb748ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classListNode.html">ListNode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#a451bc8f2964e3ac355ba58578fb748ef">getTail</a> ()</td></tr>
 <tr class="memdesc:a451bc8f2964e3ac355ba58578fb748ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the tail of the <a class="el" href="classList.html" title="ADT List.">List</a>.  <br /></td></tr>
 <tr class="separator:a451bc8f2964e3ac355ba58578fb748ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83e81a3178d05ccefe33c4959d3fa385"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classListNode.html">ListNode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#a83e81a3178d05ccefe33c4959d3fa385">next</a> (<a class="el" href="classListNode.html">ListNode</a> node)</td></tr>
-<tr class="memdesc:a83e81a3178d05ccefe33c4959d3fa385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the node after the given one.  <br /></td></tr>
-<tr class="separator:a83e81a3178d05ccefe33c4959d3fa385"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad12974b9ac3ddd0dd35020e5ed657790"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#ad12974b9ac3ddd0dd35020e5ed657790">nodeValue</a> (<a class="el" href="classListNode.html">ListNode</a> node)</td></tr>
-<tr class="memdesc:ad12974b9ac3ddd0dd35020e5ed657790"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the node.  <br /></td></tr>
-<tr class="separator:ad12974b9ac3ddd0dd35020e5ed657790"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a895016546bcec61b70d12384200360f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classListNode.html">ListNode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#a895016546bcec61b70d12384200360f9">findNode</a> (Pointer value, CompareFunc compare)</td></tr>
-<tr class="memdesc:a895016546bcec61b70d12384200360f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first node that has value equal to the value parameter.  <br /></td></tr>
-<tr class="separator:a895016546bcec61b70d12384200360f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae0216e1e2c2c568c9b2ac050938c7c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classListNode.html">ListNode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#aae0216e1e2c2c568c9b2ac050938c7c4">next</a> (<a class="el" href="classListNode.html">ListNode</a> *node)</td></tr>
+<tr class="memdesc:aae0216e1e2c2c568c9b2ac050938c7c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the node after the given one.  <br /></td></tr>
+<tr class="separator:aae0216e1e2c2c568c9b2ac050938c7c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a313c8bf467e6af7607da1e281b0ff19c"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#a313c8bf467e6af7607da1e281b0ff19c">nodeValue</a> (<a class="el" href="classListNode.html">ListNode</a> *node)</td></tr>
+<tr class="memdesc:a313c8bf467e6af7607da1e281b0ff19c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the node.  <br /></td></tr>
+<tr class="separator:a313c8bf467e6af7607da1e281b0ff19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0938304c0c928798ba86057cac58165e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classListNode.html">ListNode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classList.html#a0938304c0c928798ba86057cac58165e">findNode</a> (Pointer value, CompareFunc compare)</td></tr>
+<tr class="memdesc:a0938304c0c928798ba86057cac58165e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first node that has value equal to the value parameter.  <br /></td></tr>
+<tr class="separator:a0938304c0c928798ba86057cac58165e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ADT <a class="el" href="classList.html" title="ADT List.">List</a>. </p>
@@ -151,7 +151,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
 <p>Construct a new <a class="el" href="classList.html" title="ADT List.">List</a> object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">destroyValue</td><td>If destroyValue != nullptr, the destroyValue function will be called each time a node is removed. </td></tr>
+    <tr><td class="paramname">destroyValue</td><td>If destroyValue != nullptr, the destroyValue function will be called each time a node is removed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>head is a virtual node that is always present in the list.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">destroyValue</td><td>The destroy function for the values of the list. Defaults to nullptr. </td></tr>
   </table>
   </dd>
 </dl>
@@ -216,14 +223,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
 
 </div>
 </div>
-<a id="a895016546bcec61b70d12384200360f9" name="a895016546bcec61b70d12384200360f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a895016546bcec61b70d12384200360f9">&#9670;&#160;</a></span>findNode()</h2>
+<a id="a0938304c0c928798ba86057cac58165e" name="a0938304c0c928798ba86057cac58165e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0938304c0c928798ba86057cac58165e">&#9670;&#160;</a></span>findNode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classListNode.html">ListNode</a> List::findNode </td>
+          <td class="memname"><a class="el" href="classListNode.html">ListNode</a> * List::findNode </td>
           <td>(</td>
           <td class="paramtype">Pointer&#160;</td>
           <td class="paramname"><em>value</em>, </td>
@@ -250,7 +257,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classListNode.html" title="Node of a list.">ListNode</a> A pointer to the resulting node. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ListNode* A pointer to the resulting node. </dd></dl>
 
 </div>
 </div>
@@ -270,7 +277,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
 </div><div class="memdoc">
 
 <p>Getter for the head of the <a class="el" href="classList.html" title="ADT List.">List</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>ListNode* A pointer to the head. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ListNode* The head. </dd></dl>
 
 </div>
 </div>
@@ -311,12 +318,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
 </div><div class="memdoc">
 
 <p>Getter for the tail of the <a class="el" href="classList.html" title="ADT List.">List</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>ListNode* A pointer to the tail. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ListNode* The tail. </dd></dl>
 
 </div>
 </div>
-<a id="ac94b5b6247b3e607086300a4720706a4" name="ac94b5b6247b3e607086300a4720706a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac94b5b6247b3e607086300a4720706a4">&#9670;&#160;</a></span>insertNext()</h2>
+<a id="aab00b355aa94f8c7876a22b41aabbf6a" name="aab00b355aa94f8c7876a22b41aabbf6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab00b355aa94f8c7876a22b41aabbf6a">&#9670;&#160;</a></span>insertNext()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -324,7 +331,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
         <tr>
           <td class="memname">void List::insertNext </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classListNode.html">ListNode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classListNode.html">ListNode</a> *&#160;</td>
           <td class="paramname"><em>node</em>, </td>
         </tr>
         <tr>
@@ -352,16 +359,16 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
 
 </div>
 </div>
-<a id="a83e81a3178d05ccefe33c4959d3fa385" name="a83e81a3178d05ccefe33c4959d3fa385"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83e81a3178d05ccefe33c4959d3fa385">&#9670;&#160;</a></span>next()</h2>
+<a id="aae0216e1e2c2c568c9b2ac050938c7c4" name="aae0216e1e2c2c568c9b2ac050938c7c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae0216e1e2c2c568c9b2ac050938c7c4">&#9670;&#160;</a></span>next()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classListNode.html">ListNode</a> List::next </td>
+          <td class="memname"><a class="el" href="classListNode.html">ListNode</a> * List::next </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classListNode.html">ListNode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classListNode.html">ListNode</a> *&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
@@ -375,12 +382,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classListNode.html" title="Node of a list.">ListNode</a> A pointer to the next node. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ListNode* A pointer to the next node. </dd></dl>
 
 </div>
 </div>
-<a id="ad12974b9ac3ddd0dd35020e5ed657790" name="ad12974b9ac3ddd0dd35020e5ed657790"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad12974b9ac3ddd0dd35020e5ed657790">&#9670;&#160;</a></span>nodeValue()</h2>
+<a id="a313c8bf467e6af7607da1e281b0ff19c" name="a313c8bf467e6af7607da1e281b0ff19c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a313c8bf467e6af7607da1e281b0ff19c">&#9670;&#160;</a></span>nodeValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -388,7 +395,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
         <tr>
           <td class="memname">Pointer List::nodeValue </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classListNode.html">ListNode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classListNode.html">ListNode</a> *&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
@@ -406,8 +413,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
 
 </div>
 </div>
-<a id="a7478e1e92469a7afb93abe4f5baf50eb" name="a7478e1e92469a7afb93abe4f5baf50eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7478e1e92469a7afb93abe4f5baf50eb">&#9670;&#160;</a></span>removeNext()</h2>
+<a id="a328c9ac88ae5da7e0200dc8eb8eeef20" name="a328c9ac88ae5da7e0200dc8eb8eeef20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a328c9ac88ae5da7e0200dc8eb8eeef20">&#9670;&#160;</a></span>removeNext()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -415,7 +422,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
         <tr>
           <td class="memname">void List::removeNext </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classListNode.html">ListNode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classListNode.html">ListNode</a> *&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
@@ -460,8 +467,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decreaseSize</b> ()</t
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="linkedList_8hpp_source.html">linkedList.hpp</a></li>
-<li>linkedList.cpp</li>
+<li><a class="el" href="ADTList_8hpp_source.html">ADTList.hpp</a></li>
+<li><a class="el" href="ADTList_8cpp.html">ADTList.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

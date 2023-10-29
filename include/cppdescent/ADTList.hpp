@@ -11,8 +11,8 @@
 #pragma once
 #include "common.hpp"
 
-#define LIST_BOF (ListNode)0  ///< Virtual node before the first node.
-#define LIST_EOF (ListNode)0  ///< Virtual node after the last node.
+#define LIST_BOF (ListNode*)0  ///< Virtual node before the first node.
+#define LIST_EOF (ListNode*)0  ///< Virtual node after the last node.
 
 /**
  * @brief Node of a list.
@@ -34,6 +34,10 @@ class ListNode {
    * @param value a generic pointer to the value of the node.
    */
   ListNode(Pointer value) : next(nullptr), value(value){};
+  /**
+   * @brief Destroy the List Node object
+   *
+   */
   // ~ListNode();
   /**
    * @brief Setter for the next node.
@@ -86,13 +90,13 @@ class List {
    * @param node The node that the new node will be placed after.
    * @param value The value of the new node.
    */
-  void insertNext(ListNode node, Pointer value);
+  void insertNext(ListNode* node, Pointer value);
   /**
    * @brief Removes the node *after* the given node.
    *
    * @param node The node before the node to be removed.
    */
-  void removeNext(ListNode node);
+  void removeNext(ListNode* node);
   /**
    * @brief Finds the first value equal to the value parameter.
    *
@@ -122,40 +126,39 @@ class List {
   /**
    * @brief Getter for the head of the List.
    *
-   * @return ListNode* A pointer to the head.
+   * @return ListNode* The head.
    */
   ListNode* getHead();
   /**
    * @brief Getter for the tail of the List.
    *
-   * @return ListNode* A pointer to the tail.
+   * @return ListNode* The tail.
    */
   ListNode* getTail();
   /**
    * @brief Returns the node after the given one.
    *
    * @param node
-   * @return ListNode A pointer to the next node.
+   * @return ListNode* A pointer to the next node.
    */
-  ListNode next(ListNode node);
+  ListNode* next(ListNode* node);
   /**
    * @brief Returns the value of the node.
    *
    * @param node
    * @return Pointer A generic pointer to the value.
    */
-  Pointer nodeValue(ListNode node);
+  Pointer nodeValue(ListNode* node);
   /**
    * @brief Finds the first node that has value equal to the value parameter.
    *
    * @param value The value to search.
    * @param compare The compare function to use.
-   * @return ListNode A pointer to the resulting node.
+   * @return ListNode* A pointer to the resulting node.
    */
-  ListNode findNode(Pointer value, CompareFunc compare);
+  ListNode* findNode(Pointer value, CompareFunc compare);
 
  private:
-  ListNode* dummy;
   ListNode* head;
   ListNode* tail;
   int size;

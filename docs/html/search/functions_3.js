@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['insertnext_0',['insertNext',['../classList.html#ac94b5b6247b3e607086300a4720706a4',1,'List']]]
+  ['insertnext_0',['insertNext',['../classList.html#aab00b355aa94f8c7876a22b41aabbf6a',1,'List']]]
 ];
