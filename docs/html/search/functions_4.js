@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['list_0',['List',['../classList.html#a630fe5981457779406114c8777c1c6a1',1,'List']]],
-  ['listnode_1',['ListNode',['../classListNode.html#ac8e8674ba4da13a5074bfdf49471c585',1,'ListNode::ListNode()'],['../classListNode.html#a8f49e6c24fb1feb308d47fbf78260be3',1,'ListNode::ListNode(Pointer value)']]]
+  ['increasesize_0',['increaseSize',['../classList.html#aa022101bf61a37de3666f9263c107743',1,'List']]],
+  ['insertnext_1',['insertNext',['../classList.html#aab00b355aa94f8c7876a22b41aabbf6a',1,'List']]]
 ];
