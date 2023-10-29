@@ -12,8 +12,8 @@
 
 #include "common.hpp"
 
-#define VECTOR_BOF (VectorNode*)0
-#define VECTOR_EOF (VectorNode*)0
+#define VECTOR_BOF (vectorNode*)0
+#define VECTOR_EOF (vectorNode*)0
 
 /**
  * @brief Class for the vector Node object.
@@ -120,27 +120,27 @@ class Vector {
    *
    * @return vectorNode
    */
-  vectorNode first();
+  vectorNode* first();
   /**
    * @brief Get the last node of the vector.
    *
    * @return vectorNode
    */
-  vectorNode last();
+  vectorNode* last();
   /**
    * @brief Get the next node of the vector, after the one given.
    *
    * @param node The node to get the next of.
    * @return vectorNode
    */
-  vectorNode next(vectorNode node);
+  vectorNode* next(vectorNode node);
   /**
    * @brief Get the previous node of the vector, before the one given.
    *
    * @param node The node to get the previous of.
    * @return vectorNode
    */
-  vectorNode previous(vectorNode node);
+  vectorNode* previous(vectorNode node);
   /**
    * @brief Get the value of the node.
    *
@@ -155,7 +155,7 @@ class Vector {
    * @param compare The function to be used for comparison.
    * @return vectorNode The resulting node.
    */
-  vectorNode findNode(Pointer value, CompareFunc compare);
+  vectorNode* findNode(Pointer value, CompareFunc compare);
 
  private:
   vectorNode* array;
