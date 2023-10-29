@@ -1,31 +1,48 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.1...3.27)
 
-project(CPPDescent VERSION 0.0.1
-                   LANGUAGES CXX)
+project(CPPDescent 
+	VERSION 0.0.1
+    	DESCRIPTION "A KNN-Graph creation library"
+	LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+# Downloads the submodules when first clonging
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+# Update submodules as needed
+    option(GIT_SUBMODULE "Check submodules during build" ON)
+    if(GIT_SUBMODULE)
+        message(STATUS "Submodule update")
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                        RESULT_VARIABLE GIT_SUBMOD_RESULT)
+        if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+            message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+        endif()
+    endif()
+endif()
 
-set(SOURCE_DIR src)
+if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/googletest/CMakeLists.txt")
+    message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+endif()
 
-set(TEST_DIR test)
+# Only do these if this is the main project, and not if it is included through add_subdirectory
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  # Let's nicely support folders in IDEs
+  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+endif()
 
-set(SOURCES ${SOURCE_DIR}/main.cpp)
+# The compiled library code is here
+add_subdirectory(src)
+# The executable code is here
+add_subdirectory(app)
 
-add_executable(cppdescent ${SOURCES})
-
-## Google Test
-enable_testing()
-add_subdirectory(external/googletest)
-
-add_executable(
-  hello_test
-  ${TEST_DIR}/unit/my_test.cpp
-)
-
-target_link_libraries(
-  hello_test
-  GTest::gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(hello_test)
+# Testing only available if this is the main app
+# Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
+if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING))
+  option(PACKAGE_TESTS "Build the tests" ON)
+  if(PACKAGE_TESTS)
+      enable_testing()
+      include(GoogleTest)
+      add_subdirectory(test)
+  endif()
+endif()
