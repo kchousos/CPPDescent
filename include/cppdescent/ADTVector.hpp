@@ -133,21 +133,21 @@ class Vector {
    * @param node The node to get the next of.
    * @return vectorNode
    */
-  vectorNode* next(vectorNode node);
+  vectorNode* next(vectorNode* node);
   /**
    * @brief Get the previous node of the vector, before the one given.
    *
    * @param node The node to get the previous of.
    * @return vectorNode
    */
-  vectorNode* previous(vectorNode node);
+  vectorNode* previous(vectorNode* node);
   /**
    * @brief Get the value of the node.
    *
    * @param node
    * @return Pointer
    */
-  Pointer nodeValue(vectorNode node);
+  Pointer nodeValue(vectorNode* node);
   /**
    * @brief Find the first node with value equal to value.
    *

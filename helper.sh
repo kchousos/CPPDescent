@@ -31,7 +31,7 @@ function coverage {
 }
 
 if [ "$#" -eq 0 ]; then
-    cleanBuild
+    # cleanBuild
     createDocs
     format
     # runTests isn't needed because coverage runs them anyway
