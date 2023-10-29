@@ -1,11 +1,14 @@
-#include "../include/ADTMap.hpp"
+#include "ADTMap.hpp"
 #include <iostream>
 
-// Το μέγεθος του Hash Table ιδανικά θέλουμε να είναι πρώτος αριθμός σύμφωνα με
-// την θεωρία. Η παρακάτω λίστα περιέχει πρώτους οι οποίοι έχουν αποδεδιγμένα
-// καλή συμπεριφορά ως μεγέθη. Κάθε re-hash θα γίνεται βάσει αυτής της λίστας.
-// Αν χρειάζονται παραπάνω απο 1610612741 στοχεία, τότε σε καθε rehash
-// διπλασιάζουμε το μέγεθος.
+/**
+ * @brief We want the capacity of the Hash Table to be a prime number, according
+ * to the theory. So the following list consists of prime numbers that are
+ * proven good capacity values for a Hash Table. When a rehash is needed, the
+ * capacity of the new table will be chosen from this table. If more than
+ * 1610612741 elements are needed, we double the capacity of the old table at
+ * rehash.
+ */
 int prime_sizes[] = {
     53,        97,        193,       389,       769,       1543,     3079,
     6151,      12289,     24593,     49157,     98317,     196613,   393241,
