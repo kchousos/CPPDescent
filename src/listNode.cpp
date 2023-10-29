@@ -1,22 +1,17 @@
-#include "linkedList.hpp"
+/**
+ * @file listNode.cpp
+ * @author Konstantinos Chousos
+ * @brief Implementation of the listNode to be used with linkedList.
+ * @version 0.1
+ * @date 2023-10-29
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+#include "cppdescent/ADTList.hpp"
 
-ListNode::ListNode() {
-  this->next = nullptr;
-  this->value = nullptr;
-}
-
-ListNode::ListNode(void* value) {
-  this->next = nullptr;
-}
-
-ListNode::~ListNode() {
-  this->next = nullptr;
-  this->value = nullptr;
-}
-
-int ListNode::setNext(ListNode* next) {
+void ListNode::setNext(ListNode* next) {
   this->next = next;
-  return 0;
 }
 
 ListNode* ListNode::getNext() {
