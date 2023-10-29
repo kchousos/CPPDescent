@@ -71,9 +71,13 @@ ListNode* List::getHead() {
 /**
  * @brief Get the last element of the list.
  *
+ * If the list is empty, the virtual head is the tail, so we return nullptr.
+ *
  * @return ListNode* Pointer to the last element.
  */
 ListNode* List::getTail() {
+  if (this->size == 0)
+    return nullptr;
   return this->tail;
 }
 

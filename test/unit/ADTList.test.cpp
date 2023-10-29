@@ -9,6 +9,7 @@
  *
  */
 #include "cppdescent/ADTList.hpp"
+#include <iostream>
 #include "gtest/gtest.h"
 
 // a sample compare function for ints
@@ -62,7 +63,9 @@ TEST(ADTListTest, insert) {
 
 TEST(ADTListTest, removeNext) {
   // a list that automatically calls delete upon removing a node
-  List* list = new List(deleteInts);
+  List* list = new List();
+  // test setDestroyValue
+  list->setDestroyValue(deleteInts);
 
   int N = 1000;
   int** array = new int*[N * sizeof(*array)];
@@ -143,5 +146,35 @@ TEST(ADTListTest, findNode) {
   }
 
   delete array;
+  delete list;
+}
+
+TEST(ADTListTest, tail) {
+  List* list = new List();
+
+  ListNode* empty = list->getTail();
+  ASSERT_EQ(empty, nullptr);
+
+  int N = 5;
+  int* array = new int[N * sizeof(*array)];
+
+  for (int i = 0; i < N; i++)
+    list->insertNext(LIST_BOF, &array[i]);
+
+  ListNode* oldTail = list->getTail();
+
+  int* num = new int;
+  *num = 5;
+  list->insertNext(oldTail, &num);
+  ListNode* newTail = list->getTail();
+
+  // test that the tail changed
+  ASSERT_NE(newTail, oldTail);
+
+  list->removeNext(oldTail);
+  newTail = list->getTail();
+  ASSERT_EQ(newTail, oldTail);
+
+  delete num;
   delete list;
 }
