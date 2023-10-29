@@ -78,7 +78,7 @@ class List {
    * @param destroyValue If destroyValue != nullptr, the destroyValue
    * function will be called each time a node is removed.
    */
-  List(DestroyFunc destroyValue = nullptr);
+  List(DestroyFunc value = nullptr);
   /**
    * @brief Destroy the List object.
    *
@@ -159,8 +159,8 @@ class List {
   ListNode* findNode(Pointer value, CompareFunc compare);
 
  private:
+  DestroyFunc destroyValue;
+  int size;
   ListNode* head;
   ListNode* tail;
-  int size;
-  DestroyFunc destroyValue;
 };

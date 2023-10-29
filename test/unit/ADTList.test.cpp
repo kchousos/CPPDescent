@@ -57,7 +57,7 @@ TEST(ADTListTest, insert) {
   list->insertNext(head_node, nullptr);
   ASSERT_EQ(list->nodeValue(list->next(head_node)), nullptr);
 
-  delete array;
+  delete[] array;
   delete list;
 };
 
@@ -97,7 +97,7 @@ TEST(ADTListTest, removeNext) {
   ASSERT_EQ(list->getSize(), N - 1);
 
   // delete *array;
-  delete array;
+  delete[] array;
   delete list;
 }
 
@@ -121,7 +121,7 @@ TEST(ADTListTest, find) {
   int not_exists = -1;
   ASSERT_EQ(list->find(&not_exists, compareInts), nullptr);
 
-  delete array;
+  delete[] array;
   delete list;
 }
 
@@ -145,7 +145,7 @@ TEST(ADTListTest, findNode) {
     node = list->next(node);
   }
 
-  delete array;
+  delete[] array;
   delete list;
 }
 

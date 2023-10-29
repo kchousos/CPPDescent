@@ -19,9 +19,9 @@
  * Defaults to nullptr.
  *
  */
-List::List(DestroyFunc destroyValue)
-    : destroyValue(destroyValue), size(0), tail(head) {
+List::List(DestroyFunc value) : destroyValue(value), size(0) {
   this->head = new ListNode();
+  this->tail = head;
 }
 
 /**

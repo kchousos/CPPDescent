@@ -28,7 +28,7 @@ macro(package_add_test TESTNAME)
     )
     set_target_properties(${TESTNAME} PROPERTIES FOLDER test)
     target_compile_features(${TESTNAME} PRIVATE cxx_std_11)
-    target_compile_options(${TESTNAME} PRIVATE #-Wall -Wextra -Wpedantic -Werror
+    target_compile_options(${TESTNAME} PRIVATE -Wall -Wextra -Wpedantic -Werror
                                                -fprofile-arcs -ftest-coverage)
     target_link_options(${TESTNAME} PRIVATE -fprofile-arcs)
 endmacro()
