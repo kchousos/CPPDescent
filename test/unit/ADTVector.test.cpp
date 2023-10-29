@@ -29,7 +29,8 @@ TEST(ADTVectorTest, create) {
   ASSERT_EQ(v->getSize(), 0);
   ASSERT_EQ(v2->getSize(), 10);
 
-  delete v, v2;
+  delete v;
+  delete v2;
 }
 
 TEST(ADTVectorTest, insertLast) {

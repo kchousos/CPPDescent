@@ -1,7 +1,6 @@
 #!/bin/bash
 
 function cleanBuild {
-    clean build
     rm -rf build/
     cmake -S . -B build
     cmake --build build
