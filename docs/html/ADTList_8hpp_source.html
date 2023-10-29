@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;420be83
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;c2abd1f
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -101,7 +101,7 @@ $(function() {
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classList.html">   73</a></span><span class="keyword">class </span><a class="code hl_class" href="classList.html">List</a> {</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  <a class="code hl_class" href="classList.html">List</a>(DestroyFunc destroyValue = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  <a class="code hl_class" href="classList.html">List</a>(DestroyFunc value = <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  <a class="code hl_function" href="classList.html#a70aecf37bd9d779a394e4d50377fbf5f">~List</a>();</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classList.html#aab00b355aa94f8c7876a22b41aabbf6a">insertNext</a>(<a class="code hl_class" href="classListNode.html">ListNode</a>* node, Pointer value);</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classList.html#a328c9ac88ae5da7e0200dc8eb8eeef20">removeNext</a>(<a class="code hl_class" href="classListNode.html">ListNode</a>* node);</div>
@@ -117,10 +117,10 @@ $(function() {
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  <a class="code hl_class" href="classListNode.html">ListNode</a>* <a class="code hl_function" href="classList.html#a0938304c0c928798ba86057cac58165e">findNode</a>(Pointer value, CompareFunc compare);</div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  <a class="code hl_class" href="classListNode.html">ListNode</a>* head;</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>  <a class="code hl_class" href="classListNode.html">ListNode</a>* tail;</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>  <span class="keywordtype">int</span> size;</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>  DestroyFunc destroyValue;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  DestroyFunc destroyValue;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>  <span class="keywordtype">int</span> size;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>  <a class="code hl_class" href="classListNode.html">ListNode</a>* head;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>  <a class="code hl_class" href="classListNode.html">ListNode</a>* tail;</div>
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>};</div>
 <div class="ttc" id="aclassListNode_html"><div class="ttname"><a href="classListNode.html">ListNode</a></div><div class="ttdoc">Node of a list.</div><div class="ttdef"><b>Definition:</b> ADTList.hpp:24</div></div>
 <div class="ttc" id="aclassListNode_html_a3563e02bda689dc8780beac88b3ea7d3"><div class="ttname"><a href="classListNode.html#a3563e02bda689dc8780beac88b3ea7d3">ListNode::getNext</a></div><div class="ttdeci">ListNode * getNext()</div><div class="ttdoc">Getter for the next node.</div><div class="ttdef"><b>Definition:</b> listNode.cpp:17</div></div>
