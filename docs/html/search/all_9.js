@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['removenext_0',['removeNext',['../classList.html#a328c9ac88ae5da7e0200dc8eb8eeef20',1,'List']]]
+  ['previous_0',['previous',['../classVector.html#a4aabbc56873de47cef6daf576cdb77f6',1,'Vector']]]
 ];
