@@ -27,13 +27,13 @@ class ListNode {
    * @brief Construct a new List Node object that is empty.
    *
    */
-  ListNode();
+  ListNode() : next(nullptr), value(nullptr){};
   /**
    * @brief Construct a new List Node object with value 'value'.
    *
    * @param value a generic pointer to the value of the node.
    */
-  ListNode(Pointer value) : value(value){};
+  ListNode(Pointer value) : next(nullptr), value(value){};
   // ~ListNode();
   /**
    * @brief Setter for the next node.
