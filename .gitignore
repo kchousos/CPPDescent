@@ -4,3 +4,5 @@ build/**
 
 docs/latex/**
 !docs/latex/refman.pdf
+
+test/*.info

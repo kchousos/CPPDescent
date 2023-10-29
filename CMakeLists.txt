@@ -29,6 +29,7 @@ endif()
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   # Let's nicely support folders in IDEs
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 endif()
 
 # The compiled library code is here
