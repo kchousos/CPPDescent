@@ -1,6 +1,18 @@
 #include <iostream>
 #include "./include/ADTMap.hpp"
 
+int compareInts(Pointer a, Pointer b) {
+    return *(int*)a-*(int*)b;
+}
+
+void destroyInts(Pointer a) {
+    return;
+}
+
+unsigned int hashInts(Pointer a) {
+    return *(int*)a;
+}
+
 int main(void) {
     class Map* map = new Map(compareInts, destroyInts, destroyInts);
     map->setHashFunction(hashInts);

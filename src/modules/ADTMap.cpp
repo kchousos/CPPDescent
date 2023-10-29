@@ -1,18 +1,6 @@
 #include <iostream>
 #include "../include/ADTMap.hpp"
 
-int compareInts(Pointer a, Pointer b) {
-    return *(int*)a-*(int*)b;
-}
-
-void destroyInts(Pointer a) {
-    return;
-}
-
-unsigned int hashInts(Pointer a) {
-    return *(int*)a;
-}
-
 
 // Το μέγεθος του Hash Table ιδανικά θέλουμε να είναι πρώτος αριθμός σύμφωνα με την θεωρία.
 // Η παρακάτω λίστα περιέχει πρώτους οι οποίοι έχουν αποδεδιγμένα καλή συμπεριφορά ως μεγέθη.
