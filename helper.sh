@@ -1,7 +1,6 @@
 #!/bin/bash
 
 function cleanBuild {
-    clean build
     rm -rf build/
     cmake -S . -B build
     cmake --build build
@@ -12,6 +11,8 @@ function createDocs {
     rm -rf docs/latex
     (cd docs; PROJECT_NUMBER="$(git rev-parse --short HEAD ; git diff-index --quiet HEAD || echo '(with uncommitted changes)')" doxygen;)
     (cd docs/latex; make refman.pdf)
+    git add docs
+    git commit -m "Regenerate docs"
 }
 
 function format {
@@ -19,11 +20,31 @@ function format {
 }
 
 function runTests {
-    for i in ./build/test/*.test; do $i; done
+    for i in ./build/test/*.test
+    do
+        printf "\n\n"
+        echo "=============================================="
+        echo "$i"
+        echo "=============================================="
+        printf "\n\n"
+        $i
+    done
+}
+
+function valgrind {
+    for i in ./build/test/*.test
+    do
+        printf "\n\n"
+        echo "=============================================="
+        echo "$i"
+        echo "=============================================="
+        printf "\n\n"
+        valgrind $i
+    done
 }
 
 function coverage {
-    for i in ./build/test/*.test; do $i; done
+    runTests
     rm -f ./test/coverage.info ./test/filtered_coverage.info
     rm -rf docs/lcov
     lcov -c -d ./build/test/CMakeFiles/ -o ./test/coverage.info
@@ -32,11 +53,11 @@ function coverage {
 }
 
 if [ "$#" -eq 0 ]; then
-    cleanBuild
-    createDocs
+    # cleanBuild
     format
     # runTests isn't needed because coverage runs them anyway
     coverage
+    createDocs
 fi
 
 while [[ "$#" -gt 0 ]]; do
@@ -52,6 +73,9 @@ while [[ "$#" -gt 0 ]]; do
             ;;
         --tests)
             runTests
+            ;;
+        --valgrind)
+            valgrind
             ;;
         --coverage)
             coverage

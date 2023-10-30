@@ -9,7 +9,6 @@
  *
  */
 #include "cppdescent/ADTList.hpp"
-#include <iostream>
 #include "gtest/gtest.h"
 
 // a sample compare function for ints

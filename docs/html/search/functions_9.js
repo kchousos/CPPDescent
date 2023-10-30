@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['_7elist_0',['~List',['../classList.html#a70aecf37bd9d779a394e4d50377fbf5f',1,'List']]]
+  ['setat_0',['setAt',['../classVector.html#a75d224bbd1157bfd2a406effb5e4feb4',1,'Vector']]],
+  ['setdestroyvalue_1',['setDestroyValue',['../classList.html#a9539368422a4fac7a2115a96a0994320',1,'List::setDestroyValue()'],['../classVector.html#add8e89941c897044323f789d2455feab',1,'Vector::setDestroyValue()']]],
+  ['setnext_2',['setNext',['../classListNode.html#a3c27820cf91c91c8c6ffce90b848f316',1,'ListNode']]],
+  ['setvalue_3',['setValue',['../classvectorNode.html#ab2b270e0e84a56240454057d58539c40',1,'vectorNode']]]
 ];

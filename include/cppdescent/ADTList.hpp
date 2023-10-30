@@ -35,11 +35,6 @@ class ListNode {
    */
   ListNode(Pointer value) : next(nullptr), value(value){};
   /**
-   * @brief Destroy the List Node object
-   *
-   */
-  // ~ListNode();
-  /**
    * @brief Setter for the next node.
    *
    * @param next The pointer to the next node.
