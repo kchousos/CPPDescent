@@ -70,4 +70,18 @@ class PQueue {
    * @return DestroyFunc
    */
   DestroyFunc setDestroyValue(DestroyFunc destroyValue);
+
+  // Helper functions
+  // These are used because the node IDs are 1-based, where as the
+  // vector is 0-based.
+  Pointer nodeValue(int nodeId);
+  void nodeSwap(int nodeId1, int nodeId2);
+  void bubbleUp(int nodeId);
+  void bubbleDown(int nodeId);
+  void naiveHeapify(Vector* values);
+
+ private:
+  Vector* vector;
+  CompareFunc compare;
+  DestroyFunc destroyValue;
 };
