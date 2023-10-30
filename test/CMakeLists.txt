@@ -41,5 +41,4 @@ package_add_test(ADTList.test
 
 package_add_test(ADTVector.test 
                  unit/ADTVector.test.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp
-                 ${PROJECT_SOURCE_DIR}/src/vectorNode.cpp)
+                 ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)
