@@ -38,10 +38,10 @@ function coverage {
 
 if [ "$#" -eq 0 ]; then
     # cleanBuild
-    createDocs
     format
     # runTests isn't needed because coverage runs them anyway
     coverage
+    createDocs
 fi
 
 while [[ "$#" -gt 0 ]]; do
