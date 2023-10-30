@@ -20,11 +20,27 @@ function format {
 }
 
 function runTests {
-    for i in ./build/test/*.test; do $i; done
+    for i in ./build/test/*.test
+    do
+        printf "\n\n"
+        echo "=============================================="
+        echo "$i"
+        echo "=============================================="
+        printf "\n\n"
+        $i
+    done
 }
 
 function valgrind {
-    for i in ./build/test/*.test; do valgrind $i; done
+    for i in ./build/test/*.test
+    do
+        printf "\n\n"
+        echo "=============================================="
+        echo "$i"
+        echo "=============================================="
+        printf "\n\n"
+        valgrind $i
+    done
 }
 
 function coverage {
