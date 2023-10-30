@@ -44,7 +44,7 @@ function valgrind {
 }
 
 function coverage {
-    for i in ./build/test/*.test; do $i; done
+    runTests
     rm -f ./test/coverage.info ./test/filtered_coverage.info
     rm -rf docs/lcov
     lcov -c -d ./build/test/CMakeFiles/ -o ./test/coverage.info
