@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-30 21:03:17</td>
+            <td class="headerValue">2023-10-30 21:19:41</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -99,13 +99,13 @@
 <a name="37"><span class="lineNum">      37 </span>            :    *</a>
 <a name="38"><span class="lineNum">      38 </span>            :    * @return Pointer</a>
 <a name="39"><span class="lineNum">      39 </span>            :    */</a>
-<a name="40"><span class="lineNum">      40 </span><span class="lineCov">    5069020 :   Pointer getValue() const { return value; };</span></a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">    3045012 :   Pointer getValue() const { return value; };</span></a>
 <a name="41"><span class="lineNum">      41 </span>            :   /**</a>
 <a name="42"><span class="lineNum">      42 </span>            :    * @brief Set the Value object.</a>
 <a name="43"><span class="lineNum">      43 </span>            :    *</a>
 <a name="44"><span class="lineNum">      44 </span>            :    * @param value</a>
 <a name="45"><span class="lineNum">      45 </span>            :    */</a>
-<a name="46"><span class="lineNum">      46 </span><span class="lineCov">      24510 :   void setValue(Pointer value) { this-&gt;value = value; };</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">      16506 :   void setValue(Pointer value) { this-&gt;value = value; };</span></a>
 <a name="47"><span class="lineNum">      47 </span>            : </a>
 <a name="48"><span class="lineNum">      48 </span>            :  private:</a>
 <a name="49"><span class="lineNum">      49 </span>            :   Pointer value;</a>
@@ -149,85 +149,87 @@
 <a name="87"><span class="lineNum">      87 </span>            :   /**</a>
 <a name="88"><span class="lineNum">      88 </span>            :    * @brief Removes the last element of the vector.</a>
 <a name="89"><span class="lineNum">      89 </span>            :    *</a>
-<a name="90"><span class="lineNum">      90 </span>            :    */</a>
-<a name="91"><span class="lineNum">      91 </span>            :   void removeLast();</a>
-<a name="92"><span class="lineNum">      92 </span>            :   /**</a>
-<a name="93"><span class="lineNum">      93 </span>            :    * @brief Get the value at the specified position of the vector.</a>
-<a name="94"><span class="lineNum">      94 </span>            :    *</a>
-<a name="95"><span class="lineNum">      95 </span>            :    * @param pos The position to look for.</a>
-<a name="96"><span class="lineNum">      96 </span>            :    * @return Pointer A pointer to the value at the specified position.</a>
-<a name="97"><span class="lineNum">      97 </span>            :    */</a>
-<a name="98"><span class="lineNum">      98 </span>            :   Pointer getAt(int pos);</a>
-<a name="99"><span class="lineNum">      99 </span>            :   /**</a>
-<a name="100"><span class="lineNum">     100 </span>            :    * @brief Set the value at the specified position of the vector.</a>
-<a name="101"><span class="lineNum">     101 </span>            :    *</a>
-<a name="102"><span class="lineNum">     102 </span>            :    * @param pos The position to edit.</a>
-<a name="103"><span class="lineNum">     103 </span>            :    * @param value The new value.</a>
-<a name="104"><span class="lineNum">     104 </span>            :    */</a>
-<a name="105"><span class="lineNum">     105 </span>            :   void setAt(int pos, Pointer value);</a>
-<a name="106"><span class="lineNum">     106 </span>            :   /**</a>
-<a name="107"><span class="lineNum">     107 </span>            :    * @brief Find the first element with value equal to value.</a>
-<a name="108"><span class="lineNum">     108 </span>            :    *</a>
-<a name="109"><span class="lineNum">     109 </span>            :    * @param value The value to look for.</a>
-<a name="110"><span class="lineNum">     110 </span>            :    * @param compare The function to be used for comparison.</a>
-<a name="111"><span class="lineNum">     111 </span>            :    * @return Pointer A pointer to the found value.</a>
-<a name="112"><span class="lineNum">     112 </span>            :    */</a>
-<a name="113"><span class="lineNum">     113 </span>            :   Pointer find(Pointer value, CompareFunc compare);</a>
-<a name="114"><span class="lineNum">     114 </span>            :   /**</a>
-<a name="115"><span class="lineNum">     115 </span>            :    * @brief Set the Destroy Value.</a>
-<a name="116"><span class="lineNum">     116 </span>            :    *</a>
-<a name="117"><span class="lineNum">     117 </span>            :    * @param destroyValue The new destroy value function.</a>
-<a name="118"><span class="lineNum">     118 </span>            :    * @return DestroyFunc The old destroy value function.</a>
-<a name="119"><span class="lineNum">     119 </span>            :    */</a>
-<a name="120"><span class="lineNum">     120 </span>            :   DestroyFunc setDestroyValue(DestroyFunc destroyValue);</a>
-<a name="121"><span class="lineNum">     121 </span>            :   /**</a>
-<a name="122"><span class="lineNum">     122 </span>            :    * @brief Get the first node of the vector.</a>
-<a name="123"><span class="lineNum">     123 </span>            :    *</a>
-<a name="124"><span class="lineNum">     124 </span>            :    * @return vectorNode</a>
-<a name="125"><span class="lineNum">     125 </span>            :    */</a>
-<a name="126"><span class="lineNum">     126 </span>            :   vectorNode* first();</a>
-<a name="127"><span class="lineNum">     127 </span>            :   /**</a>
-<a name="128"><span class="lineNum">     128 </span>            :    * @brief Get the last node of the vector.</a>
-<a name="129"><span class="lineNum">     129 </span>            :    *</a>
-<a name="130"><span class="lineNum">     130 </span>            :    * @return vectorNode</a>
-<a name="131"><span class="lineNum">     131 </span>            :    */</a>
-<a name="132"><span class="lineNum">     132 </span>            :   vectorNode* last();</a>
-<a name="133"><span class="lineNum">     133 </span>            :   /**</a>
-<a name="134"><span class="lineNum">     134 </span>            :    * @brief Get the next node of the vector, after the one given.</a>
-<a name="135"><span class="lineNum">     135 </span>            :    *</a>
-<a name="136"><span class="lineNum">     136 </span>            :    * @param node The node to get the next of.</a>
-<a name="137"><span class="lineNum">     137 </span>            :    * @return vectorNode</a>
-<a name="138"><span class="lineNum">     138 </span>            :    */</a>
-<a name="139"><span class="lineNum">     139 </span>            :   vectorNode* next(vectorNode* node);</a>
-<a name="140"><span class="lineNum">     140 </span>            :   /**</a>
-<a name="141"><span class="lineNum">     141 </span>            :    * @brief Get the previous node of the vector, before the one given.</a>
-<a name="142"><span class="lineNum">     142 </span>            :    *</a>
-<a name="143"><span class="lineNum">     143 </span>            :    * @param node The node to get the previous of.</a>
-<a name="144"><span class="lineNum">     144 </span>            :    * @return vectorNode</a>
-<a name="145"><span class="lineNum">     145 </span>            :    */</a>
-<a name="146"><span class="lineNum">     146 </span>            :   vectorNode* previous(vectorNode* node);</a>
-<a name="147"><span class="lineNum">     147 </span>            :   /**</a>
-<a name="148"><span class="lineNum">     148 </span>            :    * @brief Get the value of the node.</a>
-<a name="149"><span class="lineNum">     149 </span>            :    *</a>
-<a name="150"><span class="lineNum">     150 </span>            :    * @param node</a>
-<a name="151"><span class="lineNum">     151 </span>            :    * @return Pointer</a>
-<a name="152"><span class="lineNum">     152 </span>            :    */</a>
-<a name="153"><span class="lineNum">     153 </span>            :   Pointer nodeValue(vectorNode* node);</a>
-<a name="154"><span class="lineNum">     154 </span>            :   /**</a>
-<a name="155"><span class="lineNum">     155 </span>            :    * @brief Find the first node with value equal to value.</a>
-<a name="156"><span class="lineNum">     156 </span>            :    *</a>
-<a name="157"><span class="lineNum">     157 </span>            :    * @param value The value to look for.</a>
-<a name="158"><span class="lineNum">     158 </span>            :    * @param compare The function to be used for comparison.</a>
-<a name="159"><span class="lineNum">     159 </span>            :    * @return vectorNode The resulting node.</a>
-<a name="160"><span class="lineNum">     160 </span>            :    */</a>
-<a name="161"><span class="lineNum">     161 </span>            :   vectorNode* findNode(Pointer value, CompareFunc compare);</a>
-<a name="162"><span class="lineNum">     162 </span>            : </a>
-<a name="163"><span class="lineNum">     163 </span>            :  private:</a>
-<a name="164"><span class="lineNum">     164 </span>            :   vectorNode* array;</a>
-<a name="165"><span class="lineNum">     165 </span>            :   int size;</a>
-<a name="166"><span class="lineNum">     166 </span>            :   int capacity;</a>
-<a name="167"><span class="lineNum">     167 </span>            :   DestroyFunc destroyValue;</a>
-<a name="168"><span class="lineNum">     168 </span>            : };</a>
+<a name="90"><span class="lineNum">      90 </span>            :    * @return int -1 if the function fails, else 0.</a>
+<a name="91"><span class="lineNum">      91 </span>            :    */</a>
+<a name="92"><span class="lineNum">      92 </span>            :   int removeLast();</a>
+<a name="93"><span class="lineNum">      93 </span>            :   /**</a>
+<a name="94"><span class="lineNum">      94 </span>            :    * @brief Get the value at the specified position of the vector.</a>
+<a name="95"><span class="lineNum">      95 </span>            :    *</a>
+<a name="96"><span class="lineNum">      96 </span>            :    * @param pos The position to look for.</a>
+<a name="97"><span class="lineNum">      97 </span>            :    * @return Pointer A pointer to the value at the specified position.</a>
+<a name="98"><span class="lineNum">      98 </span>            :    */</a>
+<a name="99"><span class="lineNum">      99 </span>            :   Pointer getAt(int pos);</a>
+<a name="100"><span class="lineNum">     100 </span>            :   /**</a>
+<a name="101"><span class="lineNum">     101 </span>            :    * @brief Set the value at the specified position of the vector.</a>
+<a name="102"><span class="lineNum">     102 </span>            :    *</a>
+<a name="103"><span class="lineNum">     103 </span>            :    * @param pos The position to edit.</a>
+<a name="104"><span class="lineNum">     104 </span>            :    * @param value The new value.</a>
+<a name="105"><span class="lineNum">     105 </span>            :    * @return int -1 if the function fails, else 0.</a>
+<a name="106"><span class="lineNum">     106 </span>            :    */</a>
+<a name="107"><span class="lineNum">     107 </span>            :   int setAt(int pos, Pointer value);</a>
+<a name="108"><span class="lineNum">     108 </span>            :   /**</a>
+<a name="109"><span class="lineNum">     109 </span>            :    * @brief Find the first element with value equal to value.</a>
+<a name="110"><span class="lineNum">     110 </span>            :    *</a>
+<a name="111"><span class="lineNum">     111 </span>            :    * @param value The value to look for.</a>
+<a name="112"><span class="lineNum">     112 </span>            :    * @param compare The function to be used for comparison.</a>
+<a name="113"><span class="lineNum">     113 </span>            :    * @return Pointer A pointer to the found value.</a>
+<a name="114"><span class="lineNum">     114 </span>            :    */</a>
+<a name="115"><span class="lineNum">     115 </span>            :   Pointer find(Pointer value, CompareFunc compare);</a>
+<a name="116"><span class="lineNum">     116 </span>            :   /**</a>
+<a name="117"><span class="lineNum">     117 </span>            :    * @brief Set the Destroy Value.</a>
+<a name="118"><span class="lineNum">     118 </span>            :    *</a>
+<a name="119"><span class="lineNum">     119 </span>            :    * @param destroyValue The new destroy value function.</a>
+<a name="120"><span class="lineNum">     120 </span>            :    * @return DestroyFunc The old destroy value function.</a>
+<a name="121"><span class="lineNum">     121 </span>            :    */</a>
+<a name="122"><span class="lineNum">     122 </span>            :   DestroyFunc setDestroyValue(DestroyFunc destroyValue);</a>
+<a name="123"><span class="lineNum">     123 </span>            :   /**</a>
+<a name="124"><span class="lineNum">     124 </span>            :    * @brief Get the first node of the vector.</a>
+<a name="125"><span class="lineNum">     125 </span>            :    *</a>
+<a name="126"><span class="lineNum">     126 </span>            :    * @return vectorNode</a>
+<a name="127"><span class="lineNum">     127 </span>            :    */</a>
+<a name="128"><span class="lineNum">     128 </span>            :   vectorNode* first();</a>
+<a name="129"><span class="lineNum">     129 </span>            :   /**</a>
+<a name="130"><span class="lineNum">     130 </span>            :    * @brief Get the last node of the vector.</a>
+<a name="131"><span class="lineNum">     131 </span>            :    *</a>
+<a name="132"><span class="lineNum">     132 </span>            :    * @return vectorNode</a>
+<a name="133"><span class="lineNum">     133 </span>            :    */</a>
+<a name="134"><span class="lineNum">     134 </span>            :   vectorNode* last();</a>
+<a name="135"><span class="lineNum">     135 </span>            :   /**</a>
+<a name="136"><span class="lineNum">     136 </span>            :    * @brief Get the next node of the vector, after the one given.</a>
+<a name="137"><span class="lineNum">     137 </span>            :    *</a>
+<a name="138"><span class="lineNum">     138 </span>            :    * @param node The node to get the next of.</a>
+<a name="139"><span class="lineNum">     139 </span>            :    * @return vectorNode</a>
+<a name="140"><span class="lineNum">     140 </span>            :    */</a>
+<a name="141"><span class="lineNum">     141 </span>            :   vectorNode* next(vectorNode* node);</a>
+<a name="142"><span class="lineNum">     142 </span>            :   /**</a>
+<a name="143"><span class="lineNum">     143 </span>            :    * @brief Get the previous node of the vector, before the one given.</a>
+<a name="144"><span class="lineNum">     144 </span>            :    *</a>
+<a name="145"><span class="lineNum">     145 </span>            :    * @param node The node to get the previous of.</a>
+<a name="146"><span class="lineNum">     146 </span>            :    * @return vectorNode</a>
+<a name="147"><span class="lineNum">     147 </span>            :    */</a>
+<a name="148"><span class="lineNum">     148 </span>            :   vectorNode* previous(vectorNode* node);</a>
+<a name="149"><span class="lineNum">     149 </span>            :   /**</a>
+<a name="150"><span class="lineNum">     150 </span>            :    * @brief Get the value of the node.</a>
+<a name="151"><span class="lineNum">     151 </span>            :    *</a>
+<a name="152"><span class="lineNum">     152 </span>            :    * @param node</a>
+<a name="153"><span class="lineNum">     153 </span>            :    * @return Pointer</a>
+<a name="154"><span class="lineNum">     154 </span>            :    */</a>
+<a name="155"><span class="lineNum">     155 </span>            :   Pointer nodeValue(vectorNode* node);</a>
+<a name="156"><span class="lineNum">     156 </span>            :   /**</a>
+<a name="157"><span class="lineNum">     157 </span>            :    * @brief Find the first node with value equal to value.</a>
+<a name="158"><span class="lineNum">     158 </span>            :    *</a>
+<a name="159"><span class="lineNum">     159 </span>            :    * @param value The value to look for.</a>
+<a name="160"><span class="lineNum">     160 </span>            :    * @param compare The function to be used for comparison.</a>
+<a name="161"><span class="lineNum">     161 </span>            :    * @return vectorNode The resulting node.</a>
+<a name="162"><span class="lineNum">     162 </span>            :    */</a>
+<a name="163"><span class="lineNum">     163 </span>            :   vectorNode* findNode(Pointer value, CompareFunc compare);</a>
+<a name="164"><span class="lineNum">     164 </span>            : </a>
+<a name="165"><span class="lineNum">     165 </span>            :  private:</a>
+<a name="166"><span class="lineNum">     166 </span>            :   vectorNode* array;</a>
+<a name="167"><span class="lineNum">     167 </span>            :   int size;</a>
+<a name="168"><span class="lineNum">     168 </span>            :   int capacity;</a>
+<a name="169"><span class="lineNum">     169 </span>            :   DestroyFunc destroyValue;</a>
+<a name="170"><span class="lineNum">     170 </span>            : };</a>
 </pre>
       </td>
     </tr>

@@ -52,6 +52,10 @@ TEST(ADTVectorTest, insertLast) {
 }
 
 TEST(ADTVectorTest, removeLast) {
+  Vector* vEmpty = new Vector(0, nullptr);
+  ASSERT_EQ(vEmpty->removeLast(), -1);
+  delete vEmpty;
+
   Vector* v = new Vector(1000, nullptr);
   int N = 1000;
   int* array = new int[N * sizeof(*array)];
@@ -69,7 +73,14 @@ TEST(ADTVectorTest, removeLast) {
   delete v;
 }
 
-TEST(ADTVectorTest, setAt) {
+TEST(ADTVectorTest, setAtgetAt) {
+  // edge cases
+  Vector* vEmpty = new Vector(0, nullptr);
+  ASSERT_EQ(vEmpty->getAt(0), nullptr);
+  int num = 1;
+  ASSERT_EQ(vEmpty->setAt(0, &num), -1);
+  delete vEmpty;
+
   int N = 1000;
   Vector* v = new Vector(N / 2, nullptr);
   ASSERT_EQ(v->getSize(), N / 2);

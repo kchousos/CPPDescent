@@ -87,8 +87,9 @@ class Vector {
   /**
    * @brief Removes the last element of the vector.
    *
+   * @return int -1 if the function fails, else 0.
    */
-  void removeLast();
+  int removeLast();
   /**
    * @brief Get the value at the specified position of the vector.
    *
@@ -101,8 +102,9 @@ class Vector {
    *
    * @param pos The position to edit.
    * @param value The new value.
+   * @return int -1 if the function fails, else 0.
    */
-  void setAt(int pos, Pointer value);
+  int setAt(int pos, Pointer value);
   /**
    * @brief Find the first element with value equal to value.
    *

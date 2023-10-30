@@ -37,9 +37,9 @@ void Vector::insertLast(Pointer value) {
   this->size++;
 }
 
-void Vector::removeLast() {
+int Vector::removeLast() {
   if (this->size == 0)
-    return;
+    return -1;
 
   if (this->destroyValue != nullptr)
     this->destroyValue(this->array[this->size - 1].getValue());
@@ -53,6 +53,7 @@ void Vector::removeLast() {
     this->array = (vectorNode*)realloc(this->array,
                                        this->capacity * sizeof(*this->array));
   }
+  return 0;
 }
 
 Pointer Vector::getAt(int index) {
@@ -62,14 +63,15 @@ Pointer Vector::getAt(int index) {
   return this->array[index].getValue();
 }
 
-void Vector::setAt(int index, Pointer value) {
+int Vector::setAt(int index, Pointer value) {
   if (index < 0 || index >= this->size)
-    return;
+    return -1;
 
   if (value != this->array[index].getValue() && this->destroyValue != nullptr)
     this->destroyValue(this->array[index].getValue());
 
   this->array[index].setValue(value);
+  return 0;
 }
 
 Pointer Vector::find(Pointer value, CompareFunc compare) {
