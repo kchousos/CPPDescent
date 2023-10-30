@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;b42243a
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;eb55747
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -92,15 +92,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa9bdb25e3f102dcba10446e0578edaf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#aa9bdb25e3f102dcba10446e0578edaf3">insertLast</a> (Pointer value)</td></tr>
 <tr class="memdesc:aa9bdb25e3f102dcba10446e0578edaf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a new element at the end of the vector.  <br /></td></tr>
 <tr class="separator:aa9bdb25e3f102dcba10446e0578edaf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab3100eec31431f037f387ec655548cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#aab3100eec31431f037f387ec655548cb">removeLast</a> ()</td></tr>
-<tr class="memdesc:aab3100eec31431f037f387ec655548cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last element of the vector.  <br /></td></tr>
-<tr class="separator:aab3100eec31431f037f387ec655548cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bb1bbd47ef18ba49450f1d3151962b9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#a3bb1bbd47ef18ba49450f1d3151962b9">removeLast</a> ()</td></tr>
+<tr class="memdesc:a3bb1bbd47ef18ba49450f1d3151962b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last element of the vector.  <br /></td></tr>
+<tr class="separator:a3bb1bbd47ef18ba49450f1d3151962b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a590a87df6746cd387df2524e2d832ab8"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#a590a87df6746cd387df2524e2d832ab8">getAt</a> (int pos)</td></tr>
 <tr class="memdesc:a590a87df6746cd387df2524e2d832ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value at the specified position of the vector.  <br /></td></tr>
 <tr class="separator:a590a87df6746cd387df2524e2d832ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe2ee50bc58ffb27c1e78e44844a7dc5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#abe2ee50bc58ffb27c1e78e44844a7dc5">setAt</a> (int pos, Pointer value)</td></tr>
-<tr class="memdesc:abe2ee50bc58ffb27c1e78e44844a7dc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value at the specified position of the vector.  <br /></td></tr>
-<tr class="separator:abe2ee50bc58ffb27c1e78e44844a7dc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75d224bbd1157bfd2a406effb5e4feb4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#a75d224bbd1157bfd2a406effb5e4feb4">setAt</a> (int pos, Pointer value)</td></tr>
+<tr class="memdesc:a75d224bbd1157bfd2a406effb5e4feb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value at the specified position of the vector.  <br /></td></tr>
+<tr class="separator:a75d224bbd1157bfd2a406effb5e4feb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e4f24c760e61008e9d85a34209ec700"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#a4e4f24c760e61008e9d85a34209ec700">find</a> (Pointer value, CompareFunc compare)</td></tr>
 <tr class="memdesc:a4e4f24c760e61008e9d85a34209ec700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the first element with value equal to value.  <br /></td></tr>
 <tr class="separator:a4e4f24c760e61008e9d85a34209ec700"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -353,6 +353,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<p>If we are at the last element, we create a new array double the size.</p>
 
 </div>
 </div>
@@ -457,14 +458,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aab3100eec31431f037f387ec655548cb" name="aab3100eec31431f037f387ec655548cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab3100eec31431f037f387ec655548cb">&#9670;&#160;</a></span>removeLast()</h2>
+<a id="a3bb1bbd47ef18ba49450f1d3151962b9" name="a3bb1bbd47ef18ba49450f1d3151962b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bb1bbd47ef18ba49450f1d3151962b9">&#9670;&#160;</a></span>removeLast()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Vector::removeLast </td>
+          <td class="memname">int Vector::removeLast </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -473,17 +474,18 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Removes the last element of the vector. </p>
+<dl class="section return"><dt>Returns</dt><dd>int -1 if the function fails, else 0. </dd></dl>
 
 </div>
 </div>
-<a id="abe2ee50bc58ffb27c1e78e44844a7dc5" name="abe2ee50bc58ffb27c1e78e44844a7dc5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe2ee50bc58ffb27c1e78e44844a7dc5">&#9670;&#160;</a></span>setAt()</h2>
+<a id="a75d224bbd1157bfd2a406effb5e4feb4" name="a75d224bbd1157bfd2a406effb5e4feb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75d224bbd1157bfd2a406effb5e4feb4">&#9670;&#160;</a></span>setAt()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Vector::setAt </td>
+          <td class="memname">int Vector::setAt </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>pos</em>, </td>
@@ -510,6 +512,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>int -1 if the function fails, else 0. </dd></dl>
 
 </div>
 </div>
