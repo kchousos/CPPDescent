@@ -1,3 +1,13 @@
+/**
+ * @file ADTVector.cpp
+ * @author Konstantinos Chousos
+ * @brief Implementation of ADTVector using a dynamic array.
+ * @version 0.1
+ * @date 2023-10-30
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #include "cppdescent/ADTVector.hpp"
 #include "stdlib.h"
 
