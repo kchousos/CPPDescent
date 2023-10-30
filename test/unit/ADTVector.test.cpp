@@ -91,7 +91,7 @@ TEST(ADTVectorTest, setAt) {
 }
 
 TEST(ADTVectorTest, iteration) {
-  Vector* v = new Vector(1000, nullptr);
+  Vector* v = new Vector(0, nullptr);
   int N = 1000;
   int* array = new int[N * sizeof(*array)];
 

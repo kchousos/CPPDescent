@@ -12,6 +12,8 @@
 
 #include "common.hpp"
 
+#define VECTOR_MIN_CAPACITY 10
+
 #define VECTOR_BOF (vectorNode*)0
 #define VECTOR_EOF (vectorNode*)0
 
@@ -28,6 +30,7 @@ class vectorNode {
    *
    * @param value A Pointer to the value.
    */
+  vectorNode(){};
   vectorNode(Pointer value) : value(value){};
   /**
    * @brief Get the Value object.
