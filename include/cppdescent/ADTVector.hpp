@@ -49,6 +49,12 @@ class vectorNode {
   Pointer value;
 };
 
+/**
+ * @brief ADT Vector.
+ *
+ * An ADT Vector using a dynamic array for smart resizing.
+ *
+ */
 class Vector {
  public:
   /**
