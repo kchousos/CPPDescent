@@ -47,3 +47,8 @@ package_add_test(ADTPQueue.test
                  unit/ADTPQueue.test.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTPQueue.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)
+
+package_add_test(ADTMap.test 
+                 unit/ADTMap.test.cpp
+                 ${PROJECT_SOURCE_DIR}/src/ADTMap.cpp
+                 ${PROJECT_SOURCE_DIR}/src/ADTMap.cpp)
