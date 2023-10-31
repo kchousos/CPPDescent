@@ -11,7 +11,6 @@
 #pragma once
 
 #include "ADTVector.hpp"
-#include "common.hpp"
 
 /**
  * @brief ADT Priority Queue.
