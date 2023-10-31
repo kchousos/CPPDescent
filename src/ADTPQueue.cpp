@@ -84,6 +84,7 @@ PQueue::PQueue(CompareFunc compare, DestroyFunc destroyValue, Vector* values)
 
 PQueue::~PQueue() {
   this->vector->setDestroyValue(this->destroyValue);
+  delete vector;
 }
 
 int PQueue::getSize() {

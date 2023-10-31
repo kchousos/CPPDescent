@@ -45,4 +45,5 @@ package_add_test(ADTVector.test
 
 package_add_test(ADTPQueue.test 
                  unit/ADTPQueue.test.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTPQueue.cpp)
+                 ${PROJECT_SOURCE_DIR}/src/ADTPQueue.cpp
+                 ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)
