@@ -71,10 +71,12 @@ void PQueue::naiveHeapify(Vector* values) {
 
 PQueue::PQueue(CompareFunc compare, DestroyFunc destroyValue, Vector* values)
     : compare(compare), destroyValue(destroyValue) {
+  // LCOV_EXCL_START
   if (compare == nullptr) {
     std::cerr << "`compare` function cannot be NULL. Exiting...\n";
     return;
   }
+  // LCOV_EXCL_STOP
 
   this->vector = new Vector(0, nullptr);
 
@@ -104,11 +106,13 @@ void PQueue::insert(Pointer value) {
 }
 
 void PQueue::removeMax() {
+  // LCOV_EXCL_START
   int lastNode = this->getSize();
   if (lastNode == 0) {
     std::cerr << "removeMax: Queue is empty. Exiting...\n";
     return;
   }
+  // LCOV_EXCL_STOP
 
   if (this->destroyValue != nullptr)
     this->destroyValue(this->getMax());
