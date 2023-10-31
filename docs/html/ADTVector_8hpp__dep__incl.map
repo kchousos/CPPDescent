@@ -1,4 +1,6 @@
 <map id="ADTVector.hpp" name="ADTVector.hpp">
-<area shape="rect" id="node1" title="ADTVector implementation using a dynamic array." alt="" coords="5,5,116,31"/>
-<area shape="rect" id="node2" href="$ADTVector_8cpp.html" title="Implementation of ADTVector using a dynamic array." alt="" coords="5,79,116,104"/>
+<area shape="rect" id="node1" title="ADTVector implementation using a dynamic array." alt="" coords="59,5,170,31"/>
+<area shape="rect" id="node2" href="$ADTPQueue_8cpp.html" title="An ADT Priority Queue implemented using a heap." alt="" coords="5,152,125,177"/>
+<area shape="rect" id="node3" href="$ADTPQueue_8hpp.html" title=" " alt="" coords="55,79,175,104"/>
+<area shape="rect" id="node4" href="$ADTVector_8cpp.html" title="Implementation of ADTVector using a dynamic array." alt="" coords="199,79,310,104"/>
 </map>
