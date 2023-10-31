@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['pqueue_0',['PQueue',['../classPQueue.html',1,'PQueue'],['../classPQueue.html#a9649bcfb30d0ff66e8a5fb7914d2299d',1,'PQueue::PQueue()']]],
-  ['previous_1',['previous',['../classVector.html#ab3628567839b3c3ca6e9b2fd93153453',1,'Vector']]]
+  ['next_0',['next',['../classList.html#aae0216e1e2c2c568c9b2ac050938c7c4',1,'List::next()'],['../classVector.html#a66eeda059bbc81dbbcd25b2f1ad46e1b',1,'Vector::next()']]],
+  ['nodevalue_1',['nodeValue',['../classList.html#a313c8bf467e6af7607da1e281b0ff19c',1,'List::nodeValue()'],['../classVector.html#a3f3a963a314d757157a51d27dd52d7f8',1,'Vector::nodeValue()']]]
 ];

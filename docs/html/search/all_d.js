@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['_7elist_0',['~List',['../classList.html#a70aecf37bd9d779a394e4d50377fbf5f',1,'List']]],
-  ['_7epqueue_1',['~PQueue',['../classPQueue.html#a83fab8d49295dd220b64b74922e41a02',1,'PQueue']]],
-  ['_7evector_2',['~Vector',['../classVector.html#a2eb3c49587a4f12cade7895ccb73f6a0',1,'Vector']]]
+  ['vector_0',['Vector',['../classVector.html',1,'Vector'],['../classVector.html#ae4c9d7065b92e279643f3bb114fd98d2',1,'Vector::Vector()']]],
+  ['vectornode_1',['vectorNode',['../classvectorNode.html',1,'vectorNode'],['../classvectorNode.html#aa7df59b27f1ed88adf9b092adc309b5f',1,'vectorNode::vectorNode()']]]
 ];
