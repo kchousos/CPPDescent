@@ -49,9 +49,9 @@ class PQueue {
   /**
    * @brief Get the max element of the queue.
    *
-   * @return int
+   * @return Pointer A generic pointer to the max element.
    */
-  int getMax();
+  Pointer getMax();
   /**
    * @brief Insert a new element to the queue.
    *

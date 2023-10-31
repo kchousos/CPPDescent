@@ -10,6 +10,7 @@
  *
  */
 #include "cppdescent/ADTPQueue.hpp"
+#include <iostream>
 #include "cppdescent/ADTVector.hpp"
 
 // Helper functions for abstraction when accessing nodes.
@@ -64,4 +65,62 @@ void PQueue::naiveHeapify(Vector* values) {
   int size = values->getSize();
   for (int i = 0; i < size; i++)
     this->insert(values->getAt(i));
+}
+
+// Priority Queue functions
+
+PQueue::PQueue(CompareFunc compare, DestroyFunc destroyValue, Vector* values)
+    : compare(compare), destroyValue(destroyValue) {
+  if (compare == nullptr) {
+    std::cerr << "`compare` function cannot be NULL. Exiting...\n";
+    return;
+  }
+
+  this->vector = new Vector(0, nullptr);
+
+  if (values != nullptr)
+    naiveHeapify(values);
+}
+
+PQueue::~PQueue() {
+  this->vector->setDestroyValue(this->destroyValue);
+}
+
+int PQueue::getSize() {
+  return this->vector->getSize();
+}
+
+Pointer PQueue::getMax() {
+  return nodeValue(1);
+}
+
+void PQueue::insert(Pointer value) {
+  this->vector->insertLast(value);
+  // The newly added element might not adhere to the heap property, when
+  // it is placed at the last position. So we call `bubbleUp` to reestablish
+  // this property on the queue.
+  bubbleUp(this->getSize());
+}
+
+void PQueue::removeMax() {
+  int lastNode = this->getSize();
+  if (lastNode == 0) {
+    std::cerr << "removeMax: Queue is empty. Exiting...\n";
+    return;
+  }
+
+  if (this->destroyValue != nullptr)
+    this->destroyValue(this->getMax());
+
+  nodeSwap(1, lastNode);
+  this->vector->removeLast();
+
+  // Reestablish the heap property.
+  bubbleDown(1);
+}
+
+DestroyFunc PQueue::setDestroyValue(DestroyFunc destroyValue) {
+  DestroyFunc old = this->destroyValue;
+  this->destroyValue = destroyValue;
+  return old;
 }
