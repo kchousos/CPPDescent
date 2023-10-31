@@ -11,7 +11,6 @@
  */
 #include "cppdescent/ADTPQueue.hpp"
 #include <iostream>
-#include "cppdescent/ADTVector.hpp"
 
 // Helper functions for abstraction when accessing nodes.
 
