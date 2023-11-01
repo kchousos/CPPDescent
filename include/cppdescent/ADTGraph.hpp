@@ -16,10 +16,14 @@
 #include "ADTVector.hpp"
 
 class Graph {
+  friend class GraphVertexPair;
+
  private:
   Vector* vec;
   Map* map;
   int size;
+
+ protected:
   CompareFunc compare;
   DestroyFunc destroy;
   HashFunc hash;
