@@ -15,7 +15,6 @@
 #define MAX_LOAD_FACTOR 0.5
 #define MAP_EOF (MapNode*)0
 
-typedef unsigned int (*HashFunc)(Pointer);
 typedef enum { EMPTY, OCCUPIED, DELETED } State;
 
 class MapNode {

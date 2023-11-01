@@ -17,8 +17,8 @@
 
 class Graph {
  private:
-  Vector vec;
-  Map map;
+  Vector* vec;
+  Map* map;
   int size;
   CompareFunc compare;
   DestroyFunc destroy;
@@ -29,13 +29,13 @@ class Graph {
   ~Graph();
   int getSize();
   void insertVertex();
-  List getVertices();
+  List* getVertices();
   void removeVertex(Pointer vertex);
   void insertEdge(Pointer vertex1, Pointer vertex2, int weight);
   void removeEdge(Pointer vertex1, Pointer vertex2);
   int getWeight(Pointer vertex1, Pointer vertex2);
-  List getAdjacent(Pointer vertex);
-  Map shortestPathLengths();
+  List* getAdjacent(Pointer vertex);
+  Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
 };
 
