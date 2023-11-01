@@ -25,7 +25,7 @@ class Graph {
   HashFunc hash;
 
  public:
-  Graph();
+  Graph(CompareFunc compare, DestroyFunc destroy);
   ~Graph();
   int getSize();
   void insertVertex();
