@@ -35,11 +35,11 @@ void destroyVertexPair(GraphVertexPair* pair) {
 }
 
 void destroyValue(Pointer value) {
-  delete value;
+  delete (int*)value;
 }
 
 Graph::Graph(CompareFunc compare, DestroyFunc destroy)
-    : compare(compare), destroy(destroy), size(0) {
+    : size(0), compare(compare), destroy(destroy) {
   this->map = new Map((CompareFunc)compareVertexPair,
                       (DestroyFunc)destroyVertexPair, destroyValue);
   this->vec = new Vector(0, nullptr);

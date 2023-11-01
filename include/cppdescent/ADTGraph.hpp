@@ -45,7 +45,7 @@ class Graph {
 class GraphVertexPair {
  public:
   GraphVertexPair(Graph* owner, Pointer vertex1, Pointer vertex2)
-      : owner(owner), vertex1(vertex1), vertex2(vertex2){};
+      : vertex1(vertex1), vertex2(vertex2), owner(owner){};
   Pointer getVertex1() { return this->vertex1; };
   Pointer getVertex2() { return this->vertex2; };
   Graph* getOwner() { return this->owner; };
