@@ -28,7 +28,7 @@ class Graph {
   Graph(CompareFunc compare, DestroyFunc destroy);
   ~Graph();
   int getSize();
-  void insertVertex();
+  void insertVertex(Pointer vertex);
   List* getVertices();
   void removeVertex(Pointer vertex);
   void insertEdge(Pointer vertex1, Pointer vertex2, int weight);
@@ -46,7 +46,6 @@ class GraphVertexPair {
  public:
   GraphVertexPair(Graph* owner, Pointer vertex1, Pointer vertex2)
       : owner(owner), vertex1(vertex1), vertex2(vertex2){};
-  ~GraphVertexPair();
   Pointer getVertex1() { return this->vertex1; };
   Pointer getVertex2() { return this->vertex2; };
   Graph* getOwner() { return this->owner; };
