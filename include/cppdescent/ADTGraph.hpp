@@ -40,6 +40,11 @@ class Graph {
 };
 
 class GraphVertexPair {
+ public:
+  Pointer getVertex1() { return this->vertex1; };
+  Pointer getVertex2() { return this->vertex2; };
+  Graph* getOwner() { return this->owner; };
+
  private:
   Pointer vertex1;
   Pointer vertex2;
