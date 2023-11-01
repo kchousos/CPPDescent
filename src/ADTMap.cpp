@@ -73,6 +73,9 @@ Map::~Map() {
     }
   }
 
+  for (int i = 0; i < this->capacity; i++)
+    delete this->array[i];
+
   delete[] this->array;
 }
 
@@ -111,6 +114,8 @@ void Map::rehash() {
     if (oldArray[i]->getState() == OCCUPIED)
       this->insert(oldArray[i]->getKey(), oldArray[i]->getValue());
 
+  for (int i = 0; i < oldCapacity; i++)
+    delete oldArray[i];
   // Delete old array so we do not have leaks
   delete[] oldArray;
 }
@@ -243,7 +248,14 @@ MapNode* Map::getFirst() {
  * @return MapNode*
  */
 MapNode* Map::getNext(MapNode* node) {
-  for (int i = node - this->array[0] + 1; i < this->capacity; i++)
+  int pos;
+  for (int i = 0; i < this->capacity; i++)
+    if (this->array[i] == node)
+      pos = i;
+    else
+      return MAP_EOF;
+
+  for (int i = pos + 1; i < this->capacity; i++)
     if (this->array[i]->getState() == OCCUPIED)
       return this->array[i];
 
