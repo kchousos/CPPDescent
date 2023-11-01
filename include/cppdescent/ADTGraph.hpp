@@ -16,14 +16,10 @@
 #include "ADTVector.hpp"
 
 class Graph {
-  friend class GraphVertexPair;
-
  private:
   Vector* vec;
   Map* map;
   int size;
-
- protected:
   CompareFunc compare;
   DestroyFunc destroy;
   HashFunc hash;
@@ -41,6 +37,9 @@ class Graph {
   List* getAdjacent(Pointer vertex);
   Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
+  CompareFunc getCompare() { return this->compare; };
+  DestroyFunc getDestroy() { return this->destroy; };
+  HashFunc getHash() { return this->hash; };
 };
 
 class GraphVertexPair {
