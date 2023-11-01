@@ -100,7 +100,7 @@ void Map::rehash() {
   }
   // If we run out of primes, we double the capacity
   if (this->capacity == oldCapacity)
-    this->capacity *= 2;
+    this->capacity *= 2;  // LCOV_EXCL_LINE
 
   // Create a bigger hash table
   this->array = new MapNode*[this->capacity];
@@ -159,7 +159,6 @@ void Map::insert(Pointer key, Pointer value) {
       nullptr)  // If an EMPTY cell is found, node will not have a value yet
     node = this->array[pos];
 
-  // Σε αυτό το σημείο, το node είναι ο κόμβος στον οποίο θα γίνει εισαγωγή.
   if (alreadyMember == true) {
     // If a node gets replaced, it also get destroyed
     if (node->getKey() != key && this->destroyKey != nullptr)
@@ -172,8 +171,8 @@ void Map::insert(Pointer key, Pointer value) {
     // If the node is new, incresing the map size
     this->size++;
 
-    if (node->getState() ==
-        DELETED)  // If we found a DELETED state, we change it to OCCUPIED
+    // If we found a DELETED state, we change it to OCCUPIED
+    if (node->getState() == DELETED)
       this->deleted--;
   }
 
@@ -225,8 +224,6 @@ Pointer Map::find(Pointer key) {
   return nullptr;
 }
 
-///////////////// Διάσχιση μέσω κόμβων //////////////////
-
 /**
  * @brief
  *
@@ -269,25 +266,16 @@ MapNode* Map::getNext(MapNode* node) {
  * @return MapNode*
  */
 MapNode* Map::findNode(Pointer key) {
-  // Διασχίζουμε τον πίνακα, ξεκινώντας από τη θέση που κάνει hash το key, και
-  // για όσο δε βρίσκουμε EMPTY
+  // We traverse the array, starting from the position where the key hashes,
+  // until we find a non EMPTY
   int count = 0;
-  for (int pos =
-           this->hash(key) %
-           this->capacity;  // ξεκινώντας από τη θέση που κάνει hash το key
-       this->array[pos]->getState() != EMPTY;  // αν φτάσουμε σε EMPTY σταματάμε
-       pos =
-           (pos + 1) % this->capacity) {  // linear probing, γυρνώντας στην αρχή
-                                          // όταν φτάσουμε στη τέλος του πίνακα
-
-    // Μόνο σε OCCUPIED θέσεις (όχι DELETED), ελέγχουμε αν το key είναι εδώ
+  for (int pos = this->hash(key) % this->capacity;
+       this->array[pos]->getState() != EMPTY;
+       pos = (pos + 1) % this->capacity) {
     if (this->array[pos]->getState() == OCCUPIED &&
         this->compare(this->array[pos]->getKey(), key) == 0)
       return this->array[pos];
 
-    // Αν διασχίσουμε ολόκληρο τον πίνακα σταματάμε. Εφόσον ο πίνακας δεν μπορεί
-    // να είναι όλος OCCUPIED, αυτό μπορεί να συμβεί μόνο στην ακραία περίπτωση
-    // που ο πίνακας έχει γεμίσει DELETED τιμές!
     count++;
     if (count == this->capacity)
       break;
