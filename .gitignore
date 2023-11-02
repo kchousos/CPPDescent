@@ -7,3 +7,5 @@ docs/latex/**
 !docs/latex/refman.pdf
 
 test/*.info
+
+datasets/*

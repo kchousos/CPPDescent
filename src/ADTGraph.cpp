@@ -130,6 +130,7 @@ List* Graph::getAdjacent(Pointer vertex) {
 }
 
 Graph::~Graph() {
+  delete this->vec;
   delete this->map;
 }
 
