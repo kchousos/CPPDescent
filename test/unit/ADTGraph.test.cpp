@@ -41,7 +41,7 @@ void deleteInts(Pointer value) {
  * @param value The value of the created int object.
  * @return int* The created pointer p, where *p = value.
  */
-int* createInt(int value) {
+int* createIntValue(int value) {
   int* p = new int;
   *p = value;
   return p;
@@ -75,7 +75,7 @@ TEST(ADTGraphTest, insertRemove) {
   int** vertexArray = new int*[N];
 
   for (int i = 0; i < N; i++) {
-    vertexArray[i] = createInt(i);
+    vertexArray[i] = createIntValue(i);
     graph->insertVertex(vertexArray[i]);
 
     ASSERT_EQ(graph->getSize(), i + 1);
@@ -86,7 +86,7 @@ TEST(ADTGraphTest, insertRemove) {
 
   for (int i = 0; i < N; i++) {
     ASSERT_EQ(node->getValue(), vertexArray[i]);
-    node->getNext();
+    node = node->getNext();
   }
 
   for (int i = 0; i < N; i++) {
@@ -112,17 +112,26 @@ TEST(ADTGraphTest, getAdjacent) {
   int** vertexArray = new int*[N];
 
   for (int i = 0; i < N; i++) {
-    vertexArray[i] = createInt(i);
+    vertexArray[i] = createIntValue(i);
     graph->insertVertex(vertexArray[i]);
+    List* list = graph->getVertices();
+    ASSERT_EQ(list->find(createIntValue(i), compareInts), vertexArray[i]);
+    delete list;
   }
 
-  for (int i = 0; i < N - 1; i = i + 2) {
-    graph->insertEdge(vertexArray[i], vertexArray[i + 1], i);
-    ASSERT_TRUE(graph->getWeight(vertexArray[i], vertexArray[i + 1]) == i ||
-                graph->getWeight(vertexArray[i], vertexArray[i + 1]) ==
-                    INT_MAX);
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray[0], vertexArray[i], i);
+
+  List* list = graph->getAdjacent(vertexArray[0]);
+  ASSERT_NE(list->getHead(), nullptr);
+
+  ListNode* node = list->getHead();
+
+  for (int i = 1; i < N; i++) {
+    ASSERT_EQ(node->getValue(), vertexArray[i]);
   }
 
   delete[] vertexArray;
+  delete list;
   delete graph;
 }

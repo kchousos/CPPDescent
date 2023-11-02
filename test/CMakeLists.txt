@@ -58,4 +58,5 @@ package_add_test(ADTGraph.test
                  ${PROJECT_SOURCE_DIR}/src/ADTGraph.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTMap.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTList.cpp
+                 ${PROJECT_SOURCE_DIR}/src/listNode.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)

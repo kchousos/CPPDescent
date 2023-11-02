@@ -10,6 +10,7 @@
  */
 
 #include "cppdescent/ADTGraph.hpp"
+#include <climits>
 
 int* createInt(int value) {
   int* p = new int;
@@ -60,7 +61,7 @@ List* Graph::getVertices() {
   ListNode* node = LIST_BOF;
   for (int i = 0; i < this->size; i++) {
     list->insertNext(node, this->vec->getAt(i));
-    if (node != nullptr)
+    if (node != LIST_BOF)
       node = list->next(node);
     else
       node = list->getHead();
@@ -106,7 +107,7 @@ int Graph::getWeight(Pointer vertex1, Pointer vertex2) {
 
   if (p != nullptr)
     return *(int*)p;
-  return __INT_MAX__;
+  return INT_MAX;
 }
 
 List* Graph::getAdjacent(Pointer vertex) {
@@ -126,6 +127,10 @@ List* Graph::getAdjacent(Pointer vertex) {
   }
 
   return list;
+}
+
+Graph::~Graph() {
+  delete this->map;
 }
 
 // TODO
