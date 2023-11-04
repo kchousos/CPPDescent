@@ -1,7 +1,7 @@
 /**
  * @file ADTGraph.hpp
  * @author Phaedon Seitanidis
- * @brief Abstract undirected graph with weighted edges
+ * @brief Abstract undirected graph with weighted edges.
  * @version 0.1
  * @date 2023-11-01
  *
@@ -35,7 +35,7 @@ class Graph {
   void removeEdge(Pointer vertex1, Pointer vertex2);
   int getWeight(Pointer vertex1, Pointer vertex2);
   List* getAdjacent(Pointer vertex);
-  Map* shortestPathLengths();
+  // Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
   CompareFunc getCompare() { return this->compare; };
   DestroyFunc getDestroy() { return this->destroy; };

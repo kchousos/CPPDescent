@@ -80,7 +80,6 @@ TEST(ADTGraphTest, insertRemove) {
   }
 
   List* list = graph->getVertices();
-  // list->setDestroyValue(deleteInts);
   ListNode* node = list->getHead();
 
   for (int i = 0; i < N; i++) {
@@ -98,12 +97,6 @@ TEST(ADTGraphTest, insertRemove) {
   list = graph->getVertices();
   ASSERT_EQ(list->getSize(), 0);
 
-  // node = list->getHead();
-  // for (int i = 0; i < N; i++) {
-  //   list->removeNext(node);
-  //   node = list->next(node);
-  // }
-
   for (int i = 0; i < N; i++)
     delete vertexArray[i];
 
@@ -113,36 +106,40 @@ TEST(ADTGraphTest, insertRemove) {
   delete graph;
 }
 
-// TEST(ADTGraphTest, getAdjacent) {
-//   Graph* graph = new Graph(compareInts, deleteInts);
+TEST(ADTGraphTest, getAdjacent) {
+  Graph* graph = new Graph(compareInts, deleteInts);
 
-//   graph->setHashFunction(hashPointer);
+  graph->setHashFunction(hashPointer);
 
-//   int N = 1000;
+  int N = 1000;
 
-//   int** vertexArray = new int*[N];
+  int** vertexArray = new int*[N * sizeof(*vertexArray)];
 
-//   for (int i = 0; i < N; i++) {
-//     vertexArray[i] = createIntValue(i);
-//     graph->insertVertex(vertexArray[i]);
-//     List* list = graph->getVertices();
-//     ASSERT_EQ(list->find(createIntValue(i), compareInts), vertexArray[i]);
-//     delete list;
-//   }
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = createIntValue(i);
+    graph->insertVertex(vertexArray[i]);
+    List* list = graph->getVertices();
+    int* value = createIntValue(i);
+    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    delete value;
+    delete list;
+  }
 
-//   for (int i = 1; i < N; i++)
-//     graph->insertEdge(vertexArray[0], vertexArray[i], i);
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray[0], vertexArray[i], i);
 
-//   List* list = graph->getAdjacent(vertexArray[0]);
-//   ASSERT_NE(list->getHead(), nullptr);
+  List* list2 = graph->getAdjacent(vertexArray[0]);
+  ASSERT_NE(list2->getHead(), nullptr);
 
-//   ListNode* node = list->getHead();
+  // ListNode* node = list->getHead();
 
-//   for (int i = 1; i < N; i++) {
-//     ASSERT_EQ(node->getValue(), vertexArray[i]);
-//   }
+  // for (int i = 1; i < N; i++)
+  //   ASSERT_EQ(node->getValue(), vertexArray[i]);
 
-//   delete[] vertexArray;
-//   delete list;
-//   delete graph;
-// }
+  for (int i = 0; i < N; i++)
+    delete vertexArray[i];
+
+  delete[] vertexArray;
+  delete list2;
+  delete graph;
+}

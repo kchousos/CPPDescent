@@ -1,6 +1,6 @@
 /**
  * @file ADTGraph.cpp
- * @author Konstantinos Chousos
+ * @author Pheadon Seitanidis
  * @brief
  * @version 0.1
  * @date 2023-11-01
@@ -11,6 +11,7 @@
 
 #include "cppdescent/ADTGraph.hpp"
 #include <climits>
+#include <iostream>
 
 int* createInt(int value) {
   int* p = new int;
@@ -19,13 +20,14 @@ int* createInt(int value) {
 }
 
 int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
-  if (pair1->getOwner()->getCompare()(pair1->getVertex1(), pair2->getVertex1()))
-    return pair1->getOwner()->getCompare()(pair1->getVertex1(),
-                                           pair2->getVertex1());
-  else if (pair1->getOwner()->getCompare()(pair1->getVertex2(),
-                                           pair2->getVertex2()))
-    return pair1->getOwner()->getCompare()(pair1->getVertex2(),
-                                           pair2->getVertex2());
+  int first =
+      pair1->getOwner()->getCompare()(pair1->getVertex1(), pair2->getVertex1());
+  int second =
+      pair1->getOwner()->getCompare()(pair1->getVertex2(), pair2->getVertex2());
+  if (first)
+    return first;
+  else if (second)
+    return second;
 
   return 0;
 }
@@ -38,6 +40,8 @@ void destroyVertexPair(GraphVertexPair* pair) {
 void destroyValue(Pointer value) {
   delete (int*)value;
 }
+
+// Graph //
 
 Graph::Graph(CompareFunc compare, DestroyFunc destroy)
     : size(0), compare(compare), destroy(destroy) {
@@ -55,8 +59,15 @@ void Graph::insertVertex(Pointer vertex) {
   this->size++;
 }
 
+/**
+ * @brief
+ *
+ * The returned list needs to be deleted, but the list's elements are pointers
+ * the the vector's elements, so the list shouldn't have a `destroyValue`.
+ *
+ * @return List*
+ */
 List* Graph::getVertices() {
-  // FIXME: free me
   List* list = new List;
   ListNode* node = LIST_BOF;
   for (int i = 0; i < this->size; i++) {
@@ -89,7 +100,7 @@ void Graph::removeVertex(Pointer vertex) {
   }
 }
 
-void Graph::insertEdge(Pointer vertex1, Pointer vertex2, int weight) {
+void Graph::insertEdge(Pointer vertex1, Pointer vertex2, int weight = 1) {
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
   this->map->setHashFunction(this->hash);
   this->map->insert(pair, createInt(weight));
@@ -113,16 +124,14 @@ int Graph::getWeight(Pointer vertex1, Pointer vertex2) {
 List* Graph::getAdjacent(Pointer vertex) {
   List* list = new List;
   ListNode* node = LIST_BOF;
-  for (int i = 0; i < this->size; i++) {
+  for (vectorNode* vnode = this->vec->first(); vnode != nullptr;
+       vnode = this->vec->next(vnode)) {
     GraphVertexPair* pair =
-        new GraphVertexPair(this, vertex, this->vec->getAt(i));
+        new GraphVertexPair(this, vertex, vnode->getValue());
 
     if (this->map->find(pair) != nullptr) {
       list->insertNext(node, pair->getVertex2());
-      if (node != nullptr)
-        node = list->next(node);
-      else
-        node = list->getHead();
+      node = list->next(node);
     }
   }
 
@@ -134,10 +143,10 @@ Graph::~Graph() {
   delete this->map;
 }
 
-// TODO
-Map* Graph::shortestPathLengths() {
-  return nullptr;
-}
+// // TODO
+// Map* Graph::shortestPathLengths() {
+//   return nullptr;
+// }
 
 void Graph::setHashFunction(HashFunc hash) {
   this->hash = hash;
