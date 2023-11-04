@@ -80,7 +80,7 @@ TEST(ADTGraphTest, insertRemove) {
   }
 
   List* list = graph->getVertices();
-  list->setDestroyValue(deleteInts);
+  // list->setDestroyValue(deleteInts);
   ListNode* node = list->getHead();
 
   for (int i = 0; i < N; i++) {
@@ -93,19 +93,21 @@ TEST(ADTGraphTest, insertRemove) {
     ASSERT_EQ(graph->getSize(), N - i - 1);
   }
 
+  delete list;
+
   list = graph->getVertices();
   ASSERT_EQ(list->getSize(), 0);
-
-  for (int i = 0; i < N; i++)
-    delete vertexArray[i];
-
-  delete[] vertexArray;
 
   // node = list->getHead();
   // for (int i = 0; i < N; i++) {
   //   list->removeNext(node);
   //   node = list->next(node);
   // }
+
+  for (int i = 0; i < N; i++)
+    delete vertexArray[i];
+
+  delete[] vertexArray;
 
   delete list;
   delete graph;

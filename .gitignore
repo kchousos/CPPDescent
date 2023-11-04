@@ -9,3 +9,5 @@ docs/latex/**
 test/*.info
 
 datasets/*
+
+vgcore.*
