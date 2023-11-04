@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-11-02 17:34:05</td>
+            <td class="headerValue">2023-11-04 10:49:40</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -88,18 +88,18 @@
 <a name="26"><span class="lineNum">      26 </span>            :     786433,    1572869,   3145739,   6291469,   12582917,  25165843, 50331653,</a>
 <a name="27"><span class="lineNum">      27 </span>            :     100663319, 201326611, 402653189, 805306457, 1610612741};</a>
 <a name="28"><span class="lineNum">      28 </span>            : </a>
-<a name="29"><span class="lineNum">      29 </span><span class="lineCov">          3 : Map::Map()</span></a>
-<a name="30"><span class="lineNum">      30 </span><span class="lineCov">          3 :     : compare(nullptr),</span></a>
-<a name="31"><span class="lineNum">      31 </span><span class="lineCov">          3 :       destroyKey(nullptr),</span></a>
-<a name="32"><span class="lineNum">      32 </span><span class="lineCov">          3 :       destroyValue(nullptr),</span></a>
-<a name="33"><span class="lineNum">      33 </span><span class="lineCov">          3 :       size(0),</span></a>
-<a name="34"><span class="lineNum">      34 </span><span class="lineCov">          3 :       deleted(0) {</span></a>
-<a name="35"><span class="lineNum">      35 </span><span class="lineCov">          3 :   this-&gt;capacity = prime_sizes[0];</span></a>
+<a name="29"><span class="lineNum">      29 </span><span class="lineCov">          5 : Map::Map()</span></a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">          5 :     : compare(nullptr),</span></a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">          5 :       destroyKey(nullptr),</span></a>
+<a name="32"><span class="lineNum">      32 </span><span class="lineCov">          5 :       destroyValue(nullptr),</span></a>
+<a name="33"><span class="lineNum">      33 </span><span class="lineCov">          5 :       size(0),</span></a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">          5 :       deleted(0) {</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">          5 :   this-&gt;capacity = prime_sizes[0];</span></a>
 <a name="36"><span class="lineNum">      36 </span>            : </a>
-<a name="37"><span class="lineNum">      37 </span><span class="lineCov">          3 :   this-&gt;array = new MapNode*[this-&gt;capacity];</span></a>
-<a name="38"><span class="lineNum">      38 </span><span class="lineCov">        162 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
-<a name="39"><span class="lineNum">      39 </span><span class="lineCov">        159 :     this-&gt;array[i] = new MapNode;</span></a>
-<a name="40"><span class="lineNum">      40 </span><span class="lineCov">          3 : }</span></a>
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">          5 :   this-&gt;array = new MapNode*[this-&gt;capacity];</span></a>
+<a name="38"><span class="lineNum">      38 </span><span class="lineCov">        270 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">        265 :     this-&gt;array[i] = new MapNode;</span></a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">          5 : }</span></a>
 <a name="41"><span class="lineNum">      41 </span>            : </a>
 <a name="42"><span class="lineNum">      42 </span>            : /**</a>
 <a name="43"><span class="lineNum">      43 </span>            :  * @brief Construct a new Map:: Map object</a>
@@ -108,38 +108,38 @@
 <a name="46"><span class="lineNum">      46 </span>            :  * @param destroyKey A destroy function for the key of every node</a>
 <a name="47"><span class="lineNum">      47 </span>            :  * @param destroyValue A destroy function fro the balue of every node</a>
 <a name="48"><span class="lineNum">      48 </span>            :  */</a>
-<a name="49"><span class="lineNum">      49 </span><span class="lineCov">         73 : Map::Map(CompareFunc compare, DestroyFunc destroyKey, DestroyFunc destroyValue)</span></a>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">         73 :     : compare(compare),</span></a>
-<a name="51"><span class="lineNum">      51 </span><span class="lineCov">         73 :       destroyKey(destroyKey),</span></a>
-<a name="52"><span class="lineNum">      52 </span><span class="lineCov">         73 :       destroyValue(destroyValue),</span></a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">         73 :       size(0),</span></a>
-<a name="54"><span class="lineNum">      54 </span><span class="lineCov">         73 :       deleted(0) {</span></a>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">         73 :   this-&gt;capacity = prime_sizes[0];</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">        109 : Map::Map(CompareFunc compare, DestroyFunc destroyKey, DestroyFunc destroyValue)</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">        109 :     : compare(compare),</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">        109 :       destroyKey(destroyKey),</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">        109 :       destroyValue(destroyValue),</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">        109 :       size(0),</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">        109 :       deleted(0) {</span></a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">        109 :   this-&gt;capacity = prime_sizes[0];</span></a>
 <a name="56"><span class="lineNum">      56 </span>            : </a>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">         73 :   this-&gt;array = new MapNode*[this-&gt;capacity];</span></a>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">       3942 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">       3869 :     this-&gt;array[i] = new MapNode;</span></a>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">         73 : }</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">        109 :   this-&gt;array = new MapNode*[this-&gt;capacity];</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">       5886 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">       5777 :     this-&gt;array[i] = new MapNode;</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">        109 : }</span></a>
 <a name="61"><span class="lineNum">      61 </span>            : </a>
 <a name="62"><span class="lineNum">      62 </span>            : /**</a>
 <a name="63"><span class="lineNum">      63 </span>            :  * @brief Destroy the Map:: Map object</a>
 <a name="64"><span class="lineNum">      64 </span>            :  *</a>
 <a name="65"><span class="lineNum">      65 </span>            :  */</a>
-<a name="66"><span class="lineNum">      66 </span><span class="lineCov">         75 : Map::~Map() {</span></a>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">      49860 :   for (int i = 0; i &lt; this-&gt;capacity; i++) {</span></a>
-<a name="68"><span class="lineNum">      68 </span><span class="lineCov">      49785 :     if (this-&gt;array[i]-&gt;getState() == OCCUPIED) {</span></a>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">       9003 :       if (this-&gt;destroyKey != nullptr)</span></a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineCov">       9000 :         this-&gt;destroyKey(this-&gt;array[i]-&gt;getKey());</span></a>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">       9003 :       if (this-&gt;destroyValue != nullptr)</span></a>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">       9000 :         this-&gt;destroyValue(this-&gt;array[i]-&gt;getValue());</span></a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">        113 : Map::~Map() {</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">      82452 :   for (int i = 0; i &lt; this-&gt;capacity; i++) {</span></a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">      82339 :     if (this-&gt;array[i]-&gt;getState() == OCCUPIED) {</span></a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">      15005 :       if (this-&gt;destroyKey != nullptr)</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">      15000 :         this-&gt;destroyKey(this-&gt;array[i]-&gt;getKey());</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">      15005 :       if (this-&gt;destroyValue != nullptr)</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">      15000 :         this-&gt;destroyValue(this-&gt;array[i]-&gt;getValue());</span></a>
 <a name="73"><span class="lineNum">      73 </span>            :     }</a>
 <a name="74"><span class="lineNum">      74 </span>            :   }</a>
 <a name="75"><span class="lineNum">      75 </span>            : </a>
-<a name="76"><span class="lineNum">      76 </span><span class="lineCov">      49860 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">      49785 :     delete this-&gt;array[i];</span></a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">      82452 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">      82339 :     delete this-&gt;array[i];</span></a>
 <a name="78"><span class="lineNum">      78 </span>            : </a>
-<a name="79"><span class="lineNum">      79 </span><span class="lineCov">         75 :   delete[] this-&gt;array;</span></a>
-<a name="80"><span class="lineNum">      80 </span><span class="lineCov">         75 : }</span></a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">        113 :   delete[] this-&gt;array;</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">        113 : }</span></a>
 <a name="81"><span class="lineNum">      81 </span>            : </a>
 <a name="82"><span class="lineNum">      82 </span>            : /**</a>
 <a name="83"><span class="lineNum">      83 </span>            :  * @brief Extend the hash table in case the load factor exceeds the predefined</a>
@@ -147,40 +147,40 @@
 <a name="85"><span class="lineNum">      85 </span>            :  *</a>
 <a name="86"><span class="lineNum">      86 </span>            :  * @param map The map whose hash table needs to be rehashed</a>
 <a name="87"><span class="lineNum">      87 </span>            :  */</a>
-<a name="88"><span class="lineNum">      88 </span><span class="lineCov">        102 : void Map::rehash() {</span></a>
+<a name="88"><span class="lineNum">      88 </span><span class="lineCov">        166 : void Map::rehash() {</span></a>
 <a name="89"><span class="lineNum">      89 </span>            :   // Keep the previous data</a>
-<a name="90"><span class="lineNum">      90 </span><span class="lineCov">        102 :   int oldCapacity = this-&gt;capacity;</span></a>
-<a name="91"><span class="lineNum">      91 </span><span class="lineCov">        102 :   MapNode** oldArray = this-&gt;array;</span></a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">        166 :   int oldCapacity = this-&gt;capacity;</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">        166 :   MapNode** oldArray = this-&gt;array;</span></a>
 <a name="92"><span class="lineNum">      92 </span>            : </a>
 <a name="93"><span class="lineNum">      93 </span>            :   // Find the new capacity from the prime numbers list</a>
-<a name="94"><span class="lineNum">      94 </span><span class="lineCov">        102 :   int prime = sizeof(prime_sizes) / sizeof(int);  // array size</span></a>
-<a name="95"><span class="lineNum">      95 </span><span class="lineCov">        447 :   for (int i = 0; i &lt; prime; i++) {</span></a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">        447 :     if (prime_sizes[i] &gt; oldCapacity) {</span></a>
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">        102 :       this-&gt;capacity = prime_sizes[i];</span></a>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">        102 :       break;</span></a>
+<a name="94"><span class="lineNum">      94 </span><span class="lineCov">        166 :   int prime = sizeof(prime_sizes) / sizeof(int);  // array size</span></a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">        727 :   for (int i = 0; i &lt; prime; i++) {</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">        727 :     if (prime_sizes[i] &gt; oldCapacity) {</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">        166 :       this-&gt;capacity = prime_sizes[i];</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">        166 :       break;</span></a>
 <a name="99"><span class="lineNum">      99 </span>            :     }</a>
 <a name="100"><span class="lineNum">     100 </span>            :   }</a>
 <a name="101"><span class="lineNum">     101 </span>            :   // If we run out of primes, we double the capacity</a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        102 :   if (this-&gt;capacity == oldCapacity)</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        166 :   if (this-&gt;capacity == oldCapacity)</span></a>
 <a name="103"><span class="lineNum">     103 </span>            :     this-&gt;capacity *= 2;  // LCOV_EXCL_LINE</a>
 <a name="104"><span class="lineNum">     104 </span>            : </a>
 <a name="105"><span class="lineNum">     105 </span>            :   // Create a bigger hash table</a>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        102 :   this-&gt;array = new MapNode*[this-&gt;capacity];</span></a>
-<a name="107"><span class="lineNum">     107 </span><span class="lineCov">      98092 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
-<a name="108"><span class="lineNum">     108 </span><span class="lineCov">      97990 :     this-&gt;array[i] = new MapNode;</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        166 :   this-&gt;array = new MapNode*[this-&gt;capacity];</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">     159436 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">     159270 :     this-&gt;array[i] = new MapNode;</span></a>
 <a name="109"><span class="lineNum">     109 </span>            : </a>
 <a name="110"><span class="lineNum">     110 </span>            :   // Place in the new array only the entries that have a value (get rid of the</a>
 <a name="111"><span class="lineNum">     111 </span>            :   // deleted)</a>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">        102 :   this-&gt;size = 0;</span></a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">      49256 :   for (int i = 0; i &lt; oldCapacity; i++)</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">      49154 :     if (oldArray[i]-&gt;getState() == OCCUPIED)</span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">      19753 :       this-&gt;insert(oldArray[i]-&gt;getKey(), oldArray[i]-&gt;getValue());</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">        166 :   this-&gt;size = 0;</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">      80060 :   for (int i = 0; i &lt; oldCapacity; i++)</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">      79894 :     if (oldArray[i]-&gt;getState() == OCCUPIED)</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">      31905 :       this-&gt;insert(oldArray[i]-&gt;getKey(), oldArray[i]-&gt;getValue());</span></a>
 <a name="116"><span class="lineNum">     116 </span>            : </a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">      49256 :   for (int i = 0; i &lt; oldCapacity; i++)</span></a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">      49154 :     delete oldArray[i];</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">      80060 :   for (int i = 0; i &lt; oldCapacity; i++)</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">      79894 :     delete oldArray[i];</span></a>
 <a name="119"><span class="lineNum">     119 </span>            :   // Delete old array so we do not have leaks</a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">        102 :   delete[] oldArray;</span></a>
-<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        102 : }</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">        166 :   delete[] oldArray;</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        166 : }</span></a>
 <a name="122"><span class="lineNum">     122 </span>            : </a>
 <a name="123"><span class="lineNum">     123 </span>            : /**</a>
 <a name="124"><span class="lineNum">     124 </span>            :  * @brief Add a new pair (key --&gt; value) in the map</a>
@@ -188,68 +188,68 @@
 <a name="126"><span class="lineNum">     126 </span>            :  * @param key</a>
 <a name="127"><span class="lineNum">     127 </span>            :  * @param value</a>
 <a name="128"><span class="lineNum">     128 </span>            :  */</a>
-<a name="129"><span class="lineNum">     129 </span><span class="lineCov">      35932 : void Map::insert(Pointer key, Pointer value) {</span></a>
-<a name="130"><span class="lineNum">     130 </span><span class="lineCov">      35932 :   bool alreadyMember = false;</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineCov">      58204 : void Map::insert(Pointer key, Pointer value) {</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">      58204 :   bool alreadyMember = false;</span></a>
 <a name="131"><span class="lineNum">     131 </span>            : </a>
-<a name="132"><span class="lineNum">     132 </span><span class="lineCov">      35932 :   MapNode* node = nullptr;</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">      58204 :   MapNode* node = nullptr;</span></a>
 <a name="133"><span class="lineNum">     133 </span>            : </a>
 <a name="134"><span class="lineNum">     134 </span>            :   int pos;</a>
-<a name="135"><span class="lineNum">     135 </span><span class="lineCov">      35932 :   for (pos = this-&gt;hash(key) %</span></a>
-<a name="136"><span class="lineNum">     136 </span><span class="lineCov">      35932 :              this-&gt;capacity;  // Starting from the position of the x hash value</span></a>
-<a name="137"><span class="lineNum">     137 </span><span class="lineCov">      38902 :        this-&gt;array[pos]-&gt;getState() !=</span></a>
+<a name="135"><span class="lineNum">     135 </span><span class="lineCov">      58204 :   for (pos = this-&gt;hash(key) %</span></a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineCov">      58204 :              this-&gt;capacity;  // Starting from the position of the x hash value</span></a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">      62010 :        this-&gt;array[pos]-&gt;getState() !=</span></a>
 <a name="138"><span class="lineNum">     138 </span>            :        EMPTY;  // If an empty cell is found, stopping the process</a>
-<a name="139"><span class="lineNum">     139 </span><span class="lineCov">       2970 :        pos = (pos + 1) %</span></a>
-<a name="140"><span class="lineNum">     140 </span><span class="lineCov">       2970 :              this-&gt;capacity) {  // linear probing (if the end of the array is</span></a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineCov">       3806 :        pos = (pos + 1) %</span></a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineCov">       3806 :              this-&gt;capacity) {  // linear probing (if the end of the array is</span></a>
 <a name="141"><span class="lineNum">     141 </span>            :                                 // met, we start from the begining again)</a>
 <a name="142"><span class="lineNum">     142 </span>            : </a>
-<a name="143"><span class="lineNum">     143 </span><span class="lineCov">       2982 :     if (this-&gt;array[pos]-&gt;getState() == DELETED) {</span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">       3826 :     if (this-&gt;array[pos]-&gt;getState() == DELETED) {</span></a>
 <a name="144"><span class="lineNum">     144 </span>            :       // A DELETED position is found. A new pair can be added here only if the</a>
 <a name="145"><span class="lineNum">     145 </span>            :       // key is new. We keep the position and keep searching, because the key</a>
 <a name="146"><span class="lineNum">     146 </span>            :       // might be in one of the next cells</a>
-<a name="147"><span class="lineNum">     147 </span><span class="lineCov">          3 :       if (node == nullptr)</span></a>
-<a name="148"><span class="lineNum">     148 </span><span class="lineCov">          3 :         node = this-&gt;array[pos];</span></a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">          5 :       if (node == nullptr)</span></a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">          5 :         node = this-&gt;array[pos];</span></a>
 <a name="149"><span class="lineNum">     149 </span>            : </a>
-<a name="150"><span class="lineNum">     150 </span><span class="lineCov">       2979 :     } else if (this-&gt;compare(this-&gt;array[pos]-&gt;getKey(), key) == 0) {</span></a>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">         12 :       alreadyMember = true;</span></a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineCov">         12 :       node =</span></a>
-<a name="153"><span class="lineNum">     153 </span><span class="lineCov">         12 :           this-&gt;array[pos];  // Key is found, the new pair is added here (even</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">       3821 :     } else if (this-&gt;compare(this-&gt;array[pos]-&gt;getKey(), key) == 0) {</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">         20 :       alreadyMember = true;</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">         20 :       node =</span></a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">         20 :           this-&gt;array[pos];  // Key is found, the new pair is added here (even</span></a>
 <a name="154"><span class="lineNum">     154 </span>            :                              // if a DELETED position was found previously)</a>
-<a name="155"><span class="lineNum">     155 </span><span class="lineCov">         12 :       break;                 // There is no need to continue searching</span></a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">         20 :       break;                 // There is no need to continue searching</span></a>
 <a name="156"><span class="lineNum">     156 </span>            :     }</a>
 <a name="157"><span class="lineNum">     157 </span>            :   }</a>
-<a name="158"><span class="lineNum">     158 </span><span class="lineCov">      35932 :   if (node ==</span></a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineCov">      58204 :   if (node ==</span></a>
 <a name="159"><span class="lineNum">     159 </span>            :       nullptr)  // If an EMPTY cell is found, node will not have a value yet</a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineCov">      35920 :     node = this-&gt;array[pos];</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">      58184 :     node = this-&gt;array[pos];</span></a>
 <a name="161"><span class="lineNum">     161 </span>            : </a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineCov">      35932 :   if (alreadyMember == true) {</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">      58204 :   if (alreadyMember == true) {</span></a>
 <a name="163"><span class="lineNum">     163 </span>            :     // If a node gets replaced, it also get destroyed</a>
-<a name="164"><span class="lineNum">     164 </span><span class="lineCov">         12 :     if (node-&gt;getKey() != key &amp;&amp; this-&gt;destroyKey != nullptr)</span></a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineCov">          3 :       this-&gt;destroyKey(node-&gt;getKey());</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineCov">         20 :     if (node-&gt;getKey() != key &amp;&amp; this-&gt;destroyKey != nullptr)</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineCov">          5 :       this-&gt;destroyKey(node-&gt;getKey());</span></a>
 <a name="166"><span class="lineNum">     166 </span>            : </a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">         12 :     if (node-&gt;getValue() != value &amp;&amp; this-&gt;destroyValue != nullptr)</span></a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineCov">          3 :       this-&gt;destroyValue(node-&gt;getValue());</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">         20 :     if (node-&gt;getValue() != value &amp;&amp; this-&gt;destroyValue != nullptr)</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">          5 :       this-&gt;destroyValue(node-&gt;getValue());</span></a>
 <a name="169"><span class="lineNum">     169 </span>            : </a>
 <a name="170"><span class="lineNum">     170 </span>            :   } else {</a>
 <a name="171"><span class="lineNum">     171 </span>            :     // If the node is new, incresing the map size</a>
-<a name="172"><span class="lineNum">     172 </span><span class="lineCov">      35920 :     this-&gt;size++;</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">      58184 :     this-&gt;size++;</span></a>
 <a name="173"><span class="lineNum">     173 </span>            : </a>
 <a name="174"><span class="lineNum">     174 </span>            :     // If we found a DELETED state, we change it to OCCUPIED</a>
-<a name="175"><span class="lineNum">     175 </span><span class="lineCov">      35920 :     if (node-&gt;getState() == DELETED)</span></a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineCov">      58184 :     if (node-&gt;getState() == DELETED)</span></a>
 <a name="176"><span class="lineNum">     176 </span><span class="lineNoCov">          0 :       this-&gt;deleted--;</span></a>
 <a name="177"><span class="lineNum">     177 </span>            :   }</a>
 <a name="178"><span class="lineNum">     178 </span>            : </a>
 <a name="179"><span class="lineNum">     179 </span>            :   // Update the new node with the given values</a>
-<a name="180"><span class="lineNum">     180 </span><span class="lineCov">      35932 :   node-&gt;setState(OCCUPIED);</span></a>
-<a name="181"><span class="lineNum">     181 </span><span class="lineCov">      35932 :   node-&gt;setKey(key);</span></a>
-<a name="182"><span class="lineNum">     182 </span><span class="lineCov">      35932 :   node-&gt;setValue(value);</span></a>
+<a name="180"><span class="lineNum">     180 </span><span class="lineCov">      58204 :   node-&gt;setState(OCCUPIED);</span></a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineCov">      58204 :   node-&gt;setKey(key);</span></a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">      58204 :   node-&gt;setValue(value);</span></a>
 <a name="183"><span class="lineNum">     183 </span>            : </a>
 <a name="184"><span class="lineNum">     184 </span>            :   // If after the insertion, the load factor threshold is surpassed we have to</a>
 <a name="185"><span class="lineNum">     185 </span>            :   // rehash We take into account the DELETED nodes too, because they affect our</a>
 <a name="186"><span class="lineNum">     186 </span>            :   // computations</a>
-<a name="187"><span class="lineNum">     187 </span><span class="lineCov">      35932 :   float loadFactor = (float)(this-&gt;size + this-&gt;deleted) / this-&gt;capacity;</span></a>
-<a name="188"><span class="lineNum">     188 </span><span class="lineCov">      35932 :   if (loadFactor &gt; MAX_LOAD_FACTOR)</span></a>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">        102 :     this-&gt;rehash();</span></a>
-<a name="190"><span class="lineNum">     190 </span><span class="lineCov">      35932 : }</span></a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">      58204 :   float loadFactor = (float)(this-&gt;size + this-&gt;deleted) / this-&gt;capacity;</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">      58204 :   if (loadFactor &gt; MAX_LOAD_FACTOR)</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">        166 :     this-&gt;rehash();</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">      58204 : }</span></a>
 <a name="191"><span class="lineNum">     191 </span>            : </a>
 <a name="192"><span class="lineNum">     192 </span>            : /**</a>
 <a name="193"><span class="lineNum">     193 </span>            :  * @brief Remove from the map the pair (key --&gt; value) that corresponds to the</a>
@@ -258,32 +258,32 @@
 <a name="196"><span class="lineNum">     196 </span>            :  * @return true Τhe node with the given key was removed successfully</a>
 <a name="197"><span class="lineNum">     197 </span>            :  * @return false Τhe node with the given key was not removed</a>
 <a name="198"><span class="lineNum">     198 </span>            :  */</a>
-<a name="199"><span class="lineNum">     199 </span><span class="lineCov">       6171 : bool Map::remove(Pointer key) {</span></a>
-<a name="200"><span class="lineNum">     200 </span><span class="lineCov">       6171 :   MapNode* node = findNode(key);</span></a>
-<a name="201"><span class="lineNum">     201 </span><span class="lineCov">       6171 :   if (node == MAP_EOF)</span></a>
-<a name="202"><span class="lineNum">     202 </span><span class="lineCov">          6 :     return false;</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">      10285 : bool Map::remove(Pointer key) {</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">      10285 :   MapNode* node = findNode(key);</span></a>
+<a name="201"><span class="lineNum">     201 </span><span class="lineCov">      10285 :   if (node == MAP_EOF)</span></a>
+<a name="202"><span class="lineNum">     202 </span><span class="lineCov">         10 :     return false;</span></a>
 <a name="203"><span class="lineNum">     203 </span>            : </a>
 <a name="204"><span class="lineNum">     204 </span>            :   // destroy</a>
-<a name="205"><span class="lineNum">     205 </span><span class="lineCov">       6165 :   if (this-&gt;destroyKey != nullptr)</span></a>
-<a name="206"><span class="lineNum">     206 </span><span class="lineCov">       6000 :     this-&gt;destroyKey(node-&gt;getKey());</span></a>
-<a name="207"><span class="lineNum">     207 </span><span class="lineCov">       6165 :   if (this-&gt;destroyValue != nullptr)</span></a>
-<a name="208"><span class="lineNum">     208 </span><span class="lineCov">       6000 :     this-&gt;destroyValue(node-&gt;getValue());</span></a>
+<a name="205"><span class="lineNum">     205 </span><span class="lineCov">      10275 :   if (this-&gt;destroyKey != nullptr)</span></a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">      10000 :     this-&gt;destroyKey(node-&gt;getKey());</span></a>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">      10275 :   if (this-&gt;destroyValue != nullptr)</span></a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">      10000 :     this-&gt;destroyValue(node-&gt;getValue());</span></a>
 <a name="209"><span class="lineNum">     209 </span>            : </a>
 <a name="210"><span class="lineNum">     210 </span>            :   // Set the state as DELETED, so not to stop the search but also make the</a>
 <a name="211"><span class="lineNum">     211 </span>            :   // insert easier</a>
-<a name="212"><span class="lineNum">     212 </span><span class="lineCov">       6165 :   node-&gt;setState(DELETED);</span></a>
-<a name="213"><span class="lineNum">     213 </span><span class="lineCov">       6165 :   this-&gt;deleted++;</span></a>
-<a name="214"><span class="lineNum">     214 </span><span class="lineCov">       6165 :   this-&gt;size--;</span></a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">      10275 :   node-&gt;setState(DELETED);</span></a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">      10275 :   this-&gt;deleted++;</span></a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineCov">      10275 :   this-&gt;size--;</span></a>
 <a name="215"><span class="lineNum">     215 </span>            : </a>
-<a name="216"><span class="lineNum">     216 </span><span class="lineCov">       6165 :   return true;</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">      10275 :   return true;</span></a>
 <a name="217"><span class="lineNum">     217 </span>            : }</a>
 <a name="218"><span class="lineNum">     218 </span>            : </a>
-<a name="219"><span class="lineNum">     219 </span><span class="lineCov">       4021 : Pointer Map::find(Pointer key) {</span></a>
-<a name="220"><span class="lineNum">     220 </span><span class="lineCov">       4021 :   MapNode* node = this-&gt;findNode(key);</span></a>
-<a name="221"><span class="lineNum">     221 </span><span class="lineCov">       4021 :   if (node != nullptr)</span></a>
-<a name="222"><span class="lineNum">     222 </span><span class="lineCov">       3012 :     return node-&gt;getValue();</span></a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">       6035 : Pointer Map::find(Pointer key) {</span></a>
+<a name="220"><span class="lineNum">     220 </span><span class="lineCov">       6035 :   MapNode* node = this-&gt;findNode(key);</span></a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">       6035 :   if (node != nullptr)</span></a>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">       5020 :     return node-&gt;getValue();</span></a>
 <a name="223"><span class="lineNum">     223 </span>            : </a>
-<a name="224"><span class="lineNum">     224 </span><span class="lineCov">       1009 :   return nullptr;</span></a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineCov">       1015 :   return nullptr;</span></a>
 <a name="225"><span class="lineNum">     225 </span>            : }</a>
 <a name="226"><span class="lineNum">     226 </span>            : </a>
 <a name="227"><span class="lineNum">     227 </span>            : /**</a>
@@ -291,13 +291,13 @@
 <a name="229"><span class="lineNum">     229 </span>            :  *</a>
 <a name="230"><span class="lineNum">     230 </span>            :  * @return MapNode*</a>
 <a name="231"><span class="lineNum">     231 </span>            :  */</a>
-<a name="232"><span class="lineNum">     232 </span><span class="lineCov">      21006 : MapNode* Map::getFirst() {</span></a>
+<a name="232"><span class="lineNum">     232 </span><span class="lineCov">      31010 : MapNode* Map::getFirst() {</span></a>
 <a name="233"><span class="lineNum">     233 </span>            :   // Begin the iteration from the first cell, until we find an OCCUPIED</a>
-<a name="234"><span class="lineNum">     234 </span><span class="lineCov">    1134165 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineCov">    1113162 :     if (this-&gt;array[i]-&gt;getState() == OCCUPIED)</span></a>
-<a name="236"><span class="lineNum">     236 </span><span class="lineCov">          3 :       return this-&gt;array[i];</span></a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">    1674275 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">    1643270 :     if (this-&gt;array[i]-&gt;getState() == OCCUPIED)</span></a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">          5 :       return this-&gt;array[i];</span></a>
 <a name="237"><span class="lineNum">     237 </span>            : </a>
-<a name="238"><span class="lineNum">     238 </span><span class="lineCov">      21003 :   return MAP_EOF;</span></a>
+<a name="238"><span class="lineNum">     238 </span><span class="lineCov">      31005 :   return MAP_EOF;</span></a>
 <a name="239"><span class="lineNum">     239 </span>            : }</a>
 <a name="240"><span class="lineNum">     240 </span>            : </a>
 <a name="241"><span class="lineNum">     241 </span>            : /**</a>
@@ -306,13 +306,13 @@
 <a name="244"><span class="lineNum">     244 </span>            :  * @param node</a>
 <a name="245"><span class="lineNum">     245 </span>            :  * @return MapNode*</a>
 <a name="246"><span class="lineNum">     246 </span>            :  */</a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineCov">          3 : MapNode* Map::getNext(MapNode* node) {</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">          5 : MapNode* Map::getNext(MapNode* node) {</span></a>
 <a name="248"><span class="lineNum">     248 </span>            :   int pos;</a>
-<a name="249"><span class="lineNum">     249 </span><span class="lineCov">          6 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
-<a name="250"><span class="lineNum">     250 </span><span class="lineCov">          6 :     if (this-&gt;array[i] == node)</span></a>
-<a name="251"><span class="lineNum">     251 </span><span class="lineCov">          3 :       pos = i;</span></a>
+<a name="249"><span class="lineNum">     249 </span><span class="lineCov">         10 :   for (int i = 0; i &lt; this-&gt;capacity; i++)</span></a>
+<a name="250"><span class="lineNum">     250 </span><span class="lineCov">         10 :     if (this-&gt;array[i] == node)</span></a>
+<a name="251"><span class="lineNum">     251 </span><span class="lineCov">          5 :       pos = i;</span></a>
 <a name="252"><span class="lineNum">     252 </span>            :     else</a>
-<a name="253"><span class="lineNum">     253 </span><span class="lineCov">          3 :       return MAP_EOF;</span></a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">          5 :       return MAP_EOF;</span></a>
 <a name="254"><span class="lineNum">     254 </span>            : </a>
 <a name="255"><span class="lineNum">     255 </span><span class="lineNoCov">          0 :   for (int i = pos + 1; i &lt; this-&gt;capacity; i++)</span></a>
 <a name="256"><span class="lineNum">     256 </span><span class="lineNoCov">          0 :     if (this-&gt;array[i]-&gt;getState() == OCCUPIED)</span></a>
@@ -327,23 +327,23 @@
 <a name="265"><span class="lineNum">     265 </span>            :  * @param key</a>
 <a name="266"><span class="lineNum">     266 </span>            :  * @return MapNode*</a>
 <a name="267"><span class="lineNum">     267 </span>            :  */</a>
-<a name="268"><span class="lineNum">     268 </span><span class="lineCov">      13195 : MapNode* Map::findNode(Pointer key) {</span></a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">      21325 : MapNode* Map::findNode(Pointer key) {</span></a>
 <a name="269"><span class="lineNum">     269 </span>            :   // We traverse the array, starting from the position where the key hashes,</a>
 <a name="270"><span class="lineNum">     270 </span>            :   // until we find a non EMPTY</a>
-<a name="271"><span class="lineNum">     271 </span><span class="lineCov">      13195 :   int count = 0;</span></a>
-<a name="272"><span class="lineNum">     272 </span><span class="lineCov">      13195 :   for (int pos = this-&gt;hash(key) % this-&gt;capacity;</span></a>
-<a name="273"><span class="lineNum">     273 </span><span class="lineCov">      14590 :        this-&gt;array[pos]-&gt;getState() != EMPTY;</span></a>
-<a name="274"><span class="lineNum">     274 </span><span class="lineCov">       1395 :        pos = (pos + 1) % this-&gt;capacity) {</span></a>
-<a name="275"><span class="lineNum">     275 </span><span class="lineCov">      27135 :     if (this-&gt;array[pos]-&gt;getState() == OCCUPIED &amp;&amp;</span></a>
-<a name="276"><span class="lineNum">     276 </span><span class="lineCov">      13563 :         this-&gt;compare(this-&gt;array[pos]-&gt;getKey(), key) == 0)</span></a>
-<a name="277"><span class="lineNum">     277 </span><span class="lineCov">      12177 :       return this-&gt;array[pos];</span></a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">      21325 :   int count = 0;</span></a>
+<a name="272"><span class="lineNum">     272 </span><span class="lineCov">      21325 :   for (int pos = this-&gt;hash(key) % this-&gt;capacity;</span></a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">      23464 :        this-&gt;array[pos]-&gt;getState() != EMPTY;</span></a>
+<a name="274"><span class="lineNum">     274 </span><span class="lineCov">       2139 :        pos = (pos + 1) % this-&gt;capacity) {</span></a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">      44853 :     if (this-&gt;array[pos]-&gt;getState() == OCCUPIED &amp;&amp;</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">      22419 :         this-&gt;compare(this-&gt;array[pos]-&gt;getKey(), key) == 0)</span></a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineCov">      20295 :       return this-&gt;array[pos];</span></a>
 <a name="278"><span class="lineNum">     278 </span>            : </a>
-<a name="279"><span class="lineNum">     279 </span><span class="lineCov">       1395 :     count++;</span></a>
-<a name="280"><span class="lineNum">     280 </span><span class="lineCov">       1395 :     if (count == this-&gt;capacity)</span></a>
+<a name="279"><span class="lineNum">     279 </span><span class="lineCov">       2139 :     count++;</span></a>
+<a name="280"><span class="lineNum">     280 </span><span class="lineCov">       2139 :     if (count == this-&gt;capacity)</span></a>
 <a name="281"><span class="lineNum">     281 </span><span class="lineNoCov">          0 :       break;</span></a>
 <a name="282"><span class="lineNum">     282 </span>            :   }</a>
 <a name="283"><span class="lineNum">     283 </span>            : </a>
-<a name="284"><span class="lineNum">     284 </span><span class="lineCov">       1018 :   return nullptr;</span></a>
+<a name="284"><span class="lineNum">     284 </span><span class="lineCov">       1030 :   return nullptr;</span></a>
 <a name="285"><span class="lineNum">     285 </span>            : }</a>
 </pre>
       </td>
