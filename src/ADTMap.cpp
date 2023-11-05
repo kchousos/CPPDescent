@@ -131,7 +131,7 @@ void Map::insert(Pointer key, Pointer value) {
 
   MapNode* node = nullptr;
 
-  int pos;
+  uint pos;
   for (pos = this->hash(key) %
              this->capacity;  // Starting from the position of the x hash value
        this->array[pos]->getState() !=
@@ -281,5 +281,5 @@ MapNode* Map::findNode(Pointer key) {
       break;
   }
 
-  return nullptr;
+  return MAP_EOF;
 }
