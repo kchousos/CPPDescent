@@ -124,23 +124,24 @@ int Graph::getWeight(Pointer vertex1, Pointer vertex2) {
 List* Graph::getAdjacent(Pointer vertex) {
   List* list = new List;
   ListNode* node = LIST_BOF;
-  for (vectorNode* vnode = this->vec->first(); vnode != nullptr;
-       vnode = this->vec->next(vnode)) {
-    GraphVertexPair* pair =
-        new GraphVertexPair(this, vertex, vnode->getValue());
 
-    if (this->map->find(pair) != nullptr) {
-      list->insertNext(node, pair->getVertex2());
-      node = list->next(node);
+  for (int i = 0; i < this->size; i++) {
+        GraphVertexPair* pair = new GraphVertexPair(this, vertex, this->vec->getAt(i));
+        if (this->map->find(pair) != MAP_EOF) {
+            list->insertNext(node, pair->getVertex2());
+            if (node != nullptr) 
+                node = list->next(node);
+            else 
+                node = list->getHead();
+        }
     }
-  }
 
   return list;
 }
 
 Graph::~Graph() {
   delete this->vec;
-  delete this->map;
+  // delete this->map;
 }
 
 // // TODO
