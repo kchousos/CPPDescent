@@ -1,8 +1,13 @@
 build/**
 .vscode
 .DS_Store
+.cache
 
 docs/latex/**
 !docs/latex/refman.pdf
 
 test/*.info
+
+datasets/*
+
+vgcore.*
