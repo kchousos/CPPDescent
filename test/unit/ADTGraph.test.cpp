@@ -51,9 +51,10 @@ int* createIntValue(int value) {
  * @param value The value to be hashed.
  * @return unsigned int The hash value.
  */
-unsigned int hashPointer(Pointer value) {
-  Pointer v = value;        
-  *(int*)v = *(int*)v + 1;
+uint hashPointer(Pointer value) {
+  // return (size_t)&value;
+  int* v = (int*)value;
+  v = v + 1;
   return 0;
 }
 
@@ -126,7 +127,7 @@ TEST(ADTGraphTest, getAdjacent) {
     delete value;
     delete list;
   }
-  
+
   for (int i = 1; i < N; i++)
     graph->insertEdge(vertexArray[0], vertexArray[i], i);
 
@@ -135,8 +136,8 @@ TEST(ADTGraphTest, getAdjacent) {
 
   ListNode* node = list2->getHead();
 
-  for (int i = 1; i < N; i++){
-    ASSERT_EQ(node->getValue(), vertexArray[i]);
+  for (int i = 1; i < N; i++) {
+    ASSERT_EQ(node->getValue(), vertexArray[i]) << "i: " << i << "\n";
     node = list2->next(node);
   }
 

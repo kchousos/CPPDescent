@@ -33,8 +33,11 @@ int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
 }
 
 void destroyVertexPair(GraphVertexPair* pair) {
-  pair->getOwner()->getDestroy()(pair->getVertex1());
-  pair->getOwner()->getDestroy()(pair->getVertex2());
+  delete pair;
+  // if (pair->getVertex1() != nullptr)
+  //   pair->getOwner()->getDestroy()(pair->getVertex1());
+  // if (pair->getVertex2() != nullptr)
+  //   pair->getOwner()->getDestroy()(pair->getVertex2());
 }
 
 void destroyValue(Pointer value) {
@@ -126,22 +129,24 @@ List* Graph::getAdjacent(Pointer vertex) {
   ListNode* node = LIST_BOF;
 
   for (int i = 0; i < this->size; i++) {
-        GraphVertexPair* pair = new GraphVertexPair(this, vertex, this->vec->getAt(i));
-        if (this->map->find(pair) != MAP_EOF) {
-            list->insertNext(node, pair->getVertex2());
-            if (node != nullptr) 
-                node = list->next(node);
-            else 
-                node = list->getHead();
-        }
+    GraphVertexPair* pair =
+        new GraphVertexPair(this, vertex, this->vec->getAt(i));
+    if (this->map->find(pair) != MAP_EOF) {
+      list->insertNext(node, pair->getVertex2());
+      if (node != nullptr)
+        node = list->next(node);
+      else
+        node = list->getHead();
     }
+    delete pair;
+  }
 
   return list;
 }
 
 Graph::~Graph() {
   delete this->vec;
-  // delete this->map;
+  delete this->map;
 }
 
 // // TODO
