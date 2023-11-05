@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;e428d74
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;b3c059e
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -89,8 +89,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>getSize</b> ()</td></t
 <tr class="memitem:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="memItemLeft" align="right" valign="top"><a id="aa6d1efd712d1f5edfb2f9fb645690f09" name="aa6d1efd712d1f5edfb2f9fb645690f09"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>insertVertex</b> (Pointer vertex)</td></tr>
 <tr class="separator:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="memItemLeft" align="right" valign="top"><a id="a5f6611ef49b5dd7c948feab09b8e7e35" name="a5f6611ef49b5dd7c948feab09b8e7e35"></a>
-<a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getVertices</b> ()</td></tr>
+<tr class="memitem:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#a5f6611ef49b5dd7c948feab09b8e7e35">getVertices</a> ()</td></tr>
+<tr class="memdesc:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">The returned list needs to be deleted, but the list's elements are pointers the the vector's elements, so the list shouldn't have a <code>destroyValue</code>.  <br /></td></tr>
 <tr class="separator:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e582c71907028054f879a7ed1368a33"><td class="memItemLeft" align="right" valign="top"><a id="a4e582c71907028054f879a7ed1368a33" name="a4e582c71907028054f879a7ed1368a33"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>removeVertex</b> (Pointer vertex)</td></tr>
@@ -107,9 +107,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>getWeight</b> (Pointer
 <tr class="memitem:a8f9b79711bcc8719699f2e33069053c3"><td class="memItemLeft" align="right" valign="top"><a id="a8f9b79711bcc8719699f2e33069053c3" name="a8f9b79711bcc8719699f2e33069053c3"></a>
 <a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getAdjacent</b> (Pointer vertex)</td></tr>
 <tr class="separator:a8f9b79711bcc8719699f2e33069053c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bc59ff1642f34167989c5a8f4e04b1a"><td class="memItemLeft" align="right" valign="top"><a id="a4bc59ff1642f34167989c5a8f4e04b1a" name="a4bc59ff1642f34167989c5a8f4e04b1a"></a>
-<a class="el" href="classMap.html">Map</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>shortestPathLengths</b> ()</td></tr>
-<tr class="separator:a4bc59ff1642f34167989c5a8f4e04b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1efc5da28694b555ff75a62eafbfdbb"><td class="memItemLeft" align="right" valign="top"><a id="ab1efc5da28694b555ff75a62eafbfdbb" name="ab1efc5da28694b555ff75a62eafbfdbb"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setHashFunction</b> (HashFunc hash)</td></tr>
 <tr class="separator:ab1efc5da28694b555ff75a62eafbfdbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,6 +120,27 @@ DestroyFunc&#160;</td><td class="memItemRight" valign="bottom"><b>getDestroy</b>
 HashFunc&#160;</td><td class="memItemRight" valign="bottom"><b>getHash</b> ()</td></tr>
 <tr class="separator:a3eb37d3af4b6a1d9831a7fa2e1b9bfeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5f6611ef49b5dd7c948feab09b8e7e35" name="a5f6611ef49b5dd7c948feab09b8e7e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f6611ef49b5dd7c948feab09b8e7e35">&#9670;&#160;</a></span>getVertices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classList.html">List</a> * Graph::getVertices </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The returned list needs to be deleted, but the list's elements are pointers the the vector's elements, so the list shouldn't have a <code>destroyValue</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd>List* </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="ADTGraph_8hpp_source.html">ADTGraph.hpp</a></li>
 <li><a class="el" href="ADTGraph_8cpp.html">ADTGraph.cpp</a></li>
