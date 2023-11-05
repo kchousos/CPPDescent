@@ -31,17 +31,17 @@
             <td class="headerValue">filtered_coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">9</td>
-            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">14</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-11-05 22:53:28</td>
+            <td class="headerValue">2023-11-05 23:14:07</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">9</td>
-            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">12</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
@@ -81,16 +81,16 @@
 <a name="19"><span class="lineNum">      19 </span>            : </a>
 <a name="20"><span class="lineNum">      20 </span>            : class MapNode {</a>
 <a name="21"><span class="lineNum">      21 </span>            :  public:</a>
-<a name="22"><span class="lineNum">      22 </span><span class="lineCov">     343390 :   MapNode() : key(nullptr), value(nullptr), state(EMPTY){};</span></a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">      74692 :   MapNode() : key(nullptr), value(nullptr), state(EMPTY){};</span></a>
 <a name="23"><span class="lineNum">      23 </span>            :   MapNode(Pointer key, Pointer value, State state)</a>
 <a name="24"><span class="lineNum">      24 </span>            :       : key(key), value(value), state(state){};</a>
-<a name="25"><span class="lineNum">      25 </span><span class="lineCov">     202879 :   ~MapNode(){};</span></a>
-<a name="26"><span class="lineNum">      26 </span><span class="lineCov">     138820 :   void setKey(Pointer key) { this-&gt;key = key; };</span></a>
-<a name="27"><span class="lineNum">      27 </span><span class="lineCov">     138820 :   void setValue(Pointer value) { this-&gt;value = value; };</span></a>
-<a name="28"><span class="lineNum">      28 </span><span class="lineCov">     138820 :   void setState(State state) { this-&gt;state = state; };</span></a>
-<a name="29"><span class="lineNum">      29 </span><span class="lineCov">   76283609 :   Pointer getKey() { return this-&gt;key; };</span></a>
-<a name="30"><span class="lineNum">      30 </span><span class="lineCov">     138452 :   Pointer getValue() { return this-&gt;value; };</span></a>
-<a name="31"><span class="lineNum">      31 </span><span class="lineCov">  156060409 :   State getState() { return this-&gt;state; };</span></a>
+<a name="25"><span class="lineNum">      25 </span><span class="lineCov">      74692 :   ~MapNode(){};</span></a>
+<a name="26"><span class="lineNum">      26 </span><span class="lineCov">      27320 :   void setKey(Pointer key) { this-&gt;key = key; };</span></a>
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">      27320 :   void setValue(Pointer value) { this-&gt;value = value; };</span></a>
+<a name="28"><span class="lineNum">      28 </span><span class="lineCov">      31430 :   void setState(State state) { this-&gt;state = state; };</span></a>
+<a name="29"><span class="lineNum">      29 </span><span class="lineCov">    2830158 :   Pointer getKey() { return this-&gt;key; };</span></a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">      33218 :   Pointer getValue() { return this-&gt;value; };</span></a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">    5837346 :   State getState() { return this-&gt;state; };</span></a>
 <a name="32"><span class="lineNum">      32 </span>            : </a>
 <a name="33"><span class="lineNum">      33 </span>            :  private:</a>
 <a name="34"><span class="lineNum">      34 </span>            :   Pointer key;</a>
@@ -108,14 +108,14 @@
 <a name="46"><span class="lineNum">      46 </span>            :   Pointer find(Pointer key);</a>
 <a name="47"><span class="lineNum">      47 </span>            :   void rehash();</a>
 <a name="48"><span class="lineNum">      48 </span>            :   void setCapacity(int capacity) { this-&gt;capacity = capacity; };</a>
-<a name="49"><span class="lineNum">      49 </span>            :   void setDestroyKey(DestroyFunc destroyKey) { this-&gt;destroyKey = destroyKey; };</a>
-<a name="50"><span class="lineNum">      50 </span>            :   void setDestroyValue(DestroyFunc destroyValue) {</a>
-<a name="51"><span class="lineNum">      51 </span>            :     this-&gt;destroyValue = destroyValue;</a>
-<a name="52"><span class="lineNum">      52 </span>            :   };</a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">       2997 :   void setHashFunction(HashFunc hash) { this-&gt;hash = hash; };</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">          2 :   void setDestroyKey(DestroyFunc destroyKey) { this-&gt;destroyKey = destroyKey; };</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          2 :   void setDestroyValue(DestroyFunc destroyValue) {</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">          2 :     this-&gt;destroyValue = destroyValue;</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          2 :   };</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">       2016 :   void setHashFunction(HashFunc hash) { this-&gt;hash = hash; };</span></a>
 <a name="54"><span class="lineNum">      54 </span>            :   MapNode** getArray() { return this-&gt;array; };</a>
 <a name="55"><span class="lineNum">      55 </span>            :   int getCapacity() { return this-&gt;capacity; };</a>
-<a name="56"><span class="lineNum">      56 </span>            :   int getSize() { return this-&gt;size; };</a>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">       4004 :   int getSize() { return this-&gt;size; };</span></a>
 <a name="57"><span class="lineNum">      57 </span>            :   int getDeleted() { return this-&gt;deleted; };</a>
 <a name="58"><span class="lineNum">      58 </span>            :   DestroyFunc getDestroyKey() { return this-&gt;destroyKey; };</a>
 <a name="59"><span class="lineNum">      59 </span>            :   DestroyFunc getDestroyValue() { return this-&gt;destroyValue; };</a>
