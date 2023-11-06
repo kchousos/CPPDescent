@@ -34,10 +34,6 @@ int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
 
 void destroyVertexPair(GraphVertexPair* pair) {
   delete pair;
-  // if (pair->getVertex1() != nullptr)
-  //   pair->getOwner()->getDestroy()(pair->getVertex1());
-  // if (pair->getVertex2() != nullptr)
-  //   pair->getOwner()->getDestroy()(pair->getVertex2());
 }
 
 void destroyValue(Pointer value) {

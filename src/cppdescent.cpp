@@ -9,7 +9,6 @@
  *
  */
 #include "cppdescent/cppdescent.hpp"
-#include <stdio.h>
 #include <cmath>
 #include <cstdint>
 #include <iostream>
@@ -23,6 +22,10 @@ float* cppdescent::createFloat(float value) {
   float* p = new float;
   *p = value;
   return p;
+}
+
+int cppdescent::compareFloats(Pointer a, Pointer b) {
+  return *(float*)a - *(float*)b;
 }
 
 Vector* cppdescent::readBinData(char* fp) {
@@ -79,7 +82,7 @@ float cppdescent::euclideanDistance(Vector* first, Vector* second) {
   return result;
 }
 
-int cppdescent::compareVertexPair(Pointer first, Pointer second) {
+int cppdescent::compareEdges(Pointer first, Pointer second) {
   GraphVertexPair* pair1 = (GraphVertexPair*)first;
   GraphVertexPair* pair2 = (GraphVertexPair*)second;
 
@@ -97,33 +100,51 @@ int cppdescent::compareVertexPair(Pointer first, Pointer second) {
     return 0;
 }
 
+void cppdescent::destroyEdges(GraphVertexPair* pair) {
+  delete pair;
+}
+
+// FIXME
+int cppdescent::hashEdge(Pointer edge) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)edge;
+  pair1->getVertex1();
+  return 0;
+}
+
 Graph* cppdescent::KNNBruteForceGraph(Vector* data, int K) {
-  Graph* graph = new Graph(nullptr, nullptr);
+  Graph* graph = new Graph((CompareFunc)compareFloats, nullptr);
+  graph->setHashFunction((HashFunc)hashEdge);
 
   for (int i = 0; i < data->getSize(); i++) {
-    // neighbors for the element
-    PQueue* neighbors = new PQueue(compareVertexPair, nullptr, nullptr);
-    // add the element to the graph as a vertex
-    // FIXME: the neighbors must contain graph vertex pairs for the comparison
+    // Neighbors for the element.
+    PQueue* neighborsEdges =
+        new PQueue((CompareFunc)compareEdges, nullptr, nullptr);
+    // Add the element to the graph as a vertex.
+    // The neighbors must contain graph vertex pairs for the comparison
     // to work.
     graph->insertVertex((Pointer)data->getAt(i));
 
     for (int j = 0; j < data->getSize(); j++) {
       graph->insertVertex((Pointer)data->getAt(j));
 
-      if (j != i)
-        neighbors->insert((Pointer)data->getAt(j));
+      if (j != i) {
+        // The pairs will (supposedly) be deleted by the pqueue destructor.
+        GraphVertexPair* pair = new GraphVertexPair(
+            graph, (Pointer)data->getAt(i), (Pointer)data->getAt(j));
+        neighborsEdges->insert((Pointer)pair);
+      }
     }
-    // Pull K elements
+    // Pull K elements.
     // ! We need to pull the *minimum* K elements, not the maximum
     // For each one: add an edge from element to other element
-    // in the graph
+    // in the graph.
     for (int k = 0; k < K; k++) {
-      Vector* vec = (Vector*)neighbors->getMax();
-      neighbors->removeMax();
-      graph->insertEdge((Pointer)data->getAt(i), (Pointer)vec, 1);
+      GraphVertexPair* min = (GraphVertexPair*)neighborsEdges->getMax();
+      neighborsEdges->removeMax();
+      Vector* vec = (Vector*)min->getVertex2();
+      graph->insertEdge((Pointer)data->getAt(i), (Pointer)vec, 2);
     }
-    delete neighbors;
+    delete neighborsEdges;
   }
 
   return graph;

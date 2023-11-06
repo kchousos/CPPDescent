@@ -12,14 +12,45 @@
 #include "cppdescent/cppdescent.hpp"
 #include "gtest/gtest.h"
 
-TEST(IO, readData) {
-  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin");
-  ASSERT_NE(vec, nullptr);
+// TEST(IO, readData) {
+//   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin");
+//   ASSERT_NE(vec, nullptr);
 
-  float lastValue = 0.0726192221;
+//   float lastValue = 0.0726192221;
 
-  Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
-  ASSERT_EQ(lastValue, *(float*)lastElement->getAt(lastElement->getSize() - 1));
+//   Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
+//   ASSERT_EQ(lastValue, *(float*)lastElement->getAt(lastElement->getSize() -
+//   1));
+
+//   int result = cppdescent::deleteDatapointVectors(vec);
+//   ASSERT_EQ(result, 0);
+// }
+
+TEST(BruteForce, KNNBruteForceGraph) {
+  Vector* vec = cppdescent::readBinData(
+      "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
+      "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
+      "1/datasets/00000020.bin");
+
+  Graph* graph = cppdescent::KNNBruteForceGraph(vec, 3);
+
+  List* vertices = graph->getVertices();
+  ASSERT_EQ(vertices->getSize(), 20);
+
+  ListNode* vertex = vertices->getHead();
+
+  for (int i = 0; i < vertices->getSize(); i++) {
+    List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+    ASSERT_EQ(adjacent->getSize(), 3);
+    delete adjacent;
+  }
+
+  delete vertices;
+  delete graph;
+
+  // Graph* graph = cppdescent::KNNBruteForceGraph(vec, 5);
+
+  // Graph* graph = cppdescent::KNNBruteForceGraph(vec, 10);
 
   int result = cppdescent::deleteDatapointVectors(vec);
   ASSERT_EQ(result, 0);

@@ -26,6 +26,14 @@ void deleteFloat(Pointer value);
  */
 float* createFloat(float value);
 /**
+ * @brief Compares two floats.
+ *
+ * @param a First float pointer.
+ * @param b Second float pointer.
+ * @return int > 0 if a > b, 0 if a == b, < 0 if a < b.
+ */
+int compareFloats(Pointer a, Pointer b);
+/**
  * @brief Reads the data from a binary file.
  *
  * The data read are stored in a N-sized Vector, where N is the <uint32_t>
@@ -65,7 +73,11 @@ float euclideanDistance(Vector* first, Vector* second);
  * @param second A Pointer to the second element.
  * @return int
  */
-int compareVertexPair(Pointer first, Pointer second);
+int compareEdges(Pointer first, Pointer second);
+
+int hashEdge(Pointer edge);
+
+void destroyEdges(GraphVertexPair* pair);
 /**
  * @brief Computes the K-NN graph using brute force.
  *

@@ -64,6 +64,7 @@ package_add_test(ADTGraph.test
 package_add_test(cppdescent.test 
                  unit/cppdescent.test.cpp
                  ${PROJECT_SOURCE_DIR}/src/cppdescent.cpp
+                 ${PROJECT_SOURCE_DIR}/src/ADTPQueue.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTGraph.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTMap.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTList.cpp
