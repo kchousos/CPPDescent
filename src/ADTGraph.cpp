@@ -57,9 +57,16 @@ int Graph::getSize() {
   return this->size;
 }
 
+/**
+ * @brief Insert a vertex to the graph (if it doesn't already exist).
+ *
+ * @param vertex A Pointer to the vertex to be unserted.
+ */
 void Graph::insertVertex(Pointer vertex) {
-  this->vec->insertLast(vertex);
-  this->size++;
+  if (this->vec->find(vertex, this->compare) == nullptr) {
+    this->vec->insertLast(vertex);
+    this->size++;
+  }
 }
 
 /**
