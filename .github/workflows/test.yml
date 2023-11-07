@@ -25,4 +25,4 @@ jobs:
     - name: build the tests
       run: ./helper.sh --clean-build
     - name: run the tests
-      run: ./helper.sh --tests
+      run: ./build/test/cppdescent.test
