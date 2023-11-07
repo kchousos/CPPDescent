@@ -91,6 +91,7 @@ struct BruteForceManualDataset : testing::Test {
 };
 
 TEST(IO, readData) {
+  ASSERT_EQ(0, 1);
   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
   ASSERT_NE(vec, nullptr);
 
