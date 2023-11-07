@@ -96,40 +96,54 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
+  GraphVertexPair** neighborsEdges = new GraphVertexPair*[K];
+
+  // Insert all points as vertices.
   for (int i = 0; i < data->getSize(); i++)
     graph->insertVertex((Pointer)data->getAt(i));
 
+  // Neighbors for the element.
   for (int i = 0; i < data->getSize(); i++) {
-    // Neighbors for the element.
-    PQueue* neighborsEdges =
-        new PQueue(compare, (DestroyFunc)destroyEdges, nullptr);
-    // Add the element to the graph as a vertex.
-    // The neighbors must contain graph vertex pairs for the comparison
-    // to work.
+    // The first K elements different to the vertex tested.
+    for (int k = 0; k < K; k++) {
+      GraphVertexPair* pair;
 
-    for (int j = 0; j < data->getSize(); j++) {
-      if (j != i) {
-        // The pairs will (supposedly) be deleted by the pqueue destructor.
+      if (i != k)
+        pair = new GraphVertexPair(graph, (Pointer)data->getAt(i),
+                                   (Pointer)data->getAt(k));
+      else
+        pair = new GraphVertexPair(graph, (Pointer)data->getAt(i),
+                                   (Pointer)data->getAt(K));
+
+      neighborsEdges[k] = pair;
+    }
+
+    // Test the rest of the datapoints for closer neighbors.
+    for (int j = K; j < data->getSize(); j++) {
+      if (i != j) {
         GraphVertexPair* pair = new GraphVertexPair(
             graph, (Pointer)data->getAt(i), (Pointer)data->getAt(j));
-        neighborsEdges->insert((Pointer)pair);
+
+        for (int k = 0; k < K; k++)
+          if (compare((Pointer)pair, (Pointer)neighborsEdges[k]) > 0) {
+            delete neighborsEdges[k];
+            neighborsEdges[k] = new GraphVertexPair(
+                graph, (Pointer)data->getAt(i), (Pointer)data->getAt(j));
+          }
+        delete pair;
       }
     }
-    // Pull K elements.
-    // ! We need to pull the *minimum* K elements, not the maximum
-    // For each one: add an edge from element to other element
-    // in the graph.
+
     for (int k = 0; k < K; k++) {
-      GraphVertexPair* min = (GraphVertexPair*)neighborsEdges->getMax();
-      Vector* vec = (Vector*)min->getVertex2();
-      graph->insertEdge((Pointer)data->getAt(i), (Pointer)vec,
-                        distance((Pointer)data->getAt(i), (Pointer)vec));
-      // this needs to be at the end because it frees the min, which is used in
-      // the previous lines.
-      neighborsEdges->removeMax();
+      graph->insertEdge((Pointer)data->getAt(i),
+                        (Pointer)neighborsEdges[k]->getVertex2(),
+                        distance((Pointer)data->getAt(i),
+                                 (Pointer)neighborsEdges[k]->getVertex2()));
+      delete neighborsEdges[k];
     }
-    delete neighborsEdges;
   }
+
+  delete[] neighborsEdges;
 
   return graph;
 }
