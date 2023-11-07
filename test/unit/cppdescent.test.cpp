@@ -58,8 +58,15 @@ TEST(BruteForce, SIGMODDataset20) {
 }
 
 // TEST(BruteForce, sampleDataset) {
+//   Vector* vec = new Vector(5, nullptr);
 
-//   Vector* vec = new vec
+//   for (int i = 0; i < 5; i++) {
+//     Vector* point = new Vector(2, cppdescent::deleteFloat);
+//     for (int j = 0; j < 2; j++) {
+//       point->setAt(j, )
+//     }
+//     vec->setAt(i, point);
+//   }
 
 //   int K[] = {3, 5, 10};
 

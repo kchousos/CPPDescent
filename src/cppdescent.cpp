@@ -25,8 +25,8 @@ float* cppdescent::createFloat(float value) {
 }
 
 int cppdescent::compareFloats(Pointer a, Pointer b) {
-  int result = (int)((float*)a - (float*)b);
-  return result;
+  return (int)((float*)a - (float*)b);
+  ;
 }
 
 Vector* cppdescent::readBinData(char* fp, int dimensions) {
@@ -92,13 +92,8 @@ int cppdescent::compareEdges(Pointer first, Pointer second) {
   float b = euclideanDistance((Vector*)pair2->getVertex1(),
                               (Vector*)pair2->getVertex2());
 
-  // a < b and not a > b because we want the PQueue to return the *minimum*.
-  if (a < b)
-    return 1;
-  else if (a > b)
-    return -1;
-  else
-    return 0;
+  // b - a and not a - b because we want the PQueue to return the *minimum*.
+  return (int)(b - a);
 }
 
 int cppdescent::compareVertices(Pointer first, Pointer second) {
@@ -154,6 +149,8 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data, int K) {
       GraphVertexPair* min = (GraphVertexPair*)neighborsEdges->getMax();
       Vector* vec = (Vector*)min->getVertex2();
       graph->insertEdge((Pointer)data->getAt(i), (Pointer)vec, 2);
+      // this needs to be at the end because it frees the min, which is used in
+      // the previous lines.
       neighborsEdges->removeMax();
     }
     delete neighborsEdges;
