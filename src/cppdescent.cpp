@@ -56,6 +56,54 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
   return elements;
 }
 
+void swapEdges(GraphVertexPair* first, GraphVertexPair* second) {
+  GraphVertexPair* temp = first;
+  first = second;
+  second = temp;
+}
+
+GraphVertexPair** cppdescent::EdgesBubbleSort(GraphVertexPair** edges,
+                                              int size,
+                                              CompareFunc compare) {
+  for (int i = 0; i < size; i++)
+    for (int j = 0; j < size - 1; j++)
+      if (compare((Pointer)edges[j], (Pointer)edges[j + 1]) < 0)
+        swapEdges(edges[j], edges[j + 1]);
+
+  return edges;
+}
+
+int partition(GraphVertexPair** edges, int low, int high, CompareFunc compare) {
+  // choose the pivot
+
+  GraphVertexPair* pivot = edges[high];
+  // Index of smaller element and Indicate
+  // the right position of pivot found so far
+  int i = (low - 1);
+
+  for (int j = low; j <= high; j++) {
+    // If current element is smaller than the pivot
+    if (compare((Pointer)edges[j], (Pointer)pivot) > 0) {
+      // Increment index of smaller element
+      i++;
+      swapEdges(edges[i], edges[j]);
+    }
+  }
+  swapEdges(edges[i + 1], edges[high]);
+  return (i + 1);
+}
+
+void cppdescent::EdgesQuickSort(GraphVertexPair** edges,
+                                int low,
+                                int high,
+                                CompareFunc compare) {
+  if (low < high) {
+    int pi = partition(edges, low, high, compare);
+    cppdescent::EdgesQuickSort(edges, low, pi - 1, compare);
+    cppdescent::EdgesQuickSort(edges, pi + 1, high, compare);
+  }
+}
+
 int cppdescent::deleteDatapointVectors(Vector* vec) {
   if (vec == nullptr)
     return -1;
@@ -96,11 +144,11 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
-  GraphVertexPair** neighborsEdges = new GraphVertexPair*[K];
-
   // Insert all points as vertices.
   for (int i = 0; i < data->getSize(); i++)
     graph->insertVertex((Pointer)data->getAt(i));
+
+  GraphVertexPair** neighborsEdges = new GraphVertexPair*[K];
 
   // Neighbors for the element.
   for (int i = 0; i < data->getSize(); i++) {
@@ -118,19 +166,28 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
       neighborsEdges[k] = pair;
     }
 
+    EdgesQuickSort(neighborsEdges, 0, K - 1, compare);
+
     // Test the rest of the datapoints for closer neighbors.
     for (int j = K; j < data->getSize(); j++) {
       if (i != j) {
         GraphVertexPair* pair = new GraphVertexPair(
             graph, (Pointer)data->getAt(i), (Pointer)data->getAt(j));
 
-        for (int k = 0; k < K; k++)
+        if (compare((Pointer)pair, (Pointer)neighborsEdges[K - 1]) <= 0) {
+          destroyEdges(pair);
+          continue;
+        }
+
+        for (int k = K - 1; k >= 0; k--) {
           if (compare((Pointer)pair, (Pointer)neighborsEdges[k]) > 0) {
-            delete neighborsEdges[k];
-            neighborsEdges[k] = new GraphVertexPair(
-                graph, (Pointer)data->getAt(i), (Pointer)data->getAt(j));
+            swapEdges(pair, neighborsEdges[k]);
+            destroyEdges(neighborsEdges[k]);
+            break;
           }
-        delete pair;
+        }
+
+        // destroyEdges(pair);
       }
     }
 
@@ -139,7 +196,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
                         (Pointer)neighborsEdges[k]->getVertex2(),
                         distance((Pointer)data->getAt(i),
                                  (Pointer)neighborsEdges[k]->getVertex2()));
-      delete neighborsEdges[k];
+      destroyEdges(neighborsEdges[k]);
     }
   }
 

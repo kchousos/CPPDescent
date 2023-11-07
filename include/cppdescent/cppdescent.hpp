@@ -72,6 +72,30 @@ int compareVertices(Pointer first, Pointer second);
 int hashEdge(Pointer edge);
 
 void destroyEdges(GraphVertexPair* pair);
+
+/**
+ * @brief Sorts the edges array in O(n*logn) time.
+ *
+ * @param edges An array of edges.
+ * @param low
+ * @param high
+ * @param compare The function to use for comparisons.
+ */
+void EdgesQuickSort(GraphVertexPair** edges,
+                    int low,
+                    int high,
+                    CompareFunc compare);
+/**
+ * @brief Sorts the edges array in O(n^2) time.
+ *
+ * @param edges An array of edges.
+ * @param size The size of the array.
+ * @param compare The function to use for comparisons.
+ * @return GraphVertexPair** The sorted array.
+ */
+GraphVertexPair** EdgesBubbleSort(GraphVertexPair** edges,
+                                  int size,
+                                  CompareFunc compare);
 /**
  * @brief Computes the K-NN graph using brute force.
  *

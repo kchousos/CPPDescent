@@ -31,7 +31,7 @@ float euclideanDistance(Pointer a, Pointer b) {
 
   for (int i = 0; i < first->getSize(); i++) {
     float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
-    result += pow(diff, 2);
+    result += diff * diff;
   }
 
   result = sqrtf(result);
@@ -131,6 +131,35 @@ TEST(BruteForce, SIGMODDataset20) {
   int result = cppdescent::deleteDatapointVectors(vec);
   ASSERT_EQ(result, 0);
 }
+
+// TEST(BruteForce, SIGMODDataset1000) {
+//   Vector* vec = cppdescent::readBinData("./datasets/00001000-1.bin", 100);
+
+//   int K[] = {4, 5, 10};
+
+//   for (int k = 0; k < 1; k++) {
+//     Graph* graph = cppdescent::KNNBruteForceGraph(
+//         vec, K[k], compareEdgesEuclidean, euclideanDistance);
+
+//     // List* vertices = graph->getVertices();
+//     // ASSERT_EQ(vertices->getSize(), 1000);
+
+//     // ListNode* vertex = vertices->getHead();
+
+//     // for (int i = 0; i < vertices->getSize(); i++) {
+//     //   List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+//     //   ASSERT_EQ(adjacent->getSize(), K[k]);
+//     //   delete adjacent;
+//     //   vertex = vertex->getNext();
+//     // }
+
+//     // delete vertices;
+//     delete graph;
+//   }
+
+//   int result = cppdescent::deleteDatapointVectors(vec);
+//   ASSERT_EQ(result, 0);
+// }
 
 TEST_F(BruteForceManualDataset, KEqualTo2) {
   int K = 2;
