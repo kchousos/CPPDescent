@@ -33,25 +33,25 @@ TEST(BruteForce, KNNBruteForceGraph) {
       "1/datasets/00000020.bin",
       100);
 
-  Graph* graph = cppdescent::KNNBruteForceGraph(vec, 3);
+  int K[] = {3, 5, 10};
 
-  List* vertices = graph->getVertices();
-  ASSERT_EQ(vertices->getSize(), 20);
+  for (int k = 0; k < 3; k++) {
+    Graph* graph = cppdescent::KNNBruteForceGraph(vec, K[k]);
 
-  ListNode* vertex = vertices->getHead();
+    List* vertices = graph->getVertices();
+    ASSERT_EQ(vertices->getSize(), 20);
 
-  for (int i = 0; i < vertices->getSize(); i++) {
-    List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
-    ASSERT_EQ(adjacent->getSize(), 3);
-    delete adjacent;
+    ListNode* vertex = vertices->getHead();
+
+    for (int i = 0; i < vertices->getSize(); i++) {
+      List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+      ASSERT_EQ(adjacent->getSize(), K[k]);
+      delete adjacent;
+    }
+
+    delete vertices;
+    delete graph;
   }
-
-  delete vertices;
-  delete graph;
-
-  // Graph* graph = cppdescent::KNNBruteForceGraph(vec, 5);
-
-  // Graph* graph = cppdescent::KNNBruteForceGraph(vec, 10);
 
   int result = cppdescent::deleteDatapointVectors(vec);
   ASSERT_EQ(result, 0);

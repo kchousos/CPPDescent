@@ -25,7 +25,8 @@ float* cppdescent::createFloat(float value) {
 }
 
 int cppdescent::compareFloats(Pointer a, Pointer b) {
-  return *(float*)a - *(float*)b;
+  int result = (int)((float*)a - (float*)b);
+  return result;
 }
 
 Vector* cppdescent::readBinData(char* fp, int dimensions) {
