@@ -58,6 +58,38 @@ int compareEdgesEuclidean(Pointer first, Pointer second) {
   return (int)(b - a);
 }
 
+struct BruteForceManualDataset : testing::Test {
+ protected:
+  virtual void SetUp() override {
+    // first point
+    point1->setAt(0, cppdescent::createFloat(1.4));
+    point1->setAt(1, cppdescent::createFloat(2.6));
+    vec->setAt(0, point1);
+    // second point
+    point2->setAt(0, cppdescent::createFloat(15.4));
+    point2->setAt(1, cppdescent::createFloat(-14.28));
+    vec->setAt(1, point2);
+    // third point
+    point3->setAt(0, cppdescent::createFloat(23.3));
+    point3->setAt(1, cppdescent::createFloat(11.8));
+    vec->setAt(2, point3);
+    // fourth point
+    point4->setAt(0, cppdescent::createFloat(-128.04));
+    point4->setAt(1, cppdescent::createFloat(3.7));
+    vec->setAt(3, point4);
+    // fifth point
+    point5->setAt(0, cppdescent::createFloat(1317.6));
+    point5->setAt(1, cppdescent::createFloat(-2535.7));
+    vec->setAt(4, point5);
+  }
+  Vector* vec = new Vector(5, nullptr);
+  Vector* point1 = new Vector(2, cppdescent::deleteFloat);
+  Vector* point2 = new Vector(2, cppdescent::deleteFloat);
+  Vector* point3 = new Vector(2, cppdescent::deleteFloat);
+  Vector* point4 = new Vector(2, cppdescent::deleteFloat);
+  Vector* point5 = new Vector(2, cppdescent::deleteFloat);
+};
+
 // TEST(IO, readData) {
 //   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin");
 //   ASSERT_NE(vec, nullptr);
@@ -104,37 +136,28 @@ TEST(BruteForce, SIGMODDataset20) {
   ASSERT_EQ(result, 0);
 }
 
-// TEST(BruteForce, sampleDataset) {
-//   Vector* vec = new Vector(5, nullptr);
+TEST_F(BruteForceManualDataset, sampleDataset) {
+  int K[] = {3, 5, 10};
 
-//   for (int i = 0; i < 5; i++) {
-//     Vector* point = new Vector(2, cppdescent::deleteFloat);
-//     for (int j = 0; j < 2; j++) {
-//       point->setAt(j, )
-//     }
-//     vec->setAt(i, point);
-//   }
+  for (int k = 0; k < 3; k++) {
+    Graph* graph = cppdescent::KNNBruteForceGraph(
+        vec, K[k], compareEdgesEuclidean, euclideanDistance);
 
-//   int K[] = {3, 5, 10};
+    List* vertices = graph->getVertices();
+    ASSERT_EQ(vertices->getSize(), 20);
 
-//   for (int k = 0; k < 3; k++) {
-//     Graph* graph = cppdescent::KNNBruteForceGraph(vec, K[k]);
+    ListNode* vertex = vertices->getHead();
 
-//     List* vertices = graph->getVertices();
-//     ASSERT_EQ(vertices->getSize(), 20);
+    for (int i = 0; i < vertices->getSize(); i++) {
+      List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+      ASSERT_EQ(adjacent->getSize(), K[k]);
+      delete adjacent;
+    }
 
-//     ListNode* vertex = vertices->getHead();
+    delete vertices;
+    delete graph;
+  }
 
-//     for (int i = 0; i < vertices->getSize(); i++) {
-//       List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
-//       ASSERT_EQ(adjacent->getSize(), K[k]);
-//       delete adjacent;
-//     }
-
-//     delete vertices;
-//     delete graph;
-//   }
-
-//   int result = cppdescent::deleteDatapointVectors(vec);
-//   ASSERT_EQ(result, 0);
-// }
+  int result = cppdescent::deleteDatapointVectors(vec);
+  ASSERT_EQ(result, 0);
+}
