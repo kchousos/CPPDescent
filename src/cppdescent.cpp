@@ -91,7 +91,8 @@ int cppdescent::hashEdge(Pointer edge) {
 
 Graph* cppdescent::KNNBruteForceGraph(Vector* data,
                                       int K,
-                                      CompareFunc compare) {
+                                      CompareFunc compare,
+                                      DistanceFunc distance) {
   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
@@ -121,7 +122,8 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
     for (int k = 0; k < K; k++) {
       GraphVertexPair* min = (GraphVertexPair*)neighborsEdges->getMax();
       Vector* vec = (Vector*)min->getVertex2();
-      graph->insertEdge((Pointer)data->getAt(i), (Pointer)vec, 2);
+      graph->insertEdge((Pointer)data->getAt(i), (Pointer)vec,
+                        distance((Pointer)data->getAt(i), (Pointer)vec));
       // this needs to be at the end because it frees the min, which is used in
       // the previous lines.
       neighborsEdges->removeMax();

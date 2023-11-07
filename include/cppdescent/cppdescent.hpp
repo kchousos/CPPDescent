@@ -7,6 +7,8 @@
 
 #define DEFAULT_POINTS_NUM 100
 
+typedef float (*DistanceFunc)(Pointer a, Pointer b);
+
 /**
  * @brief Functions for the creation of a K-NN graph.
  *
@@ -81,7 +83,12 @@ void destroyEdges(GraphVertexPair* pair);
  * @param data A pointer to the parent N-sized vector.
  * @param K The number of Nearest Neigbors to find.
  * @param compare The function to use to compare the distances.
+ * @param distance The function that computes the distance between two points
+ * (vectors).
  * @return Graph* A pointer to the optimal K-NN graph.
  */
-Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare);
+Graph* KNNBruteForceGraph(Vector* data,
+                          int K,
+                          CompareFunc compare,
+                          DistanceFunc distance);
 };  // namespace cppdescent

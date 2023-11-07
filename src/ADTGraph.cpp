@@ -19,6 +19,12 @@ int* createInt(int value) {
   return p;
 }
 
+float* createFloat(float value) {
+  float* p = new float;
+  *p = value;
+  return p;
+}
+
 int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
   int first =
       pair1->getOwner()->getCompare()(pair1->getVertex1(), pair2->getVertex1());
@@ -106,10 +112,10 @@ void Graph::removeVertex(Pointer vertex) {
   }
 }
 
-void Graph::insertEdge(Pointer vertex1, Pointer vertex2, int weight = 1) {
+void Graph::insertEdge(Pointer vertex1, Pointer vertex2, float weight = 1) {
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
   this->map->setHashFunction(this->hash);
-  this->map->insert(pair, createInt(weight));
+  this->map->insert(pair, createFloat(weight));
 }
 
 void Graph::removeEdge(Pointer vertex1, Pointer vertex2) {
@@ -118,7 +124,7 @@ void Graph::removeEdge(Pointer vertex1, Pointer vertex2) {
   delete pair;
 }
 
-int Graph::getWeight(Pointer vertex1, Pointer vertex2) {
+float Graph::getWeight(Pointer vertex1, Pointer vertex2) {
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
   Pointer p = this->map->find(pair);
 

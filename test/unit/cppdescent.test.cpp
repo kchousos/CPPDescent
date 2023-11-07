@@ -21,7 +21,9 @@
  * @param second A pointer to the second point.
  * @return float The Euclidean distance.
  */
-float euclideanDistance(Vector* first, Vector* second) {
+float euclideanDistance(Pointer a, Pointer b) {
+  Vector* first = (Vector*)a;
+  Vector* second = (Vector*)b;
   float result = 0;
 
   if (first->getSize() != second->getSize())
@@ -80,8 +82,8 @@ TEST(BruteForce, SIGMODDataset20) {
   int K[] = {3, 5, 10};
 
   for (int k = 0; k < 3; k++) {
-    Graph* graph =
-        cppdescent::KNNBruteForceGraph(vec, K[k], compareEdgesEuclidean);
+    Graph* graph = cppdescent::KNNBruteForceGraph(
+        vec, K[k], compareEdgesEuclidean, euclideanDistance);
 
     List* vertices = graph->getVertices();
     ASSERT_EQ(vertices->getSize(), 20);
