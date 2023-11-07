@@ -26,7 +26,7 @@
 //   ASSERT_EQ(result, 0);
 // }
 
-TEST(BruteForce, KNNBruteForceGraph) {
+TEST(BruteForce, SIGMODDataset20) {
   Vector* vec = cppdescent::readBinData(
       "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
       "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
@@ -56,3 +56,31 @@ TEST(BruteForce, KNNBruteForceGraph) {
   int result = cppdescent::deleteDatapointVectors(vec);
   ASSERT_EQ(result, 0);
 }
+
+// TEST(BruteForce, sampleDataset) {
+
+//   Vector* vec = new vec
+
+//   int K[] = {3, 5, 10};
+
+//   for (int k = 0; k < 3; k++) {
+//     Graph* graph = cppdescent::KNNBruteForceGraph(vec, K[k]);
+
+//     List* vertices = graph->getVertices();
+//     ASSERT_EQ(vertices->getSize(), 20);
+
+//     ListNode* vertex = vertices->getHead();
+
+//     for (int i = 0; i < vertices->getSize(); i++) {
+//       List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+//       ASSERT_EQ(adjacent->getSize(), K[k]);
+//       delete adjacent;
+//     }
+
+//     delete vertices;
+//     delete graph;
+//   }
+
+//   int result = cppdescent::deleteDatapointVectors(vec);
+//   ASSERT_EQ(result, 0);
+// }

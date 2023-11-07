@@ -129,8 +129,8 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data, int K) {
 
   for (int i = 0; i < data->getSize(); i++) {
     // Neighbors for the element.
-    PQueue* neighborsEdges =
-        new PQueue((CompareFunc)compareEdges, nullptr, nullptr);
+    PQueue* neighborsEdges = new PQueue((CompareFunc)compareEdges,
+                                        (DestroyFunc)destroyEdges, nullptr);
     // Add the element to the graph as a vertex.
     // The neighbors must contain graph vertex pairs for the comparison
     // to work.
@@ -152,9 +152,9 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data, int K) {
     // in the graph.
     for (int k = 0; k < K; k++) {
       GraphVertexPair* min = (GraphVertexPair*)neighborsEdges->getMax();
-      neighborsEdges->removeMax();
       Vector* vec = (Vector*)min->getVertex2();
       graph->insertEdge((Pointer)data->getAt(i), (Pointer)vec, 2);
+      neighborsEdges->removeMax();
     }
     delete neighborsEdges;
   }
