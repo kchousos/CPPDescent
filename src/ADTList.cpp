@@ -194,3 +194,30 @@ DestroyFunc List::setDestroyValue(DestroyFunc value) {
   this->destroyValue = value;
   return oldValue;
 }
+
+/**
+ * @brief Set the given node as the next one.
+ *
+ * @param next The node to be next.
+ */
+void ListNode::setNext(ListNode* next) {
+  this->next = next;
+}
+
+/**
+ * @brief Get the next node of the list.
+ *
+ * @return ListNode* The next node.
+ */
+ListNode* ListNode::getNext() {
+  return this->next;
+}
+
+/**
+ * @brief Get the value of the current node.
+ *
+ * @return Pointer The value of the current node.
+ */
+Pointer ListNode::getValue() {
+  return this->value;
+}
