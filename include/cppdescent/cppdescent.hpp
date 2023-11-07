@@ -59,24 +59,6 @@ Vector* readBinData(char* fp, int dimensions);
  */
 int deleteDatapointVectors(Vector* vec);
 /**
- * @brief Returns the Euclidean distance between two points of arbitrary
- * dimension.
- *
- * @param first A pointer to the first point.
- * @param second A pointer to the second point.
- * @return float The Euclidean distance.
- */
-float euclideanDistance(Vector* first, Vector* second);
-/**
- * @brief
- *
- * @param first A Pointer to the first element.
- * @param second A Pointer to the second element.
- * @return int
- */
-int compareEdges(Pointer first, Pointer second);
-
-/**
  * @brief Compares each dimension of the two points.
  *
  * @param first The first point.
@@ -98,7 +80,8 @@ void destroyEdges(GraphVertexPair* pair);
  *
  * @param data A pointer to the parent N-sized vector.
  * @param K The number of Nearest Neigbors to find.
+ * @param compare The function to use to compare the distances.
  * @return Graph* A pointer to the optimal K-NN graph.
  */
-Graph* KNNBruteForceGraph(Vector* data, int K);
+Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare);
 };  // namespace cppdescent

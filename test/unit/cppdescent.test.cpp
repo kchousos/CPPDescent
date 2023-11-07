@@ -10,7 +10,51 @@
  */
 
 #include "cppdescent/cppdescent.hpp"
+#include <cmath>
 #include "gtest/gtest.h"
+
+/**
+ * @brief Returns the Euclidean distance between two points of arbitrary
+ * dimension.
+ *
+ * @param first A pointer to the first point.
+ * @param second A pointer to the second point.
+ * @return float The Euclidean distance.
+ */
+float euclideanDistance(Vector* first, Vector* second) {
+  float result = 0;
+
+  if (first->getSize() != second->getSize())
+    return -1.0;
+
+  for (int i = 0; i < first->getSize(); i++) {
+    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
+    result += pow(diff, 2);
+  }
+
+  result = sqrtf(result);
+  return result;
+}
+
+/**
+ * @brief Compare edges using the euclideanDistance function.
+ *
+ * @param first A Pointer to the first element.
+ * @param second A Pointer to the second element.
+ * @return int
+ */
+int compareEdgesEuclidean(Pointer first, Pointer second) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)first;
+  GraphVertexPair* pair2 = (GraphVertexPair*)second;
+
+  float a = euclideanDistance((Vector*)pair1->getVertex1(),
+                              (Vector*)pair1->getVertex2());
+  float b = euclideanDistance((Vector*)pair2->getVertex1(),
+                              (Vector*)pair2->getVertex2());
+
+  // b - a and not a - b because we want the PQueue to return the *minimum*.
+  return (int)(b - a);
+}
 
 // TEST(IO, readData) {
 //   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin");
@@ -36,7 +80,8 @@ TEST(BruteForce, SIGMODDataset20) {
   int K[] = {3, 5, 10};
 
   for (int k = 0; k < 3; k++) {
-    Graph* graph = cppdescent::KNNBruteForceGraph(vec, K[k]);
+    Graph* graph =
+        cppdescent::KNNBruteForceGraph(vec, K[k], compareEdgesEuclidean);
 
     List* vertices = graph->getVertices();
     ASSERT_EQ(vertices->getSize(), 20);
