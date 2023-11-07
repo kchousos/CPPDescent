@@ -61,6 +61,11 @@ int compareEdgesEuclidean(Pointer first, Pointer second) {
 struct BruteForceManualDataset : testing::Test {
  protected:
   virtual void SetUp() override {
+    Vector* point1 = new Vector(2, cppdescent::deleteFloat);
+    Vector* point2 = new Vector(2, cppdescent::deleteFloat);
+    Vector* point3 = new Vector(2, cppdescent::deleteFloat);
+    Vector* point4 = new Vector(2, cppdescent::deleteFloat);
+    Vector* point5 = new Vector(2, cppdescent::deleteFloat);
     // first point
     point1->setAt(0, cppdescent::createFloat(1.4));
     point1->setAt(1, cppdescent::createFloat(2.6));
@@ -83,33 +88,23 @@ struct BruteForceManualDataset : testing::Test {
     vec->setAt(4, point5);
   }
   Vector* vec = new Vector(5, nullptr);
-  Vector* point1 = new Vector(2, cppdescent::deleteFloat);
-  Vector* point2 = new Vector(2, cppdescent::deleteFloat);
-  Vector* point3 = new Vector(2, cppdescent::deleteFloat);
-  Vector* point4 = new Vector(2, cppdescent::deleteFloat);
-  Vector* point5 = new Vector(2, cppdescent::deleteFloat);
 };
 
-// TEST(IO, readData) {
-//   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin");
-//   ASSERT_NE(vec, nullptr);
+TEST(IO, readData) {
+  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
+  ASSERT_NE(vec, nullptr);
 
-//   float lastValue = 0.0726192221;
+  float lastValue = 0.0726192221;
 
-//   Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
-//   ASSERT_EQ(lastValue, *(float*)lastElement->getAt(lastElement->getSize() -
-//   1));
+  Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
+  ASSERT_EQ(lastValue, *(float*)lastElement->getAt(lastElement->getSize() - 1));
 
-//   int result = cppdescent::deleteDatapointVectors(vec);
-//   ASSERT_EQ(result, 0);
-// }
+  int result = cppdescent::deleteDatapointVectors(vec);
+  ASSERT_EQ(result, 0);
+}
 
 TEST(BruteForce, SIGMODDataset20) {
-  Vector* vec = cppdescent::readBinData(
-      "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
-      "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
-      "1/datasets/00000020.bin",
-      100);
+  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
 
   int K[] = {3, 5, 10};
 
@@ -126,6 +121,7 @@ TEST(BruteForce, SIGMODDataset20) {
       List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
       ASSERT_EQ(adjacent->getSize(), K[k]);
       delete adjacent;
+      vertex = vertex->getNext();
     }
 
     delete vertices;
@@ -136,27 +132,173 @@ TEST(BruteForce, SIGMODDataset20) {
   ASSERT_EQ(result, 0);
 }
 
-TEST_F(BruteForceManualDataset, sampleDataset) {
-  int K[] = {3, 5, 10};
+TEST_F(BruteForceManualDataset, KEqualTo2) {
+  int K = 2;
 
-  for (int k = 0; k < 3; k++) {
-    Graph* graph = cppdescent::KNNBruteForceGraph(
-        vec, K[k], compareEdgesEuclidean, euclideanDistance);
+  Graph* graph = cppdescent::KNNBruteForceGraph(vec, K, compareEdgesEuclidean,
+                                                euclideanDistance);
 
-    List* vertices = graph->getVertices();
-    ASSERT_EQ(vertices->getSize(), 20);
+  List* vertices = graph->getVertices();
+  ASSERT_EQ(vertices->getSize(), 5);
 
-    ListNode* vertex = vertices->getHead();
+  ListNode* vertex = vertices->getHead();
 
-    for (int i = 0; i < vertices->getSize(); i++) {
-      List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
-      ASSERT_EQ(adjacent->getSize(), K[k]);
-      delete adjacent;
-    }
+  // The KNN graph for this small dataset has been computed by hand,
+  // so we manually check each vertex's neighbors.
 
-    delete vertices;
-    delete graph;
-  }
+  // Test 1st vertex.
+
+  List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(1), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(2), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  // Test 2nd vertex.
+
+  adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(0), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(2), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  // Test 3rd vertex.
+
+  adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(0), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(1), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  // Test 4th vertex.
+
+  adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(0), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(1), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  // Test 5th vertex.
+
+  adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(1), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(2), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  delete vertices;
+  delete graph;
+
+  int result = cppdescent::deleteDatapointVectors(vec);
+  ASSERT_EQ(result, 0);
+}
+
+TEST_F(BruteForceManualDataset, KEqualTo3) {
+  int K = 3;
+
+  Graph* graph = cppdescent::KNNBruteForceGraph(vec, K, compareEdgesEuclidean,
+                                                euclideanDistance);
+
+  List* vertices = graph->getVertices();
+  ASSERT_EQ(vertices->getSize(), 5);
+
+  ListNode* vertex = vertices->getHead();
+
+  // The KNN graph for this small dataset has been computed by hand,
+  // so we manually check each vertex's neighbors.
+
+  // Test 1st vertex.
+
+  List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(1), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(2), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(3), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  // Test 2nd vertex.
+
+  adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(0), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(2), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(3), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  // Test 3rd vertex.
+
+  adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(0), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(1), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(3), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  // Test 4th vertex.
+
+  adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(0), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(1), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(2), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  // Test 5th vertex.
+
+  adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  ASSERT_EQ(adjacent->getSize(), K);
+  ASSERT_NE(adjacent->find(vec->getAt(1), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(2), cppdescent::compareVertices),
+            nullptr);
+  ASSERT_NE(adjacent->find(vec->getAt(0), cppdescent::compareVertices),
+            nullptr);
+
+  delete adjacent;
+  vertex = vertex->getNext();
+
+  delete vertices;
+  delete graph;
 
   int result = cppdescent::deleteDatapointVectors(vec);
   ASSERT_EQ(result, 0);
