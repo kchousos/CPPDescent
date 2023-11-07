@@ -30,7 +30,8 @@ TEST(BruteForce, KNNBruteForceGraph) {
   Vector* vec = cppdescent::readBinData(
       "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
       "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
-      "1/datasets/00000020.bin");
+      "1/datasets/00000020.bin",
+      100);
 
   Graph* graph = cppdescent::KNNBruteForceGraph(vec, 3);
 

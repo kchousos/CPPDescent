@@ -28,7 +28,7 @@ int cppdescent::compareFloats(Pointer a, Pointer b) {
   return *(float*)a - *(float*)b;
 }
 
-Vector* cppdescent::readBinData(char* fp) {
+Vector* cppdescent::readBinData(char* fp, int dimensions) {
   FILE* data = fopen(fp, "rb");
 
   uint32_t N;
@@ -40,9 +40,9 @@ Vector* cppdescent::readBinData(char* fp) {
   float value;
 
   for (int i = 0; i < (int)N; i++) {
-    Vector* datapoints = new Vector(100, deleteFloat);
+    Vector* datapoints = new Vector(dimensions, deleteFloat);
 
-    for (int j = 0; j < 100; j++) {
+    for (int j = 0; j < dimensions; j++) {
       fread(&value, sizeof(float), 1, data);
       float* datapoint = createFloat(value);
       datapoints->setAt(j, datapoint);
@@ -100,6 +100,17 @@ int cppdescent::compareEdges(Pointer first, Pointer second) {
     return 0;
 }
 
+int cppdescent::compareVertices(Pointer first, Pointer second) {
+  Vector* vec1 = (Vector*)first;
+  Vector* vec2 = (Vector*)second;
+
+  for (int i = 0; i < vec1->getSize(); i++)
+    if (compareFloats(vec1->getAt(i), vec2->getAt(i)))
+      return 1;
+
+  return 0;
+}
+
 void cppdescent::destroyEdges(GraphVertexPair* pair) {
   delete pair;
 }
@@ -112,7 +123,7 @@ int cppdescent::hashEdge(Pointer edge) {
 }
 
 Graph* cppdescent::KNNBruteForceGraph(Vector* data, int K) {
-  Graph* graph = new Graph((CompareFunc)compareFloats, nullptr);
+  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
   for (int i = 0; i < data->getSize(); i++) {

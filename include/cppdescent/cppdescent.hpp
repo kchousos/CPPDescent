@@ -44,9 +44,10 @@ int compareFloats(Pointer a, Pointer b);
  * be freed by the user.
  *
  * @param fp A string (char *) of the filepath to the binary dataset.
+ * @param dimensions The dimension of each point.
  * @return Vector* An N-sized vector with vectors for each element.
  */
-Vector* readBinData(char* fp);
+Vector* readBinData(char* fp, int dimensions);
 /**
  * @brief Frees the memory allocated to storing the dataset.
  *
@@ -74,6 +75,15 @@ float euclideanDistance(Vector* first, Vector* second);
  * @return int
  */
 int compareEdges(Pointer first, Pointer second);
+
+/**
+ * @brief Compares each dimension of the two points.
+ *
+ * @param first The first point.
+ * @param second The second point.
+ * @return int 0 if the points are the same on all dimensions, 1 otherwise.
+ */
+int compareVertices(Pointer first, Pointer second);
 
 int hashEdge(Pointer edge);
 
