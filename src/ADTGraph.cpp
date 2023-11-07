@@ -19,6 +19,12 @@ int* createInt(int value) {
   return p;
 }
 
+float* createFloat(float value) {
+  float* p = new float;
+  *p = value;
+  return p;
+}
+
 int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
   int first =
       pair1->getOwner()->getCompare()(pair1->getVertex1(), pair2->getVertex1());
@@ -34,10 +40,6 @@ int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
 
 void destroyVertexPair(GraphVertexPair* pair) {
   delete pair;
-  // if (pair->getVertex1() != nullptr)
-  //   pair->getOwner()->getDestroy()(pair->getVertex1());
-  // if (pair->getVertex2() != nullptr)
-  //   pair->getOwner()->getDestroy()(pair->getVertex2());
 }
 
 void destroyValue(Pointer value) {
@@ -57,9 +59,16 @@ int Graph::getSize() {
   return this->size;
 }
 
+/**
+ * @brief Insert a vertex to the graph (if it doesn't already exist).
+ *
+ * @param vertex A Pointer to the vertex to be unserted.
+ */
 void Graph::insertVertex(Pointer vertex) {
-  this->vec->insertLast(vertex);
-  this->size++;
+  if (this->vec->find(vertex, this->compare) == nullptr) {
+    this->vec->insertLast(vertex);
+    this->size++;
+  }
 }
 
 /**
@@ -103,10 +112,10 @@ void Graph::removeVertex(Pointer vertex) {
   }
 }
 
-void Graph::insertEdge(Pointer vertex1, Pointer vertex2, int weight = 1) {
+void Graph::insertEdge(Pointer vertex1, Pointer vertex2, float weight = 1) {
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
   this->map->setHashFunction(this->hash);
-  this->map->insert(pair, createInt(weight));
+  this->map->insert(pair, createFloat(weight));
 }
 
 void Graph::removeEdge(Pointer vertex1, Pointer vertex2) {
@@ -115,7 +124,7 @@ void Graph::removeEdge(Pointer vertex1, Pointer vertex2) {
   delete pair;
 }
 
-int Graph::getWeight(Pointer vertex1, Pointer vertex2) {
+float Graph::getWeight(Pointer vertex1, Pointer vertex2) {
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
   Pointer p = this->map->find(pair);
 

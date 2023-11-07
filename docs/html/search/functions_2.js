@@ -1,12 +1,6 @@
 var searchData=
 [
-  ['getat_0',['getAt',['../classVector.html#a590a87df6746cd387df2524e2d832ab8',1,'Vector']]],
-  ['getfirst_1',['getFirst',['../classMap.html#a48db76d089fd660a0f35b14716134a72',1,'Map']]],
-  ['gethead_2',['getHead',['../classList.html#a844cc92b5a773d0d97f505ff21bdec4a',1,'List']]],
-  ['getmax_3',['getMax',['../classPQueue.html#abd46c02910bd2948a44d978b94ccd3fc',1,'PQueue']]],
-  ['getnext_4',['getNext',['../classListNode.html#a3563e02bda689dc8780beac88b3ea7d3',1,'ListNode::getNext()'],['../classMap.html#a05882339098e9a6caa2099759ab77670',1,'Map::getNext()']]],
-  ['getsize_5',['getSize',['../classList.html#a4dc0be43de595d393c22aad3248df0d8',1,'List::getSize()'],['../classPQueue.html#ac053881ae6f631ee4cbbcf93873ad2a5',1,'PQueue::getSize()'],['../classVector.html#afd223e84f6158ab4872bada1d71f66aa',1,'Vector::getSize()']]],
-  ['gettail_6',['getTail',['../classList.html#a451bc8f2964e3ac355ba58578fb748ef',1,'List']]],
-  ['getvalue_7',['getValue',['../classListNode.html#aaeb10395874520ed219fadea44c311bb',1,'ListNode::getValue()'],['../classvectorNode.html#ad8ae81674fce739dd57527d0d5866852',1,'vectorNode::getValue()']]],
-  ['getvertices_8',['getVertices',['../classGraph.html#a5f6611ef49b5dd7c948feab09b8e7e35',1,'Graph']]]
+  ['find_0',['find',['../classList.html#ae54a4138d33f53bf59b6c324fdc8650f',1,'List::find()'],['../classVector.html#a4e4f24c760e61008e9d85a34209ec700',1,'Vector::find()']]],
+  ['findnode_1',['findNode',['../classList.html#a0938304c0c928798ba86057cac58165e',1,'List::findNode()'],['../classMap.html#a402ef5f9ef43bb93d87a4182468704ca',1,'Map::findNode()'],['../classVector.html#a5c9d10f0a216450d91e76553bf418b36',1,'Vector::findNode(Pointer value, CompareFunc compare)']]],
+  ['first_2',['first',['../classVector.html#a3865792908e675b0afd6c1d2df1ec99e',1,'Vector']]]
 ];

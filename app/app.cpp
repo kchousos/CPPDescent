@@ -2,6 +2,5 @@
 #include "cppdescent/cppdescent.hpp"
 
 int main(void) {
-  cppdescent test;
-  test.hello();
+  return 0;
 }

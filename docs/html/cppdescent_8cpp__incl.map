@@ -1,5 +1,12 @@
 <map id="cppdescent.cpp" name="cppdescent.cpp">
-<area shape="rect" id="node1" title="Implementation of cppdescent library." alt="" coords="117,5,230,31"/>
-<area shape="rect" id="node2" href="$cppdescent_8hpp_source.html" title=" " alt="" coords="5,79,189,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="213,79,285,104"/>
+<area shape="rect" id="node1" title="Implementation of the cppdescent library." alt="" coords="307,5,421,31"/>
+<area shape="rect" id="node2" href="$cppdescent_8hpp_source.html" title=" " alt="" coords="80,79,264,104"/>
+<area shape="rect" id="node8" title=" " alt="" coords="288,79,349,104"/>
+<area shape="rect" id="node9" title=" " alt="" coords="373,79,445,104"/>
+<area shape="rect" id="node10" href="$ADTPQueue_8hpp.html" title=" " alt="" coords="354,152,545,177"/>
+<area shape="rect" id="node3" href="$ADTGraph_8hpp.html" title="Abstract undirected graph with weighted edges." alt="" coords="118,152,226,177"/>
+<area shape="rect" id="node7" href="$ADTVector_8hpp.html" title="ADTVector implementation using a dynamic array." alt="" coords="246,225,357,251"/>
+<area shape="rect" id="node4" href="$ADTList_8hpp_source.html" title=" " alt="" coords="5,225,99,251"/>
+<area shape="rect" id="node6" href="$ADTMap_8hpp.html" title=" " alt="" coords="123,225,221,251"/>
+<area shape="rect" id="node5" href="$common_8hpp_source.html" title=" " alt="" coords="123,299,221,324"/>
 </map>

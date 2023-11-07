@@ -31,9 +31,9 @@ class Graph {
   void insertVertex(Pointer vertex);
   List* getVertices();
   void removeVertex(Pointer vertex);
-  void insertEdge(Pointer vertex1, Pointer vertex2, int weight);
+  void insertEdge(Pointer vertex1, Pointer vertex2, float weight);
   void removeEdge(Pointer vertex1, Pointer vertex2);
-  int getWeight(Pointer vertex1, Pointer vertex2);
+  float getWeight(Pointer vertex1, Pointer vertex2);
   List* getAdjacent(Pointer vertex);
   // Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);

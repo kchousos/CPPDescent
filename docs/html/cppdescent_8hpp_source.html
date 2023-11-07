@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;91cb4bc
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;7c2511d
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -79,12 +79,42 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classcppdescent.html">    6</a></span><span class="keyword">class </span><a class="code hl_class" href="classcppdescent.html">cppdescent</a> {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  <span class="keywordtype">int</span> <a class="code hl_function" href="classcppdescent.html#ace8d9b9bb62867f02f969753c2969602">hello</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>};</div>
-<div class="ttc" id="aclasscppdescent_html"><div class="ttname"><a href="classcppdescent.html">cppdescent</a></div><div class="ttdoc">A sample function for the cppdescent class, used to test the correctness of the CMake files.</div><div class="ttdef"><b>Definition:</b> cppdescent.hpp:6</div></div>
-<div class="ttc" id="aclasscppdescent_html_ace8d9b9bb62867f02f969753c2969602"><div class="ttname"><a href="classcppdescent.html#ace8d9b9bb62867f02f969753c2969602">cppdescent::hello</a></div><div class="ttdeci">int hello(void)</div><div class="ttdoc">Prints &quot;Hello World&quot;.</div><div class="ttdef"><b>Definition:</b> cppdescent.cpp:14</div></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="ADTGraph_8hpp.html">ADTGraph.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="ADTVector_8hpp.html">ADTVector.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define DEFAULT_POINTS_NUM 100</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">typedef</span> float (*DistanceFunc)(Pointer a, Pointer b);</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="namespacecppdescent.html">   16</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacecppdescent.html">cppdescent</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacecppdescent.html#ace2b295f94271ca4ecb69aea67eb3c52">deleteFloat</a>(Pointer value);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keywordtype">float</span>* <a class="code hl_function" href="namespacecppdescent.html#a739d29df7756d42ac23abeaec88b7011">createFloat</a>(<span class="keywordtype">float</span> value);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keywordtype">int</span> <a class="code hl_function" href="namespacecppdescent.html#a16282021e6dfc35fe06759b8c7e54b5f">compareFloats</a>(Pointer a, Pointer b);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><a class="code hl_class" href="classVector.html">Vector</a>* <a class="code hl_function" href="namespacecppdescent.html#a91f2b3b888319fdda16617b1d4322ea4">readBinData</a>(<span class="keywordtype">char</span>* fp, <span class="keywordtype">int</span> dimensions);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keywordtype">int</span> <a class="code hl_function" href="namespacecppdescent.html#aeb50415af86d6c71d7747acc4f53f4a6">deleteDatapointVectors</a>(<a class="code hl_class" href="classVector.html">Vector</a>* vec);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keywordtype">int</span> <a class="code hl_function" href="namespacecppdescent.html#a9a8d90b3c4cf7aeb2bdeb779ba30158f">compareVertices</a>(Pointer first, Pointer second);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">int</span> hashEdge(Pointer edge);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">void</span> destroyEdges(<a class="code hl_class" href="classGraphVertexPair.html">GraphVertexPair</a>* pair);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><a class="code hl_class" href="classGraph.html">Graph</a>* <a class="code hl_function" href="namespacecppdescent.html#a3d5c832c39245e41693b9b0245696ca7">KNNBruteForceGraph</a>(<a class="code hl_class" href="classVector.html">Vector</a>* data,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                          <span class="keywordtype">int</span> K,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                          CompareFunc compare,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                          DistanceFunc distance);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>};  <span class="comment">// namespace cppdescent</span></div>
+<div class="ttc" id="aADTGraph_8hpp_html"><div class="ttname"><a href="ADTGraph_8hpp.html">ADTGraph.hpp</a></div><div class="ttdoc">Abstract undirected graph with weighted edges.</div></div>
+<div class="ttc" id="aADTVector_8hpp_html"><div class="ttname"><a href="ADTVector_8hpp.html">ADTVector.hpp</a></div><div class="ttdoc">ADTVector implementation using a dynamic array.</div></div>
+<div class="ttc" id="aclassGraphVertexPair_html"><div class="ttname"><a href="classGraphVertexPair.html">GraphVertexPair</a></div><div class="ttdef"><b>Definition:</b> ADTGraph.hpp:45</div></div>
+<div class="ttc" id="aclassGraph_html"><div class="ttname"><a href="classGraph.html">Graph</a></div><div class="ttdef"><b>Definition:</b> ADTGraph.hpp:18</div></div>
+<div class="ttc" id="aclassVector_html"><div class="ttname"><a href="classVector.html">Vector</a></div><div class="ttdoc">ADT Vector.</div><div class="ttdef"><b>Definition:</b> ADTVector.hpp:58</div></div>
+<div class="ttc" id="anamespacecppdescent_html"><div class="ttname"><a href="namespacecppdescent.html">cppdescent</a></div><div class="ttdoc">Functions for the creation of a K-NN graph.</div><div class="ttdef"><b>Definition:</b> cppdescent.hpp:16</div></div>
+<div class="ttc" id="anamespacecppdescent_html_a16282021e6dfc35fe06759b8c7e54b5f"><div class="ttname"><a href="namespacecppdescent.html#a16282021e6dfc35fe06759b8c7e54b5f">cppdescent::compareFloats</a></div><div class="ttdeci">int compareFloats(Pointer a, Pointer b)</div><div class="ttdoc">Compares two floats.</div><div class="ttdef"><b>Definition:</b> cppdescent.cpp:26</div></div>
+<div class="ttc" id="anamespacecppdescent_html_a3d5c832c39245e41693b9b0245696ca7"><div class="ttname"><a href="namespacecppdescent.html#a3d5c832c39245e41693b9b0245696ca7">cppdescent::KNNBruteForceGraph</a></div><div class="ttdeci">Graph * KNNBruteForceGraph(Vector *data, int K, CompareFunc compare, DistanceFunc distance)</div><div class="ttdoc">Computes the K-NN graph using brute force.</div><div class="ttdef"><b>Definition:</b> cppdescent.cpp:92</div></div>
+<div class="ttc" id="anamespacecppdescent_html_a739d29df7756d42ac23abeaec88b7011"><div class="ttname"><a href="namespacecppdescent.html#a739d29df7756d42ac23abeaec88b7011">cppdescent::createFloat</a></div><div class="ttdeci">float * createFloat(float value)</div><div class="ttdoc">Create a heap-allocated float.</div><div class="ttdef"><b>Definition:</b> cppdescent.cpp:20</div></div>
+<div class="ttc" id="anamespacecppdescent_html_a91f2b3b888319fdda16617b1d4322ea4"><div class="ttname"><a href="namespacecppdescent.html#a91f2b3b888319fdda16617b1d4322ea4">cppdescent::readBinData</a></div><div class="ttdeci">Vector * readBinData(char *fp, int dimensions)</div><div class="ttdoc">Reads the data from a binary file.</div><div class="ttdef"><b>Definition:</b> cppdescent.cpp:31</div></div>
+<div class="ttc" id="anamespacecppdescent_html_a9a8d90b3c4cf7aeb2bdeb779ba30158f"><div class="ttname"><a href="namespacecppdescent.html#a9a8d90b3c4cf7aeb2bdeb779ba30158f">cppdescent::compareVertices</a></div><div class="ttdeci">int compareVertices(Pointer first, Pointer second)</div><div class="ttdoc">Compares each dimension of the two points.</div><div class="ttdef"><b>Definition:</b> cppdescent.cpp:70</div></div>
+<div class="ttc" id="anamespacecppdescent_html_ace2b295f94271ca4ecb69aea67eb3c52"><div class="ttname"><a href="namespacecppdescent.html#ace2b295f94271ca4ecb69aea67eb3c52">cppdescent::deleteFloat</a></div><div class="ttdeci">void deleteFloat(Pointer value)</div><div class="ttdoc">Delete a heap-allocated float.</div><div class="ttdef"><b>Definition:</b> cppdescent.cpp:16</div></div>
+<div class="ttc" id="anamespacecppdescent_html_aeb50415af86d6c71d7747acc4f53f4a6"><div class="ttname"><a href="namespacecppdescent.html#aeb50415af86d6c71d7747acc4f53f4a6">cppdescent::deleteDatapointVectors</a></div><div class="ttdeci">int deleteDatapointVectors(Vector *vec)</div><div class="ttdoc">Frees the memory allocated to storing the dataset.</div><div class="ttdef"><b>Definition:</b> cppdescent.cpp:59</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

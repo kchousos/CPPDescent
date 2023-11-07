@@ -9,6 +9,7 @@ set(HEADERS
 
 set(SOURCES
   ${PROJECT_SOURCE_DIR}/src/cppdescent.cpp
+  ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp
   # ${PROJECT_SOURCE_DIR}/src/linkedList.cpp
   # ${PROJECT_SOURCE_DIR}/src/listNode.cpp
 )

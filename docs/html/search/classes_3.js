@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['map_0',['Map',['../classMap.html',1,'']]],
-  ['mapnode_1',['MapNode',['../classMapNode.html',1,'']]]
+  ['pqueue_0',['PQueue',['../classPQueue.html',1,'']]]
 ];

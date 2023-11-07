@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;91cb4bc
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;7c2511d
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -86,8 +86,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7d965333f0ae9e6727676db3224ec4b"><td class="memItemLeft" align="right" valign="top"><a id="ab7d965333f0ae9e6727676db3224ec4b" name="ab7d965333f0ae9e6727676db3224ec4b"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>getSize</b> ()</td></tr>
 <tr class="separator:ab7d965333f0ae9e6727676db3224ec4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="memItemLeft" align="right" valign="top"><a id="aa6d1efd712d1f5edfb2f9fb645690f09" name="aa6d1efd712d1f5edfb2f9fb645690f09"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>insertVertex</b> (Pointer vertex)</td></tr>
+<tr class="memitem:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#aa6d1efd712d1f5edfb2f9fb645690f09">insertVertex</a> (Pointer vertex)</td></tr>
+<tr class="memdesc:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a vertex to the graph (if it doesn't already exist).  <br /></td></tr>
 <tr class="separator:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#a5f6611ef49b5dd7c948feab09b8e7e35">getVertices</a> ()</td></tr>
 <tr class="memdesc:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">The returned list needs to be deleted, but the list's elements are pointers the the vector's elements, so the list shouldn't have a <code>destroyValue</code>.  <br /></td></tr>
@@ -95,15 +95,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>insertVertex</b> (Poi
 <tr class="memitem:a4e582c71907028054f879a7ed1368a33"><td class="memItemLeft" align="right" valign="top"><a id="a4e582c71907028054f879a7ed1368a33" name="a4e582c71907028054f879a7ed1368a33"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>removeVertex</b> (Pointer vertex)</td></tr>
 <tr class="separator:a4e582c71907028054f879a7ed1368a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78318a77de562d8ca92232387f145356"><td class="memItemLeft" align="right" valign="top"><a id="a78318a77de562d8ca92232387f145356" name="a78318a77de562d8ca92232387f145356"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>insertEdge</b> (Pointer vertex1, Pointer vertex2, int weight)</td></tr>
-<tr class="separator:a78318a77de562d8ca92232387f145356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa777d7b8755c673d9850aaf95e883407"><td class="memItemLeft" align="right" valign="top"><a id="aa777d7b8755c673d9850aaf95e883407" name="aa777d7b8755c673d9850aaf95e883407"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>insertEdge</b> (Pointer vertex1, Pointer vertex2, float weight)</td></tr>
+<tr class="separator:aa777d7b8755c673d9850aaf95e883407"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dcaa864c285e0dead022feafa9760a3"><td class="memItemLeft" align="right" valign="top"><a id="a2dcaa864c285e0dead022feafa9760a3" name="a2dcaa864c285e0dead022feafa9760a3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdge</b> (Pointer vertex1, Pointer vertex2)</td></tr>
 <tr class="separator:a2dcaa864c285e0dead022feafa9760a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a303eaee2f6ca72beee51dfefa03e7cd0"><td class="memItemLeft" align="right" valign="top"><a id="a303eaee2f6ca72beee51dfefa03e7cd0" name="a303eaee2f6ca72beee51dfefa03e7cd0"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getWeight</b> (Pointer vertex1, Pointer vertex2)</td></tr>
-<tr class="separator:a303eaee2f6ca72beee51dfefa03e7cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c0d77f2facbccbf6b40aa5f57df321a"><td class="memItemLeft" align="right" valign="top"><a id="a3c0d77f2facbccbf6b40aa5f57df321a" name="a3c0d77f2facbccbf6b40aa5f57df321a"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>getWeight</b> (Pointer vertex1, Pointer vertex2)</td></tr>
+<tr class="separator:a3c0d77f2facbccbf6b40aa5f57df321a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f9b79711bcc8719699f2e33069053c3"><td class="memItemLeft" align="right" valign="top"><a id="a8f9b79711bcc8719699f2e33069053c3" name="a8f9b79711bcc8719699f2e33069053c3"></a>
 <a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getAdjacent</b> (Pointer vertex)</td></tr>
 <tr class="separator:a8f9b79711bcc8719699f2e33069053c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,6 +138,32 @@ HashFunc&#160;</td><td class="memItemRight" valign="bottom"><b>getHash</b> ()</t
 
 <p>The returned list needs to be deleted, but the list's elements are pointers the the vector's elements, so the list shouldn't have a <code>destroyValue</code>. </p>
 <dl class="section return"><dt>Returns</dt><dd>List* </dd></dl>
+
+</div>
+</div>
+<a id="aa6d1efd712d1f5edfb2f9fb645690f09" name="aa6d1efd712d1f5edfb2f9fb645690f09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6d1efd712d1f5edfb2f9fb645690f09">&#9670;&#160;</a></span>insertVertex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Graph::insertVertex </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>vertex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Insert a vertex to the graph (if it doesn't already exist). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertex</td><td>A Pointer to the vertex to be unserted. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
