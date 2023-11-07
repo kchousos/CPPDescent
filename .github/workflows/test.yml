@@ -1,5 +1,9 @@
 name: tests
 
+defaults:
+  run:
+    working-directory: ./
+
 on:
   push:
     branches: [ master ]
