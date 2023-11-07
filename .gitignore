@@ -8,6 +8,7 @@ docs/latex/**
 
 test/*.info
 
-datasets/10000000.bin
+datasets/**
+!datasets/00000020.bin
 
 vgcore.*
