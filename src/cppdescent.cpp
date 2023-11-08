@@ -23,9 +23,8 @@ float* cppdescent::createFloat(float value) {
   return p;
 }
 
-int cppdescent::compareFloats(Pointer a, Pointer b) {
-  return (int)((float*)a - (float*)b);
-  ;
+float cppdescent::compareFloats(Pointer a, Pointer b) {
+  return (*(float*)a - *(float*)b);
 }
 
 Vector* cppdescent::readBinData(char* fp, int dimensions) {
@@ -44,8 +43,7 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
 
     for (int j = 0; j < dimensions; j++) {
       fread(&value, sizeof(float), 1, data);
-      float* datapoint = createFloat(value);
-      datapoints->setAt(j, datapoint);
+      datapoints->setAt(j, createFloat(value));
     }
 
     elements->setAt(i, datapoints);
@@ -174,6 +172,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
         GraphVertexPair* pair = new GraphVertexPair(
             graph, (Pointer)data->getAt(i), (Pointer)data->getAt(j));
 
+        // further than the Kth neighbor
         if (compare((Pointer)pair, (Pointer)neighborsEdges[K - 1]) <= 0) {
           destroyEdges(pair);
           continue;
@@ -186,8 +185,6 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
             break;
           }
         }
-
-        // destroyEdges(pair);
       }
     }
 

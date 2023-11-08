@@ -7,7 +7,7 @@
 
 #define DEFAULT_POINTS_NUM 100
 
-typedef float (*DistanceFunc)(Pointer a, Pointer b);
+typedef long double (*DistanceFunc)(Pointer a, Pointer b);
 
 /**
  * @brief Functions for the creation of a K-NN graph.
@@ -34,7 +34,7 @@ float* createFloat(float value);
  * @param b Second float pointer.
  * @return int > 0 if a > b, 0 if a == b, < 0 if a < b.
  */
-int compareFloats(Pointer a, Pointer b);
+float compareFloats(Pointer a, Pointer b);
 /**
  * @brief Reads the data from a binary file.
  *
