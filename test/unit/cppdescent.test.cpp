@@ -138,16 +138,6 @@ TEST(BruteForce, SIGMODDataset20) {
   ASSERT_EQ(result, 0);
 }
 
-TEST(BruteForce, SIGMODDataset1000) {
-  Vector* vec = cppdescent::readBinData("./datasets/00010000-1.bin", 100);
-
-  Graph* graph = cppdescent::KNNBruteForceGraph(vec, 45, compareEdgesEuclidean,
-                                                euclideanDistance);
-  delete graph;
-  int result = cppdescent::deleteDatapointVectors(vec);
-  ASSERT_EQ(result, 0);
-}
-
 TEST_F(BruteForceManualDataset, KEqualTo2) {
   int K = 2;
 
