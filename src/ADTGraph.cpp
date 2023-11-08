@@ -153,6 +153,25 @@ List* Graph::getAdjacent(Pointer vertex) {
   return list;
 }
 
+List* Graph::getReverseAdjacent(Pointer vertex) {
+  List* list = new List;
+  ListNode* node = LIST_BOF;
+
+  for (int i = 0; i < this->size; i++) {
+   GraphVertexPair* pair =  new GraphVertexPair(this, this->vec->getAt(i), vertex);
+   if (this->map->find(pair) != MAP_EOF) {
+    list->insertNext(node, pair->getVertex1());
+    if (node != nullptr)
+      node = list->next(node);
+    else 
+      node = list->getHead();
+   }
+    delete pair;
+  }
+
+  return list;
+}
+
 Graph::~Graph() {
   delete this->vec;
   delete this->map;

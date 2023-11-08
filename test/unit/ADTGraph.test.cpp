@@ -148,3 +148,43 @@ TEST(ADTGraphTest, getAdjacent) {
   delete list2;
   delete graph;
 }
+
+TEST(ADTGraphTest, getReverseAdjacent) {
+  Graph* graph = new Graph(compareInts, deleteInts);
+
+  graph->setHashFunction(hashPointer);
+
+  int N = 1000;
+
+  int** vertexArray = new int*[N];
+
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = createIntValue(i);
+    graph->insertVertex(vertexArray[i]);
+    List* list = graph->getVertices();
+    int* value = createIntValue(i);
+    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    delete value;
+    delete list;
+  }
+  
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray[i], vertexArray[0], i);
+
+  List* list2 = graph->getReverseAdjacent(vertexArray[0]);
+  ASSERT_NE(list2->getHead(), nullptr);
+
+  ListNode* node = list2->getHead();
+
+  for (int i = 1; i < N; i++) {
+    ASSERT_EQ(node->getValue(), vertexArray[i]) << "i: " << i << "\n";
+    node = list2->next(node);
+  }
+
+  for (int i = 0; i < N; i++)
+    delete vertexArray[i];
+
+  delete[] vertexArray;
+  delete list2;
+  delete graph;
+}
