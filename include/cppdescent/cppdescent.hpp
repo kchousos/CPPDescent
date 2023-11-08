@@ -128,4 +128,6 @@ Graph* KNNBruteForceGraph(Vector* data,
                           int K,
                           CompareFunc compare,
                           DistanceFunc distance);
+
+Graph* NNDescent(Vector* data, int K, CompareFunc compare, DistanceFunc distance);
 };  // namespace cppdescent
