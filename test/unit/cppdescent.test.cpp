@@ -110,11 +110,7 @@ struct BruteForceManualDataset : testing::Test {
 // }
 
 TEST(BruteForce, SIGMODDataset20) {
-  Vector* vec = cppdescent::readBinData(
-      "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
-      "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
-      "1/datasets/00000020.bin",
-      100);
+  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
 
   int K[] = {3, 5, 10};
 
