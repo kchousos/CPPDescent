@@ -7,7 +7,7 @@
 
 #define DEFAULT_POINTS_NUM 100
 
-typedef long double (*DistanceFunc)(Pointer a, Pointer b);
+typedef float (*DistanceFunc)(Pointer a, Pointer b);
 
 /**
  * @brief Functions for the creation of a K-NN graph.

@@ -21,10 +21,10 @@
  * @param second A pointer to the second point.
  * @return long double The Euclidean distance.
  */
-long double euclideanDistance(Pointer a, Pointer b) {
+float euclideanDistance(Pointer a, Pointer b) {
   Vector* first = (Vector*)a;
   Vector* second = (Vector*)b;
-  long double result = 0;
+  float result = 0;
 
   if (first->getSize() != second->getSize())
     return -1.0;
@@ -34,7 +34,7 @@ long double euclideanDistance(Pointer a, Pointer b) {
     result += diff * diff;
   }
 
-  result = sqrtl(result);
+  result = sqrtf(result);
   return result;
 }
 
@@ -49,10 +49,10 @@ int compareEdgesEuclidean(Pointer first, Pointer second) {
   GraphVertexPair* pair1 = (GraphVertexPair*)first;
   GraphVertexPair* pair2 = (GraphVertexPair*)second;
 
-  long double a = euclideanDistance((Vector*)pair1->getVertex1(),
-                                    (Vector*)pair1->getVertex2());
-  long double b = euclideanDistance((Vector*)pair2->getVertex1(),
-                                    (Vector*)pair2->getVertex2());
+  float a = euclideanDistance((Vector*)pair1->getVertex1(),
+                              (Vector*)pair1->getVertex2());
+  float b = euclideanDistance((Vector*)pair2->getVertex1(),
+                              (Vector*)pair2->getVertex2());
 
   int value = 0;
   if (b > a) {
@@ -95,26 +95,22 @@ struct BruteForceManualDataset : testing::Test {
   Vector* vec = new Vector(5, nullptr);
 };
 
-// TEST(IO, readData) {
-//   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
-//   ASSERT_NE(vec, nullptr);
+TEST(IO, readData) {
+  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
+  ASSERT_NE(vec, nullptr);
 
-//   float lastValue = 0.0726192221;
+  float lastValue = 0.0726192221;
 
-//   Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
-//   ASSERT_FLOAT_EQ(lastValue,
-//                   *(float*)lastElement->getAt(lastElement->getSize() - 1));
+  Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
+  ASSERT_FLOAT_EQ(lastValue,
+                  *(float*)lastElement->getAt(lastElement->getSize() - 1));
 
-//   int result = cppdescent::deleteDatapointVectors(vec);
-//   ASSERT_EQ(result, 0);
-// }
+  int result = cppdescent::deleteDatapointVectors(vec);
+  ASSERT_EQ(result, 0);
+}
 
 TEST(BruteForce, SIGMODDataset20) {
-  Vector* vec = cppdescent::readBinData(
-      "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
-      "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
-      "1/datasets/00000020.bin",
-      100);
+  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
 
   int K[] = {3, 5, 10};
 
@@ -142,34 +138,34 @@ TEST(BruteForce, SIGMODDataset20) {
   ASSERT_EQ(result, 0);
 }
 
-// TEST(BruteForce, SIGMODDataset1000) {
-//   Vector* vec = cppdescent::readBinData("./datasets/00001000-1.bin", 100);
+TEST(BruteForce, SIGMODDataset1000) {
+  Vector* vec = cppdescent::readBinData("./datasets/00001000-1.bin", 100);
 
-//   int K[] = {4, 5, 10};
+  int K[] = {10, 5, 10};
 
-//   for (int k = 0; k < 1; k++) {
-//     Graph* graph = cppdescent::KNNBruteForceGraph(
-//         vec, K[k], compareEdgesEuclidean, euclideanDistance);
+  for (int k = 0; k < 1; k++) {
+    Graph* graph = cppdescent::KNNBruteForceGraph(
+        vec, K[k], compareEdgesEuclidean, euclideanDistance);
 
-//     // List* vertices = graph->getVertices();
-//     // ASSERT_EQ(vertices->getSize(), 1000);
+    // List* vertices = graph->getVertices();
+    // ASSERT_EQ(vertices->getSize(), 1000);
 
-//     // ListNode* vertex = vertices->getHead();
+    // ListNode* vertex = vertices->getHead();
 
-//     // for (int i = 0; i < vertices->getSize(); i++) {
-//     //   List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
-//     //   ASSERT_EQ(adjacent->getSize(), K[k]);
-//     //   delete adjacent;
-//     //   vertex = vertex->getNext();
-//     // }
+    // for (int i = 0; i < vertices->getSize(); i++) {
+    //   List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+    //   ASSERT_EQ(adjacent->getSize(), K[k]);
+    //   delete adjacent;
+    //   vertex = vertex->getNext();
+    // }
 
-//     // delete vertices;
-//     delete graph;
-//   }
+    // delete vertices;
+    delete graph;
+  }
 
-//   int result = cppdescent::deleteDatapointVectors(vec);
-//   ASSERT_EQ(result, 0);
-// }
+  int result = cppdescent::deleteDatapointVectors(vec);
+  ASSERT_EQ(result, 0);
+}
 
 TEST_F(BruteForceManualDataset, KEqualTo2) {
   int K = 2;
