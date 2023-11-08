@@ -55,7 +55,7 @@ int compareEdgesEuclidean(Pointer first, Pointer second) {
                                     (Vector*)pair2->getVertex2());
 
   int value = 0;
-  if (a < b) {
+  if (b > a) {
     value = 1;
   } else if (a > b) {
     value = -1;
@@ -111,7 +111,7 @@ struct BruteForceManualDataset : testing::Test {
 
 TEST(BruteForce, SIGMODDataset20) {
   Vector* vec = cppdescent::readBinData(
-      "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
+      "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
       "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
       "1/datasets/00000020.bin",
       100);

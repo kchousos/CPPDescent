@@ -91,11 +91,24 @@ void EdgesQuickSort(GraphVertexPair** edges,
  * @param edges An array of edges.
  * @param size The size of the array.
  * @param compare The function to use for comparisons.
- * @return GraphVertexPair** The sorted array.
  */
-GraphVertexPair** EdgesBubbleSort(GraphVertexPair** edges,
-                                  int size,
-                                  CompareFunc compare);
+void EdgesBubbleSort(GraphVertexPair** edges, int size, CompareFunc compare);
+/**
+ * @brief Searches for an edge in the edges array.
+ *
+ * @param edges The array.
+ * @param edge The edge to search.
+ * @param low
+ * @param high
+ * @param compare The function to use for comparisons.
+ * @return true If the edge was found.
+ * @return false If the edge was not found.
+ */
+bool EdgesBinarySearch(GraphVertexPair** edges,
+                       GraphVertexPair* edge,
+                       int low,
+                       int high,
+                       CompareFunc compare);
 /**
  * @brief Computes the K-NN graph using brute force.
  *
