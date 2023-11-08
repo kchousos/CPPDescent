@@ -78,10 +78,9 @@ int* createIntValue(int value) {
  * @return unsigned int The hash value.
  */
 uint hashPointer(Pointer value) {
-  // return (size_t)&value;
-  int* v = (int*)value;
-  v = v + 1;
-  return 0;
+  GraphVertexPair* pair = (GraphVertexPair*)value;
+  size_t hash = (size_t)pair->getVertex1() + (size_t)pair->getVertex2();
+  return hash;
 }
 
 TEST(ADTGraphTest, create) {
@@ -119,10 +118,7 @@ TEST(ADTGraphTest, removeEdges) {
       graph->removeEdge(vertexArray[i], vertexArray[j]);
       List* adjacent = graph->getAdjacent(vertexArray[i]);
       ASSERT_EQ(adjacent->getSize(), N - j - 1);
-      // GraphVertexPair* pair =
-      //     new GraphVertexPair(graph, vertexArray[i], vertexArray[j]);
       ASSERT_EQ(adjacent->find(vertexArray[j], compareInts), nullptr);
-      // delete pair;
       delete adjacent;
     }
 

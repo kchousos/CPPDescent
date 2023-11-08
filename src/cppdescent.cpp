@@ -83,11 +83,10 @@ void destroyEdges(GraphVertexPair* pair) {
   delete pair;
 }
 
-// FIXME
-int hashEdge(Pointer edge) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)edge;
-  pair1->getVertex1();
-  return 0;
+uint hashEdge(Pointer value) {
+  GraphVertexPair* pair = (GraphVertexPair*)value;
+  size_t hash = (size_t)pair->getVertex1() + (size_t)pair->getVertex2();
+  return hash;
 }
 
 //===================================
