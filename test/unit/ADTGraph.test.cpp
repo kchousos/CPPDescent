@@ -167,7 +167,7 @@ TEST(ADTGraphTest, getReverseAdjacent) {
     delete value;
     delete list;
   }
-  
+
   for (int i = 1; i < N; i++)
     graph->insertEdge(vertexArray[i], vertexArray[0], i);
 
