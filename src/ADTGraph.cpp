@@ -113,6 +113,9 @@ void Graph::removeVertex(Pointer vertex) {
 }
 
 void Graph::insertEdge(Pointer vertex1, Pointer vertex2, float weight = 1) {
+  if (this->vec->find(vertex1, this->compare) == nullptr ||
+      this->vec->find(vertex2, this->compare) == nullptr)
+    return;
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
   this->map->setHashFunction(this->hash);
   this->map->insert(pair, createFloat(weight));
