@@ -127,9 +127,10 @@ void Graph::removeEdge(Pointer vertex1, Pointer vertex2) {
 float Graph::getWeight(Pointer vertex1, Pointer vertex2) {
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
   Pointer p = this->map->find(pair);
+  delete pair;
 
   if (p != nullptr)
-    return *(int*)p;
+    return *(float*)p;
   return INT_MAX;
 }
 

@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['setat_0',['setAt',['../classVector.html#a75d224bbd1157bfd2a406effb5e4feb4',1,'Vector']]],
-  ['setdestroyvalue_1',['setDestroyValue',['../classList.html#a9539368422a4fac7a2115a96a0994320',1,'List::setDestroyValue()'],['../classPQueue.html#a7e014d3c439411d1b5ea4bb2f07dc568',1,'PQueue::setDestroyValue()'],['../classVector.html#add8e89941c897044323f789d2455feab',1,'Vector::setDestroyValue()']]],
-  ['setnext_2',['setNext',['../classListNode.html#a3c27820cf91c91c8c6ffce90b848f316',1,'ListNode']]],
-  ['setvalue_3',['setValue',['../classvectorNode.html#ab2b270e0e84a56240454057d58539c40',1,'vectorNode']]]
+  ['vector_0',['Vector',['../classVector.html#ae4c9d7065b92e279643f3bb114fd98d2',1,'Vector']]],
+  ['vectornode_1',['vectorNode',['../classvectorNode.html#aa7df59b27f1ed88adf9b092adc309b5f',1,'vectorNode']]]
 ];

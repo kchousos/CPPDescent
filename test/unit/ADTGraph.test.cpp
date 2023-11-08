@@ -24,6 +24,17 @@ int compareInts(Pointer a, Pointer b) {
   return *(int*)a - *(int*)b;
 }
 
+int compareEdges(Pointer first, Pointer second) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)first;
+  GraphVertexPair* pair2 = (GraphVertexPair*)second;
+
+  if (pair1->getVertex1() != pair2->getVertex1() ||
+      pair1->getVertex2() != pair2->getVertex2())
+    return 1;
+
+  return 0;
+}
+
 /**
  * @brief Delete an int pointer.
  *
@@ -64,6 +75,46 @@ TEST(ADTGraphTest, create) {
   ASSERT_NE(graph, nullptr);
   ASSERT_EQ(graph->getSize(), 0);
 
+  delete graph;
+}
+
+TEST(ADTGraphTest, removeEdges) {
+  Graph* graph = new Graph(compareInts, deleteInts);
+
+  graph->setHashFunction(hashPointer);
+  int N = 10;
+
+  int** vertexArray = new int*[N];
+
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = createIntValue(i);
+    graph->insertVertex(vertexArray[i]);
+  }
+
+  for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++) {
+      graph->insertEdge(vertexArray[i], vertexArray[j],
+                        *vertexArray[i] - *vertexArray[j]);
+      ASSERT_FLOAT_EQ(graph->getWeight(vertexArray[i], vertexArray[j]),
+                      *vertexArray[i] - *vertexArray[j]);
+    }
+
+  for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++) {
+      graph->removeEdge(vertexArray[i], vertexArray[j]);
+      List* adjacent = graph->getAdjacent(vertexArray[i]);
+      ASSERT_EQ(adjacent->getSize(), N - j - 1);
+      GraphVertexPair* pair =
+          new GraphVertexPair(graph, vertexArray[i], vertexArray[j]);
+      ASSERT_EQ(adjacent->find(pair, compareEdges), nullptr);
+      delete pair;
+      delete adjacent;
+    }
+
+  for (int i = 0; i < N; i++)
+    delete vertexArray[i];
+
+  delete[] vertexArray;
   delete graph;
 }
 
