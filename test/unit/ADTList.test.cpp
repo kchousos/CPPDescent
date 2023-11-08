@@ -167,7 +167,7 @@ TEST(ADTListTest, tail) {
   ASSERT_EQ(empty, nullptr);
 
   int N = 5;
-  int* array = new int[N * sizeof(*array)];
+  int* array = new int[N];
 
   for (int i = 0; i < N; i++)
     list->insertNext(LIST_BOF, &array[i]);
@@ -186,6 +186,7 @@ TEST(ADTListTest, tail) {
   newTail = list->getTail();
   ASSERT_EQ(newTail, oldTail);
 
+  delete[] array;
   delete num;
   delete list;
 }
