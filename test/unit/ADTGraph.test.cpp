@@ -24,16 +24,31 @@ int compareInts(Pointer a, Pointer b) {
   return *(int*)a - *(int*)b;
 }
 
-int compareEdges(Pointer first, Pointer second) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)first;
-  GraphVertexPair* pair2 = (GraphVertexPair*)second;
-
-  if (pair1->getVertex1() != pair2->getVertex1() ||
-      pair1->getVertex2() != pair2->getVertex2())
-    return 1;
+int compareEdges(Pointer a, Pointer b) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)a;
+  GraphVertexPair* pair2 = (GraphVertexPair*)b;
+  int first =
+      pair1->getOwner()->getCompare()(pair1->getVertex1(), pair2->getVertex1());
+  int second =
+      pair1->getOwner()->getCompare()(pair1->getVertex2(), pair2->getVertex2());
+  if (first)
+    return first;
+  else if (second)
+    return second;
 
   return 0;
 }
+
+// int compareEdges(Pointer first, Pointer second) {
+//   GraphVertexPair* pair1 = (GraphVertexPair*)first;
+//   GraphVertexPair* pair2 = (GraphVertexPair*)second;
+
+//   if (pair1->getVertex1() != pair2->getVertex1() ||
+//       pair1->getVertex2() != pair2->getVertex2())
+//     return 1;
+
+//   return 0;
+// }
 
 /**
  * @brief Delete an int pointer.
@@ -104,10 +119,10 @@ TEST(ADTGraphTest, removeEdges) {
       graph->removeEdge(vertexArray[i], vertexArray[j]);
       List* adjacent = graph->getAdjacent(vertexArray[i]);
       ASSERT_EQ(adjacent->getSize(), N - j - 1);
-      GraphVertexPair* pair =
-          new GraphVertexPair(graph, vertexArray[i], vertexArray[j]);
-      ASSERT_EQ(adjacent->find(pair, compareEdges), nullptr);
-      delete pair;
+      // GraphVertexPair* pair =
+      //     new GraphVertexPair(graph, vertexArray[i], vertexArray[j]);
+      ASSERT_EQ(adjacent->find(vertexArray[j], compareInts), nullptr);
+      // delete pair;
       delete adjacent;
     }
 
