@@ -3,8 +3,8 @@ var indexSectionsWithContent =
   0: "acdfgiklmnprsv~",
   1: "glmpv",
   2: "c",
-  3: "acl",
-  4: "cdfgiklmnprsv~",
+  3: "ac",
+  4: "dfgiklmnprsv~",
   5: "p",
   6: "c"
 };
