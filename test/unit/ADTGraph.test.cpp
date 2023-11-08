@@ -188,3 +188,51 @@ TEST(ADTGraphTest, getReverseAdjacent) {
   delete list2;
   delete graph;
 }
+
+TEST(ADTGraphTest, getGeneralNeighbors) {
+  Graph* graph = new Graph(compareInts, deleteInts);
+
+  graph->setHashFunction(hashPointer);
+
+  int N = 1000;
+
+  int** vertexArray = new int*[N];
+
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = createIntValue(i);
+    graph->insertVertex(vertexArray[i]);
+    List* list = graph->getVertices();
+    int* value = createIntValue(i);
+    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    delete value;
+    delete list;
+  }
+
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray[0], vertexArray[i], i);
+
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray[i], vertexArray[0], i);
+
+  List* list = graph->getGeneralNeighbors(vertexArray[0]);
+  ASSERT_NE(list->getHead(), nullptr);
+
+  ListNode* node = list->getHead();
+
+  for (int i = 1; i < 2 * N - 1; i++) {
+    if (i < N) {
+      ASSERT_EQ(node->getValue(), vertexArray[i]) << "i: " << i << "\n";
+      node = list->next(node);
+    } else {
+      ASSERT_EQ(node->getValue(), vertexArray[i - N + 1]) << "i: " << i << "\n";
+      node = list->next(node);
+    }
+  }
+
+  for (int i = 0; i < N; i++)
+    delete vertexArray[i];
+
+  delete[] vertexArray;
+  delete list;
+  delete graph;
+}

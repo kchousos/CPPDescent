@@ -36,6 +36,7 @@ class Graph {
   float getWeight(Pointer vertex1, Pointer vertex2);
   List* getAdjacent(Pointer vertex);
   List* getReverseAdjacent(Pointer vertex);
+  List* getGeneralNeighbors(Pointer vertex);
   // Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
   CompareFunc getCompare() { return this->compare; };

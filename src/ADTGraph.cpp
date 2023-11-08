@@ -173,6 +173,14 @@ List* Graph::getReverseAdjacent(Pointer vertex) {
   return list;
 }
 
+List* Graph::getGeneralNeighbors(Pointer vertex) {
+  List* generalNeighbors = this->getAdjacent(vertex);
+  List* reverseAdjList = this->getReverseAdjacent(vertex);
+
+  generalNeighbors->getTail()->setNext(reverseAdjList->getHead());
+  return generalNeighbors;
+}
+
 Graph::~Graph() {
   delete this->vec;
   delete this->map;
