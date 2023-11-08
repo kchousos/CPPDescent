@@ -221,3 +221,24 @@ ListNode* ListNode::getNext() {
 Pointer ListNode::getValue() {
   return this->value;
 }
+
+/**
+ * @brief Concatenation of 2 lists (Result: list1->list2).
+ *
+ * @param list List to be merged with this.
+ * @return int Returns 0 in case of success, -1 in any other case.
+ */
+int List::mergeLists(List* list) {
+  if (list == nullptr || list->getHead() == LIST_BOF)
+    return -1;
+
+  ListNode* lnode = list->getHead();
+  ListNode* node = this->tail;
+  for (int i = 0; i < list->getSize(); i++) {
+    this->insertNext(node, lnode->getValue());
+    node = this->next(node);
+    lnode = list->next(lnode);
+  }
+
+  return 0;
+}

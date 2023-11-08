@@ -152,6 +152,13 @@ class List {
    * @return ListNode* A pointer to the resulting node.
    */
   ListNode* findNode(Pointer value, CompareFunc compare);
+  /**
+   * @brief Concatenation of 2 lists (Result this->list).
+   *
+   * @param list List to be merged with this.
+   * @return int Returns 0 in case of success, -1 in any other case.
+   */
+  int mergeLists(List* list);
 
  private:
   DestroyFunc destroyValue;
