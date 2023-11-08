@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['decreasesize_0',['decreaseSize',['../classList.html#acba2775d017f5b96f6be0b618741e6ba',1,'List']]],
-  ['deletedatapointvectors_1',['deleteDatapointVectors',['../namespacecppdescent.html#aeb50415af86d6c71d7747acc4f53f4a6',1,'cppdescent']]],
-  ['deletefloat_2',['deleteFloat',['../namespacecppdescent.html#ace2b295f94271ca4ecb69aea67eb3c52',1,'cppdescent']]]
+  ['find_0',['find',['../classList.html#ae54a4138d33f53bf59b6c324fdc8650f',1,'List::find()'],['../classVector.html#a4e4f24c760e61008e9d85a34209ec700',1,'Vector::find()']]],
+  ['findnode_1',['findNode',['../classList.html#a0938304c0c928798ba86057cac58165e',1,'List::findNode()'],['../classMap.html#a402ef5f9ef43bb93d87a4182468704ca',1,'Map::findNode()'],['../classVector.html#a5c9d10f0a216450d91e76553bf418b36',1,'Vector::findNode(Pointer value, CompareFunc compare)']]],
+  ['first_2',['first',['../classVector.html#a3865792908e675b0afd6c1d2df1ec99e',1,'Vector']]]
 ];
