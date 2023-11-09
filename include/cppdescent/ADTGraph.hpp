@@ -41,6 +41,7 @@ class Graph {
   PQueue* getReverseAdjacentPQ(Pointer vertex);
   List* getGeneralNeighbors(Pointer vertex);
   PQueue* getGeneralNeighborsPQ(Pointer vertex);
+  bool isNeighbor(Pointer v1, Pointer v2);
   // Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
   CompareFunc getCompare() { return this->compare; };

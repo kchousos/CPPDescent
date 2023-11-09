@@ -269,6 +269,7 @@ MapNode* Map::findNode(Pointer key) {
   // We traverse the array, starting from the position where the key hashes,
   // until we find a non EMPTY
   int count = 0;
+
   for (int pos = this->hash(key) % this->capacity;
        this->array[pos]->getState() != EMPTY;
        pos = (pos + 1) % this->capacity) {

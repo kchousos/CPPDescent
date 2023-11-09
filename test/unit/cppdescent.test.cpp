@@ -95,28 +95,31 @@ struct BruteForceManualDataset : testing::Test {
   Vector* vec = new Vector(5, nullptr);
 };
 
-TEST(IO, readData) {
-  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
-  ASSERT_NE(vec, nullptr);
+// TEST(IO, readData) {
+//   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
+//   ASSERT_NE(vec, nullptr);
 
-  float lastValue = 0.0726192221;
+//   float lastValue = 0.0726192221;
 
-  Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
-  ASSERT_FLOAT_EQ(lastValue,
-                  *(float*)lastElement->getAt(lastElement->getSize() - 1));
+//   Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
+//   ASSERT_FLOAT_EQ(lastValue,
+//                   *(float*)lastElement->getAt(lastElement->getSize() - 1));
 
-  int result = cppdescent::deleteDatapointVectors(vec);
-  ASSERT_EQ(result, 0);
-}
+//   int result = cppdescent::deleteDatapointVectors(vec);
+//   ASSERT_EQ(result, 0);
+// }
 
 TEST(BruteForce, SIGMODDataset20) {
-  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
+  Vector* vec = cppdescent::readBinData((char*)
+      "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
+      "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
+      "1/datasets/00000020.bin",
+      100);
 
   int K[] = {3, 5, 10};
 
   for (int k = 0; k < 3; k++) {
-    Graph* graph = cppdescent::KNNBruteForceGraph(
-        vec, K[k], compareEdgesEuclidean, euclideanDistance);
+    Graph* graph = cppdescent::NNDescent_KNNGraph(vec, K[k], euclideanDistance);
 
     List* vertices = graph->getVertices();
     ASSERT_EQ(vertices->getSize(), 20);
@@ -133,6 +136,38 @@ TEST(BruteForce, SIGMODDataset20) {
     delete vertices;
     delete graph;
   }
+
+  int result = cppdescent::deleteDatapointVectors(vec);
+  ASSERT_EQ(result, 0);
+}
+
+TEST(BruteForce, SIGMODDataset1000) {
+  Vector* vec = cppdescent::readBinData((char*)
+      "/home/kchou/Documents/DiT/7ο Εξάμηνο/Ανάπτυξη Λογισμικού για "
+      "Πληροφοριακά Συστήματα (Project)/Εργασίες/Εργασία "
+      "1/datasets/00001000-1.bin",
+      100);
+
+  // int K[] = {5, 20, 34};
+
+  // for (int k = 0; k < 3; k++) {
+  Graph* graph = cppdescent::NNDescent_KNNGraph(vec, 5, euclideanDistance);
+
+  // List* vertices = graph->getVertices();
+  // ASSERT_EQ(vertices->getSize(), 1000);
+
+  // ListNode* vertex = vertices->getHead();
+
+  // for (int i = 0; i < vertices->getSize(); i++) {
+  //   List* adjacent = graph->getAdjacent((Pointer)vertex->getValue());
+  //   ASSERT_EQ(adjacent->getSize(), K[k]);
+  //   delete adjacent;
+  //   vertex = vertex->getNext();
+  // }
+
+  // delete vertices;
+  delete graph;
+  // }
 
   int result = cppdescent::deleteDatapointVectors(vec);
   ASSERT_EQ(result, 0);

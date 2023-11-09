@@ -117,7 +117,6 @@ void Graph::insertEdge(Pointer vertex1, Pointer vertex2, float weight = 1) {
       this->vec->find(vertex2, this->compare) == nullptr)
     return;
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
-  this->map->setHashFunction(this->hash);
   this->map->insert(pair, createFloat(weight));
 }
 
@@ -243,6 +242,16 @@ PQueue* Graph::getGeneralNeighborsPQ(Pointer vertex) {
   return adj;
 }
 
+bool Graph::isNeighbor(Pointer v1, Pointer v2) {
+  GraphVertexPair* pair = new GraphVertexPair(this, v1, v2);
+  Pointer p = this->map->find(pair);
+  delete pair;
+
+  if (p != nullptr)
+    return true;
+  return false;
+}
+
 Graph::~Graph() {
   delete this->vec;
   delete this->map;
@@ -255,4 +264,5 @@ Graph::~Graph() {
 
 void Graph::setHashFunction(HashFunc hash) {
   this->hash = hash;
+  this->map->setHashFunction(this->hash);
 }

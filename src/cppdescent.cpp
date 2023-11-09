@@ -292,6 +292,8 @@ Graph* sampleGraph(Vector* data,
 
   int N = data->getSize();
 
+  srand(time(0));
+
   // Insert all points as vertices.
   for (int i = 0; i < N; i++)
     graph->insertVertex((Pointer)data->getAt(i));
@@ -303,12 +305,16 @@ Graph* sampleGraph(Vector* data,
       int randPos = rand() % N;  // The position of the neighbor.
 
       // Avoid adding itself as a neighbor.
-      while (randPos == j)
+      while (randPos == i)
         randPos = rand() % N;
 
       // Get the two vertices and create an edge between them.
       Pointer v1 = (Pointer)data->getAt(i);
       Pointer v2 = (Pointer)data->getAt(randPos);
+      while (graph->isNeighbor(v1, v2) == true) {
+        randPos = rand() % N;
+        v2 = (Pointer)data->getAt(randPos);
+      }
       float weight = distance(v1, v2);
       graph->insertEdge(v1, v2, weight);
     }
@@ -317,21 +323,26 @@ Graph* sampleGraph(Vector* data,
   return graph;
 }
 
-int updateNN(Graph* graph, Pointer v, Pointer u2, float dist) {
-  // Data: vAll, dist
-  // If dist < vAll->getMax():
-  //    toBeRemoved = vAll->getMax()
-  //    vAll->removeMax()
-  //    graph->removeEdge(toBeRemoved)
-  //    gaph->insertEdge(<v, u2>)
-  //    return 1;
-  // else:
-  //    return 0;
+int updateNN(Graph* graph,
+             Pointer v,
+             Pointer u2,
+             float dist,
+             DistanceFunc distance) {
+  PQueue* vAll = graph->getAdjacentPQ(v);
+  Pointer max = vAll->getMax();
+  float maxDist = distance(v, max);
+
+  if (dist < maxDist) {
+    graph->removeEdge(v, max);
+    graph->insertEdge(v, u2, dist);
+    return 1;
+  }
+
+  return 0;
 }
 
 Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       int K,
-                                      CompareFunc compare,
                                       DistanceFunc distance) {
   // B[v] <- Sample(V, K) for all v in V
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
@@ -345,16 +356,19 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
     for (ListNode* v = vertices->getHead(); v != nullptr; v = v->getNext()) {
       // vAll = Bbar[v] = B[v] U R[v]
       List* vAll = graph->getGeneralNeighbors(v->getValue());
-
       for (ListNode* u1 = vAll->getHead(); u1 != nullptr; u1 = u1->getNext()) {
         // u1All = Bbar[u1] = B[u1] U R[u1]
         List* u1All = graph->getGeneralNeighbors(u1->getValue());
 
         for (ListNode* u2 = u1All->getHead(); u2 != nullptr;
              u2 = u2->getNext()) {
+          // Otherwise the same edge could be added twice.
+          if (graph->isNeighbor(v->getValue(), u2->getValue()) == true)
+            continue;
+
           float dist = distance(v->getValue(), u2->getValue());
 
-          c += updateNN(graph, v->getValue(), u2->getValue(), dist);
+          c += updateNN(graph, v->getValue(), u2->getValue(), dist, distance);
         }
 
         delete u1All;
