@@ -57,4 +57,39 @@ Graph* KNNBruteForceGraph(Vector* data,
                           int K,
                           CompareFunc compare,
                           DistanceFunc distance);
+/**
+ * @brief Computes the K-NN graph for the given dataset using the NN-Descent
+ * algorithm.
+ *
+ * The user is responsible deletion of the allocated memory of the returned
+ * graph.
+ *
+ * @param data A Vector of the vertices of the graph.
+ * @param K The number of nearest neighbors to compute.
+ * @param compare The function to be used for comparing the graph's  edges.
+ * @param distance The function to be used to compute the distances between
+ * vertices.
+ * @return Graph* The complete K-NN graph of the dataset.
+ */
+Graph* NNDescent_KNNGraph(Vector* data,
+                          int K,
+                          CompareFunc compare,
+                          DistanceFunc distance);
+/**
+ * @brief Computes the K Nearest Neighbors of the query point in the graph.
+ *
+ * @param graph The K-NN Graph, in which we search for neighbors of the query.
+ * @param K
+ * @param compare The function used to compare edges.
+ * @param distance The function to compute the distance between vertices.
+ * @param query The query point, given as a Vector. Must be of the same
+ * dimensions as the rest points of the graph.
+ * @return List* A list of the K-NN of the query. If the query point is of wrong
+ * dimensions, then nullptr is returned.
+ */
+List* NNDescent_Query(Graph* graph,
+                      int K,
+                      CompareFunc compare,
+                      DistanceFunc distance,
+                      Vector* query);
 };  // namespace cppdescent
