@@ -272,24 +272,41 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
   return graph;
 }
 
-int updateNN(List* adjList, GraphVertexPair* pair, float weight) {
-
-}
-
-Graph* cppdescent::NNDescent(Vector* data, int K, CompareFunc compare, DistanceFunc distance) {
-  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
+/**
+ * @brief Creates a random graph, where each vertex has K random neighbors.
+ *
+ * The user is responsible for deallocating the graph.
+ *
+ * @param data The Vector with all the points.
+ * @param K
+ * @param compare
+ * @param distance
+ * @return Graph* The created graph.
+ */
+Graph* sampleGraph(Vector* data,
+                   int K,
+                   CompareFunc compare,
+                   DistanceFunc distance) {
+  Graph* graph = new Graph((CompareFunc)compare, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
-  // Insert all points as vertices.
-  for (int i = 0; i < data->getSize(); i++)
-    graph->insertVertex((Pointer)data->getAt(i));
-  
-  for (int i = 0; i < data->getSize(); i++) {
-    for (int j = 0; j < K; j++) {
-      int randPos = rand() % data->getSize();
-      while (randPos == j)
-        randPos = rand() % data->getSize();
+  int N = data->getSize();
 
+  // Insert all points as vertices.
+  for (int i = 0; i < N; i++)
+    graph->insertVertex((Pointer)data->getAt(i));
+
+  // Iterate all of the vertices.
+  for (int i = 0; i < N; i++) {
+    // For each vertex, add K random neighbors.
+    for (int j = 0; j < K; j++) {
+      int randPos = rand() % N;  // The position of the neighbor.
+
+      // Avoid adding itself as a neighbor.
+      while (randPos == j)
+        randPos = rand() % N;
+
+      // Get the two vertices and create an edge between them.
       Pointer v1 = (Pointer)data->getAt(i);
       Pointer v2 = (Pointer)data->getAt(randPos);
       float weight = distance(v1, v2);
@@ -297,18 +314,61 @@ Graph* cppdescent::NNDescent(Vector* data, int K, CompareFunc compare, DistanceF
     }
   }
 
-  for (int i = 0; i < data->getSize(); i++) {
-    List* generalNeighbors = graph->getGeneralNeighbors(data->getAt(i));
-    int counter = 0;
-
-    ListNode* node = generalNeighbors->getHead();
-    for (int j = 0; j < generalNeighbors->getSize(); j++) {
-      List* secondGradeNeighbors = graph->getGeneralNeighbors(node->getValue());
-      ListNode* node2 = secondGradeNeighbors->getHead();
-
-      float dist = distance(data->getAt(i), node2->getValue());
-      GraphVertexPair* pair = new GraphVertexPair();
-      counter += updateNN(graph->getAdjacent(data->getAt(i)));
-    }
-  }
+  return graph;
 }
+
+int updateNN(List* adjList, GraphVertexPair* pair, float weight) {}
+
+Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
+                                      int K,
+                                      CompareFunc compare,
+                                      DistanceFunc distance) {
+  Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
+  // The vertices do not change, only the edges between them are modified. So we
+  // only need to get them once and not in each iteration.
+  List* vertices = graph->getVertices();
+  int c;
+
+  do {
+    c = 0;
+  } while (c != 0);
+}
+
+// Graph* cppdescent::NNDescent(Vector* data, int K, CompareFunc compare,
+// DistanceFunc distance) {
+//   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
+//   graph->setHashFunction((HashFunc)hashEdge);
+
+//   // Insert all points as vertices.
+//   for (int i = 0; i < data->getSize(); i++)
+//     graph->insertVertex((Pointer)data->getAt(i));
+
+//   for (int i = 0; i < data->getSize(); i++) {
+//     for (int j = 0; j < K; j++) {
+//       int randPos = rand() % data->getSize();
+//       while (randPos == j)
+//         randPos = rand() % data->getSize();
+
+//       Pointer v1 = (Pointer)data->getAt(i);
+//       Pointer v2 = (Pointer)data->getAt(randPos);
+//       float weight = distance(v1, v2);
+//       graph->insertEdge(v1, v2, weight);
+//     }
+//   }
+
+//   for (int i = 0; i < data->getSize(); i++) {
+//     List* generalNeighbors = graph->getGeneralNeighbors(data->getAt(i));
+//     int counter = 0;
+
+//     ListNode* node = generalNeighbors->getHead();
+//     for (int j = 0; j < generalNeighbors->getSize(); j++) {
+//       List* secondGradeNeighbors =
+//       graph->getGeneralNeighbors(node->getValue()); ListNode* node2 =
+//       secondGradeNeighbors->getHead();
+
+//       float dist = distance(data->getAt(i), node2->getValue());
+//       GraphVertexPair* pair = new GraphVertexPair();
+//       counter += updateNN(graph->getAdjacent(data->getAt(i)));
+//     }
+//   }
+// }
