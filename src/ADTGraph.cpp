@@ -169,6 +169,7 @@ PQueue* Graph::getAdjacentPQ(Pointer vertex) {
   }
 
   PQueue* pqueue = new PQueue(this->compare, nullptr, vec);
+  delete vec;
 
   return pqueue;
 }
@@ -205,6 +206,7 @@ PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
   }
 
   PQueue* pqueue = new PQueue(this->compare, nullptr, vec);
+  delete vec;
 
   return pqueue;
 }
@@ -213,7 +215,8 @@ List* Graph::getGeneralNeighbors(Pointer vertex) {
   List* generalNeighbors = this->getAdjacent(vertex);
   List* reverseAdjList = this->getReverseAdjacent(vertex);
 
-  generalNeighbors->getTail()->setNext(reverseAdjList->getHead());
+  generalNeighbors->mergeLists(reverseAdjList);
+  delete reverseAdjList;
   return generalNeighbors;
 }
 
@@ -236,6 +239,7 @@ PQueue* Graph::getGeneralNeighborsPQ(Pointer vertex) {
     revAdj->removeMax();
   }
 
+  delete revAdj;
   return adj;
 }
 
