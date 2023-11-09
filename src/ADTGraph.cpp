@@ -156,6 +156,25 @@ List* Graph::getAdjacent(Pointer vertex) {
   return list;
 }
 
+int compareEdgeWeights(Pointer a, Pointer b) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)a;
+  GraphVertexPair* pair2 = (GraphVertexPair*)b;
+
+  float first =
+      pair1->getOwner()->getWeight(pair1->getVertex1(), pair1->getVertex2());
+  float second =
+      pair2->getOwner()->getWeight(pair2->getVertex1(), pair2->getVertex2());
+
+  float result = first - second;
+
+  if (result < 0)
+    return -1;
+  else if (result > 0)
+    return 1;
+  else
+    return 0;
+}
+
 PQueue* Graph::getAdjacentPQ(Pointer vertex) {
   Vector* vec = new Vector(0, nullptr);
 
@@ -163,11 +182,11 @@ PQueue* Graph::getAdjacentPQ(Pointer vertex) {
     GraphVertexPair* pair =
         new GraphVertexPair(this, vertex, this->vec->getAt(i));
     if (this->map->find(pair) != MAP_EOF)
-      vec->insertLast(pair->getVertex2());
+      vec->insertLast(pair);
     delete pair;
   }
 
-  PQueue* pqueue = new PQueue(this->compare, nullptr, vec);
+  PQueue* pqueue = new PQueue(compareEdgeWeights, nullptr, vec);
   delete vec;
 
   return pqueue;
@@ -200,11 +219,11 @@ PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
     GraphVertexPair* pair =
         new GraphVertexPair(this, this->vec->getAt(i), vertex);
     if (this->map->find(pair) != MAP_EOF)
-      vec->insertLast(pair->getVertex1());
+      vec->insertLast(pair);
     delete pair;
   }
 
-  PQueue* pqueue = new PQueue(this->compare, nullptr, vec);
+  PQueue* pqueue = new PQueue(compareEdgeWeights, nullptr, vec);
   delete vec;
 
   return pqueue;
