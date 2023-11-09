@@ -330,6 +330,7 @@ int updateNN(Graph* graph,
              DistanceFunc distance) {
   PQueue* vAll = graph->getAdjacentPQ(v);
   Pointer max = vAll->getMax();
+  delete vAll;
   float maxDist = distance(v, max);
 
   if (dist < maxDist) {
