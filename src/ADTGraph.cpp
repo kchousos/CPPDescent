@@ -157,6 +157,22 @@ List* Graph::getAdjacent(Pointer vertex) {
   return list;
 }
 
+PQueue* Graph::getAdjacentPQ(Pointer vertex) {
+  Vector* vec = new Vector(0, nullptr);
+
+  for (int i = 0; i < this->size; i++) {
+    GraphVertexPair* pair =
+        new GraphVertexPair(this, vertex, this->vec->getAt(i));
+    if (this->map->find(pair) != MAP_EOF)
+      vec->insertLast(pair->getVertex2());
+    delete pair;
+  }
+
+  PQueue* pqueue = new PQueue(this->compare, nullptr, vec);
+
+  return pqueue;
+}
+
 List* Graph::getReverseAdjacent(Pointer vertex) {
   List* list = new List;
   ListNode* node = LIST_BOF;
@@ -177,12 +193,50 @@ List* Graph::getReverseAdjacent(Pointer vertex) {
   return list;
 }
 
+PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
+  Vector* vec = new Vector(0, nullptr);
+
+  for (int i = 0; i < this->size; i++) {
+    GraphVertexPair* pair =
+        new GraphVertexPair(this, this->vec->getAt(i), vertex);
+    if (this->map->find(pair) != MAP_EOF)
+      vec->insertLast(pair->getVertex1());
+    delete pair;
+  }
+
+  PQueue* pqueue = new PQueue(this->compare, nullptr, vec);
+
+  return pqueue;
+}
+
 List* Graph::getGeneralNeighbors(Pointer vertex) {
   List* generalNeighbors = this->getAdjacent(vertex);
   List* reverseAdjList = this->getReverseAdjacent(vertex);
 
   generalNeighbors->getTail()->setNext(reverseAdjList->getHead());
   return generalNeighbors;
+}
+
+void swap(Pointer p, Pointer q) {
+  Pointer tmp = p;
+  p = q;
+  q = tmp;
+}
+
+PQueue* Graph::getGeneralNeighborsPQ(Pointer vertex) {
+  PQueue* adj = getAdjacentPQ(vertex);
+  PQueue* revAdj = getReverseAdjacentPQ(vertex);
+
+  if (adj->getSize() < revAdj->getSize())
+    swap((Pointer)adj, (Pointer)revAdj);
+
+  int size = revAdj->getSize();
+  for (int i = 0; i < size; i++) {
+    adj->insert(revAdj->getMax());
+    revAdj->removeMax();
+  }
+
+  return adj;
 }
 
 Graph::~Graph() {

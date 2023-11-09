@@ -11,6 +11,7 @@
 
 #include "cppdescent/ADTGraph.hpp"
 #include "cppdescent/ADTList.hpp"
+#include "cppdescent/ADTPQueue.hpp"
 #include "gtest/gtest.h"
 
 /**
@@ -211,6 +212,44 @@ TEST(ADTGraphTest, getAdjacent) {
   delete graph;
 }
 
+TEST(ADTGraphTest, getAdjacentPQ) {
+  Graph* graph = new Graph(compareInts, deleteInts);
+
+  graph->setHashFunction(hashPointer);
+
+  int N = 1000;
+
+  int** vertexArray = new int*[N];
+
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = createIntValue(i);
+    graph->insertVertex(vertexArray[i]);
+    List* list = graph->getVertices();
+    int* value = createIntValue(i);
+    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    delete value;
+    delete list;
+  }
+
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray[0], vertexArray[i], i);
+
+  PQueue* adjPQ = graph->getAdjacentPQ(vertexArray[0]);
+  ASSERT_NE(adjPQ->getMax(), nullptr);
+
+  for (int i = 1; i < N; i++) {
+    ASSERT_EQ(adjPQ->getMax(), vertexArray[N - i]) << "i: " << i << "\n";
+    adjPQ->removeMax();
+  }
+
+  for (int i = 0; i < N; i++)
+    delete vertexArray[i];
+
+  delete[] vertexArray;
+  delete adjPQ;
+  delete graph;
+}
+
 TEST(ADTGraphTest, getReverseAdjacent) {
   Graph* graph = new Graph(compareInts, deleteInts);
 
@@ -248,6 +287,44 @@ TEST(ADTGraphTest, getReverseAdjacent) {
 
   delete[] vertexArray;
   delete list2;
+  delete graph;
+}
+
+TEST(ADTGraphTest, getReverseAdjacentPQ) {
+  Graph* graph = new Graph(compareInts, deleteInts);
+
+  graph->setHashFunction(hashPointer);
+
+  int N = 1000;
+
+  int** vertexArray = new int*[N];
+
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = createIntValue(i);
+    graph->insertVertex(vertexArray[i]);
+    List* list = graph->getVertices();
+    int* value = createIntValue(i);
+    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    delete value;
+    delete list;
+  }
+
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray[i], vertexArray[0], i);
+
+  PQueue* revAdjPQ = graph->getReverseAdjacentPQ(vertexArray[0]);
+  ASSERT_NE(revAdjPQ->getMax(), nullptr);
+
+  for (int i = 1; i < N; i++) {
+    ASSERT_EQ(revAdjPQ->getMax(), vertexArray[N - i]) << "i: " << i << "\n";
+    revAdjPQ->removeMax();
+  }
+
+  for (int i = 0; i < N; i++)
+    delete vertexArray[i];
+
+  delete[] vertexArray;
+  delete revAdjPQ;
   delete graph;
 }
 
@@ -296,5 +373,69 @@ TEST(ADTGraphTest, getGeneralNeighbors) {
 
   delete[] vertexArray;
   delete list;
+  delete graph;
+}
+
+TEST(ADTGraphTest, getGeneralNeighborsPQ) {
+  Graph* graph = new Graph(compareInts, deleteInts);
+
+  graph->setHashFunction(hashPointer);
+
+  int N = 1000;
+
+  int** vertexArray = new int*[N];
+
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = createIntValue(i);
+    graph->insertVertex(vertexArray[i]);
+    List* list = graph->getVertices();
+    int* value = createIntValue(i);
+    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    delete value;
+    delete list;
+  }
+
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray[0], vertexArray[i], i);
+
+  int** vertexArray2 = new int*[N];
+
+  for (int i = 0; i < N; i++) {
+    vertexArray2[i] = createIntValue(N + i);
+    graph->insertVertex(vertexArray2[i]);
+    List* list = graph->getVertices();
+    int* value = createIntValue(N + i);
+    ASSERT_EQ(list->find(value, compareInts), vertexArray2[i]);
+    delete value;
+    delete list;
+  }
+  for (int i = 1; i < N; i++)
+    graph->insertEdge(vertexArray2[i], vertexArray[0], N + i);
+
+  PQueue* generalNPQ = graph->getGeneralNeighborsPQ(vertexArray[0]);
+  ASSERT_NE(generalNPQ->getMax(), nullptr);
+
+  for (int i = 1; i < 2 * N - 1; i++) {
+    if (i < N) {
+      ASSERT_EQ(generalNPQ->getMax(), vertexArray2[N - i])
+          << "i: " << i << "\n"
+          << generalNPQ->getSize() << std::endl;
+      generalNPQ->removeMax();
+    } else {
+      ASSERT_EQ(generalNPQ->getMax(), vertexArray[2 * N - i - 1])
+          << "i: " << i << "\n";
+      generalNPQ->removeMax();
+    }
+  }
+
+  for (int i = 0; i < N; i++)
+    delete vertexArray[i];
+
+  for (int i = 0; i < N; i++)
+    delete vertexArray2[i];
+
+  delete[] vertexArray;
+  delete[] vertexArray2;
+  delete generalNPQ;
   delete graph;
 }
