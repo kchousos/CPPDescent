@@ -317,12 +317,23 @@ Graph* sampleGraph(Vector* data,
   return graph;
 }
 
-int updateNN(List* adjList, GraphVertexPair* pair, float weight) {}
+int updateNN(Graph* graph, Pointer v, Pointer u2, float dist) {
+  // Data: vAll, dist
+  // If dist < vAll->getMax():
+  //    toBeRemoved = vAll->getMax()
+  //    vAll->removeMax()
+  //    graph->removeEdge(toBeRemoved)
+  //    gaph->insertEdge(<v, u2>)
+  //    return 1;
+  // else:
+  //    return 0;
+}
 
 Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       int K,
                                       CompareFunc compare,
                                       DistanceFunc distance) {
+  // B[v] <- Sample(V, K) for all v in V
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
@@ -331,7 +342,31 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
   do {
     c = 0;
+    for (ListNode* v = vertices->getHead(); v != nullptr; v = v->getNext()) {
+      // vAll = Bbar[v] = B[v] U R[v]
+      List* vAll = graph->getGeneralNeighbors(v->getValue());
+
+      for (ListNode* u1 = vAll->getHead(); u1 != nullptr; u1 = u1->getNext()) {
+        // u1All = Bbar[u1] = B[u1] U R[u1]
+        List* u1All = graph->getGeneralNeighbors(u1->getValue());
+
+        for (ListNode* u2 = u1All->getHead(); u2 != nullptr;
+             u2 = u2->getNext()) {
+          float dist = distance(v->getValue(), u2->getValue());
+
+          c += updateNN(graph, v->getValue(), u2->getValue(), dist);
+        }
+
+        delete u1All;
+      }
+
+      delete vAll;
+    }
   } while (c != 0);
+
+  delete vertices;
+
+  return graph;
 }
 
 // Graph* cppdescent::NNDescent(Vector* data, int K, CompareFunc compare,
