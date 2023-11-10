@@ -1,7 +1,0 @@
-<map id="ADTPQueue.hpp" name="ADTPQueue.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="75,5,194,30"/>
-<area shape="rect" id="Node000002" href="$ADTPQueue_8cpp.html" title="An ADT Priority Queue implemented using a heap." alt="" coords="5,78,125,103"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,43,78,80,74,76,111,39"/>
-<area shape="rect" id="Node000003" href="$cppdescent_8cpp.html" title="Implementation of the cppdescent library." alt="" coords="149,78,261,103"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="158,39,195,76,192,80,155,43"/>
-</map>
