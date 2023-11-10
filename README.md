@@ -11,15 +11,13 @@ described in \[1\], \[2\].
 ## Contributors
 
 - [Konstantinos Chousos](https://github.com/kchousos) (1115202000215)
-  1. Build/Testing/Code coverage pipeline.
-  2. ADTVector, ADTList, ADTPQueue.
-  3. Brute Force K-NN Graph creation.
-  4. NN-Descent Graph creation.
-  5. (Incomplete) Query point K-NN.
+
+  Build/Testing/Code coverage pipeline. ADTVector, ADTList, ADTPQueue. 
+  Brute Force K-NN Graph creation. NN-Descent Graph creation. (Incomplete) Query point K-NN.
+
 - [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan) (1115202000179)
-  1. ADTMap, ADTGraph.
-  2. Brute Force K-NN Graph creation.
-  3. NN-Descent Graph creation.
+
+  ADTMap, ADTGraph. Brute Force K-NN Graph creation. NN-Descent Graph creation.
 
 ## Dependencies
 
