@@ -183,7 +183,8 @@ PQueue* Graph::getAdjacentPQ(Pointer vertex) {
         new GraphVertexPair(this, vertex, this->vec->getAt(i));
     if (this->map->find(pair) != MAP_EOF)
       pqueue->insert(pair);
-    delete pair;
+    else
+      delete pair;
   }
 
   return pqueue;
@@ -217,7 +218,8 @@ PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
         new GraphVertexPair(this, this->vec->getAt(i), vertex);
     if (this->map->find(pair) != MAP_EOF)
       pqueue->insert(pair);
-    delete pair;
+    else 
+      delete pair;
   }
 
   return pqueue;
