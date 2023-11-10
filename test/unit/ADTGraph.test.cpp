@@ -239,7 +239,8 @@ TEST(ADTGraphTest, getAdjacentPQ) {
 
   for (int i = 1; i < N; i++) {
     GraphVertexPair* pair = (GraphVertexPair*)adjPQ->getMax();
-    ASSERT_EQ(compareInts(pair->getVertex2(), vertexArray[N - i]), 0) << "i: " << i << "\n";
+    ASSERT_EQ(compareInts(pair->getVertex2(), vertexArray[N - i]), 0)
+        << "i: " << i << "\n";
     adjPQ->removeMax();
   }
 
@@ -318,7 +319,8 @@ TEST(ADTGraphTest, getReverseAdjacentPQ) {
 
   for (int i = 1; i < N; i++) {
     GraphVertexPair* pair = (GraphVertexPair*)revAdjPQ->getMax();
-    ASSERT_EQ(compareInts(pair->getVertex1(), vertexArray[N-i]), 0) << "i: " << i << "\n";
+    ASSERT_EQ(compareInts(pair->getVertex1(), vertexArray[N - i]), 0)
+        << "i: " << i << "\n";
     revAdjPQ->removeMax();
   }
 
@@ -420,7 +422,7 @@ TEST(ADTGraphTest, getGeneralNeighborsPQ) {
   for (int i = 1; i < 2 * N - 1; i++) {
     if (i < N) {
       GraphVertexPair* pair = (GraphVertexPair*)generalNPQ->getMax();
-      ASSERT_EQ(compareInts(pair->getVertex1(), vertexArray2[N-i]), 0)
+      ASSERT_EQ(compareInts(pair->getVertex1(), vertexArray2[N - i]), 0)
           << "i: " << i << "\n"
           << generalNPQ->getSize() << std::endl;
       generalNPQ->removeMax();
