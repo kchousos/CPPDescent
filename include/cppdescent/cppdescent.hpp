@@ -77,15 +77,10 @@ Graph* NNDescent_KNNGraph(Vector* data, int K, DistanceFunc distance);
  * @param graph The K-NN Graph, in which we search for neighbors of the query.
  * @param K
  * @param compare The function used to compare edges.
- * @param distance The function to compute the distance between vertices.
  * @param query The query point, given as a Vector. Must be of the same
  * dimensions as the rest points of the graph.
  * @return List* A list of the K-NN of the query. If the query point is of wrong
  * dimensions, then nullptr is returned.
  */
-List* NNDescent_Query(Graph* graph,
-                      int K,
-                      CompareFunc compare,
-                      DistanceFunc distance,
-                      Vector* query);
+List* NNDescent_Query(Graph* graph, int K, CompareFunc compare, Vector* query);
 };  // namespace cppdescent

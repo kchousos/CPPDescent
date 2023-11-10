@@ -8,6 +8,19 @@ the first semester of the academic year 2023-2024.
 A library that implements the KNN-Graph creation and search algorithms
 described in \[1\], \[2\].
 
+## Contributors
+
+- [Konstantinos Chousos](https://github.com/kchousos) (1115202000215)
+  1. Build/Testing/Code coverage pipeline.
+  2. ADTVector, ADTList, ADTPQueue.
+  3. Brute Force K-NN Graph creation.
+  4. NN-Descent Graph creation.
+  5. (Incomplete) Query point K-NN.
+- [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan) (1115202000179)
+  1. ADTMap, ADTGraph.
+  2. Brute Force K-NN Graph creation.
+  3. NN-Descent Graph creation.
+
 ## Dependencies
 
 For local development, you will need `Make` and `CMake`. To install them
@@ -39,12 +52,6 @@ form](https://kchousos.github.io/CPPDescent/latex/refman.pdf).
 This project uses [LCOV](https://github.com/linux-test-project/lcov) for
 its code coverage needs. The results are uploaded upon commit
 [here](https://kchousos.github.io/CPPDescent/lcov).
-
-## Contributors
-
-- [Konstantinos Chousos](https://github.com/kchousos) (1115202000215)
-- [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
-  (1115202000179)
 
 ## Bibliography
 

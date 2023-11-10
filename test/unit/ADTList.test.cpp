@@ -230,14 +230,15 @@ TEST(ADTListTest, mergeLists) {
   }
   ASSERT_EQ(list->mergeLists(list2), 0);
   ASSERT_EQ(list->getSize(), 2 * N);
-  ASSERT_EQ(list->getTail()->getValue(), list2->getTail()->getValue());
+  ASSERT_EQ(*(int*)list->getTail()->getValue(),
+            *(int*)list2->getTail()->getValue());
 
   node = list->getHead();
   for (int i = 0; i < 2 * N; i++) {
     if (i < N)
-      ASSERT_EQ(node->getValue(), array[N - i - 1]);
+      ASSERT_EQ(*(int*)node->getValue(), *array[N - i - 1]);
     else
-      ASSERT_EQ(node->getValue(), array2[2 * N - i - 1]);
+      ASSERT_EQ(*(int*)node->getValue(), *array2[2 * N - i - 1]);
     node = list->next(node);
   }
 
@@ -250,5 +251,5 @@ TEST(ADTListTest, mergeLists) {
   delete[] array2;
 
   delete list;
-  delete list2;
+  // delete list2;
 }

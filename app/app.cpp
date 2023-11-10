@@ -94,8 +94,7 @@ int main(int argc, char* argv[]) {
   int K = atoi(argv[1]);
   int dimensions = atoi(argv[3]);
 
-  Vector* vec =
-      cppdescent::readBinData((char*)"./datasets/00005000-1.bin", dimensions);
+  Vector* vec = cppdescent::readBinData((char*)argv[2], dimensions);
 
   std::cout << "For K = " << K << "\n";
   std::cout << "Dataset: " << argv[2] << "\n";
@@ -152,7 +151,7 @@ int main(int argc, char* argv[]) {
     delete bfNodeAdjacent;
   }
 
-  recall = recall / 5000.0;
+  recall = recall / 200.0;
 
   std::cout << "Total recall is " << recall * 100 << "%\n\n\n";
 

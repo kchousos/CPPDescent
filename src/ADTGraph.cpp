@@ -238,7 +238,7 @@ List* Graph::getGeneralNeighbors(Pointer vertex) {
   List* reverseAdjList = this->getReverseAdjacent(vertex);
 
   generalNeighbors->mergeLists(reverseAdjList);
-  delete reverseAdjList;
+  // delete reverseAdjList;
   return generalNeighbors;
 }
 

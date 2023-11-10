@@ -120,72 +120,6 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
   return elements;
 }
 
-// Graph* cppdescent::KNNBruteForceGraph(Vector* data,
-//                                       int K,
-//                                       CompareFunc compare,
-//                                       DistanceFunc distance) {
-//   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
-//   graph->setHashFunction((HashFunc)hashEdge);
-
-//   // Insert all points as vertices.
-//   for (int i = 0; i < data->getSize(); i++)
-//     graph->insertVertex((Pointer)data->getAt(i));
-
-//   GraphVertexPair** neighborsEdges = new GraphVertexPair*[K];
-
-//   // Neighbors for the element.
-//   for (int i = 0; i < data->getSize(); i++) {
-//     // The first K elements different to the vertex tested.
-//     for (int k = 0; k < K; k++) {
-//       GraphVertexPair* pair;
-
-//       if (i != k)
-//         pair = new GraphVertexPair(graph, (Pointer)data->getAt(i),
-//                                    (Pointer)data->getAt(k));
-//       else
-//         // To ensure that K elements are inserted
-//         pair = new GraphVertexPair(graph, (Pointer)data->getAt(i),
-//                                    (Pointer)data->getAt(K));
-
-//       neighborsEdges[k] = pair;
-//     }
-
-//     EdgesQuickSort(neighborsEdges, 0, K - 1, compare);
-
-//     // Test the rest of the datapoints for closer neighbors.
-//     for (int j = K; j < data->getSize(); j++) {
-//       if (i != j) {
-//         GraphVertexPair* pair = new GraphVertexPair(
-//             graph, (Pointer)data->getAt(i), (Pointer)data->getAt(j));
-
-//         // If the current neighbor is nearer than the Kth (furthest) neighbor
-//         if (compare((Pointer)pair, (Pointer)neighborsEdges[K - 1]) > 0 &&
-//             !EdgesBinarySearch(neighborsEdges, pair, 0, K - 1, compare)) {
-//           // swap with last element
-//           swapEdges(pair, neighborsEdges[K - 1]);
-//           // sort the newly added element
-//           EdgesBubbleSort(neighborsEdges, K, compare);
-//         }
-
-//         // destroy the old Kth neighbor
-//         destroyEdges(pair);
-//       }
-//     }
-
-//     for (int k = 0; k < K; k++) {
-//       graph->insertEdge((Pointer)data->getAt(i),
-//                         (Pointer)neighborsEdges[k]->getVertex2(),
-//                         distance((Pointer)data->getAt(i),
-//                                  (Pointer)neighborsEdges[k]->getVertex2()));
-//       destroyEdges(neighborsEdges[k]);
-//     }
-//   }
-
-//   delete[] neighborsEdges;
-
-//   return graph;
-// }
-
 void cppdescent::deleteFloat(Pointer value) {
   delete (float*)value;
 }
@@ -392,41 +326,40 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   return graph;
 }
 
-// Graph* cppdescent::NNDescent(Vector* data, int K, CompareFunc compare,
-// DistanceFunc distance) {
-//   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
-//   graph->setHashFunction((HashFunc)hashEdge);
+List* NNDescent_Query(Graph* graph, int K, CompareFunc compare, Vector* query) {
+  List* vertices = graph->getVertices();
 
-//   // Insert all points as vertices.
-//   for (int i = 0; i < data->getSize(); i++)
-//     graph->insertVertex((Pointer)data->getAt(i));
+  srand(time(0));
 
-//   for (int i = 0; i < data->getSize(); i++) {
-//     for (int j = 0; j < K; j++) {
-//       int randPos = rand() % data->getSize();
-//       while (randPos == j)
-//         randPos = rand() % data->getSize();
+  int pos = rand() % vertices->getSize();
 
-//       Pointer v1 = (Pointer)data->getAt(i);
-//       Pointer v2 = (Pointer)data->getAt(randPos);
-//       float weight = distance(v1, v2);
-//       graph->insertEdge(v1, v2, weight);
-//     }
-//   }
+  ListNode* node = vertices->getHead();
+  for (int i = 0; i <= pos; i++)
+    node = node->getNext();
 
-//   for (int i = 0; i < data->getSize(); i++) {
-//     List* generalNeighbors = graph->getGeneralNeighbors(data->getAt(i));
-//     int counter = 0;
+  PQueue* knn = new PQueue(compare, (DestroyFunc)destroyEdges, nullptr);
+  Pointer candidate = node->getValue();
 
-//     ListNode* node = generalNeighbors->getHead();
-//     for (int j = 0; j < generalNeighbors->getSize(); j++) {
-//       List* secondGradeNeighbors =
-//       graph->getGeneralNeighbors(node->getValue()); ListNode* node2 =
-//       secondGradeNeighbors->getHead();
+  GraphVertexPair* pair = new GraphVertexPair(graph, (Pointer)query, candidate);
+  knn->insert(pair);
 
-//       float dist = distance(data->getAt(i), node2->getValue());
-//       GraphVertexPair* pair = new GraphVertexPair();
-//       counter += updateNN(graph->getAdjacent(data->getAt(i)));
-//     }
-//   }
-// }
+  List* candidates = graph->getAdjacent(candidate);
+
+  while (true) {
+    for (ListNode* node = candidates->getHead(); node != nullptr;
+         node = node->getNext()) {
+      pair = new GraphVertexPair(graph, (Pointer)query, node->getValue());
+      if (knn->getSize() < K || compare(knn->getMax(), pair) > 0) {
+        knn->removeMax();
+        knn->insert(pair);
+      } else {
+        delete pair;
+      }
+
+      List* candidateNeighbors = graph->getAdjacent(node->getValue());
+      candidateNeighbors->decreaseSize();
+    }
+  }
+
+  delete vertices;
+}
