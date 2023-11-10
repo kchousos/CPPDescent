@@ -10,12 +10,12 @@ described in \[1\], \[2\].
 
 ## Contributors
 
-- [Konstantinos Chousos](https://github.com/kchousos) (1115202000215)
+- [Konstantinos Chousos](https://github.com/kchousos) (1115202000215, sdi2000215@di.uoa.gr)
 
   Build/Testing/Code coverage pipeline. ADTVector, ADTList, ADTPQueue. 
   Brute Force K-NN Graph creation. NN-Descent Graph creation. (Incomplete) Query point K-NN.
 
-- [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan) (1115202000179)
+- [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan) (1115202000179, sdi2000215@di.uoa.gr)
 
   ADTMap, ADTGraph. Brute Force K-NN Graph creation. NN-Descent Graph creation.
 
