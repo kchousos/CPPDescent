@@ -28,6 +28,22 @@ float euclideanDistance(Pointer a, Pointer b) {
   return result;
 }
 
+float manhattanDistance(Pointer a, Pointer b) {
+  Vector* first = (Vector*)a;
+  Vector* second = (Vector*)b;
+  float result = 0;
+
+  if (first->getSize() != second->getSize())
+    return -1.0;
+
+  for (int i = 0; i < first->getSize(); i++) {
+    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
+    result += fabs(diff);
+  }
+
+  return result;
+}
+
 /**
  * @brief Compare edges using the euclideanDistance function.
  *
@@ -42,6 +58,24 @@ int compareEdgesEuclidean(Pointer first, Pointer second) {
   float a = euclideanDistance((Vector*)pair1->getVertex1(),
                               (Vector*)pair1->getVertex2());
   float b = euclideanDistance((Vector*)pair2->getVertex1(),
+                              (Vector*)pair2->getVertex2());
+
+  int value = 0;
+  if (b > a) {
+    value = -1;
+  } else if (a > b) {
+    value = 1;
+  }
+  return value;
+}
+
+int compareEdgesManhattan(Pointer first, Pointer second) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)first;
+  GraphVertexPair* pair2 = (GraphVertexPair*)second;
+
+  float a = manhattanDistance((Vector*)pair1->getVertex1(),
+                              (Vector*)pair1->getVertex2());
+  float b = manhattanDistance((Vector*)pair2->getVertex1(),
                               (Vector*)pair2->getVertex2());
 
   int value = 0;
