@@ -54,9 +54,7 @@ int compareEdgesEuclidean(Pointer first, Pointer second) {
 }
 
 int main(void) {
-  int N = 100;
-
-  Vector* vec = cppdescent::readBinData((char*)"./datasets/00000050.bin", N);
+  Vector* vec = cppdescent::readBinData((char*)"./datasets/00000200.bin", 100);
 
   int K[] = {10, 20, 30};
 
@@ -73,10 +71,10 @@ int main(void) {
 
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration =
-        std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
     std::cout << "Brute force K-NN Graph created in " << duration.count()
-              << " microseconds\n";
+              << " milliseconds\n";
 
     start = std::chrono::high_resolution_clock::now();
 
@@ -85,10 +83,10 @@ int main(void) {
 
     stop = std::chrono::high_resolution_clock::now();
     duration =
-        std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
     std::cout << "NN-Descent K-NN Graph created in " << duration.count()
-              << " microseconds\n";
+              << " milliseconds\n";
 
     // Graphs have been created.
 
@@ -105,7 +103,6 @@ int main(void) {
       for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
            adjacent = adjacent->getNext()) {
         List* nnAdjacent = nnGraph->getAdjacent(bfNode->getValue());
-
         if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
           trueNeighbors++;
 
@@ -116,7 +113,7 @@ int main(void) {
       delete bfNodeAdjacent;
     }
 
-    recall = recall / (float)N;
+    recall = recall / 200.0;
 
     std::cout << "Total recall is " << recall * 100 << "%\n\n\n";
 

@@ -329,8 +329,7 @@ int updateNN(Graph* graph,
              float dist,
              DistanceFunc distance) {
   PQueue* vAll = graph->getAdjacentPQ(v);
-  Pointer max = vAll->getMax();
-  delete vAll;
+  Pointer max = ((GraphVertexPair*)vAll->getMax())->getVertex2();
   float maxDist = distance(v, max);
 
   if (dist < maxDist) {
@@ -339,6 +338,7 @@ int updateNN(Graph* graph,
     return 1;
   }
 
+  delete vAll;
   return 0;
 }
 
@@ -352,7 +352,10 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   List* vertices = graph->getVertices();
   int c;
 
+  int iterations = 0;
+
   do {
+    iterations++;
     c = 0;
     for (ListNode* v = vertices->getHead(); v != nullptr; v = v->getNext()) {
       // vAll = Bbar[v] = B[v] U R[v]
@@ -380,6 +383,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   } while (c != 0);
 
   delete vertices;
+
+  std::cout << "Iterations: " << iterations << "\n";
 
   return graph;
 }

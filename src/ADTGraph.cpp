@@ -175,8 +175,13 @@ int compareEdgeWeights(Pointer a, Pointer b) {
     return 0;
 }
 
+void destroyEdgePair(GraphVertexPair* pair) {
+  delete pair;
+}
+
 PQueue* Graph::getAdjacentPQ(Pointer vertex) {
-  PQueue* pqueue = new PQueue(compareEdgeWeights, nullptr, nullptr);
+  PQueue* pqueue =
+      new PQueue(compareEdgeWeights, (DestroyFunc)destroyEdgePair, nullptr);
 
   for (int i = 0; i < this->size; i++) {
     GraphVertexPair* pair =
@@ -210,6 +215,9 @@ List* Graph::getReverseAdjacent(Pointer vertex) {
   return list;
 }
 
+// The function itself leaves memory leaks. But, it is only used for
+// getGeneralNeighors, in which the memory of the revAdj is freed by another
+// PQueue.
 PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
   PQueue* pqueue = new PQueue(compareEdgeWeights, nullptr, nullptr);
 
@@ -218,7 +226,7 @@ PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
         new GraphVertexPair(this, this->vec->getAt(i), vertex);
     if (this->map->find(pair) != MAP_EOF)
       pqueue->insert(pair);
-    else 
+    else
       delete pair;
   }
 
