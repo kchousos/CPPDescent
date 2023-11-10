@@ -87,74 +87,78 @@ int compareEdgesManhattan(Pointer first, Pointer second) {
   return value;
 }
 
-int main(void) {
-  Vector* vec = cppdescent::readBinData((char*)"./datasets/00000200.bin", 100);
+int main(int argc, char* argv[]) {
+  if (argc != 4)
+    return -1;
 
-  int K[] = {10, 20, 30};
+  int K = atoi(argv[1]);
+  int dimensions = atoi(argv[3]);
 
-  for (int k = 0; k < 3; k++) {
-    std::cout << "For K = " << K[k] << "\n";
-    std::cout << "----------------------------------------------------------\n";
+  Vector* vec =
+      cppdescent::readBinData((char*)"./datasets/00005000-1.bin", dimensions);
 
-    // Creation of graphs.
+  std::cout << "For K = " << K << "\n";
+  std::cout << "Dataset: " << argv[2] << "\n";
+  std::cout << "Dimensions: " << dimensions << "\n";
+  std::cout << "----------------------------------------------------------\n";
 
-    auto start = std::chrono::high_resolution_clock::now();
+  // Creation of graphs.
 
-    Graph* bfGraph = cppdescent::KNNBruteForceGraph(
-        vec, K[k], (CompareFunc)compareEdgesEuclidean, euclideanDistance);
+  auto start = std::chrono::high_resolution_clock::now();
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration =
-        std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+  Graph* bfGraph = cppdescent::KNNBruteForceGraph(
+      vec, K, (CompareFunc)compareEdgesManhattan, manhattanDistance);
 
-    std::cout << "Brute force K-NN Graph created in " << duration.count()
-              << " milliseconds\n";
+  auto stop = std::chrono::high_resolution_clock::now();
+  auto duration =
+      std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-    start = std::chrono::high_resolution_clock::now();
+  std::cout << "Brute force K-NN Graph created in " << duration.count()
+            << " milliseconds\n";
 
-    Graph* nnGraph =
-        cppdescent::NNDescent_KNNGraph(vec, K[k], euclideanDistance);
+  start = std::chrono::high_resolution_clock::now();
 
-    stop = std::chrono::high_resolution_clock::now();
-    duration =
-        std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+  Graph* nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, manhattanDistance);
 
-    std::cout << "NN-Descent K-NN Graph created in " << duration.count()
-              << " milliseconds\n";
+  stop = std::chrono::high_resolution_clock::now();
+  duration =
+      std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-    // Graphs have been created.
+  std::cout << "NN-Descent K-NN Graph created in " << duration.count()
+            << " milliseconds\n";
 
-    // The vertices will be the same for both graphs.
-    List* vertices = bfGraph->getVertices();
+  // Graphs have been created.
 
-    float recall = 0;
+  // The vertices will be the same for both graphs.
+  List* vertices = bfGraph->getVertices();
 
-    for (ListNode* bfNode = vertices->getHead(); bfNode != nullptr;
-         bfNode = bfNode->getNext()) {
-      int trueNeighbors = 0;
-      List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
+  float recall = 0;
 
-      for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
-           adjacent = adjacent->getNext()) {
-        List* nnAdjacent = nnGraph->getAdjacent(bfNode->getValue());
-        if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
-          trueNeighbors++;
+  for (ListNode* bfNode = vertices->getHead(); bfNode != nullptr;
+       bfNode = bfNode->getNext()) {
+    int trueNeighbors = 0;
+    List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
 
-        delete nnAdjacent;
-      }
+    for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
+         adjacent = adjacent->getNext()) {
+      List* nnAdjacent = nnGraph->getAdjacent(bfNode->getValue());
+      if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
+        trueNeighbors++;
 
-      recall += (float)trueNeighbors / (float)K[k];
-      delete bfNodeAdjacent;
+      delete nnAdjacent;
     }
 
-    recall = recall / 200.0;
-
-    std::cout << "Total recall is " << recall * 100 << "%\n\n\n";
-
-    delete vertices;
-    delete bfGraph;
-    delete nnGraph;
+    recall += (float)trueNeighbors / (float)K;
+    delete bfNodeAdjacent;
   }
+
+  recall = recall / 5000.0;
+
+  std::cout << "Total recall is " << recall * 100 << "%\n\n\n";
+
+  delete vertices;
+  delete bfGraph;
+  delete nnGraph;
 
   cppdescent::deleteDatapointVectors(vec);
 }

@@ -356,10 +356,13 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
   do {
     iterations++;
+
     c = 0;
+
     for (ListNode* v = vertices->getHead(); v != nullptr; v = v->getNext()) {
       // vAll = Bbar[v] = B[v] U R[v]
       List* vAll = graph->getGeneralNeighbors(v->getValue());
+
       for (ListNode* u1 = vAll->getHead(); u1 != nullptr; u1 = u1->getNext()) {
         // u1All = Bbar[u1] = B[u1] U R[u1]
         List* u1All = graph->getGeneralNeighbors(u1->getValue());
