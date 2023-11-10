@@ -95,6 +95,38 @@ struct BruteForceManualDataset : testing::Test {
   Vector* vec = new Vector(5, nullptr);
 };
 
+struct NNDescentManualDataset : testing::Test {
+ protected:
+  virtual void SetUp() override {
+    Vector* point1 = new Vector(2, cppdescent::deleteFloat);
+    Vector* point2 = new Vector(2, cppdescent::deleteFloat);
+    Vector* point3 = new Vector(2, cppdescent::deleteFloat);
+    Vector* point4 = new Vector(2, cppdescent::deleteFloat);
+    Vector* point5 = new Vector(2, cppdescent::deleteFloat);
+    // first point
+    point1->setAt(0, cppdescent::createFloat(1.4));
+    point1->setAt(1, cppdescent::createFloat(2.6));
+    vec->setAt(0, point1);
+    // second point
+    point2->setAt(0, cppdescent::createFloat(15.4));
+    point2->setAt(1, cppdescent::createFloat(-14.28));
+    vec->setAt(1, point2);
+    // third point
+    point3->setAt(0, cppdescent::createFloat(23.3));
+    point3->setAt(1, cppdescent::createFloat(11.8));
+    vec->setAt(2, point3);
+    // fourth point
+    point4->setAt(0, cppdescent::createFloat(-128.04));
+    point4->setAt(1, cppdescent::createFloat(3.7));
+    vec->setAt(3, point4);
+    // fifth point
+    point5->setAt(0, cppdescent::createFloat(1317.6));
+    point5->setAt(1, cppdescent::createFloat(-2535.7));
+    vec->setAt(4, point5);
+  }
+  Vector* vec = new Vector(5, nullptr);
+};
+
 TEST(IO, readData) {
   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
   ASSERT_NE(vec, nullptr);
@@ -110,13 +142,13 @@ TEST(IO, readData) {
 }
 
 TEST(BruteForce, SIGMODDataset20) {
-  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
+  Vector* vec = cppdescent::readBinData((char*)"./datasets/00000020.bin", 100);
 
   int K[] = {3, 5, 10};
 
   for (int k = 0; k < 3; k++) {
     Graph* graph = cppdescent::KNNBruteForceGraph(
-        vec, K[k], compareEdgesEuclidean, euclideanDistance);
+        vec, K[k], (CompareFunc)compareEdgesEuclidean, euclideanDistance);
 
     List* vertices = graph->getVertices();
     ASSERT_EQ(vertices->getSize(), 20);

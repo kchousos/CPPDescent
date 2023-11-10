@@ -13,6 +13,7 @@
 
 #include "ADTList.hpp"
 #include "ADTMap.hpp"
+#include "ADTPQueue.hpp"
 #include "ADTVector.hpp"
 
 class Graph {
@@ -35,6 +36,12 @@ class Graph {
   void removeEdge(Pointer vertex1, Pointer vertex2);
   float getWeight(Pointer vertex1, Pointer vertex2);
   List* getAdjacent(Pointer vertex);
+  PQueue* getAdjacentPQ(Pointer vertex);
+  List* getReverseAdjacent(Pointer vertex);
+  PQueue* getReverseAdjacentPQ(Pointer vertex);
+  List* getGeneralNeighbors(Pointer vertex);
+  PQueue* getGeneralNeighborsPQ(Pointer vertex);
+  bool isNeighbor(Pointer v1, Pointer v2);
   // Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
   CompareFunc getCompare() { return this->compare; };

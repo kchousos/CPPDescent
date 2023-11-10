@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;63dd51f
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;b8c28b4
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -103,6 +103,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
 <tr class="memitem:a3d5c832c39245e41693b9b0245696ca7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a3d5c832c39245e41693b9b0245696ca7">KNNBruteForceGraph</a> (<a class="el" href="classVector.html">Vector</a> *data, int K, CompareFunc compare, DistanceFunc distance)</td></tr>
 <tr class="memdesc:a3d5c832c39245e41693b9b0245696ca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the K-NN graph using brute force.  <br /></td></tr>
 <tr class="separator:a3d5c832c39245e41693b9b0245696ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac961bff992e647d431fbda9c8cdf22f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#ac961bff992e647d431fbda9c8cdf22f7">NNDescent_KNNGraph</a> (<a class="el" href="classVector.html">Vector</a> *data, int K, DistanceFunc distance)</td></tr>
+<tr class="memdesc:ac961bff992e647d431fbda9c8cdf22f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the K-NN graph for the given dataset using the NN-Descent algorithm.  <br /></td></tr>
+<tr class="separator:ac961bff992e647d431fbda9c8cdf22f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad662a4e417763509e1fa9c3d3100c9ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#ad662a4e417763509e1fa9c3d3100c9ff">NNDescent_Query</a> (<a class="el" href="classGraph.html">Graph</a> *graph, int K, CompareFunc compare, <a class="el" href="classVector.html">Vector</a> *query)</td></tr>
+<tr class="memdesc:ad662a4e417763509e1fa9c3d3100c9ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the K Nearest Neighbors of the query point in the graph.  <br /></td></tr>
+<tr class="separator:ad662a4e417763509e1fa9c3d3100c9ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Functions for the creation of a K-NN graph. </p>
@@ -158,6 +164,104 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Graph* A pointer to the optimal K-NN graph. </dd></dl>
+
+</div>
+</div>
+<a id="ac961bff992e647d431fbda9c8cdf22f7" name="ac961bff992e647d431fbda9c8cdf22f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac961bff992e647d431fbda9c8cdf22f7">&#9670;&#160;</a></span>NNDescent_KNNGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classGraph.html">Graph</a> * cppdescent::NNDescent_KNNGraph </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classVector.html">Vector</a> *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>K</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DistanceFunc&#160;</td>
+          <td class="paramname"><em>distance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the K-NN graph for the given dataset using the NN-Descent algorithm. </p>
+<p>The user is responsible deletion of the allocated memory of the returned graph.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>A <a class="el" href="classVector.html" title="ADT Vector.">Vector</a> of the vertices of the graph. </td></tr>
+    <tr><td class="paramname">K</td><td>The number of nearest neighbors to compute. </td></tr>
+    <tr><td class="paramname">distance</td><td>The function to be used to compute the distances between vertices. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Graph* The complete K-NN graph of the dataset. </dd></dl>
+
+</div>
+</div>
+<a id="ad662a4e417763509e1fa9c3d3100c9ff" name="ad662a4e417763509e1fa9c3d3100c9ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad662a4e417763509e1fa9c3d3100c9ff">&#9670;&#160;</a></span>NNDescent_Query()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classList.html">List</a> * cppdescent::NNDescent_Query </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classGraph.html">Graph</a> *&#160;</td>
+          <td class="paramname"><em>graph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>K</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CompareFunc&#160;</td>
+          <td class="paramname"><em>compare</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classVector.html">Vector</a> *&#160;</td>
+          <td class="paramname"><em>query</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the K Nearest Neighbors of the query point in the graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>The K-NN <a class="el" href="classGraph.html">Graph</a>, in which we search for neighbors of the query. </td></tr>
+    <tr><td class="paramname">K</td><td></td></tr>
+    <tr><td class="paramname">compare</td><td>The function used to compare edges. </td></tr>
+    <tr><td class="paramname">query</td><td>The query point, given as a <a class="el" href="classVector.html" title="ADT Vector.">Vector</a>. Must be of the same dimensions as the rest points of the graph. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>List* A list of the K-NN of the query. If the query point is of wrong dimensions, then nullptr is returned. </dd></dl>
 
 </div>
 </div>

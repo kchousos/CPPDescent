@@ -9,6 +9,7 @@
  *
  */
 #include "cppdescent/ADTList.hpp"
+#include <cstdlib>
 
 /**
  * @brief Construct a new List object.
@@ -232,13 +233,12 @@ int List::mergeLists(List* list) {
   if (list == nullptr || list->getHead() == LIST_BOF)
     return -1;
 
-  ListNode* lnode = list->getHead();
-  ListNode* node = this->tail;
-  for (int i = 0; i < list->getSize(); i++) {
-    this->insertNext(node, lnode->getValue());
-    node = this->next(node);
-    lnode = list->next(lnode);
-  }
+  this->getTail()->setNext(list->getHead());
+  this->size += list->getSize();
+  this->tail = list->getTail();
+
+  // FIXME
+  //  delete list;
 
   return 0;
 }

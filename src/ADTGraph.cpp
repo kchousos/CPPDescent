@@ -117,7 +117,6 @@ void Graph::insertEdge(Pointer vertex1, Pointer vertex2, float weight = 1) {
       this->vec->find(vertex2, this->compare) == nullptr)
     return;
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
-  this->map->setHashFunction(this->hash);
   this->map->insert(pair, createFloat(weight));
 }
 
@@ -157,6 +156,125 @@ List* Graph::getAdjacent(Pointer vertex) {
   return list;
 }
 
+int compareEdgeWeights(Pointer a, Pointer b) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)a;
+  GraphVertexPair* pair2 = (GraphVertexPair*)b;
+
+  float first =
+      pair1->getOwner()->getWeight(pair1->getVertex1(), pair1->getVertex2());
+  float second =
+      pair2->getOwner()->getWeight(pair2->getVertex1(), pair2->getVertex2());
+
+  float result = first - second;
+
+  if (result < 0)
+    return -1;
+  else if (result > 0)
+    return 1;
+  else
+    return 0;
+}
+
+void destroyEdgePair(GraphVertexPair* pair) {
+  delete pair;
+}
+
+PQueue* Graph::getAdjacentPQ(Pointer vertex) {
+  PQueue* pqueue =
+      new PQueue(compareEdgeWeights, (DestroyFunc)destroyEdgePair, nullptr);
+
+  for (int i = 0; i < this->size; i++) {
+    GraphVertexPair* pair =
+        new GraphVertexPair(this, vertex, this->vec->getAt(i));
+    if (this->map->find(pair) != MAP_EOF)
+      pqueue->insert(pair);
+    else
+      delete pair;
+  }
+
+  return pqueue;
+}
+
+List* Graph::getReverseAdjacent(Pointer vertex) {
+  List* list = new List;
+  ListNode* node = LIST_BOF;
+
+  for (int i = 0; i < this->size; i++) {
+    GraphVertexPair* pair =
+        new GraphVertexPair(this, this->vec->getAt(i), vertex);
+    if (this->map->find(pair) != MAP_EOF) {
+      list->insertNext(node, pair->getVertex1());
+      if (node != nullptr)
+        node = list->next(node);
+      else
+        node = list->getHead();
+    }
+    delete pair;
+  }
+
+  return list;
+}
+
+// The function itself leaves memory leaks. But, it is only used for
+// getGeneralNeighors, in which the memory of the revAdj is freed by another
+// PQueue.
+PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
+  PQueue* pqueue = new PQueue(compareEdgeWeights, nullptr, nullptr);
+
+  for (int i = 0; i < this->size; i++) {
+    GraphVertexPair* pair =
+        new GraphVertexPair(this, this->vec->getAt(i), vertex);
+    if (this->map->find(pair) != MAP_EOF)
+      pqueue->insert(pair);
+    else
+      delete pair;
+  }
+
+  return pqueue;
+}
+
+List* Graph::getGeneralNeighbors(Pointer vertex) {
+  List* generalNeighbors = this->getAdjacent(vertex);
+  List* reverseAdjList = this->getReverseAdjacent(vertex);
+
+  generalNeighbors->mergeLists(reverseAdjList);
+  // delete reverseAdjList;
+  return generalNeighbors;
+}
+
+void swap(Pointer p, Pointer q) {
+  Pointer tmp = p;
+  p = q;
+  q = tmp;
+}
+
+PQueue* Graph::getGeneralNeighborsPQ(Pointer vertex) {
+  PQueue* adj = getAdjacentPQ(vertex);
+  PQueue* revAdj = getReverseAdjacentPQ(vertex);
+
+  if (adj->getSize() < revAdj->getSize())
+    swap((Pointer)adj, (Pointer)revAdj);
+
+  int size = revAdj->getSize();
+  for (int i = 0; i < size; i++) {
+    adj->insert(revAdj->getMax());
+    revAdj->removeMax();
+  }
+
+  delete revAdj;
+  return adj;
+}
+
+bool Graph::isNeighbor(Pointer v1, Pointer v2) {
+  GraphVertexPair* pair = new GraphVertexPair(this, v1, v2);
+  Pointer p = this->map->find(pair);
+  delete pair;
+
+  if (p != nullptr)
+    return true;
+  return false;
+}
+
 Graph::~Graph() {
   delete this->vec;
   delete this->map;
@@ -169,4 +287,5 @@ Graph::~Graph() {
 
 void Graph::setHashFunction(HashFunc hash) {
   this->hash = hash;
+  this->map->setHashFunction(this->hash);
 }
