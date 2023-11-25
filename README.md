@@ -10,14 +10,19 @@ described in \[1\], \[2\].
 
 ## Contributors
 
-- [Konstantinos Chousos](https://github.com/kchousos) (1115202000215, sdi2000215@di.uoa.gr)
+- [Konstantinos Chousos](https://github.com/kchousos) (1115202000215,
+  sdi2000215@di.uoa.gr)
 
-  Build/Testing/Code coverage pipeline. ADTVector, ADTList, ADTPQueue. 
-  Brute Force K-NN Graph creation. NN-Descent Graph creation. (Incomplete) Query point K-NN.
+  Build/Testing/Code coverage pipeline. ADTVector, ADTList, ADTPQueue.
 
-- [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan) (1115202000179, sdi2000215@di.uoa.gr)
+  Brute Force K-NN Graph creation. NN-Descent Graph creation.
+  (Incomplete) Query point K-NN.
 
-  ADTMap, ADTGraph. Brute Force K-NN Graph creation. NN-Descent Graph creation.
+- [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
+  (1115202000179, sdi2000215@di.uoa.gr)
+
+  ADTMap, ADTGraph. Brute Force K-NN Graph creation. NN-Descent Graph
+  creation.
 
 ## Dependencies
 
@@ -38,6 +43,23 @@ on an apt-based linux distro, run the following commands:
 - If you would like to generate the documentation, you will need
   `doxygen` installed.
 
+## Running the project
+
+To run the main executable, the following commands suffice:
+
+    $ cmake -S . -B build
+    $ cmake --build build
+    $ ./build/app/app
+
+- [ ] **TODO**: cli arguments finalization (#45)
+
+### Results
+
+The *recall* percentage that is printed during execution is computed by
+the following formula, derived from \[1, Sec. 3.2\].
+
+$$ \text{scan rate}=\frac{\#\text{similarity evaluations}}{N(N-1)/2}$$
+
 ## Code Structure
 
 In the [wiki](https://kchousos.github.io/CPPDescent/html/), you can find
@@ -50,6 +72,12 @@ form](https://kchousos.github.io/CPPDescent/latex/refman.pdf).
 This project uses [LCOV](https://github.com/linux-test-project/lcov) for
 its code coverage needs. The results are uploaded upon commit
 [here](https://kchousos.github.io/CPPDescent/lcov).
+
+## Contributors
+
+- [Konstantinos Chousos](https://github.com/kchousos) (1115202000215)
+- [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
+  (1115202000179)
 
 ## Bibliography
 
@@ -71,8 +99,7 @@ Machinery, Mar. 2011, pp. 577–586. doi:
 
 <span class="csl-left-margin">\[2\]
 </span><span class="csl-right-inline">“How PyNNDescent works —
-pynndescent 0.5.0 documentation.” Accessed: Oct. 10, 2023. \[Online\].
-Available:
+pynndescent 0.5.0 documentation.” \[Online\]. Available:
 <https://pynndescent.readthedocs.io/en/latest/how_pynndescent_works.html></span>
 
 </div>
