@@ -75,12 +75,6 @@ This project uses [LCOV](https://github.com/linux-test-project/lcov) for
 its code coverage needs. The results are uploaded upon commit
 [here](https://kchousos.github.io/CPPDescent/lcov).
 
-## Contributors
-
-- [Konstantinos Chousos](https://github.com/kchousos) (1115202000215)
-- [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
-  (1115202000179)
-
 ## Bibliography
 
 <div id="refs" class="references csl-bib-body" entry-spacing="0">
