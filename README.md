@@ -58,7 +58,9 @@ To run the main executable, the following commands suffice:
 The *recall* percentage that is printed during execution is computed by
 the following formula, derived from \[1, Sec. 3.2\].
 
-$$ \text{scan rate}=\frac{\#\text{similarity evaluations}}{N(N-1)/2}$$
+$$
+\text{scan rate}=\frac{\text{num of similarity evaluations}}{N(N-1)/2}
+$$
 
 ## Code Structure
 
