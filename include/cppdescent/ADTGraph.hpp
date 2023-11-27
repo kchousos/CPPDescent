@@ -47,6 +47,8 @@ class Graph {
   CompareFunc getCompare() { return this->compare; };
   DestroyFunc getDestroy() { return this->destroy; };
   HashFunc getHash() { return this->hash; };
+  Vector* getVec() { return this->vec; };
+  Map* getMap() { return this->map; };
 };
 
 class GraphVertexPair {

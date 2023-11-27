@@ -120,6 +120,14 @@ class Vector {
    */
   Pointer find(Pointer value, CompareFunc compare);
   /**
+   * @brief Find the first element with value equal to value and return its pos.
+   *
+   * @param value The value to look for.
+   * @param compare The function to be used for comparison.
+   * @return int The position of the element.
+   */
+  int findPos(Pointer value, CompareFunc compare);
+  /**
    * @brief Set the Destroy Value.
    *
    * @param destroyValue The new destroy value function.

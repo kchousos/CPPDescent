@@ -5,8 +5,6 @@
 #include "ADTGraph.hpp"
 #include "ADTVector.hpp"
 
-#define DEFAULT_POINTS_NUM 100
-
 typedef float (*DistanceFunc)(Pointer a, Pointer b);
 
 /**
@@ -38,6 +36,8 @@ int compareVertices(Pointer first, Pointer second);
  * @return Vector* An N-sized vector with vectors for each element.
  */
 Vector* readBinData(char* fp, int dimensions);
+
+void writeBinGraph(char* fp, Graph* graph);
 /**
  * @brief Computes the K-NN graph using brute force.
  *

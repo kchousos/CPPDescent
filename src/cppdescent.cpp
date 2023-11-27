@@ -11,7 +11,6 @@
 #include "cppdescent/cppdescent.hpp"
 #include <cstdint>
 #include <iostream>
-#include "cppdescent/ADTPQueue.hpp"
 
 //===================================
 // Helper functions.
@@ -118,6 +117,47 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
   fclose(data);
 
   return elements;
+}
+
+void cppdescent::writeBinGraph(char* fp, Graph* graph) {
+  FILE* file = fopen(fp, "w");
+
+  Vector* vec = graph->getVec();
+  uint32_t N = vec->getSize();
+
+  // number of vertices
+  fwrite(&N, sizeof(N), 1, file);
+
+  // vectices
+  for (int i = 0; i < (int)N; i++) {
+    Vector* vertex = (Vector*)vec->getAt(i);
+    int dimensions = vertex->getSize();
+
+    for (int j = 0; j < dimensions; j++)
+      fwrite((float*)vertex->getAt(j), sizeof(float), 1, file);
+  }
+
+  Map* map = graph->getMap();
+
+  // edges
+  for (MapNode* node = map->getFirst(); node != nullptr;
+       node = map->getNext(node)) {
+    if (node->getState() != OCCUPIED)
+      continue;
+
+    GraphVertexPair* pair = (GraphVertexPair*)node->getValue();
+
+    Pointer vertex1 = pair->getVertex1();
+    Pointer vertex2 = pair->getVertex2();
+
+    int pos1 = vec->findPos(vertex1, compareVertices);
+    int pos2 = vec->findPos(vertex2, compareVertices);
+
+    fwrite(&pos1, sizeof(int), 1, file);
+    fwrite(&pos2, sizeof(int), 1, file);
+  }
+
+  fclose(file);
 }
 
 void cppdescent::deleteFloat(Pointer value) {
