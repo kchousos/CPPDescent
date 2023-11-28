@@ -26,16 +26,23 @@ float* createFloat(float value) {
 }
 
 int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
-  int first =
-      pair1->getOwner()->getCompare()(pair1->getVertex1(), pair2->getVertex1());
-  int second =
-      pair1->getOwner()->getCompare()(pair1->getVertex2(), pair2->getVertex2());
+  int first = pair1->getOwner()->getCompareData()(pair1->getVertex1(),
+                                                  pair2->getVertex1());
+  int second = pair1->getOwner()->getCompareData()(pair1->getVertex2(),
+                                                   pair2->getVertex2());
   if (first)
     return first;
   else if (second)
     return second;
 
   return 0;
+}
+
+int compareVertices(Pointer vertex1, Pointer vertex2) {
+  GraphVertex* v1 = (GraphVertex*)vertex1;
+  GraphVertex* v2 = (GraphVertex*)vertex2;
+
+  return v1->getOwner()->getCompareData()(v1->getData(), v2->getData());
 }
 
 void destroyVertexPair(GraphVertexPair* pair) {
@@ -48,11 +55,12 @@ void destroyValue(Pointer value) {
 
 // Graph //
 
-Graph::Graph(CompareFunc compare, DestroyFunc destroy)
-    : size(0), compare(compare), destroy(destroy) {
+Graph::Graph(CompareFunc compare_data, DestroyFunc destroy)
+    : size(0), compare_data(compare_data), destroy(destroy) {
   this->map = new Map((CompareFunc)compareVertexPair,
                       (DestroyFunc)destroyVertexPair, destroyValue);
   this->vec = new Vector(0, nullptr);
+  this->compare_vertices = compareVertices;
 }
 
 int Graph::getSize() {
@@ -65,8 +73,10 @@ int Graph::getSize() {
  * @param vertex A Pointer to the vertex to be unserted.
  */
 void Graph::insertVertex(Pointer vertex) {
-  if (this->vec->find(vertex, this->compare) == nullptr) {
-    this->vec->insertLast(vertex);
+  GraphVertex* gvertex = new GraphVertex(vertex, this);
+
+  if (this->vec->find(gvertex, this->compare_vertices) == nullptr) {
+    this->vec->insertLast(gvertex);
     this->size++;
   }
 }
@@ -83,7 +93,7 @@ List* Graph::getVertices() {
   List* list = new List;
   ListNode* node = LIST_BOF;
   for (int i = 0; i < this->size; i++) {
-    list->insertNext(node, this->vec->getAt(i));
+    list->insertNext(node, ((GraphVertex*)this->vec->getAt(i))->getData());
     if (node != LIST_BOF)
       node = list->next(node);
     else
@@ -94,10 +104,11 @@ List* Graph::getVertices() {
 }
 
 void Graph::removeVertex(Pointer vertex) {
-  Pointer last = this->vec->nodeValue(this->vec->last());
+  GraphVertex* last = (GraphVertex*)this->vec->nodeValue(this->vec->last());
+
   int i;
   for (i = 0; i < this->size; i++)
-    if (this->vec->getAt(i) == vertex)
+    if (((GraphVertex*)this->vec->getAt(i))->getData() == vertex)
       break;
 
   this->vec->setAt(i, last);
@@ -112,12 +123,29 @@ void Graph::removeVertex(Pointer vertex) {
   }
 }
 
-void Graph::insertEdge(Pointer vertex1, Pointer vertex2, float weight = 1) {
-  if (this->vec->find(vertex1, this->compare) == nullptr ||
-      this->vec->find(vertex2, this->compare) == nullptr)
+void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
+  GraphVertex* vertex1 = new GraphVertex(data1, this);
+  GraphVertex* vertex2 = new GraphVertex(data2, this);
+
+  GraphVertex* gvertex1 =
+      (GraphVertex*)this->vec->find(vertex1, this->compare_vertices);
+  GraphVertex* gvertex2 =
+      (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
+
+  if (gvertex1 == nullptr || gvertex2 == nullptr)
     return;
-  GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
+
+  GraphVertexPair* pair =
+      new GraphVertexPair(this, vertex1->getData(), vertex2->getData());
   this->map->insert(pair, createFloat(weight));
+
+  // GraphVertexPair* revPair = new GraphVertexPair(this, vertex2->getData(),
+  // vertex1->getData());
+  gvertex1->addNeighbor(pair);
+  gvertex2->addReverse(pair);
+
+  delete vertex1;
+  delete vertex2;
 }
 
 void Graph::removeEdge(Pointer vertex1, Pointer vertex2) {
@@ -141,8 +169,8 @@ List* Graph::getAdjacent(Pointer vertex) {
   ListNode* node = LIST_BOF;
 
   for (int i = 0; i < this->size; i++) {
-    GraphVertexPair* pair =
-        new GraphVertexPair(this, vertex, this->vec->getAt(i));
+    GraphVertexPair* pair = new GraphVertexPair(
+        this, vertex, ((GraphVertex*)this->vec->getAt(i))->getData());
     if (this->map->find(pair) != MAP_EOF) {
       list->insertNext(node, pair->getVertex2());
       if (node != nullptr)
@@ -180,19 +208,16 @@ void destroyEdgePair(GraphVertexPair* pair) {
 }
 
 PQueue* Graph::getAdjacentPQ(Pointer vertex) {
-  PQueue* pqueue =
-      new PQueue(compareEdgeWeights, (DestroyFunc)destroyEdgePair, nullptr);
+  GraphVertex* gvertex = new GraphVertex(vertex, this);
+  GraphVertex* found =
+      ((GraphVertex*)this->vec->find(gvertex, this->compare_vertices));
 
-  for (int i = 0; i < this->size; i++) {
-    GraphVertexPair* pair =
-        new GraphVertexPair(this, vertex, this->vec->getAt(i));
-    if (this->map->find(pair) != MAP_EOF)
-      pqueue->insert(pair);
-    else
-      delete pair;
+  if (found == nullptr) {
+    std::cout << "Vertex not found" << std::endl;
+    return nullptr;
   }
 
-  return pqueue;
+  return found->getNeighbors();
 }
 
 List* Graph::getReverseAdjacent(Pointer vertex) {
@@ -200,8 +225,8 @@ List* Graph::getReverseAdjacent(Pointer vertex) {
   ListNode* node = LIST_BOF;
 
   for (int i = 0; i < this->size; i++) {
-    GraphVertexPair* pair =
-        new GraphVertexPair(this, this->vec->getAt(i), vertex);
+    GraphVertexPair* pair = new GraphVertexPair(
+        this, ((GraphVertex*)this->vec->getAt(i))->getData(), vertex);
     if (this->map->find(pair) != MAP_EOF) {
       list->insertNext(node, pair->getVertex1());
       if (node != nullptr)
@@ -219,18 +244,16 @@ List* Graph::getReverseAdjacent(Pointer vertex) {
 // getGeneralNeighors, in which the memory of the revAdj is freed by another
 // PQueue.
 PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
-  PQueue* pqueue = new PQueue(compareEdgeWeights, nullptr, nullptr);
+  GraphVertex* gvertex = new GraphVertex(vertex, this);
+  GraphVertex* found =
+      ((GraphVertex*)this->vec->find(gvertex, this->compare_vertices));
 
-  for (int i = 0; i < this->size; i++) {
-    GraphVertexPair* pair =
-        new GraphVertexPair(this, this->vec->getAt(i), vertex);
-    if (this->map->find(pair) != MAP_EOF)
-      pqueue->insert(pair);
-    else
-      delete pair;
+  if (found == nullptr) {
+    std::cout << "Vertex not found" << std::endl;
+    return nullptr;
   }
 
-  return pqueue;
+  return found->getReverse();
 }
 
 List* Graph::getGeneralNeighbors(Pointer vertex) {
@@ -288,4 +311,10 @@ Graph::~Graph() {
 void Graph::setHashFunction(HashFunc hash) {
   this->hash = hash;
   this->map->setHashFunction(this->hash);
+}
+
+GraphVertex::GraphVertex(Pointer data, Graph* owner)
+    : data(data), owner(owner) {
+  neighbors = new PQueue(compareEdgeWeights, nullptr, nullptr);
+  reverse = new PQueue(compareEdgeWeights, nullptr, nullptr);
 }
