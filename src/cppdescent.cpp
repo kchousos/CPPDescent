@@ -160,6 +160,45 @@ void cppdescent::writeBinGraph(char* fp, Graph* graph) {
   fclose(file);
 }
 
+Graph* cppdescent::readBinGraph(char* fp,
+                                int dimensions,
+                                DistanceFunc distance) {
+  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
+  graph->setHashFunction((HashFunc)hashEdge);
+
+  FILE* file = fopen(fp, "r");
+
+  uint32_t N;
+
+  fread(&N, sizeof(N), 1, file);
+
+  float datapoint;
+
+  for (int i = 0; i < (int)N; i++) {
+    Vector* vertex = new Vector(dimensions, deleteFloat);
+
+    for (int j = 0; j < dimensions; j++) {
+      fread(&datapoint, sizeof(float), 1, file);
+      vertex->setAt(j, createFloat(datapoint));
+    }
+
+    graph->insertVertex(vertex);
+  }
+
+  do {
+    int pos1, pos2;
+    fread(&pos1, sizeof(int), 1, file);
+    fread(&pos2, sizeof(int), 1, file);
+
+    Pointer vertex1 = graph->getVec()->getAt(pos1);
+    Pointer vertex2 = graph->getVec()->getAt(pos2);
+    graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
+
+  } while (!feof(file));
+
+  return graph;
+}
+
 void cppdescent::deleteFloat(Pointer value) {
   delete (float*)value;
 }
