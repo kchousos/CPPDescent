@@ -120,7 +120,7 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
 }
 
 void cppdescent::writeBinGraph(char* fp, Graph* graph) {
-  FILE* file = fopen(fp, "w");
+  FILE* file = fopen(fp, "w+");
 
   Vector* vec = graph->getVec();
   uint32_t N = vec->getSize();
@@ -128,7 +128,7 @@ void cppdescent::writeBinGraph(char* fp, Graph* graph) {
   // number of vertices
   fwrite(&N, sizeof(N), 1, file);
 
-  // vectices
+  // vertices
   for (int i = 0; i < (int)N; i++) {
     Vector* vertex = (Vector*)vec->getAt(i);
     int dimensions = vertex->getSize();
@@ -140,12 +140,9 @@ void cppdescent::writeBinGraph(char* fp, Graph* graph) {
   Map* map = graph->getMap();
 
   // edges
-  for (MapNode* node = map->getFirst(); node != nullptr;
+  for (MapNode* node = map->getFirst(); node != MAP_EOF;
        node = map->getNext(node)) {
-    if (node->getState() != OCCUPIED)
-      continue;
-
-    GraphVertexPair* pair = (GraphVertexPair*)node->getValue();
+    GraphVertexPair* pair = (GraphVertexPair*)node->getKey();
 
     Pointer vertex1 = pair->getVertex1();
     Pointer vertex2 = pair->getVertex2();
@@ -166,7 +163,7 @@ Graph* cppdescent::readBinGraph(char* fp,
   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
-  FILE* file = fopen(fp, "r");
+  FILE* file = fopen(fp, "rb");
 
   uint32_t N;
 
@@ -174,6 +171,7 @@ Graph* cppdescent::readBinGraph(char* fp,
 
   float datapoint;
 
+  // read the vertices
   for (int i = 0; i < (int)N; i++) {
     Vector* vertex = new Vector(dimensions, deleteFloat);
 
@@ -185,17 +183,19 @@ Graph* cppdescent::readBinGraph(char* fp,
     graph->insertVertex(vertex);
   }
 
-  do {
-    int pos1, pos2;
+  // read the edges
+  int pos1, pos2;
+
+  while (!feof(file)) {
     fread(&pos1, sizeof(int), 1, file);
     fread(&pos2, sizeof(int), 1, file);
 
     Pointer vertex1 = graph->getVec()->getAt(pos1);
     Pointer vertex2 = graph->getVec()->getAt(pos2);
     graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
+  }
 
-  } while (!feof(file));
-
+  fclose(file);
   return graph;
 }
 
