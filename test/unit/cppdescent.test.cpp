@@ -147,11 +147,11 @@ TEST_F(BruteForceManualDataset, binaryGraphFiles) {
   Graph* graph = cppdescent::KNNBruteForceGraph(vec, K, compareEdgesEuclidean,
                                                 euclideanDistance);
 
-  cppdescent::writeBinGraph("./test/cache/graph.bin", graph);
+  cppdescent::writeBinGraph("./build/cache/graph.bin", graph);
 
   delete graph;
 
-  graph = cppdescent::readBinGraph("./test/cache/graph.bin", 2,
+  graph = cppdescent::readBinGraph("./build/cache/graph.bin", 2,
                                    (DistanceFunc)euclideanDistance);
 
   List* vertices = graph->getVertices();
@@ -220,7 +220,6 @@ TEST_F(BruteForceManualDataset, binaryGraphFiles) {
             nullptr);
 
   delete adjacent;
-  vertex = vertex->getNext();
 
   delete vertices;
   delete graph;

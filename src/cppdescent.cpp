@@ -163,7 +163,7 @@ Graph* cppdescent::readBinGraph(char* fp,
   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
-  FILE* file = fopen(fp, "rb");
+  FILE* file = fopen(fp, "r");
 
   uint32_t N;
 
@@ -173,7 +173,7 @@ Graph* cppdescent::readBinGraph(char* fp,
 
   // read the vertices
   for (int i = 0; i < (int)N; i++) {
-    Vector* vertex = new Vector(dimensions, deleteFloat);
+    Vector* vertex = new Vector(dimensions, (DestroyFunc)deleteFloat);
 
     for (int j = 0; j < dimensions; j++) {
       fread(&datapoint, sizeof(float), 1, file);
