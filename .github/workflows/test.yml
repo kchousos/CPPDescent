@@ -22,9 +22,9 @@ jobs:
     # - name: checkoutLFS
     #   uses: actions/checkout@v4
     # - run: git lfs pull
-    - name: Create the cache directory
-      run: mkdir -p build/cache
     - name: build the tests
       run: ./helper.sh --clean-build
+    - name: Create the cache directory
+      run: mkdir -p build/cache
     - name: run the tests
       run: ./helper.sh --tests
