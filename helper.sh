@@ -35,18 +35,6 @@ function runTests {
     done
 }
 
-function valgrind {
-    for i in ./build/test/*.test
-    do
-        printf "\n\n"
-        echo "=============================================="
-        echo "$i"
-        echo "=============================================="
-        printf "\n\n"
-        valgrind $i
-    done
-}
-
 function coverage {
     runTests
     rm -f ./test/coverage.info ./test/filtered_coverage.info
@@ -77,9 +65,6 @@ while [[ "$#" -gt 0 ]]; do
             ;;
         --tests)
             runTests
-            ;;
-        --valgrind)
-            valgrind
             ;;
         --coverage)
             coverage

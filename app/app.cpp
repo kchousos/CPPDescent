@@ -147,19 +147,21 @@ int main(int argc, char* argv[]) {
   nnGraph = cppdescent::readBinGraph("./build/cache/nngraph.bin", dimensions,
                                      distance);
 
-  // The vertices will be the same for both graphs.
-  List* vertices = bfGraph->getVertices();
+  List* bfVertices = bfGraph->getVertices();
+  List* nnVertices = nnGraph->getVertices();
 
   float recall = 0;
 
-  for (ListNode* bfNode = vertices->getHead(); bfNode != nullptr;
-       bfNode = bfNode->getNext()) {
+  for (ListNode *bfNode = bfVertices->getHead(),
+                *nnNode = nnVertices->getHead();
+       bfNode != nullptr;
+       bfNode = bfNode->getNext(), nnNode = nnNode->getNext()) {
     int trueNeighbors = 0;
     List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
 
     for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
          adjacent = adjacent->getNext()) {
-      List* nnAdjacent = nnGraph->getAdjacent(bfNode->getValue());
+      List* nnAdjacent = nnGraph->getAdjacent(nnNode->getValue());
 
       if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
         trueNeighbors++;
@@ -172,10 +174,11 @@ int main(int argc, char* argv[]) {
   }
 
   recall = recall / (float)N;
+  recall *= 100;
 
-  std::cout << "Total recall is " << recall * 100 << "%\n\n";
+  std::cout << "Total recall is " << recall << "%\n\n";
 
-  delete vertices;
+  delete bfVertices;
   delete bfGraph;
   delete nnGraph;
 
