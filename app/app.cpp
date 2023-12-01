@@ -95,18 +95,22 @@ int main(int argc, char* argv[]) {
   int dimensions = atoi(argv[3]);
 
   Vector* vec = cppdescent::readBinData((char*)argv[2], dimensions);
+  int N = vec->getSize();
+
+  DistanceFunc distance = euclideanDistance;
+  CompareFunc compare = compareEdgesEuclidean;
 
   std::cout << "For K = " << K << "\n";
   std::cout << "Dataset: " << argv[2] << "\n";
   std::cout << "Dimensions: " << dimensions << "\n";
   std::cout << "----------------------------------------------------------\n";
 
-  // Creation of graphs.
+  // Creation of graphs //
 
   auto start = std::chrono::high_resolution_clock::now();
 
-  Graph* bfGraph = cppdescent::KNNBruteForceGraph(
-      vec, K, (CompareFunc)compareEdgesManhattan, manhattanDistance);
+  // Brute force
+  Graph* bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare, distance);
 
   auto stop = std::chrono::high_resolution_clock::now();
   auto duration =
@@ -117,7 +121,8 @@ int main(int argc, char* argv[]) {
 
   start = std::chrono::high_resolution_clock::now();
 
-  Graph* nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, manhattanDistance);
+  // NN-Descent
+  Graph* nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, distance);
 
   stop = std::chrono::high_resolution_clock::now();
   duration =
@@ -127,6 +132,20 @@ int main(int argc, char* argv[]) {
             << " milliseconds\n";
 
   // Graphs have been created.
+
+  // Save brute force graph to file.
+  cppdescent::writeBinGraph("./build/cache/bfgraph.bin", bfGraph);
+  delete bfGraph;
+
+  // save NN-Descent graph to file.
+  cppdescent::writeBinGraph("./build/cache/nngraph.bin", nnGraph);
+  delete nnGraph;
+
+  // Read the graph files.
+  bfGraph = cppdescent::readBinGraph("./build/cache/bfgraph.bin", dimensions,
+                                     distance);
+  nnGraph = cppdescent::readBinGraph("./build/cache/nngraph.bin", dimensions,
+                                     distance);
 
   // The vertices will be the same for both graphs.
   List* vertices = bfGraph->getVertices();
@@ -141,6 +160,7 @@ int main(int argc, char* argv[]) {
     for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
          adjacent = adjacent->getNext()) {
       List* nnAdjacent = nnGraph->getAdjacent(bfNode->getValue());
+
       if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
         trueNeighbors++;
 
@@ -151,9 +171,9 @@ int main(int argc, char* argv[]) {
     delete bfNodeAdjacent;
   }
 
-  recall = recall / 200.0;
+  recall = recall / (float)N;
 
-  std::cout << "Total recall is " << recall * 100 << "%\n\n\n";
+  std::cout << "Total recall is " << recall * 100 << "%\n\n";
 
   delete vertices;
   delete bfGraph;

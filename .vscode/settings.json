@@ -3,7 +3,7 @@
     "cmake.debugConfig": {
         "args": [
             "8",
-            "./datasets/00000200.bin",
+            "./datasets/00000020.bin",
             "100",
         ],
         "cwd": "${workspaceFolder}/",

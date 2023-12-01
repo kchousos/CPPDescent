@@ -157,6 +157,7 @@ void cppdescent::writeBinGraph(char* fp, Graph* graph) {
   fclose(file);
 }
 
+// FIXME: mem leaks in the 'read vertices' part. Dk why.
 Graph* cppdescent::readBinGraph(char* fp,
                                 int dimensions,
                                 DistanceFunc distance) {
@@ -216,7 +217,8 @@ float cppdescent::compareFloats(Pointer a, Pointer b) {
 int cppdescent::deleteDatapointVectors(Vector* vec) {
   if (vec == nullptr)
     return -1;
-  for (int i = 0; i < vec->getSize(); i++) {
+  int dimensions = vec->getSize();
+  for (int i = 0; i < dimensions; i++) {
     delete (Vector*)vec->getAt(i);
   }
 
@@ -227,8 +229,8 @@ int cppdescent::deleteDatapointVectors(Vector* vec) {
 int cppdescent::compareVertices(Pointer first, Pointer second) {
   Vector* vec1 = (Vector*)first;
   Vector* vec2 = (Vector*)second;
-
-  for (int i = 0; i < vec1->getSize(); i++)
+  int dimensions = vec1->getSize();
+  for (int i = 0; i < dimensions; i++)
     if (cppdescent::compareFloats(vec1->getAt(i), vec2->getAt(i)))
       return 1;
 

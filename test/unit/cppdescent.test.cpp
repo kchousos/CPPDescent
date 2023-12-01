@@ -144,8 +144,8 @@ TEST(IO, readData) {
 TEST_F(BruteForceManualDataset, binaryGraphFiles) {
   int K = 2;
 
-  Graph* graph = cppdescent::KNNBruteForceGraph(vec, K, compareEdgesEuclidean,
-                                                euclideanDistance);
+  Graph* graph = cppdescent::KNNBruteForceGraph(
+      vec, K, (CompareFunc)compareEdgesEuclidean, euclideanDistance);
 
   cppdescent::writeBinGraph("./build/cache/graph.bin", graph);
 
