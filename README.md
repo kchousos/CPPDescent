@@ -67,6 +67,7 @@ distance.
 The *recall* percentage that is printed during execution is computed by
 the following formula, derived from \[1, Sec. 3.2\].
 
+> [!cite]
 > The recall of one object is the number of its true K-NN members found
 > divided by K. The recall of an approximate K-NNG is the average recall
 > of all objects.
