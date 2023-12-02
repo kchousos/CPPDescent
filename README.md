@@ -21,6 +21,7 @@ described in \[1\], \[2\].
   - 2nd submission
     - I/O of graphs in binary files.
     - Recall function.
+    - Metric functions.
 
 - [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
   (1115202000179, sdi2000179 *at* di.uoa.gr)
@@ -55,7 +56,11 @@ To run the main executable, the following commands suffice:
 
     $ cmake -S . -B build
     $ cmake --build build
-    $ ./build/app/app <K> <filepath-to-dataset> <dimensions>
+    $ ./build/app/app <K> <filepath-to-dataset> <dimensions> <1 or 2>
+
+The last argument concerns the metric function that will be used. 1 means
+that the euclidean distance will be used and 2 stands for the manhattan
+distance.
 
 ### Results
 
