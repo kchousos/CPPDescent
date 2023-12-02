@@ -26,7 +26,9 @@ class Graph {
   HashFunc hash;
 
  public:
-  Graph(CompareFunc compare, DestroyFunc destroy);
+  Graph(CompareFunc compare,
+        DestroyFunc destroy,
+        DestroyFunc vecDestroy = nullptr);
   ~Graph();
   int getSize();
   void insertVertex(Pointer vertex);
