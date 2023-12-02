@@ -205,6 +205,42 @@ Graph* cppdescent::readBinGraph(char* fp,
   return graph;
 }
 
+float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
+  List* bfVertices = bfGraph->getVertices();
+  List* nnVertices = nnGraph->getVertices();
+
+  float recall = 0;
+
+  for (ListNode *bfNode = bfVertices->getHead(),
+                *nnNode = nnVertices->getHead();
+       bfNode != nullptr;
+       bfNode = bfNode->getNext(), nnNode = nnNode->getNext()) {
+    int trueNeighbors = 0;
+    List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
+
+    for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
+         adjacent = adjacent->getNext()) {
+      List* nnAdjacent = nnGraph->getAdjacent(nnNode->getValue());
+
+      if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
+        trueNeighbors++;
+
+      delete nnAdjacent;
+    }
+
+    recall += (float)trueNeighbors / (float)K;
+    delete bfNodeAdjacent;
+  }
+
+  recall = recall / (float)N;
+  recall *= 100;
+
+  delete bfVertices;
+  delete nnVertices;
+
+  return recall;
+}
+
 void cppdescent::deleteFloat(Pointer value) {
   delete (float*)value;
 }

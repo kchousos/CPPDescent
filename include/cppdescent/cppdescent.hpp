@@ -66,7 +66,17 @@ void writeBinGraph(char* fp, Graph* graph);
  * @return Graph*
  */
 Graph* readBinGraph(char* fp, int dimensions, DistanceFunc distance);
-
+/**
+ * @brief Returns the recall of the graph computed by NN-Descent, compared to
+ * the brute force graph.
+ *
+ * @param bfGraph
+ * @param nnGraph
+ * @param N
+ * @param K
+ * @return float
+ */
+float recall(Graph* bfGraph, Graph* nnGraph, int N, int K);
 /**
  * @brief Computes the K-NN graph using brute force.
  *
