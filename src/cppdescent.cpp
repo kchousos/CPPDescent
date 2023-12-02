@@ -506,22 +506,6 @@ float cppdescent::euclideanDistance(Pointer a, Pointer b) {
   return result;
 }
 
-float cppdescent::manhattanDistance(Pointer a, Pointer b) {
-  Vector* first = (Vector*)a;
-  Vector* second = (Vector*)b;
-  float result = 0;
-
-  if (first->getSize() != second->getSize())
-    return -1.0;
-
-  for (int i = 0; i < first->getSize(); i++) {
-    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
-    result += fabs(diff);
-  }
-
-  return result;
-}
-
 int cppdescent::compareEdgesEuclidean(Pointer first, Pointer second) {
   GraphVertexPair* pair1 = (GraphVertexPair*)first;
   GraphVertexPair* pair2 = (GraphVertexPair*)second;
@@ -538,6 +522,22 @@ int cppdescent::compareEdgesEuclidean(Pointer first, Pointer second) {
     value = 1;
   }
   return value;
+}
+
+float cppdescent::manhattanDistance(Pointer a, Pointer b) {
+  Vector* first = (Vector*)a;
+  Vector* second = (Vector*)b;
+  float result = 0;
+
+  if (first->getSize() != second->getSize())
+    return -1.0;
+
+  for (int i = 0; i < first->getSize(); i++) {
+    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
+    result += fabs(diff);
+  }
+
+  return result;
 }
 
 int cppdescent::compareEdgesManhattan(Pointer first, Pointer second) {

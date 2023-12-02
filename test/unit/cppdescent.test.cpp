@@ -428,3 +428,49 @@ TEST_F(BruteForceManualDataset, KEqualTo3) {
   int result = cppdescent::deleteDatapointVectors(vec);
   ASSERT_EQ(result, 0);
 }
+
+TEST(MetricFunctions, euclidean) {
+  Vector* vec1 = new Vector(2, cppdescent::deleteFloat);
+  Vector* vec2 = new Vector(2, cppdescent::deleteFloat);
+
+  vec1->setAt(0, cppdescent::createFloat(1.2));
+  vec1->setAt(1, cppdescent::createFloat(3.3));
+
+  vec2->setAt(0, cppdescent::createFloat(4.5));
+  vec2->setAt(1, cppdescent::createFloat(10.2));
+
+  ASSERT_FLOAT_EQ(7.64853, cppdescent::euclideanDistance(vec1, vec2));
+
+  GraphVertexPair* pair1 = new GraphVertexPair(nullptr, vec1, vec2);
+  GraphVertexPair* pair2 = new GraphVertexPair(nullptr, vec1, vec2);
+
+  ASSERT_EQ(0, cppdescent::compareEdgesEuclidean(pair1, pair2));
+
+  delete vec1;
+  delete vec2;
+  delete pair1;
+  delete pair2;
+}
+
+TEST(MetricFunctions, manhattan) {
+  Vector* vec1 = new Vector(2, cppdescent::deleteFloat);
+  Vector* vec2 = new Vector(2, cppdescent::deleteFloat);
+
+  vec1->setAt(0, cppdescent::createFloat(1.2));
+  vec1->setAt(1, cppdescent::createFloat(3.3));
+
+  vec2->setAt(0, cppdescent::createFloat(4.5));
+  vec2->setAt(1, cppdescent::createFloat(10.2));
+
+  ASSERT_FLOAT_EQ(10.2, cppdescent::manhattanDistance(vec1, vec2));
+
+  GraphVertexPair* pair1 = new GraphVertexPair(nullptr, vec1, vec2);
+  GraphVertexPair* pair2 = new GraphVertexPair(nullptr, vec1, vec2);
+
+  ASSERT_EQ(0, cppdescent::compareEdgesManhattan(pair1, pair2));
+
+  delete vec1;
+  delete vec2;
+  delete pair1;
+  delete pair2;
+}
