@@ -21,6 +21,8 @@ float compareFloats(Pointer a, Pointer b);
 int deleteDatapointVectors(Vector* vec);
 
 int compareVertices(Pointer first, Pointer second);
+
+// ================================ I/O ======================================
 /**
  * @brief Reads the data from a binary file.
  *
@@ -67,6 +69,56 @@ void writeBinGraph(char* fp, Graph* graph);
  */
 Graph* readBinGraph(char* fp, int dimensions, DistanceFunc distance);
 
+// ============================ Helper Functions =============================
+/**
+ * @brief Returns the recall of the graph computed by NN-Descent, compared to
+ * the brute force graph.
+ *
+ * @param bfGraph
+ * @param nnGraph
+ * @param N
+ * @param K
+ * @return float
+ */
+float recall(Graph* bfGraph, Graph* nnGraph, int N, int K);
+
+// ============================ Metric Functions =============================
+/**
+ * @brief Returns the Euclidean distance between two points of arbitrary
+ * dimension.
+ *
+ * @param first A pointer to the first point.
+ * @param second A pointer to the second point.
+ * @return long double The Euclidean distance.
+ */
+float euclideanDistance(Pointer a, Pointer b);
+/**
+ * @brief Returns the Manhattan distance between two points of arbitrary
+ * dimension.
+ *
+ * @param first A pointer to the first point.
+ * @param second A pointer to the second point.
+ * @return long double The Manhattan distance.
+ */
+float manhattanDistance(Pointer a, Pointer b);
+/**
+ * @brief Compare edges using the euclideanDistance function.
+ *
+ * @param first A Pointer to the first element.
+ * @param second A Pointer to the second element.
+ * @return int
+ */
+int compareEdgesEuclidean(Pointer first, Pointer second);
+/**
+ * @brief Compare edges using the manhattanDistance function.
+ *
+ * @param first A Pointer to the first element.
+ * @param second A Pointer to the second element.
+ * @return int
+ */
+int compareEdgesManhattan(Pointer first, Pointer second);
+
+// ============================= KNN computation =============================
 /**
  * @brief Computes the K-NN graph using brute force.
  *

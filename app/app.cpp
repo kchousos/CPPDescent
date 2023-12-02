@@ -1,104 +1,31 @@
 #include <chrono>
-#include <cmath>
 #include <iostream>
 #include "cppdescent/cppdescent.hpp"
 
-/**
- * @brief Returns the Euclidean distance between two points of arbitrary
- * dimension.
- *
- * @param first A pointer to the first point.
- * @param second A pointer to the second point.
- * @return long double The Euclidean distance.
- */
-float euclideanDistance(Pointer a, Pointer b) {
-  Vector* first = (Vector*)a;
-  Vector* second = (Vector*)b;
-  float result = 0;
-
-  if (first->getSize() != second->getSize())
-    return -1.0;
-
-  for (int i = 0; i < first->getSize(); i++) {
-    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
-    result += diff * diff;
-  }
-
-  result = sqrtf(result);
-  return result;
-}
-
-float manhattanDistance(Pointer a, Pointer b) {
-  Vector* first = (Vector*)a;
-  Vector* second = (Vector*)b;
-  float result = 0;
-
-  if (first->getSize() != second->getSize())
-    return -1.0;
-
-  for (int i = 0; i < first->getSize(); i++) {
-    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
-    result += fabs(diff);
-  }
-
-  return result;
-}
-
-/**
- * @brief Compare edges using the euclideanDistance function.
- *
- * @param first A Pointer to the first element.
- * @param second A Pointer to the second element.
- * @return int
- */
-int compareEdgesEuclidean(Pointer first, Pointer second) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)first;
-  GraphVertexPair* pair2 = (GraphVertexPair*)second;
-
-  float a = euclideanDistance((Vector*)pair1->getVertex1(),
-                              (Vector*)pair1->getVertex2());
-  float b = euclideanDistance((Vector*)pair2->getVertex1(),
-                              (Vector*)pair2->getVertex2());
-
-  int value = 0;
-  if (b > a) {
-    value = -1;
-  } else if (a > b) {
-    value = 1;
-  }
-  return value;
-}
-
-int compareEdgesManhattan(Pointer first, Pointer second) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)first;
-  GraphVertexPair* pair2 = (GraphVertexPair*)second;
-
-  float a = manhattanDistance((Vector*)pair1->getVertex1(),
-                              (Vector*)pair1->getVertex2());
-  float b = manhattanDistance((Vector*)pair2->getVertex1(),
-                              (Vector*)pair2->getVertex2());
-
-  int value = 0;
-  if (b > a) {
-    value = -1;
-  } else if (a > b) {
-    value = 1;
-  }
-  return value;
-}
-
 int main(int argc, char* argv[]) {
-  if (argc != 4)
+  if (argc != 5)
     return -1;
 
   int K = atoi(argv[1]);
   int dimensions = atoi(argv[3]);
+  int metric = atoi(argv[4]);
+
+  if (metric > 2 || metric < 1)
+    return -1;
 
   Vector* vec = cppdescent::readBinData((char*)argv[2], dimensions);
   int N = vec->getSize();
 
-  DistanceFunc distance = euclideanDistance;
-  CompareFunc compare = compareEdgesEuclidean;
+  DistanceFunc distance;
+  CompareFunc compare;
+
+  if (metric == 1) {
+    distance = cppdescent::euclideanDistance;
+    compare = cppdescent::compareEdgesEuclidean;
+  } else if (metric == 2) {
+    distance = cppdescent::manhattanDistance;
+    compare = cppdescent::compareEdgesManhattan;
+  }
 
   std::cout << "For K = " << K << "\n";
   std::cout << "Dataset: " << argv[2] << "\n";
@@ -147,38 +74,9 @@ int main(int argc, char* argv[]) {
   nnGraph = cppdescent::readBinGraph("./build/cache/nngraph.bin", dimensions,
                                      distance);
 
-  List* bfVertices = bfGraph->getVertices();
-  List* nnVertices = nnGraph->getVertices();
+  std::cout << "Total recall is " << cppdescent::recall(bfGraph, nnGraph, N, K)
+            << "%\n\n";
 
-  float recall = 0;
-
-  for (ListNode *bfNode = bfVertices->getHead(),
-                *nnNode = nnVertices->getHead();
-       bfNode != nullptr;
-       bfNode = bfNode->getNext(), nnNode = nnNode->getNext()) {
-    int trueNeighbors = 0;
-    List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
-
-    for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
-         adjacent = adjacent->getNext()) {
-      List* nnAdjacent = nnGraph->getAdjacent(nnNode->getValue());
-
-      if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
-        trueNeighbors++;
-
-      delete nnAdjacent;
-    }
-
-    recall += (float)trueNeighbors / (float)K;
-    delete bfNodeAdjacent;
-  }
-
-  recall = recall / (float)N;
-  recall *= 100;
-
-  std::cout << "Total recall is " << recall << "%\n\n";
-
-  delete bfVertices;
   delete bfGraph;
   delete nnGraph;
 
