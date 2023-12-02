@@ -13,16 +13,19 @@ described in \[1\], \[2\].
 - [Konstantinos Chousos](https://github.com/kchousos) (1115202000215,
   sdi2000215@di.uoa.gr)
 
-  Build/Testing/Code coverage pipeline. ADTVector, ADTList, ADTPQueue.
-
-  Brute Force K-NN Graph creation. NN-Descent Graph creation.
-  (Incomplete) Query point K-NN.
+  - Πρώτο παραδοτέο
+    - Build/Testing/Code coverage pipeline.
+    - ADTVector, ADTList, ADTPQueue.
+    - Brute Force K-NN Graph creation. NN-Descent Graph creation.
+    - (Incomplete) Query point K-NN.
 
 - [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
   (1115202000179, sdi2000215@di.uoa.gr)
 
-  ADTMap, ADTGraph. Brute Force K-NN Graph creation. NN-Descent Graph
-  creation.
+  - Πρώτο παραδοτέο
+    - ADTMap, ADTGraph.
+    - Brute Force K-NN Graph creation.
+    - NN-Descent Graph creation.
 
 ## Dependencies
 
@@ -55,12 +58,12 @@ To run the main executable, the following commands suffice:
 
 ### Results
 
-The *recall* percentage that is printed during execution is computed by
-the following formula, derived from \[1, Sec. 3.2\].
+The *recall* percentage that is printed during execution is computed as 
+described below, derived from \[1, Sec. 3.2\]:
 
-$$
-\text{scan rate}=\frac{\text{num of similarity evaluations}}{N(N-1)/2}
-$$
+> The recall of one object is the number of its true K-NN members found
+> divided by K. The recall of an approximate K-NNG is the average recall
+> of all objects.
 
 ## Code Structure
 
