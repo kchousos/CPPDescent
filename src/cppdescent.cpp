@@ -120,7 +120,7 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
   return elements;
 }
 
-void cppdescent::writeBinGraph(char* fp, Graph* graph) {
+void cppdescent::writeBinGraph(char* fp, Graph* graph, int K) {
   FILE* file = fopen(fp, "w+");
 
   Vector* vec = graph->getVec();
@@ -128,6 +128,9 @@ void cppdescent::writeBinGraph(char* fp, Graph* graph) {
 
   // number of vertices
   fwrite(&N, sizeof(N), 1, file);
+
+  // number of neighbors
+  fwrite(&K, sizeof(K), 1, file);
 
   // vertices
   for (int i = 0; i < (int)N; i++) {
@@ -173,8 +176,10 @@ Graph* cppdescent::readBinGraph(char* fp,
   FILE* file = fopen(fp, "r");
 
   uint32_t N;
+  int K;
 
   fread(&N, sizeof(N), 1, file);
+  fread(&K, sizeof(K), 1, file);
 
   float datapoint;
 

@@ -98,7 +98,7 @@ TEST_F(BruteForceManualDataset, binaryGraphFiles) {
       vec, K, (CompareFunc)cppdescent::compareEdgesEuclidean,
       cppdescent::euclideanDistance);
 
-  cppdescent::writeBinGraph("./build/cache/testgraph.bin", graph);
+  cppdescent::writeBinGraph("./build/cache/testgraph.bin", graph, K);
 
   delete graph;
 

@@ -54,9 +54,10 @@ Vector* readBinData(char* fp, int dimensions);
  * vector.
  *
  * @param fp The filepath to the created file.
+ * @param K
  * @param graph
  */
-void writeBinGraph(char* fp, Graph* graph);
+void writeBinGraph(char* fp, Graph* graph, int K);
 
 /**
  * @brief Reads a graph from a binary file. To work correctly, the file needs to
