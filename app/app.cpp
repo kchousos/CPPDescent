@@ -147,38 +147,9 @@ int main(int argc, char* argv[]) {
   nnGraph = cppdescent::readBinGraph("./build/cache/nngraph.bin", dimensions,
                                      distance);
 
-  List* bfVertices = bfGraph->getVertices();
-  List* nnVertices = nnGraph->getVertices();
+  std::cout << "Total recall is " << cppdescent::recall(bfGraph, nnGraph, N, K)
+            << "%\n\n";
 
-  float recall = 0;
-
-  for (ListNode *bfNode = bfVertices->getHead(),
-                *nnNode = nnVertices->getHead();
-       bfNode != nullptr;
-       bfNode = bfNode->getNext(), nnNode = nnNode->getNext()) {
-    int trueNeighbors = 0;
-    List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
-
-    for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
-         adjacent = adjacent->getNext()) {
-      List* nnAdjacent = nnGraph->getAdjacent(nnNode->getValue());
-
-      if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
-        trueNeighbors++;
-
-      delete nnAdjacent;
-    }
-
-    recall += (float)trueNeighbors / (float)K;
-    delete bfNodeAdjacent;
-  }
-
-  recall = recall / (float)N;
-  recall *= 100;
-
-  std::cout << "Total recall is " << recall << "%\n\n";
-
-  delete bfVertices;
   delete bfGraph;
   delete nnGraph;
 
