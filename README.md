@@ -11,7 +11,7 @@ described in \[1\], \[2\].
 ## Contributors
 
 - [Konstantinos Chousos](https://github.com/kchousos) (1115202000215,
-  sdi2000215@di.uoa.gr)
+  sdi2000215 *at* di.uoa.gr)
 
   - 1st submission
     - Build/Testing/Code coverage pipeline.
@@ -23,7 +23,7 @@ described in \[1\], \[2\].
     - Recall function.
 
 - [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
-  (1115202000179, sdi2000215@di.uoa.gr)
+  (1115202000179, sdi2000179 *at* di.uoa.gr)
 
   - 1st submission
     - ADTMap, ADTGraph.
