@@ -92,6 +92,14 @@ Pointer Vector::find(Pointer value, CompareFunc compare) {
   return nullptr;
 }
 
+int Vector::findPos(Pointer value, CompareFunc compare) {
+  for (int i = 0; i < this->size; i++)
+    if (compare(this->array[i].getValue(), value) == 0)
+      return i;
+
+  return -1;
+}
+
 DestroyFunc Vector::setDestroyValue(DestroyFunc destroyValue) {
   DestroyFunc old = this->destroyValue;
   this->destroyValue = destroyValue;

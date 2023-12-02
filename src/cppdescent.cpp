@@ -11,7 +11,6 @@
 #include "cppdescent/cppdescent.hpp"
 #include <cstdint>
 #include <iostream>
-#include "cppdescent/ADTPQueue.hpp"
 
 //===================================
 // Helper functions.
@@ -120,6 +119,92 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
   return elements;
 }
 
+void cppdescent::writeBinGraph(char* fp, Graph* graph) {
+  FILE* file = fopen(fp, "w+");
+
+  Vector* vec = graph->getVec();
+  uint32_t N = vec->getSize();
+
+  // number of vertices
+  fwrite(&N, sizeof(N), 1, file);
+
+  // vertices
+  for (int i = 0; i < (int)N; i++) {
+    Vector* vertex = (Vector*)vec->getAt(i);
+    int dimensions = vertex->getSize();
+
+    for (int j = 0; j < dimensions; j++)
+      fwrite((float*)vertex->getAt(j), sizeof(float), 1, file);
+  }
+
+  Map* map = graph->getMap();
+
+  // edges
+  for (MapNode* node = map->getFirst(); node != MAP_EOF;
+       node = map->getNext(node)) {
+    GraphVertexPair* pair = (GraphVertexPair*)node->getKey();
+
+    Pointer vertex1 = pair->getVertex1();
+    Pointer vertex2 = pair->getVertex2();
+
+    int pos1 = vec->findPos(vertex1, compareVertices);
+    int pos2 = vec->findPos(vertex2, compareVertices);
+
+    fwrite(&pos1, sizeof(int), 1, file);
+    fwrite(&pos2, sizeof(int), 1, file);
+  }
+
+  fclose(file);
+}
+
+void deleteVectors(Pointer vec) {
+  delete (Vector*)vec;
+}
+
+// FIXME: mem leaks in the 'read vertices' part. Dk why.
+Graph* cppdescent::readBinGraph(char* fp,
+                                int dimensions,
+                                DistanceFunc distance) {
+  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr,
+                           (DestroyFunc)deleteVectors);
+  graph->setHashFunction((HashFunc)hashEdge);
+
+  FILE* file = fopen(fp, "r");
+
+  uint32_t N;
+
+  fread(&N, sizeof(N), 1, file);
+
+  float datapoint;
+
+  // read the vertices
+  for (int i = 0; i < (int)N; i++) {
+    Vector* vertex = new Vector(dimensions, (DestroyFunc)deleteFloat);
+
+    for (int j = 0; j < dimensions; j++) {
+      fread(&datapoint, sizeof(float), 1, file);
+      vertex->setAt(j, createFloat(datapoint));
+    }
+
+    graph->insertVertex(vertex);
+  }
+
+  // read the edges
+  int pos1, pos2;
+
+  while (!feof(file)) {
+    fread(&pos1, sizeof(int), 1, file);
+    fread(&pos2, sizeof(int), 1, file);
+
+    Pointer vertex1 = graph->getVec()->getAt(pos1);
+    Pointer vertex2 = graph->getVec()->getAt(pos2);
+    graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
+  }
+
+  fclose(file);
+  return graph;
+}
+
 void cppdescent::deleteFloat(Pointer value) {
   delete (float*)value;
 }
@@ -137,7 +222,8 @@ float cppdescent::compareFloats(Pointer a, Pointer b) {
 int cppdescent::deleteDatapointVectors(Vector* vec) {
   if (vec == nullptr)
     return -1;
-  for (int i = 0; i < vec->getSize(); i++) {
+  int dimensions = vec->getSize();
+  for (int i = 0; i < dimensions; i++) {
     delete (Vector*)vec->getAt(i);
   }
 
@@ -148,8 +234,8 @@ int cppdescent::deleteDatapointVectors(Vector* vec) {
 int cppdescent::compareVertices(Pointer first, Pointer second) {
   Vector* vec1 = (Vector*)first;
   Vector* vec2 = (Vector*)second;
-
-  for (int i = 0; i < vec1->getSize(); i++)
+  int dimensions = vec1->getSize();
+  for (int i = 0; i < dimensions; i++)
     if (cppdescent::compareFloats(vec1->getAt(i), vec2->getAt(i)))
       return 1;
 

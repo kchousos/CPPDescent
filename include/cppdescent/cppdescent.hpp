@@ -5,8 +5,6 @@
 #include "ADTGraph.hpp"
 #include "ADTVector.hpp"
 
-#define DEFAULT_POINTS_NUM 100
-
 typedef float (*DistanceFunc)(Pointer a, Pointer b);
 
 /**
@@ -38,6 +36,37 @@ int compareVertices(Pointer first, Pointer second);
  * @return Vector* An N-sized vector with vectors for each element.
  */
 Vector* readBinData(char* fp, int dimensions);
+
+/**
+ * @brief Writes a computed graph to a binary file.
+ *
+ * The structure of the binary file that will be created is the following:
+ *
+ * 1. <uint32_t> N: the number of the vertices
+ *
+ * 2. N * 100 floats: each vertex of 100 dimensions
+ *
+ * 3. N * K * 2 int: pairs of ints that describe the edges between the vertices.
+ * Each int represents the index of the vertex in the order above. This will
+ * be handy when we reconstruct the graph using the getAt() function of the
+ * vector.
+ *
+ * @param fp The filepath to the created file.
+ * @param graph
+ */
+void writeBinGraph(char* fp, Graph* graph);
+
+/**
+ * @brief Reads a graph from a binary file. To work correctly, the file needs to
+ * be first created from the 'writeBinGraph' function.
+ *
+ * @param fp The filepath.
+ * @param dimensions The dimensions of the datapoints.
+ * @param distance A function to compute the distance between the vertices.
+ * @return Graph*
+ */
+Graph* readBinGraph(char* fp, int dimensions, DistanceFunc distance);
+
 /**
  * @brief Computes the K-NN graph using brute force.
  *

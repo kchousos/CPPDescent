@@ -249,8 +249,6 @@ MapNode* Map::getNext(MapNode* node) {
   for (int i = 0; i < this->capacity; i++)
     if (this->array[i] == node)
       pos = i;
-    else
-      return MAP_EOF;
 
   for (int i = pos + 1; i < this->capacity; i++)
     if (this->array[i]->getState() == OCCUPIED)
