@@ -37,7 +37,7 @@ int compareVertices(Pointer first, Pointer second);
  * @param dimensions The dimension of each point.
  * @return Vector* An N-sized vector with vectors for each element.
  */
-Vector* readBinData(char* fp, int dimensions);
+Vector* readBinData(const char* fp, int dimensions);
 
 /**
  * @brief Writes a computed graph to a binary file.
@@ -57,7 +57,7 @@ Vector* readBinData(char* fp, int dimensions);
  * @param K
  * @param graph
  */
-void writeBinGraph(char* fp, Graph* graph, int K);
+void writeBinGraph(const char* fp, Graph* graph, int K);
 
 /**
  * @brief Reads a graph from a binary file. To work correctly, the file needs to
@@ -68,7 +68,7 @@ void writeBinGraph(char* fp, Graph* graph, int K);
  * @param distance A function to compute the distance between the vertices.
  * @return Graph*
  */
-Graph* readBinGraph(char* fp, int dimensions, DistanceFunc distance);
+Graph* readBinGraph(const char* fp, int dimensions, DistanceFunc distance);
 
 // ============================ Helper Functions =============================
 /**

@@ -93,7 +93,7 @@ uint hashEdge(Pointer value) {
 // CPPDescent functions.
 //===================================
 
-Vector* cppdescent::readBinData(char* fp, int dimensions) {
+Vector* cppdescent::readBinData(const char* fp, int dimensions) {
   FILE* data = fopen(fp, "rb");
 
   uint32_t N;
@@ -120,7 +120,7 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
   return elements;
 }
 
-void cppdescent::writeBinGraph(char* fp, Graph* graph, int K) {
+void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
   FILE* file = fopen(fp, "w+");
 
   Vector* vec = graph->getVec();
@@ -166,7 +166,7 @@ void deleteVectors(Pointer vec) {
 }
 
 // FIXME: mem leaks in the 'read vertices' part. Dk why.
-Graph* cppdescent::readBinGraph(char* fp,
+Graph* cppdescent::readBinGraph(const char* fp,
                                 int dimensions,
                                 DistanceFunc distance) {
   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr,
