@@ -46,6 +46,7 @@ class Graph {
   // Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
   CompareFunc getCompareData() { return this->compare_data; };
+  CompareFunc getCompareVertices() { return this->compare_vertices; };
   DestroyFunc getDestroy() { return this->destroy; };
   HashFunc getHash() { return this->hash; };
 };

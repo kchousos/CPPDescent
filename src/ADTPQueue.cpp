@@ -146,8 +146,10 @@ void PQueue::remove(Pointer value, CompareFunc compare) {
   if (this->destroyValue != nullptr)
     this->destroyValue(this->nodeValue(tbr));
 
-  this->nodeSwap(tbr, this->getSize());
+  this->nodeSwap(tbr, lastNode);
   this->vector->removeLast();
+
+  // Reestablish the heap property.
   this->bubbleDown(tbr);
 }
 

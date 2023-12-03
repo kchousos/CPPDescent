@@ -151,7 +151,7 @@ int main(int argc, char* argv[]) {
     delete bfNodeAdjacent;
   }
 
-  recall = recall / 200.0;
+  recall = recall / 20.0;
 
   std::cout << "Total recall is " << recall * 100 << "%\n\n\n";
 

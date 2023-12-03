@@ -272,7 +272,7 @@ int updateNN(Graph* graph,
     return 1;
   }
 
-  delete vAll;
+  // delete vAll;
   return 0;
 }
 
