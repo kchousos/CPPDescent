@@ -60,6 +60,8 @@ TEST(ADTPQueueTest, create) {
   queue->removeMax();
   ASSERT_EQ(*(int*)queue->getMax(), 2);
 
+  ASSERT_EQ(*(int*)queue->getMin(), 0);
+
   delete values;
   delete queue;
 }

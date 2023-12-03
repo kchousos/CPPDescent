@@ -52,6 +52,12 @@ class PQueue {
    */
   Pointer getMax();
   /**
+   * @brief Get the min element of the queue.
+   *
+   * @return Pointer A generic pointer to the min element.
+   */
+  Pointer getMin();
+  /**
    * @brief Insert a new element to the queue.
    *
    * @param value The value of the new element to be inserted.
