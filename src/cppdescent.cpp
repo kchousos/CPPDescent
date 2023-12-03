@@ -174,6 +174,8 @@ Graph* cppdescent::readBinGraph(const char* fp,
   graph->setHashFunction((HashFunc)hashEdge);
 
   FILE* file = fopen(fp, "r");
+  if (file == nullptr)
+    return nullptr;
 
   uint32_t N;
   int K;
@@ -406,12 +408,14 @@ int updateNN(Graph* graph,
 
 Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       int K,
+                                      float delta,
                                       DistanceFunc distance) {
   // B[v] <- Sample(V, K) for all v in V
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
   List* vertices = graph->getVertices();
+  int N = graph->getSize();
   int c;
 
   int iterations = 0;
@@ -444,10 +448,10 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       }
 
       delete vAll;
-      std::cout << "Number of changes in the graph: " << c << "\n";
     }
 
-  } while (c != 0);
+    std::cout << "Number of changes in the graph (c) = " << c << "\n";
+  } while (c >= delta * N * K);
 
   delete vertices;
 
