@@ -108,7 +108,8 @@ void Graph::removeVertex(Pointer vertex) {
 
   int i;
   for (i = 0; i < this->size; i++)
-    if (this->compare_data(((GraphVertex*)this->vec->getAt(i))->getData(), vertex) == 0)
+    if (this->compare_data(((GraphVertex*)this->vec->getAt(i))->getData(),
+                           vertex) == 0)
       break;
 
   this->vec->setAt(i, last);
@@ -228,7 +229,7 @@ PQueue* Graph::getAdjacentPQ(Pointer vertex) {
     return nullptr;
   }
 
-  if (found->getNeighbors()->getSize() == 0){
+  if (found->getNeighbors()->getSize() == 0) {
     std::cout << "No adjacents found." << std::endl;
     return nullptr;
   }
