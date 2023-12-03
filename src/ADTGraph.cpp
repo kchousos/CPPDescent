@@ -156,10 +156,10 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
       (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
 
   GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
-  
+
   gvertex1->removeNeighbor(pair, (CompareFunc)compareVertexPair);
   gvertex2->removeReverse(pair, (CompareFunc)compareVertexPair);
-  
+
   this->map->remove(pair);
 
   delete pair;

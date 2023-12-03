@@ -138,27 +138,26 @@ void PQueue::remove(Pointer value, CompareFunc compare) {
 
   int tbr = this->find(value, compare);
 
-  
-  if (tbr == 0){
+  if (tbr == -1) {
     std::cerr << "remove: Given value not found. Exiting..." << std::endl;
     return;
   }
 
   if (this->destroyValue != nullptr)
-    this->destroyValue(this->vector->getAt(tbr));
+    this->destroyValue(this->nodeValue(tbr));
 
-  this->nodeSwap(tbr, this->vector->getSize());
+  this->nodeSwap(tbr, this->getSize());
   this->vector->removeLast();
   this->bubbleDown(tbr);
 }
 
 int PQueue::find(Pointer value, CompareFunc compare_) {
   int foundId = -1;
-  for (int i = 1; i < this->vector->getSize(); i++)
-    if (compare_(value, this->vector->getAt(i)) == 0){
+  for (int i = 1; i <= this->getSize(); i++)
+    if (compare_(value, this->nodeValue(i)) == 0) {
       foundId = i;
       break;
     }
-  
-  return foundId + 1;
+
+  return foundId;
 }
