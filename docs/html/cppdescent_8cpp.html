@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;b8c28b4
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;022b08b
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -84,38 +84,39 @@ $(function() {
 <p>Implementation of the cppdescent library.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;cppdescent/cppdescent.hpp&quot;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="ADTPQueue_8hpp_source.html">cppdescent/ADTPQueue.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for cppdescent.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="cppdescent_8cpp__incl.png" border="0" usemap="#acppdescent_8cpp" alt=""/></div>
 <map name="acppdescent_8cpp" id="acppdescent_8cpp">
-<area shape="rect" title="Implementation of the cppdescent library." alt="" coords="135,5,247,30"/>
-<area shape="rect" href="cppdescent_8hpp_source.html" title=" " alt="" coords="28,78,211,103"/>
-<area shape="poly" title=" " alt="" coords="181,32,143,70,139,66,178,29"/>
-<area shape="rect" href="ADTPQueue_8hpp.html" title=" " alt="" coords="78,223,198,248"/>
-<area shape="poly" title=" " alt="" coords="135,24,104,30,71,40,41,56,18,80,9,98,10,116,17,135,30,153,66,187,105,213,102,218,63,191,26,157,12,137,4,117,4,97,13,76,38,52,69,35,102,25,134,19"/>
-<area shape="rect" title=" " alt="" coords="234,78,295,103"/>
-<area shape="poly" title=" " alt="" coords="205,29,244,66,241,70,202,32"/>
-<area shape="rect" title=" " alt="" coords="318,78,390,103"/>
-<area shape="poly" title=" " alt="" coords="219,28,315,69,313,74,217,33"/>
-<area shape="rect" href="ADTGraph_8hpp.html" title="Abstract undirected graph with weighted edges." alt="" coords="182,151,289,175"/>
-<area shape="poly" title=" " alt="" coords="140,101,205,140,203,145,137,106"/>
-<area shape="rect" href="ADTVector_8hpp.html" title="ADTVector implementation using a dynamic array." alt="" coords="95,296,205,321"/>
-<area shape="poly" title=" " alt="" coords="111,105,92,131,72,167,61,208,62,228,68,247,86,269,110,286,107,291,83,273,64,249,57,229,56,207,67,165,87,128,107,102"/>
-<area shape="rect" href="ADTList_8hpp_source.html" title=" " alt="" coords="240,296,332,321"/>
-<area shape="poly" title=" " alt="" coords="242,175,280,281,275,283,237,176"/>
-<area shape="rect" href="ADTMap_8hpp.html" title=" " alt="" coords="324,223,421,248"/>
-<area shape="poly" title=" " alt="" coords="259,174,338,214,336,219,257,178"/>
-<area shape="poly" title=" " alt="" coords="221,178,167,217,164,212,218,174"/>
-<area shape="poly" title=" " alt="" coords="236,176,229,210,212,249,196,270,178,288,175,284,192,267,208,247,224,209,231,175"/>
-<area shape="rect" href="common_8hpp_source.html" title=" " alt="" coords="238,369,334,393"/>
-<area shape="poly" title=" " alt="" coords="289,321,289,354,283,354,283,321"/>
-<area shape="poly" title=" " alt="" coords="373,249,364,283,347,322,331,343,314,361,310,357,327,339,342,319,359,281,368,248"/>
-<area shape="poly" title=" " alt="" coords="143,248,148,281,143,282,137,249"/>
-<area shape="poly" title=" " alt="" coords="174,319,252,359,249,364,171,324"/>
+<area shape="rect" title="Implementation of the cppdescent library." alt="" coords="471,5,584,30"/>
+<area shape="rect" href="cppdescent_8hpp_source.html" title=" " alt="" coords="251,78,434,103"/>
+<area shape="poly" title=" " alt="" coords="498,33,387,75,385,70,496,28"/>
+<area shape="rect" title=" " alt="" coords="458,78,515,103"/>
+<area shape="poly" title=" " alt="" coords="523,32,503,67,498,64,518,29"/>
+<area shape="rect" title=" " alt="" coords="539,78,599,103"/>
+<area shape="poly" title=" " alt="" coords="537,29,557,64,552,67,532,32"/>
+<area shape="rect" title=" " alt="" coords="623,78,694,103"/>
+<area shape="poly" title=" " alt="" coords="550,28,625,68,623,73,548,33"/>
+<area shape="rect" href="ADTGraph_8hpp.html" title="Abstract undirected graph with weighted edges." alt="" coords="215,151,323,175"/>
+<area shape="poly" title=" " alt="" coords="332,105,293,142,289,139,328,101"/>
+<area shape="rect" href="ADTVector_8hpp.html" title="ADTVector implementation using a dynamic array." alt="" coords="262,296,372,321"/>
+<area shape="poly" title=" " alt="" coords="349,102,358,129,367,165,370,207,363,249,354,269,341,287,336,283,349,266,358,247,365,207,361,166,353,130,344,104"/>
+<area shape="rect" href="ADTList_8hpp_source.html" title=" " alt="" coords="5,296,98,321"/>
+<area shape="poly" title=" " alt="" coords="215,170,180,175,143,186,108,202,77,225,62,252,55,282,50,281,57,250,74,222,105,197,142,181,179,170,214,165"/>
+<area shape="rect" href="ADTMap_8hpp.html" title=" " alt="" coords="88,223,186,248"/>
+<area shape="poly" title=" " alt="" coords="248,178,173,218,170,214,246,174"/>
+<area shape="rect" href="ADTPQueue_8hpp.html" title=" " alt="" coords="209,223,329,248"/>
+<area shape="poly" title=" " alt="" coords="272,176,272,209,266,209,266,176"/>
+<area shape="poly" title=" " alt="" coords="293,174,321,193,343,222,347,238,346,255,335,285,330,283,341,254,342,239,338,225,317,197,290,178"/>
+<area shape="rect" href="common_8hpp_source.html" title=" " alt="" coords="89,369,185,393"/>
+<area shape="poly" title=" " alt="" coords="67,319,114,357,110,361,64,323"/>
+<area shape="poly" title=" " alt="" coords="140,248,140,354,134,354,134,248"/>
+<area shape="poly" title=" " alt="" coords="279,247,303,282,299,285,275,250"/>
+<area shape="poly" title=" " alt="" coords="288,324,181,365,179,360,286,319"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -142,6 +143,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>destroyEdges</b> (<a 
 <tr class="memitem:aea80b7143a42c0e5f24e82f7354ba239"><td class="memItemLeft" align="right" valign="top"><a id="aea80b7143a42c0e5f24e82f7354ba239" name="aea80b7143a42c0e5f24e82f7354ba239"></a>
 uint&#160;</td><td class="memItemRight" valign="bottom"><b>hashEdge</b> (Pointer value)</td></tr>
 <tr class="separator:aea80b7143a42c0e5f24e82f7354ba239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6352ddeafcb5984137691e2d5d1923b4"><td class="memItemLeft" align="right" valign="top"><a id="a6352ddeafcb5984137691e2d5d1923b4" name="a6352ddeafcb5984137691e2d5d1923b4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>deleteVectors</b> (Pointer vec)</td></tr>
+<tr class="separator:a6352ddeafcb5984137691e2d5d1923b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b32f101dae1dcbf0b6461ed61b42ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cppdescent_8cpp.html#a0b32f101dae1dcbf0b6461ed61b42ee8">sampleGraph</a> (<a class="el" href="classVector.html">Vector</a> *data, int K, CompareFunc compare, DistanceFunc distance)</td></tr>
 <tr class="memdesc:a0b32f101dae1dcbf0b6461ed61b42ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a random graph, where each vertex has K random neighbors.  <br /></td></tr>
 <tr class="separator:a0b32f101dae1dcbf0b6461ed61b42ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>

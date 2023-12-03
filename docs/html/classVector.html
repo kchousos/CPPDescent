@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;b8c28b4
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;022b08b
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -109,6 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4e4f24c760e61008e9d85a34209ec700"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#a4e4f24c760e61008e9d85a34209ec700">find</a> (Pointer value, CompareFunc compare)</td></tr>
 <tr class="memdesc:a4e4f24c760e61008e9d85a34209ec700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the first element with value equal to value.  <br /></td></tr>
 <tr class="separator:a4e4f24c760e61008e9d85a34209ec700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0039a1e3b5532fe6994ba953b9a671ee"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#a0039a1e3b5532fe6994ba953b9a671ee">findPos</a> (Pointer value, CompareFunc compare)</td></tr>
+<tr class="memdesc:a0039a1e3b5532fe6994ba953b9a671ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the first element with value equal to value and return its pos.  <br /></td></tr>
+<tr class="separator:a0039a1e3b5532fe6994ba953b9a671ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add8e89941c897044323f789d2455feab"><td class="memItemLeft" align="right" valign="top">DestroyFunc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#add8e89941c897044323f789d2455feab">setDestroyValue</a> (DestroyFunc destroyValue)</td></tr>
 <tr class="memdesc:add8e89941c897044323f789d2455feab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Destroy Value.  <br /></td></tr>
 <tr class="separator:add8e89941c897044323f789d2455feab"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -268,6 +271,44 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classvectorNode.html" title="Class for the vector Node object.">vectorNode</a> The resulting node. </dd></dl>
+
+</div>
+</div>
+<a id="a0039a1e3b5532fe6994ba953b9a671ee" name="a0039a1e3b5532fe6994ba953b9a671ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0039a1e3b5532fe6994ba953b9a671ee">&#9670;&#160;</a></span>findPos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Vector::findPos </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CompareFunc&#160;</td>
+          <td class="paramname"><em>compare</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Find the first element with value equal to value and return its pos. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to look for. </td></tr>
+    <tr><td class="paramname">compare</td><td>The function to be used for comparison. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int The position of the element. </dd></dl>
 
 </div>
 </div>

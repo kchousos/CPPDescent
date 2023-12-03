@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['last_0',['last',['../classVector.html#a0a9bbc15f2cc658e22bd8d040f995d26',1,'Vector']]],
-  ['list_1',['List',['../classList.html#a293a0b5530f3be971ddf7701b609a283',1,'List']]],
-  ['listnode_2',['ListNode',['../classListNode.html#ac8e8674ba4da13a5074bfdf49471c585',1,'ListNode::ListNode()'],['../classListNode.html#a8f49e6c24fb1feb308d47fbf78260be3',1,'ListNode::ListNode(Pointer value)']]]
+  ['increasesize_0',['increaseSize',['../classList.html#aa022101bf61a37de3666f9263c107743',1,'List']]],
+  ['insert_1',['insert',['../classMap.html#aa1ba9dc902aa55c786f42c95de94e890',1,'Map::insert()'],['../classPQueue.html#a075626b5be750943adaa534fc5a60f45',1,'PQueue::insert()']]],
+  ['insertlast_2',['insertLast',['../classVector.html#aa9bdb25e3f102dcba10446e0578edaf3',1,'Vector']]],
+  ['insertnext_3',['insertNext',['../classList.html#aab00b355aa94f8c7876a22b41aabbf6a',1,'List']]],
+  ['insertvertex_4',['insertVertex',['../classGraph.html#aa6d1efd712d1f5edfb2f9fb645690f09',1,'Graph']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['pqueue_0',['PQueue',['../classPQueue.html#a9649bcfb30d0ff66e8a5fb7914d2299d',1,'PQueue']]],
-  ['previous_1',['previous',['../classVector.html#ab3628567839b3c3ca6e9b2fd93153453',1,'Vector']]]
+  ['manhattandistance_0',['manhattanDistance',['../namespacecppdescent.html#acd5f3890715f94180f8b849a6e4f001c',1,'cppdescent']]],
+  ['map_1',['Map',['../classMap.html#a992931c184afb5ad398640e9d11fce0a',1,'Map']]],
+  ['mergelists_2',['mergeLists',['../classList.html#a408da4b9dfe94b1ba2732e2ed8de6137',1,'List']]]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['next_0',['next',['../classList.html#aae0216e1e2c2c568c9b2ac050938c7c4',1,'List::next()'],['../classVector.html#a66eeda059bbc81dbbcd25b2f1ad46e1b',1,'Vector::next()']]],
-  ['nndescent_5fknngraph_1',['NNDescent_KNNGraph',['../namespacecppdescent.html#ac961bff992e647d431fbda9c8cdf22f7',1,'cppdescent']]],
-  ['nndescent_5fquery_2',['NNDescent_Query',['../namespacecppdescent.html#ad662a4e417763509e1fa9c3d3100c9ff',1,'cppdescent']]],
-  ['nodevalue_3',['nodeValue',['../classList.html#a313c8bf467e6af7607da1e281b0ff19c',1,'List::nodeValue()'],['../classVector.html#a3f3a963a314d757157a51d27dd52d7f8',1,'Vector::nodeValue()']]]
+  ['manhattandistance_0',['manhattanDistance',['../namespacecppdescent.html#acd5f3890715f94180f8b849a6e4f001c',1,'cppdescent']]],
+  ['map_1',['Map',['../classMap.html',1,'Map'],['../classMap.html#a992931c184afb5ad398640e9d11fce0a',1,'Map::Map()']]],
+  ['mapnode_2',['MapNode',['../classMapNode.html',1,'']]],
+  ['mergelists_3',['mergeLists',['../classList.html#a408da4b9dfe94b1ba2732e2ed8de6137',1,'List']]]
 ];
