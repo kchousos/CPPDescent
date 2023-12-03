@@ -112,3 +112,18 @@ TEST(ADTPQueueTest, remove) {
   delete queue2;
   delete[] array;
 }
+
+TEST(ADTPQueueTest, getMin) {
+  PQueue* queue = new PQueue(compareInts, deleteInts, nullptr);
+  int N = 50;
+  int** array = new int*[N];
+
+  for (int i = N - 1; i >= 0; i--) {
+    array[i] = createInt(i);
+    queue->insert(array[i]);
+    ASSERT_EQ(*(int*)queue->getMin(), *array[i]);
+  }
+
+  delete queue;
+  delete[] array;
+}

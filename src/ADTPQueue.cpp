@@ -97,7 +97,16 @@ Pointer PQueue::getMax() {
 }
 
 Pointer PQueue::getMin() {
-  return nodeValue(getSize() - 1);
+  int firstLeaf = this->getSize() / 2 + 1;
+  Pointer min = this->getMax();
+
+  for (int i = firstLeaf; i < this->getSize() + 1; i++) {
+    Pointer value = nodeValue(i);
+    if (compare(min, value) > 0)
+      min = value;
+  }
+
+  return min;
 }
 
 void PQueue::insert(Pointer value) {
