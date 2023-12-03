@@ -17,6 +17,13 @@
 // Helper functions.
 //===================================
 
+int compareGraphVertices(Pointer vertex1, Pointer vertex2) {
+  GraphVertex* gvertex1 = (GraphVertex*)vertex1;
+  GraphVertex* gvertex2 = (GraphVertex*)vertex2;
+
+  return cppdescent::compareVertices(gvertex1->getData(), gvertex2->getData());
+}
+
 void swapEdges(GraphVertexPair* first, GraphVertexPair* second) {
   GraphVertexPair temp = *first;
   *first = *second;
@@ -134,7 +141,8 @@ void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
 
   // vertices
   for (int i = 0; i < (int)N; i++) {
-    Vector* vertex = (Vector*)vec->getAt(i);
+    GraphVertex* gvertex = (GraphVertex*)vec->getAt(i);
+    Vector* vertex = (Vector*)gvertex->getData();
     int dimensions = vertex->getSize();
 
     for (int j = 0; j < dimensions; j++)
@@ -151,8 +159,10 @@ void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
     Pointer vertex1 = pair->getVertex1();
     Pointer vertex2 = pair->getVertex2();
 
-    int pos1 = vec->findPos(vertex1, compareVertices);
-    int pos2 = vec->findPos(vertex2, compareVertices);
+    GraphVertex* gvertex1 = new GraphVertex(vertex1, graph);
+    GraphVertex* gvertex2 = new GraphVertex(vertex2, graph);
+    int pos1 = vec->findPos(gvertex1, compareGraphVertices);
+    int pos2 = vec->findPos(gvertex2, compareGraphVertices);
 
     fwrite(&pos1, sizeof(int), 1, file);
     fwrite(&pos2, sizeof(int), 1, file);
@@ -184,7 +194,6 @@ Graph* cppdescent::readBinGraph(const char* fp,
   fread(&K, sizeof(K), 1, file);
 
   float datapoint;
-
   // read the vertices
   for (int i = 0; i < (int)N; i++) {
     Vector* vertex = new Vector(dimensions, (DestroyFunc)deleteFloat);
@@ -204,8 +213,10 @@ Graph* cppdescent::readBinGraph(const char* fp,
     fread(&pos1, sizeof(int), 1, file);
     fread(&pos2, sizeof(int), 1, file);
 
-    Pointer vertex1 = graph->getVec()->getAt(pos1);
-    Pointer vertex2 = graph->getVec()->getAt(pos2);
+    GraphVertex* gvertex1 = (GraphVertex*)graph->getVec()->getAt(pos1);
+    GraphVertex* gvertex2 = (GraphVertex*)graph->getVec()->getAt(pos2);
+    Pointer vertex1 = gvertex1->getData();
+    Pointer vertex2 = gvertex2->getData();
     graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
   }
 

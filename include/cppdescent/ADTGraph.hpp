@@ -64,11 +64,18 @@ class GraphVertex {
 
  public:
   GraphVertex(Pointer data, Graph* owner);
-  ~GraphVertex(){};
+  ~GraphVertex() {
+    delete neighbors;
+    delete reverse;
+  };
   void addNeighbor(Pointer neighbor) { this->neighbors->insert(neighbor); };
   void addReverse(Pointer reverse) { this->reverse->insert(reverse); };
-  void removeNeighbor(Pointer neighbor, CompareFunc compare) {this->neighbors->remove(neighbor, compare);};
-  void removeReverse(Pointer reverse, CompareFunc compare) {this->reverse->remove(reverse, compare);};
+  void removeNeighbor(Pointer neighbor, CompareFunc compare) {
+    this->neighbors->remove(neighbor, compare);
+  };
+  void removeReverse(Pointer reverse, CompareFunc compare) {
+    this->reverse->remove(reverse, compare);
+  };
   PQueue* getNeighbors() { return this->neighbors; };
   PQueue* getReverse() { return this->reverse; };
   Pointer getData() { return this->data; };

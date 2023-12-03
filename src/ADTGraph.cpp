@@ -166,6 +166,8 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
   this->map->remove(pair);
 
   delete pair;
+  delete vertex1;
+  delete vertex2;
 }
 
 float Graph::getWeight(Pointer vertex1, Pointer vertex2) {
@@ -228,14 +230,17 @@ PQueue* Graph::getAdjacentPQ(Pointer vertex) {
 
   if (found == nullptr) {
     std::cout << "Vertex not found" << std::endl;
+    delete gvertex;
     return nullptr;
   }
 
   if (found->getNeighbors()->getSize() == 0) {
     std::cout << "No adjacents found." << std::endl;
+    delete gvertex;
     return nullptr;
   }
 
+  delete gvertex;
   return found->getNeighbors();
 }
 
@@ -269,15 +274,16 @@ PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
 
   if (found == nullptr) {
     std::cout << "Vertex not found" << std::endl;
+    delete gvertex;
     return nullptr;
   }
   if (found->getReverse()->getSize() == 0) {
     std::cout << "No reverse adjacents found." << std::endl;
+    delete gvertex;
     return nullptr;
   }
 
-  std::cout << "Rev->size: " << found->getReverse()->getSize() << std::endl;
-
+  delete gvertex;
   return found->getReverse();
 }
 
