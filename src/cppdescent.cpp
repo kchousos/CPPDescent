@@ -444,12 +444,14 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       }
 
       delete vAll;
+      std::cout << "Number of changes in the graph: " << c << "\n";
     }
+
   } while (c != 0);
 
   delete vertices;
 
-  std::cout << "Iterations: " << iterations << "\n";
+  std::cout << "NN-Descent iterations: " << iterations << "\n";
 
   return graph;
 }
