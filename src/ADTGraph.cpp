@@ -139,8 +139,6 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
       new GraphVertexPair(this, vertex1->getData(), vertex2->getData());
   this->map->insert(pair, createFloat(weight));
 
-  // GraphVertexPair* revPair = new GraphVertexPair(this, vertex2->getData(),
-  // vertex1->getData());
   gvertex1->addNeighbor(pair);
   gvertex2->addReverse(pair);
 
@@ -148,9 +146,22 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
   delete vertex2;
 }
 
-void Graph::removeEdge(Pointer vertex1, Pointer vertex2) {
-  GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
+void Graph::removeEdge(Pointer data1, Pointer data2) {
+  GraphVertex* vertex1 = new GraphVertex(data1, this);
+  GraphVertex* vertex2 = new GraphVertex(data2, this);
+
+  GraphVertex* gvertex1 =
+      (GraphVertex*)this->vec->find(vertex1, this->compare_vertices);
+  GraphVertex* gvertex2 =
+      (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
+
+  GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
+  
+  gvertex1->removeNeighbor(pair, (CompareFunc)compareVertexPair);
+  gvertex2->removeReverse(pair, (CompareFunc)compareVertexPair);
+  
   this->map->remove(pair);
+
   delete pair;
 }
 
