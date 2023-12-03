@@ -5,8 +5,6 @@
 #include "ADTGraph.hpp"
 #include "ADTVector.hpp"
 
-#define DEFAULT_POINTS_NUM 100
-
 typedef float (*DistanceFunc)(Pointer a, Pointer b);
 
 /**
@@ -23,6 +21,8 @@ float compareFloats(Pointer a, Pointer b);
 int deleteDatapointVectors(Vector* vec);
 
 int compareVertices(Pointer first, Pointer second);
+
+// ================================ I/O ======================================
 /**
  * @brief Reads the data from a binary file.
  *
@@ -37,7 +37,89 @@ int compareVertices(Pointer first, Pointer second);
  * @param dimensions The dimension of each point.
  * @return Vector* An N-sized vector with vectors for each element.
  */
-Vector* readBinData(char* fp, int dimensions);
+Vector* readBinData(const char* fp, int dimensions);
+
+/**
+ * @brief Writes a computed graph to a binary file.
+ *
+ * The structure of the binary file that will be created is the following:
+ *
+ * 1. <uint32_t> N: the number of the vertices
+ *
+ * 2. N * 100 floats: each vertex of 100 dimensions
+ *
+ * 3. N * K * 2 int: pairs of ints that describe the edges between the vertices.
+ * Each int represents the index of the vertex in the order above. This will
+ * be handy when we reconstruct the graph using the getAt() function of the
+ * vector.
+ *
+ * @param fp The filepath to the created file.
+ * @param K
+ * @param graph
+ */
+void writeBinGraph(const char* fp, Graph* graph, int K);
+
+/**
+ * @brief Reads a graph from a binary file. To work correctly, the file needs to
+ * be first created from the 'writeBinGraph' function.
+ *
+ * @param fp The filepath.
+ * @param dimensions The dimensions of the datapoints.
+ * @param distance A function to compute the distance between the vertices.
+ * @return Graph*
+ */
+Graph* readBinGraph(const char* fp, int dimensions, DistanceFunc distance);
+
+// ============================ Helper Functions =============================
+/**
+ * @brief Returns the recall of the graph computed by NN-Descent, compared to
+ * the brute force graph.
+ *
+ * @param bfGraph
+ * @param nnGraph
+ * @param N
+ * @param K
+ * @return float
+ */
+float recall(Graph* bfGraph, Graph* nnGraph, int N, int K);
+
+// ============================ Metric Functions =============================
+/**
+ * @brief Returns the Euclidean distance between two points of arbitrary
+ * dimension.
+ *
+ * @param first A pointer to the first point.
+ * @param second A pointer to the second point.
+ * @return long double The Euclidean distance.
+ */
+float euclideanDistance(Pointer a, Pointer b);
+/**
+ * @brief Returns the Manhattan distance between two points of arbitrary
+ * dimension.
+ *
+ * @param first A pointer to the first point.
+ * @param second A pointer to the second point.
+ * @return long double The Manhattan distance.
+ */
+float manhattanDistance(Pointer a, Pointer b);
+/**
+ * @brief Compare edges using the euclideanDistance function.
+ *
+ * @param first A Pointer to the first element.
+ * @param second A Pointer to the second element.
+ * @return int
+ */
+int compareEdgesEuclidean(Pointer first, Pointer second);
+/**
+ * @brief Compare edges using the manhattanDistance function.
+ *
+ * @param first A Pointer to the first element.
+ * @param second A Pointer to the second element.
+ * @return int
+ */
+int compareEdgesManhattan(Pointer first, Pointer second);
+
+// ============================= KNN computation =============================
 /**
  * @brief Computes the K-NN graph using brute force.
  *
@@ -66,11 +148,16 @@ Graph* KNNBruteForceGraph(Vector* data,
  *
  * @param data A Vector of the vertices of the graph.
  * @param K The number of nearest neighbors to compute.
+ * @param delta The iterations will stop when the number of edges that were
+ * updated is less than delta*N*K.
  * @param distance The function to be used to compute the distances between
  * vertices.
  * @return Graph* The complete K-NN graph of the dataset.
  */
-Graph* NNDescent_KNNGraph(Vector* data, int K, DistanceFunc distance);
+Graph* NNDescent_KNNGraph(Vector* data,
+                          int K,
+                          float delta,
+                          DistanceFunc distance);
 /**
  * @brief Computes the K Nearest Neighbors of the query point in the graph.
  *

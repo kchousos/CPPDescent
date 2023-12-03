@@ -55,11 +55,13 @@ void destroyValue(Pointer value) {
 
 // Graph //
 
-Graph::Graph(CompareFunc compare_data, DestroyFunc destroy)
+Graph::Graph(CompareFunc compare_data,
+             DestroyFunc destroy,
+             DestroyFunc vecDestroy)
     : size(0), compare_data(compare_data), destroy(destroy) {
   this->map = new Map((CompareFunc)compareVertexPair,
                       (DestroyFunc)destroyVertexPair, destroyValue);
-  this->vec = new Vector(0, nullptr);
+  this->vec = new Vector(0, vecDestroy);
   this->compare_vertices = compareVertices;
 }
 

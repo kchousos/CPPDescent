@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;b8c28b4
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;022b08b
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -97,9 +97,30 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>deleteDatapointVectors
 <tr class="memitem:a9a8d90b3c4cf7aeb2bdeb779ba30158f"><td class="memItemLeft" align="right" valign="top"><a id="a9a8d90b3c4cf7aeb2bdeb779ba30158f" name="a9a8d90b3c4cf7aeb2bdeb779ba30158f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (Pointer first, Pointer second)</td></tr>
 <tr class="separator:a9a8d90b3c4cf7aeb2bdeb779ba30158f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91f2b3b888319fdda16617b1d4322ea4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVector.html">Vector</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a91f2b3b888319fdda16617b1d4322ea4">readBinData</a> (char *fp, int dimensions)</td></tr>
-<tr class="memdesc:a91f2b3b888319fdda16617b1d4322ea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the data from a binary file.  <br /></td></tr>
-<tr class="separator:a91f2b3b888319fdda16617b1d4322ea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0f19c9e8f7c6b93d1613ec219312172"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVector.html">Vector</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#ae0f19c9e8f7c6b93d1613ec219312172">readBinData</a> (const char *fp, int dimensions)</td></tr>
+<tr class="memdesc:ae0f19c9e8f7c6b93d1613ec219312172"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the data from a binary file.  <br /></td></tr>
+<tr class="separator:ae0f19c9e8f7c6b93d1613ec219312172"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b30f23937313228166769108ef816ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a6b30f23937313228166769108ef816ab">writeBinGraph</a> (const char *fp, <a class="el" href="classGraph.html">Graph</a> *graph, int K)</td></tr>
+<tr class="memdesc:a6b30f23937313228166769108ef816ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a computed graph to a binary file.  <br /></td></tr>
+<tr class="separator:a6b30f23937313228166769108ef816ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61275af2187f1be18e2c12b2835fea86"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a61275af2187f1be18e2c12b2835fea86">readBinGraph</a> (const char *fp, int dimensions, DistanceFunc distance)</td></tr>
+<tr class="memdesc:a61275af2187f1be18e2c12b2835fea86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a graph from a binary file. To work correctly, the file needs to be first created from the 'writeBinGraph' function.  <br /></td></tr>
+<tr class="separator:a61275af2187f1be18e2c12b2835fea86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4a479d66cebdde7d626f07fd000b3a0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#ae4a479d66cebdde7d626f07fd000b3a0">recall</a> (<a class="el" href="classGraph.html">Graph</a> *bfGraph, <a class="el" href="classGraph.html">Graph</a> *nnGraph, int N, int K)</td></tr>
+<tr class="memdesc:ae4a479d66cebdde7d626f07fd000b3a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the recall of the graph computed by NN-Descent, compared to the brute force graph.  <br /></td></tr>
+<tr class="separator:ae4a479d66cebdde7d626f07fd000b3a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f263df6b2b143041a01bd63396bf112"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a0f263df6b2b143041a01bd63396bf112">euclideanDistance</a> (Pointer a, Pointer b)</td></tr>
+<tr class="memdesc:a0f263df6b2b143041a01bd63396bf112"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Euclidean distance between two points of arbitrary dimension.  <br /></td></tr>
+<tr class="separator:a0f263df6b2b143041a01bd63396bf112"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd5f3890715f94180f8b849a6e4f001c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#acd5f3890715f94180f8b849a6e4f001c">manhattanDistance</a> (Pointer a, Pointer b)</td></tr>
+<tr class="memdesc:acd5f3890715f94180f8b849a6e4f001c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Manhattan distance between two points of arbitrary dimension.  <br /></td></tr>
+<tr class="separator:acd5f3890715f94180f8b849a6e4f001c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78e2056b2675d8f38cb443bd732ff792"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a78e2056b2675d8f38cb443bd732ff792">compareEdgesEuclidean</a> (Pointer first, Pointer second)</td></tr>
+<tr class="memdesc:a78e2056b2675d8f38cb443bd732ff792"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare edges using the euclideanDistance function.  <br /></td></tr>
+<tr class="separator:a78e2056b2675d8f38cb443bd732ff792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92eca47edae9a04cbdc4074a8db04750"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a92eca47edae9a04cbdc4074a8db04750">compareEdgesManhattan</a> (Pointer first, Pointer second)</td></tr>
+<tr class="memdesc:a92eca47edae9a04cbdc4074a8db04750"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare edges using the manhattanDistance function.  <br /></td></tr>
+<tr class="separator:a92eca47edae9a04cbdc4074a8db04750"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d5c832c39245e41693b9b0245696ca7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a3d5c832c39245e41693b9b0245696ca7">KNNBruteForceGraph</a> (<a class="el" href="classVector.html">Vector</a> *data, int K, CompareFunc compare, DistanceFunc distance)</td></tr>
 <tr class="memdesc:a3d5c832c39245e41693b9b0245696ca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the K-NN graph using brute force.  <br /></td></tr>
 <tr class="separator:a3d5c832c39245e41693b9b0245696ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,6 +134,120 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Functions for the creation of a K-NN graph. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a78e2056b2675d8f38cb443bd732ff792" name="a78e2056b2675d8f38cb443bd732ff792"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78e2056b2675d8f38cb443bd732ff792">&#9670;&#160;</a></span>compareEdgesEuclidean()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int cppdescent::compareEdgesEuclidean </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>first</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>second</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compare edges using the euclideanDistance function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>A Pointer to the first element. </td></tr>
+    <tr><td class="paramname">second</td><td>A Pointer to the second element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="a92eca47edae9a04cbdc4074a8db04750" name="a92eca47edae9a04cbdc4074a8db04750"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92eca47edae9a04cbdc4074a8db04750">&#9670;&#160;</a></span>compareEdgesManhattan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int cppdescent::compareEdgesManhattan </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>first</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>second</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compare edges using the manhattanDistance function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>A Pointer to the first element. </td></tr>
+    <tr><td class="paramname">second</td><td>A Pointer to the second element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="a0f263df6b2b143041a01bd63396bf112" name="a0f263df6b2b143041a01bd63396bf112"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f263df6b2b143041a01bd63396bf112">&#9670;&#160;</a></span>euclideanDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float cppdescent::euclideanDistance </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Euclidean distance between two points of arbitrary dimension. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>A pointer to the first point. </td></tr>
+    <tr><td class="paramname">second</td><td>A pointer to the second point. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>long double The Euclidean distance. </dd></dl>
+
+</div>
+</div>
 <a id="a3d5c832c39245e41693b9b0245696ca7" name="a3d5c832c39245e41693b9b0245696ca7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3d5c832c39245e41693b9b0245696ca7">&#9670;&#160;</a></span>KNNBruteForceGraph()</h2>
 
@@ -164,6 +299,44 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Graph* A pointer to the optimal K-NN graph. </dd></dl>
+
+</div>
+</div>
+<a id="acd5f3890715f94180f8b849a6e4f001c" name="acd5f3890715f94180f8b849a6e4f001c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd5f3890715f94180f8b849a6e4f001c">&#9670;&#160;</a></span>manhattanDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float cppdescent::manhattanDistance </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Manhattan distance between two points of arbitrary dimension. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>A pointer to the first point. </td></tr>
+    <tr><td class="paramname">second</td><td>A pointer to the second point. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>long double The Manhattan distance. </dd></dl>
 
 </div>
 </div>
@@ -265,8 +438,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
 
 </div>
 </div>
-<a id="a91f2b3b888319fdda16617b1d4322ea4" name="a91f2b3b888319fdda16617b1d4322ea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91f2b3b888319fdda16617b1d4322ea4">&#9670;&#160;</a></span>readBinData()</h2>
+<a id="ae0f19c9e8f7c6b93d1613ec219312172" name="ae0f19c9e8f7c6b93d1613ec219312172"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0f19c9e8f7c6b93d1613ec219312172">&#9670;&#160;</a></span>readBinData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -274,7 +447,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
         <tr>
           <td class="memname"><a class="el" href="classVector.html">Vector</a> * cppdescent::readBinData </td>
           <td>(</td>
-          <td class="paramtype">char *&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>fp</em>, </td>
         </tr>
         <tr>
@@ -302,6 +475,153 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector* An N-sized vector with vectors for each element. </dd></dl>
+
+</div>
+</div>
+<a id="a61275af2187f1be18e2c12b2835fea86" name="a61275af2187f1be18e2c12b2835fea86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61275af2187f1be18e2c12b2835fea86">&#9670;&#160;</a></span>readBinGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classGraph.html">Graph</a> * cppdescent::readBinGraph </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dimensions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DistanceFunc&#160;</td>
+          <td class="paramname"><em>distance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads a graph from a binary file. To work correctly, the file needs to be first created from the 'writeBinGraph' function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fp</td><td>The filepath. </td></tr>
+    <tr><td class="paramname">dimensions</td><td>The dimensions of the datapoints. </td></tr>
+    <tr><td class="paramname">distance</td><td>A function to compute the distance between the vertices. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Graph* </dd></dl>
+
+</div>
+</div>
+<a id="ae4a479d66cebdde7d626f07fd000b3a0" name="ae4a479d66cebdde7d626f07fd000b3a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4a479d66cebdde7d626f07fd000b3a0">&#9670;&#160;</a></span>recall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float cppdescent::recall </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classGraph.html">Graph</a> *&#160;</td>
+          <td class="paramname"><em>bfGraph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classGraph.html">Graph</a> *&#160;</td>
+          <td class="paramname"><em>nnGraph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>K</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the recall of the graph computed by NN-Descent, compared to the brute force graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bfGraph</td><td></td></tr>
+    <tr><td class="paramname">nnGraph</td><td></td></tr>
+    <tr><td class="paramname">N</td><td></td></tr>
+    <tr><td class="paramname">K</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>float </dd></dl>
+
+</div>
+</div>
+<a id="a6b30f23937313228166769108ef816ab" name="a6b30f23937313228166769108ef816ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b30f23937313228166769108ef816ab">&#9670;&#160;</a></span>writeBinGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cppdescent::writeBinGraph </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classGraph.html">Graph</a> *&#160;</td>
+          <td class="paramname"><em>graph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>K</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Writes a computed graph to a binary file. </p>
+<p>The structure of the binary file that will be created is the following:</p>
+<ol type="1">
+<li>&lt;uint32_t&gt; N: the number of the vertices</li>
+<li>N * 100 floats: each vertex of 100 dimensions</li>
+<li>N * K * 2 int: pairs of ints that describe the edges between the vertices. Each int represents the index of the vertex in the order above. This will be handy when we reconstruct the graph using the getAt() function of the vector.</li>
+</ol>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fp</td><td>The filepath to the created file. </td></tr>
+    <tr><td class="paramname">K</td><td></td></tr>
+    <tr><td class="paramname">graph</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

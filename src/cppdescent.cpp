@@ -9,9 +9,9 @@
  *
  */
 #include "cppdescent/cppdescent.hpp"
+#include <cmath>
 #include <cstdint>
 #include <iostream>
-#include "cppdescent/ADTPQueue.hpp"
 
 //===================================
 // Helper functions.
@@ -93,7 +93,7 @@ uint hashEdge(Pointer value) {
 // CPPDescent functions.
 //===================================
 
-Vector* cppdescent::readBinData(char* fp, int dimensions) {
+Vector* cppdescent::readBinData(const char* fp, int dimensions) {
   FILE* data = fopen(fp, "rb");
 
   uint32_t N;
@@ -120,6 +120,135 @@ Vector* cppdescent::readBinData(char* fp, int dimensions) {
   return elements;
 }
 
+void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
+  FILE* file = fopen(fp, "w+");
+
+  Vector* vec = graph->getVec();
+  uint32_t N = vec->getSize();
+
+  // number of vertices
+  fwrite(&N, sizeof(N), 1, file);
+
+  // number of neighbors
+  fwrite(&K, sizeof(K), 1, file);
+
+  // vertices
+  for (int i = 0; i < (int)N; i++) {
+    Vector* vertex = (Vector*)vec->getAt(i);
+    int dimensions = vertex->getSize();
+
+    for (int j = 0; j < dimensions; j++)
+      fwrite((float*)vertex->getAt(j), sizeof(float), 1, file);
+  }
+
+  Map* map = graph->getMap();
+
+  // edges
+  for (MapNode* node = map->getFirst(); node != MAP_EOF;
+       node = map->getNext(node)) {
+    GraphVertexPair* pair = (GraphVertexPair*)node->getKey();
+
+    Pointer vertex1 = pair->getVertex1();
+    Pointer vertex2 = pair->getVertex2();
+
+    int pos1 = vec->findPos(vertex1, compareVertices);
+    int pos2 = vec->findPos(vertex2, compareVertices);
+
+    fwrite(&pos1, sizeof(int), 1, file);
+    fwrite(&pos2, sizeof(int), 1, file);
+  }
+
+  fclose(file);
+}
+
+void deleteVectors(Pointer vec) {
+  delete (Vector*)vec;
+}
+
+// FIXME: mem leaks in the 'read vertices' part. Dk why.
+Graph* cppdescent::readBinGraph(const char* fp,
+                                int dimensions,
+                                DistanceFunc distance) {
+  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr,
+                           (DestroyFunc)deleteVectors);
+  graph->setHashFunction((HashFunc)hashEdge);
+
+  FILE* file = fopen(fp, "r");
+  if (file == nullptr)
+    return nullptr;
+
+  uint32_t N;
+  int K;
+
+  fread(&N, sizeof(N), 1, file);
+  fread(&K, sizeof(K), 1, file);
+
+  float datapoint;
+
+  // read the vertices
+  for (int i = 0; i < (int)N; i++) {
+    Vector* vertex = new Vector(dimensions, (DestroyFunc)deleteFloat);
+
+    for (int j = 0; j < dimensions; j++) {
+      fread(&datapoint, sizeof(float), 1, file);
+      vertex->setAt(j, createFloat(datapoint));
+    }
+
+    graph->insertVertex(vertex);
+  }
+
+  // read the edges
+  int pos1, pos2;
+
+  while (!feof(file)) {
+    fread(&pos1, sizeof(int), 1, file);
+    fread(&pos2, sizeof(int), 1, file);
+
+    Pointer vertex1 = graph->getVec()->getAt(pos1);
+    Pointer vertex2 = graph->getVec()->getAt(pos2);
+    graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
+  }
+
+  fclose(file);
+  return graph;
+}
+
+float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
+  List* bfVertices = bfGraph->getVertices();
+  List* nnVertices = nnGraph->getVertices();
+
+  float recall = 0;
+
+  for (ListNode *bfNode = bfVertices->getHead(),
+                *nnNode = nnVertices->getHead();
+       bfNode != nullptr;
+       bfNode = bfNode->getNext(), nnNode = nnNode->getNext()) {
+    int trueNeighbors = 0;
+    List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
+
+    for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
+         adjacent = adjacent->getNext()) {
+      List* nnAdjacent = nnGraph->getAdjacent(nnNode->getValue());
+
+      if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
+        trueNeighbors++;
+
+      delete nnAdjacent;
+    }
+
+    recall += (float)trueNeighbors / (float)K;
+    delete bfNodeAdjacent;
+  }
+
+  recall = recall / (float)N;
+  recall *= 100;
+
+  delete bfVertices;
+  delete nnVertices;
+
+  return recall;
+}
+
 void cppdescent::deleteFloat(Pointer value) {
   delete (float*)value;
 }
@@ -137,7 +266,8 @@ float cppdescent::compareFloats(Pointer a, Pointer b) {
 int cppdescent::deleteDatapointVectors(Vector* vec) {
   if (vec == nullptr)
     return -1;
-  for (int i = 0; i < vec->getSize(); i++) {
+  int dimensions = vec->getSize();
+  for (int i = 0; i < dimensions; i++) {
     delete (Vector*)vec->getAt(i);
   }
 
@@ -148,8 +278,8 @@ int cppdescent::deleteDatapointVectors(Vector* vec) {
 int cppdescent::compareVertices(Pointer first, Pointer second) {
   Vector* vec1 = (Vector*)first;
   Vector* vec2 = (Vector*)second;
-
-  for (int i = 0; i < vec1->getSize(); i++)
+  int dimensions = vec1->getSize();
+  for (int i = 0; i < dimensions; i++)
     if (cppdescent::compareFloats(vec1->getAt(i), vec2->getAt(i)))
       return 1;
 
@@ -278,12 +408,14 @@ int updateNN(Graph* graph,
 
 Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       int K,
+                                      float delta,
                                       DistanceFunc distance) {
   // B[v] <- Sample(V, K) for all v in V
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
   List* vertices = graph->getVertices();
+  int N = graph->getSize();
   int c;
 
   int iterations = 0;
@@ -317,11 +449,13 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
       delete vAll;
     }
-  } while (c != 0);
+
+    std::cout << "Number of changes in the graph (c) = " << c << "\n";
+  } while (c >= delta * N * K);
 
   delete vertices;
 
-  std::cout << "Iterations: " << iterations << "\n";
+  std::cout << "NN-Descent iterations: " << iterations << "\n";
 
   return graph;
 }
@@ -362,4 +496,75 @@ List* NNDescent_Query(Graph* graph, int K, CompareFunc compare, Vector* query) {
   }
 
   delete vertices;
+}
+
+// ============================ Metric Functions =============================
+
+float cppdescent::euclideanDistance(Pointer a, Pointer b) {
+  Vector* first = (Vector*)a;
+  Vector* second = (Vector*)b;
+  float result = 0;
+
+  if (first->getSize() != second->getSize())
+    return -1.0;
+
+  for (int i = 0; i < first->getSize(); i++) {
+    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
+    result += diff * diff;
+  }
+
+  result = sqrtf(result);
+  return result;
+}
+
+int cppdescent::compareEdgesEuclidean(Pointer first, Pointer second) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)first;
+  GraphVertexPair* pair2 = (GraphVertexPair*)second;
+
+  float a = euclideanDistance((Vector*)pair1->getVertex1(),
+                              (Vector*)pair1->getVertex2());
+  float b = euclideanDistance((Vector*)pair2->getVertex1(),
+                              (Vector*)pair2->getVertex2());
+
+  int value = 0;
+  if (b > a) {
+    value = -1;
+  } else if (a > b) {
+    value = 1;
+  }
+  return value;
+}
+
+float cppdescent::manhattanDistance(Pointer a, Pointer b) {
+  Vector* first = (Vector*)a;
+  Vector* second = (Vector*)b;
+  float result = 0;
+
+  if (first->getSize() != second->getSize())
+    return -1.0;
+
+  for (int i = 0; i < first->getSize(); i++) {
+    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
+    result += fabs(diff);
+  }
+
+  return result;
+}
+
+int cppdescent::compareEdgesManhattan(Pointer first, Pointer second) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)first;
+  GraphVertexPair* pair2 = (GraphVertexPair*)second;
+
+  float a = manhattanDistance((Vector*)pair1->getVertex1(),
+                              (Vector*)pair1->getVertex2());
+  float b = manhattanDistance((Vector*)pair2->getVertex1(),
+                              (Vector*)pair2->getVertex2());
+
+  int value = 0;
+  if (b > a) {
+    value = -1;
+  } else if (a > b) {
+    value = 1;
+  }
+  return value;
 }

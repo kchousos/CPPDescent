@@ -1,5 +1,5 @@
 build/**
-.vscode
+# .vscode
 .DS_Store
 .cache
 
@@ -9,6 +9,7 @@ docs/latex/**
 test/*.info
 
 # datasets/**
-# !datasets/00000020.bin
+datasets/01000000.bin
+datasets/10000000.bin
 
 vgcore.*
