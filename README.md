@@ -6,7 +6,7 @@ Informatics and Telecommunications, UoA](https://www.di.uoa.gr/en) for
 the first semester of the academic year 2023-2024.
 
 A library that implements the KNN-Graph creation and search algorithms
-described in \[1\], \[2\].
+described in [1], [2].
 
 ## Contributors
 
@@ -22,6 +22,7 @@ described in \[1\], \[2\].
     - I/O of graphs in binary files.
     - Recall function.
     - Metric functions.
+    - Single point query.
 
 - [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
   (1115202000179, sdi2000179 *at* di.uoa.gr)
@@ -86,28 +87,6 @@ its code coverage needs. The results are uploaded upon commit
 
 ## Bibliography
 
-<div id="refs" class="references csl-bib-body" entry-spacing="0">
+[1] “How PyNNDescent works — pynndescent 0.5.0 documentation.” Accessed: Oct. 10, 2023. [Online]. Available: https://pynndescent.readthedocs.io/en/latest/how_pynndescent_works.html
 
-<div id="ref-dongEfficientKnearestNeighbor2011" class="csl-entry">
-
-<span class="csl-left-margin">\[1\]
-</span><span class="csl-right-inline">W. Dong, C. Moses, and K. Li,
-“Efficient k-nearest neighbor graph construction for generic similarity
-measures,” in *Proceedings of the 20th international conference on World
-wide web*, in WWW ’11. New York, NY, USA: Association for Computing
-Machinery, Mar. 2011, pp. 577–586. doi:
-[10.1145/1963405.1963487](https://doi.org/10.1145/1963405.1963487).</span>
-
-</div>
-
-<div id="ref-HowPyNNDescentWorks" class="csl-entry">
-
-<span class="csl-left-margin">\[2\]
-</span><span class="csl-right-inline">“How PyNNDescent works —
-pynndescent 0.5.0 documentation.” Accessed: Oct. 10, 2023. \[Online\].
-Available:
-<https://pynndescent.readthedocs.io/en/latest/how_pynndescent_works.html></span>
-
-</div>
-
-</div>
+[2] W. Dong, C. Moses, and K. Li, “Efficient k-nearest neighbor graph construction for generic similarity measures,” in Proceedings of the 20th international conference on World wide web, in WWW ’11. New York, NY, USA: Association for Computing Machinery, Mar. 2011, pp. 577–586. doi: 10.1145/1963405.1963487.

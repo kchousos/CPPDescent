@@ -161,8 +161,13 @@ Graph* NNDescent_KNNGraph(Vector* data, int K, DistanceFunc distance);
  * @param compare The function used to compare edges.
  * @param query The query point, given as a Vector. Must be of the same
  * dimensions as the rest points of the graph.
- * @return List* A list of the K-NN of the query. If the query point is of wrong
- * dimensions, then nullptr is returned.
+ * @return PQueue* A priority queue of the K-NN of the query, with 'max' being
+ * the most distant point relative to the query. It contains GraphVertexPairs
+ * from the query point directed to the other nodes. If the query point is of
+ * wrong dimensions, then nullptr is returned.
  */
-List* NNDescent_Query(Graph* graph, int K, CompareFunc compare, Vector* query);
+PQueue* NNDescent_Query(Graph* graph,
+                        int K,
+                        CompareFunc compare,
+                        Vector* query);
 };  // namespace cppdescent

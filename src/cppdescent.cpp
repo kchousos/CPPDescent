@@ -454,42 +454,55 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   return graph;
 }
 
-List* NNDescent_Query(Graph* graph, int K, CompareFunc compare, Vector* query) {
+PQueue* NNDescent_Query(Graph* graph,
+                        int K,
+                        CompareFunc compare,
+                        Vector* query) {
   List* vertices = graph->getVertices();
 
   srand(time(0));
 
-  int pos = rand() % vertices->getSize();
+  int dimensions = ((Vector*)graph->getVec()->first()->getValue())->getSize();
+  if (query->getSize() != dimensions)
+    return nullptr;
 
-  ListNode* node = vertices->getHead();
-  for (int i = 0; i <= pos; i++)
-    node = node->getNext();
+  // get random candidate from graph
+  int pos = rand() % vertices->getSize();
+  Pointer candidate = graph->getVec()->getAt(pos);
 
   PQueue* knn = new PQueue(compare, (DestroyFunc)destroyEdges, nullptr);
-  Pointer candidate = node->getValue();
 
-  GraphVertexPair* pair = new GraphVertexPair(graph, (Pointer)query, candidate);
-  knn->insert(pair);
+  List* candidates;
+  bool candidatesRemain = true;
 
-  List* candidates = graph->getAdjacent(candidate);
+  while (candidatesRemain) {
+    candidatesRemain = false;
 
-  while (true) {
+    // get candidate's neighbors
+    candidates = graph->getGeneralNeighbors(candidate);
+
+    // add best candidate's neighbors to the queue
     for (ListNode* node = candidates->getHead(); node != nullptr;
-         node = node->getNext()) {
-      pair = new GraphVertexPair(graph, (Pointer)query, node->getValue());
-      if (knn->getSize() < K || compare(knn->getMax(), pair) > 0) {
-        knn->removeMax();
+         node = node->getNext())
+      // FIXME: the condition will be something like 'node->tried() == false'
+      if (true) {
+        candidatesRemain = true;
+        GraphVertexPair* pair =
+            new GraphVertexPair(graph, query, node->getValue());
         knn->insert(pair);
-      } else {
-        delete pair;
       }
 
-      List* candidateNeighbors = graph->getAdjacent(node->getValue());
-      candidateNeighbors->decreaseSize();
-    }
+    // truncuate queue to K
+    while (knn->getSize() > K)
+      knn->removeMax();
+
+    // get new best candidate
+    candidate = knn->getMin();
+
+    delete candidates;
   }
 
-  delete vertices;
+  return knn;
 }
 
 // ============================ Metric Functions =============================
