@@ -178,7 +178,6 @@ void deleteVectors(Pointer vec) {
   delete (Vector*)vec;
 }
 
-// FIXME: mem leaks in the 'read vertices' part. Dk why.
 Graph* cppdescent::readBinGraph(const char* fp,
                                 int dimensions,
                                 DistanceFunc distance) {
