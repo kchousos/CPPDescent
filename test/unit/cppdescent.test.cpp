@@ -395,8 +395,10 @@ TEST(MetricFunctions, euclidean) {
 
   ASSERT_FLOAT_EQ(7.64853, cppdescent::euclideanDistance(vec1, vec2));
 
-  GraphVertexPair* pair1 = new GraphVertexPair(nullptr, vec1, vec2);
-  GraphVertexPair* pair2 = new GraphVertexPair(nullptr, vec1, vec2);
+  GraphVertexPair* pair1 =
+      new GraphVertexPair(nullptr, (GraphVertex*)vec1, (GraphVertex*)vec2);
+  GraphVertexPair* pair2 =
+      new GraphVertexPair(nullptr, (GraphVertex*)vec1, (GraphVertex*)vec2);
 
   ASSERT_EQ(0, cppdescent::compareEdgesEuclidean(pair1, pair2));
 
@@ -418,8 +420,10 @@ TEST(MetricFunctions, manhattan) {
 
   ASSERT_FLOAT_EQ(10.2, cppdescent::manhattanDistance(vec1, vec2));
 
-  GraphVertexPair* pair1 = new GraphVertexPair(nullptr, vec1, vec2);
-  GraphVertexPair* pair2 = new GraphVertexPair(nullptr, vec1, vec2);
+  GraphVertexPair* pair1 =
+      new GraphVertexPair(nullptr, (GraphVertex*)vec1, (GraphVertex*)vec2);
+  GraphVertexPair* pair2 =
+      new GraphVertexPair(nullptr, (GraphVertex*)vec1, (GraphVertex*)vec2);
 
   ASSERT_EQ(0, cppdescent::compareEdgesManhattan(pair1, pair2));
 

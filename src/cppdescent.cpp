@@ -185,15 +185,15 @@ Graph* cppdescent::readBinGraph(const char* fp,
   if (file == nullptr)
     return nullptr;
 
-  Graph* graph =
-      new Graph((CompareFunc)compareVertices, nullptr, deleteVectors);
-  graph->setHashFunction((HashFunc)hashEdge);
-
   uint32_t N;
   int K;
 
   fread(&N, sizeof(N), 1, file);
   fread(&K, sizeof(K), 1, file);
+
+  Graph* graph =
+      new Graph(K, (CompareFunc)compareVertices, nullptr, deleteVectors);
+  graph->setHashFunction((HashFunc)hashEdge);
 
   float datapoint;
   // read the vertices
@@ -303,7 +303,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
                                       int K,
                                       CompareFunc compare,
                                       DistanceFunc distance) {
-  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
+  Graph* graph = new Graph(K, (CompareFunc)compareVertices, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
   // Insert all points as vertices.
@@ -320,7 +320,8 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
         continue;
 
       Pointer b = (Pointer)data->getAt(j);
-      GraphVertexPair* pair = new GraphVertexPair(graph, a, b);
+      GraphVertexPair* pair =
+          new GraphVertexPair(graph, (GraphVertex*)a, (GraphVertex*)b);
 
       if (neighbors->getSize() < K) {
         neighbors->insert(pair);
@@ -363,7 +364,7 @@ Graph* sampleGraph(Vector* data,
                    int K,
                    CompareFunc compare,
                    DistanceFunc distance) {
-  Graph* graph = new Graph((CompareFunc)compare, nullptr);
+  Graph* graph = new Graph(K, (CompareFunc)compare, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
   int N = data->getSize();
@@ -502,8 +503,8 @@ PQueue* NNDescent_Query(Graph* graph,
       // FIXME: the condition will be something like 'node->tried() == false'
       if (true) {
         candidatesRemain = true;
-        GraphVertexPair* pair =
-            new GraphVertexPair(graph, query, node->getValue());
+        GraphVertexPair* pair = new GraphVertexPair(
+            graph, (GraphVertex*)query, (GraphVertex*)node->getValue());
         knn->insert(pair);
       }
 

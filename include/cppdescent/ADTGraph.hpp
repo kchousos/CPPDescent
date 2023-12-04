@@ -21,6 +21,7 @@ class Graph {
   Vector* vec;
   Map* map;
   int size;
+  int K;
   CompareFunc compare_vertices;
   CompareFunc compare_data;
   DestroyFunc destroy;
@@ -28,7 +29,8 @@ class Graph {
   HashFunc hash;
 
  public:
-  Graph(CompareFunc compare,
+  Graph(int K,
+        CompareFunc compare,
         DestroyFunc destroy,
         DestroyFunc vecDestroy = nullptr);
   ~Graph();
@@ -83,14 +85,14 @@ class GraphVertex {
 
 class GraphVertexPair {
  public:
-  GraphVertexPair(Graph* owner, Pointer vertex1, Pointer vertex2)
+  GraphVertexPair(Graph* owner, GraphVertex* vertex1, GraphVertex* vertex2)
       : vertex1(vertex1), vertex2(vertex2), owner(owner){};
-  Pointer getVertex1() { return this->vertex1; };
-  Pointer getVertex2() { return this->vertex2; };
+  GraphVertex* getVertex1() { return this->vertex1; };
+  GraphVertex* getVertex2() { return this->vertex2; };
   Graph* getOwner() { return this->owner; };
 
  private:
-  Pointer vertex1;
-  Pointer vertex2;
+  GraphVertex* vertex1;
+  GraphVertex* vertex2;
   Graph* owner;
 };

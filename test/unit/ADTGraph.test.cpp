@@ -25,13 +25,19 @@ int compareInts(Pointer a, Pointer b) {
   return *(int*)a - *(int*)b;
 }
 
+int myCompareVertices(GraphVertex* v1, GraphVertex* v2) {
+  return compareInts(v1->getData(), v2->getData());
+}
+
 int compareEdges(Pointer a, Pointer b) {
   GraphVertexPair* pair1 = (GraphVertexPair*)a;
   GraphVertexPair* pair2 = (GraphVertexPair*)b;
-  int first = pair1->getOwner()->getCompareData()(pair1->getVertex1(),
-                                                  pair2->getVertex1());
-  int second = pair1->getOwner()->getCompareData()(pair1->getVertex2(),
-                                                   pair2->getVertex2());
+  int first = pair1->getOwner()->getCompareData()(
+      ((GraphVertex*)pair1->getVertex1())->getData(),
+      ((GraphVertex*)pair2->getVertex1())->getData());
+  int second = pair1->getOwner()->getCompareData()(
+      ((GraphVertex*)pair1->getVertex2())->getData(),
+      ((GraphVertex*)pair2->getVertex2())->getData());
   if (first)
     return first;
   else if (second)
@@ -80,12 +86,13 @@ int* createIntValue(int value) {
  */
 uint hashPointer(Pointer value) {
   GraphVertexPair* pair = (GraphVertexPair*)value;
-  size_t hash = (size_t)pair->getVertex1() + (size_t)pair->getVertex2();
+  size_t hash = (size_t)pair->getVertex1()->getData() +
+                (size_t)pair->getVertex2()->getData();
   return hash;
 }
 
 TEST(ADTGraphTest, create) {
-  Graph* graph = new Graph(compareInts, nullptr);
+  Graph* graph = new Graph(1, compareInts, nullptr);
 
   ASSERT_NE(graph, nullptr);
   ASSERT_EQ(graph->getSize(), 0);
@@ -94,10 +101,10 @@ TEST(ADTGraphTest, create) {
 }
 
 TEST(ADTGraphTest, removeEdges) {
-  Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 10;
+  Graph* graph = new Graph(N, compareInts, deleteInts);
 
   graph->setHashFunction(hashPointer);
-  int N = 10;
 
   int** vertexArray = new int*[N];
 
@@ -119,7 +126,9 @@ TEST(ADTGraphTest, removeEdges) {
       graph->removeEdge(vertexArray[i], vertexArray[j]);
       List* adjacent = graph->getAdjacent(vertexArray[i]);
       ASSERT_EQ(adjacent->getSize(), N - j - 1);
-      ASSERT_EQ(adjacent->find(vertexArray[j], compareInts), nullptr);
+      GraphVertex* v = new GraphVertex(vertexArray[j], graph);
+      ASSERT_EQ(adjacent->find(v, (CompareFunc)myCompareVertices), nullptr);
+      delete v;
       delete adjacent;
     }
 
@@ -131,10 +140,10 @@ TEST(ADTGraphTest, removeEdges) {
 }
 
 TEST(ADTGraphTest, insertRemove) {
-  Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 1000;
+  Graph* graph = new Graph(N, compareInts, deleteInts);
 
   graph->setHashFunction(hashPointer);
-  int N = 1000;
 
   int** vertexArray = new int*[N];
 
@@ -149,7 +158,7 @@ TEST(ADTGraphTest, insertRemove) {
   ListNode* node = list->getHead();
 
   for (int i = 0; i < N; i++) {
-    ASSERT_EQ(node->getValue(), vertexArray[i]);
+    ASSERT_EQ(((GraphVertex*)node->getValue())->getData(), vertexArray[i]);
     node = node->getNext();
   }
 
@@ -173,11 +182,10 @@ TEST(ADTGraphTest, insertRemove) {
 }
 
 TEST(ADTGraphTest, getAdjacent) {
-  Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 1000;
+  Graph* graph = new Graph(N, compareInts, deleteInts);
 
   graph->setHashFunction(hashPointer);
-
-  int N = 1000;
 
   int** vertexArray = new int*[N];
 
@@ -186,8 +194,12 @@ TEST(ADTGraphTest, getAdjacent) {
     graph->insertVertex(vertexArray[i]);
     List* list = graph->getVertices();
     int* value = createIntValue(i);
-    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    GraphVertex* v = new GraphVertex(value, graph);
+    ASSERT_EQ(((GraphVertex*)list->find(v, (CompareFunc)myCompareVertices))
+                  ->getData(),
+              vertexArray[i]);
     delete value;
+    delete v;
     delete list;
   }
 
@@ -200,7 +212,8 @@ TEST(ADTGraphTest, getAdjacent) {
   ListNode* node = list2->getHead();
 
   for (int i = 1; i < N; i++) {
-    ASSERT_EQ(node->getValue(), vertexArray[i]) << "i: " << i << "\n";
+    ASSERT_EQ(((GraphVertex*)node->getValue())->getData(), vertexArray[i])
+        << "i: " << i << "\n";
     node = list2->next(node);
   }
 
@@ -213,11 +226,10 @@ TEST(ADTGraphTest, getAdjacent) {
 }
 
 TEST(ADTGraphTest, getAdjacentPQ) {
-  Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 1000;
+  Graph* graph = new Graph(N, compareInts, deleteInts);
 
   graph->setHashFunction(hashPointer);
-
-  int N = 1000;
 
   int** vertexArray = new int*[N];
 
@@ -226,8 +238,12 @@ TEST(ADTGraphTest, getAdjacentPQ) {
     graph->insertVertex(vertexArray[i]);
     List* list = graph->getVertices();
     int* value = createIntValue(i);
-    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    GraphVertex* v = new GraphVertex(value, graph);
+    ASSERT_EQ(((GraphVertex*)list->find(v, (CompareFunc)myCompareVertices))
+                  ->getData(),
+              vertexArray[i]);
     delete value;
+    delete v;
     delete list;
   }
 
@@ -238,8 +254,9 @@ TEST(ADTGraphTest, getAdjacentPQ) {
   ASSERT_NE(adjPQ->getMax(), nullptr);
   for (int i = 1; i < N; i++) {
     GraphVertexPair* pair = (GraphVertexPair*)adjPQ->getMax();
-    ASSERT_EQ(compareInts(pair->getVertex2(), vertexArray[N - i]), 0)
-        << "i: " << i << "\n";
+    GraphVertex* v = pair->getVertex2();
+    int* data = (int*)v->getData();
+    ASSERT_EQ(compareInts(data, vertexArray[N - i]), 0) << "i: " << i << "\n";
     adjPQ->removeMax();
   }
 
@@ -251,11 +268,10 @@ TEST(ADTGraphTest, getAdjacentPQ) {
 }
 
 TEST(ADTGraphTest, getReverseAdjacent) {
-  Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 1000;
+  Graph* graph = new Graph(N, compareInts, deleteInts);
 
   graph->setHashFunction(hashPointer);
-
-  int N = 1000;
 
   int** vertexArray = new int*[N];
 
@@ -264,8 +280,12 @@ TEST(ADTGraphTest, getReverseAdjacent) {
     graph->insertVertex(vertexArray[i]);
     List* list = graph->getVertices();
     int* value = createIntValue(i);
-    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    GraphVertex* v = new GraphVertex(value, graph);
+    ASSERT_EQ(((GraphVertex*)list->find(v, (CompareFunc)myCompareVertices))
+                  ->getData(),
+              vertexArray[i]);
     delete value;
+    delete v;
     delete list;
   }
 
@@ -278,7 +298,8 @@ TEST(ADTGraphTest, getReverseAdjacent) {
   ListNode* node = list2->getHead();
 
   for (int i = 1; i < N; i++) {
-    ASSERT_EQ(node->getValue(), vertexArray[i]) << "i: " << i << "\n";
+    ASSERT_EQ(((GraphVertex*)node->getValue())->getData(), vertexArray[i])
+        << "i: " << i << "\n";
     node = list2->next(node);
   }
 
@@ -291,11 +312,10 @@ TEST(ADTGraphTest, getReverseAdjacent) {
 }
 
 TEST(ADTGraphTest, getReverseAdjacentPQ) {
-  Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 1000;
+  Graph* graph = new Graph(N, compareInts, deleteInts);
 
   graph->setHashFunction(hashPointer);
-
-  int N = 1000;
 
   int** vertexArray = new int*[N];
 
@@ -304,7 +324,11 @@ TEST(ADTGraphTest, getReverseAdjacentPQ) {
     graph->insertVertex(vertexArray[i]);
     List* list = graph->getVertices();
     int* value = createIntValue(i);
-    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    GraphVertex* v = new GraphVertex(value, graph);
+    ASSERT_EQ(((GraphVertex*)list->find(v, (CompareFunc)myCompareVertices))
+                  ->getData(),
+              vertexArray[i]);
+    delete v;
     delete value;
     delete list;
   }
@@ -317,8 +341,9 @@ TEST(ADTGraphTest, getReverseAdjacentPQ) {
 
   for (int i = 1; i < N; i++) {
     GraphVertexPair* pair = (GraphVertexPair*)revAdjPQ->getMax();
-    ASSERT_EQ(compareInts(pair->getVertex1(), vertexArray[N - i]), 0)
-        << "i: " << i << "\n";
+    GraphVertex* v = pair->getVertex1();
+    int* data = (int*)v->getData();
+    ASSERT_EQ(compareInts(data, vertexArray[N - i]), 0) << "i: " << i << "\n";
     revAdjPQ->removeMax();
   }
 
@@ -330,11 +355,10 @@ TEST(ADTGraphTest, getReverseAdjacentPQ) {
 }
 
 TEST(ADTGraphTest, getGeneralNeighbors) {
-  Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 1000;
+  Graph* graph = new Graph(N, compareInts, deleteInts);
 
   graph->setHashFunction(hashPointer);
-
-  int N = 1000;
 
   int** vertexArray = new int*[N];
 
@@ -343,8 +367,12 @@ TEST(ADTGraphTest, getGeneralNeighbors) {
     graph->insertVertex(vertexArray[i]);
     List* list = graph->getVertices();
     int* value = createIntValue(i);
-    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    GraphVertex* v = new GraphVertex(value, graph);
+    ASSERT_EQ(((GraphVertex*)list->find(v, (CompareFunc)myCompareVertices))
+                  ->getData(),
+              vertexArray[i]);
     delete value;
+    delete v;
     delete list;
   }
 
@@ -361,10 +389,13 @@ TEST(ADTGraphTest, getGeneralNeighbors) {
 
   for (int i = 1; i < 2 * N - 1; i++) {
     if (i < N) {
-      ASSERT_EQ(node->getValue(), vertexArray[i]) << "i: " << i << "\n";
+      ASSERT_EQ(((GraphVertex*)node->getValue())->getData(), vertexArray[i])
+          << "i: " << i << "\n";
       node = list->next(node);
     } else {
-      ASSERT_EQ(node->getValue(), vertexArray[i - N + 1]) << "i: " << i << "\n";
+      ASSERT_EQ(((GraphVertex*)node->getValue())->getData(),
+                vertexArray[i - N + 1])
+          << "i: " << i << "\n";
       node = list->next(node);
     }
   }
@@ -378,11 +409,10 @@ TEST(ADTGraphTest, getGeneralNeighbors) {
 }
 
 TEST(ADTGraphTest, getGeneralNeighborsPQ) {
-  Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 1000;
+  Graph* graph = new Graph(N, compareInts, deleteInts);
 
   graph->setHashFunction(hashPointer);
-
-  int N = 1000;
 
   int** vertexArray = new int*[N];
 
@@ -391,8 +421,12 @@ TEST(ADTGraphTest, getGeneralNeighborsPQ) {
     graph->insertVertex(vertexArray[i]);
     List* list = graph->getVertices();
     int* value = createIntValue(i);
-    ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
+    GraphVertex* v = new GraphVertex(value, graph);
+    ASSERT_EQ(((GraphVertex*)list->find(v, (CompareFunc)myCompareVertices))
+                  ->getData(),
+              vertexArray[i]);
     delete value;
+    delete v;
     delete list;
   }
 
@@ -406,10 +440,15 @@ TEST(ADTGraphTest, getGeneralNeighborsPQ) {
     graph->insertVertex(vertexArray2[i]);
     List* list = graph->getVertices();
     int* value = createIntValue(N + i);
-    ASSERT_EQ(list->find(value, compareInts), vertexArray2[i]);
+    GraphVertex* v = new GraphVertex(value, graph);
+    ASSERT_EQ(((GraphVertex*)list->find(v, (CompareFunc)myCompareVertices))
+                  ->getData(),
+              vertexArray2[i]);
     delete value;
+    delete v;
     delete list;
   }
+
   for (int i = 1; i < N; i++)
     graph->insertEdge(vertexArray2[i], vertexArray[0], N + i);
 
@@ -419,13 +458,16 @@ TEST(ADTGraphTest, getGeneralNeighborsPQ) {
   for (int i = 1; i < 2 * N - 1; i++) {
     if (i < N) {
       GraphVertexPair* pair = (GraphVertexPair*)generalNPQ->getMax();
-      ASSERT_EQ(compareInts(pair->getVertex1(), vertexArray2[N - i]), 0)
-          << "i: " << i << "\n"
-          << generalNPQ->getSize() << std::endl;
+      GraphVertex* v = pair->getVertex1();
+      int* data = (int*)v->getData();
+      ASSERT_EQ(compareInts(data, vertexArray2[N - i]), 0)
+          << "i: " << i << "\n";
       generalNPQ->removeMax();
     } else {
       GraphVertexPair* pair = (GraphVertexPair*)generalNPQ->getMax();
-      ASSERT_EQ(compareInts(pair->getVertex2(), vertexArray[2 * N - i - 1]), 0)
+      GraphVertex* v = pair->getVertex2();
+      int* data = (int*)v->getData();
+      ASSERT_EQ(compareInts(data, vertexArray[2 * N - i - 1]), 0)
           << "i: " << i << "\n";
       generalNPQ->removeMax();
     }
