@@ -76,18 +76,20 @@ class PQueue {
    */
   DestroyFunc setDestroyValue(DestroyFunc destroyValue);
   /**
-   * @brief Finds (using the given compare function) and removes the node with the given value.
-   * 
+   * @brief Finds (using the given compare function) and removes the node with
+   * the given value.
+   *
    * @param value The value we want to remove.
-   * @param compare Compare function to use for finding the node we want to remove.
+   * @param compare Compare function to use for finding the node we want to
+   * remove.
    */
   void remove(Pointer value, CompareFunc compare);
   /**
    * @brief Finds the given value in the priority queue and returns its nodeId.
-   * 
+   *
    * @param value The value we want to find.
    * @param compare Compare function to use.
-   * @return int 
+   * @return int
    */
   int find(Pointer value, CompareFunc compare);
 
