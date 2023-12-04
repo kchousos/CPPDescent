@@ -66,7 +66,7 @@ Graph::Graph(CompareFunc compare_data,
     : size(0), compare_data(compare_data), destroy(destroy), destroy_data(destroy_data) {
   this->map = new Map((CompareFunc)compareVertexPair,
                       (DestroyFunc)destroyVertexPair, destroyValue);
-  this->vec = new Vector(0, nullptr);
+  this->vec = new Vector(0, (DestroyFunc)destroyVertex);
   
   this->compare_vertices = compareVertices;
 }
@@ -357,9 +357,9 @@ GraphVertex::GraphVertex(Pointer data, Graph* owner)
 }
 
 GraphVertex::~GraphVertex() {
-  // DestroyFunc destroy = this->owner->getDestroyData();
-  // if (destroy != nullptr)
-  //   destroy(this->data);
+  DestroyFunc destroy = this->owner->getDestroyData();
+  if (destroy != nullptr)
+    destroy(this->data);
 
   delete neighbors;
   delete reverse;
