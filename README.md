@@ -91,10 +91,9 @@ its code coverage needs. The results are uploaded upon commit
 
 ### Profiling
 
-In the [profile.svg](https://kchousos.github.io/CPPDescent/profile.svg) file
-you can find a profiling graph that has been created using 
-[GNU gprof](https://ftp.gnu.org/old-gnu/Manuals/gprof-2.9.1/html_mono/gprof.html)
-and [gprof2dot](https://github.com/jrfonseca/gprof2dot).
+[Callgrind](https://valgrind.org/docs/manual/cl-manual.html) and
+[Qcachegrind](https://kcachegrind.github.io/html/Home.html) are used for any
+profiling purposes.
 
 ## Bibliography
 
