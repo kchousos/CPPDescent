@@ -34,7 +34,7 @@ described in [1], [2].
     - Brute Force K-NN Graph creation
     - NN-Descent Graph creation
   - 2nd submission
-    - Graph refactoring
+    - Graph refactoring for more efficient neigbors retrieval
 
 ## Dependencies
 

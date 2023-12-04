@@ -247,7 +247,6 @@ TEST(ADTGraphTest, getAdjacentPQ) {
     delete vertexArray[i];
 
   delete[] vertexArray;
-  delete adjPQ;
   delete graph;
 }
 
@@ -327,7 +326,6 @@ TEST(ADTGraphTest, getReverseAdjacentPQ) {
     delete vertexArray[i];
 
   delete[] vertexArray;
-  delete revAdjPQ;
   delete graph;
 }
 
@@ -441,6 +439,5 @@ TEST(ADTGraphTest, getGeneralNeighborsPQ) {
 
   delete[] vertexArray;
   delete[] vertexArray2;
-  delete generalNPQ;
   delete graph;
 }

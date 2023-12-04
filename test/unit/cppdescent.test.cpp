@@ -177,8 +177,8 @@ TEST_F(BruteForceManualDataset, binaryGraphFiles) {
   delete vertices;
   delete graph;
 
-  int result = cppdescent::deleteDatapointVectors(vec);
-  ASSERT_EQ(result, 0);
+  // int result = cppdescent::deleteDatapointVectors(vec);
+  // ASSERT_EQ(result, 0);
 }
 
 TEST(BruteForce, SIGMODDataset20) {

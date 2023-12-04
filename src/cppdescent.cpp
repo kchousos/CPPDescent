@@ -178,17 +178,16 @@ void deleteVectors(Pointer vec) {
   delete (Vector*)vec;
 }
 
-// FIXME: mem leaks in the 'read vertices' part. Dk why.
 Graph* cppdescent::readBinGraph(const char* fp,
                                 int dimensions,
                                 DistanceFunc distance) {
-  Graph* graph =
-      new Graph((CompareFunc)compareVertices, nullptr, deleteVectors);
-  graph->setHashFunction((HashFunc)hashEdge);
-
   FILE* file = fopen(fp, "r");
   if (file == nullptr)
     return nullptr;
+
+  Graph* graph =
+      new Graph((CompareFunc)compareVertices, nullptr, deleteVectors);
+  graph->setHashFunction((HashFunc)hashEdge);
 
   uint32_t N;
   int K;

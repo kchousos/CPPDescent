@@ -58,6 +58,7 @@ void destroyVertex(GraphVertex* vertex) {
   DestroyFunc destroy = vertex->getOwner()->getDestroyData();
   if (destroy != nullptr)
     destroy(vertex->getData());
+
   delete vertex;
 }
 
@@ -118,16 +119,21 @@ List* Graph::getVertices() {
 }
 
 void Graph::removeVertex(Pointer vertex) {
-  GraphVertex* last = (GraphVertex*)this->vec->nodeValue(this->vec->last());
+  GraphVertex* gvertex = new GraphVertex(vertex, this);
+  int i = this->vec->findPos(gvertex, this->compare_vertices);
 
-  int i;
-  for (i = 0; i < this->size; i++)
-    if (this->compare_data(((GraphVertex*)this->vec->getAt(i))->getData(),
-                           vertex) == 0)
-      break;
+  if (i == -1) {
+    std::cerr << "removeVertex: given vertex not found. Exiting...\n";
+    return;
+  }
 
-  this->vec->setAt(i, last);
-  this->vec->setAt(this->size - 1, this->vec->getAt(i));
+  GraphVertex* newPos = new GraphVertex(
+      ((GraphVertex*)this->vec->getAt(this->size - 1))->getData(), this);
+  GraphVertex* newLast =
+      new GraphVertex(((GraphVertex*)this->vec->getAt(i))->getData(), this);
+
+  this->vec->setAt(i, newPos);
+  this->vec->setAt(this->size - 1, newLast);
   this->vec->removeLast();
 
   this->size--;
@@ -136,6 +142,8 @@ void Graph::removeVertex(Pointer vertex) {
     GraphVertexPair* pair = new GraphVertexPair(this, vertex, vertex);
     this->map->remove(pair);
   }
+
+  delete gvertex;
 }
 
 void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
@@ -334,7 +342,6 @@ PQueue* Graph::getGeneralNeighborsPQ(Pointer vertex) {
     revAdj->removeMax();
   }
 
-  delete revAdj;
   return adj;
 }
 
