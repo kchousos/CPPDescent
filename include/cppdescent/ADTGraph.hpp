@@ -24,6 +24,7 @@ class Graph {
   CompareFunc compare_vertices;
   CompareFunc compare_data;
   DestroyFunc destroy;
+  DestroyFunc destroy_data;
   HashFunc hash;
 
  public:
@@ -50,6 +51,7 @@ class Graph {
   CompareFunc getCompareData() { return this->compare_data; };
   CompareFunc getCompareVertices() { return this->compare_vertices; };
   DestroyFunc getDestroy() { return this->destroy; };
+  DestroyFunc getDestroyData() { return this->destroy_data; };
   HashFunc getHash() { return this->hash; };
   Vector* getVec() { return this->vec; };
   Map* getMap() { return this->map; };
@@ -64,10 +66,7 @@ class GraphVertex {
 
  public:
   GraphVertex(Pointer data, Graph* owner);
-  ~GraphVertex() {
-    delete neighbors;
-    delete reverse;
-  };
+  ~GraphVertex();
   void addNeighbor(Pointer neighbor) { this->neighbors->insert(neighbor); };
   void addReverse(Pointer reverse) { this->reverse->insert(reverse); };
   void removeNeighbor(Pointer neighbor, CompareFunc compare) {

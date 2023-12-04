@@ -180,7 +180,7 @@ Graph* cppdescent::readBinGraph(const char* fp,
                                 int dimensions,
                                 DistanceFunc distance) {
   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr,
-                           (DestroyFunc)deleteVectors);
+                           nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
   FILE* file = fopen(fp, "r");
@@ -210,6 +210,7 @@ Graph* cppdescent::readBinGraph(const char* fp,
   int pos1, pos2;
 
   while (!feof(file)) {
+
     fread(&pos1, sizeof(int), 1, file);
     fread(&pos2, sizeof(int), 1, file);
 
@@ -220,6 +221,7 @@ Graph* cppdescent::readBinGraph(const char* fp,
     graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
   }
 
+    std::cout<<"Here\n";
   fclose(file);
   return graph;
 }
