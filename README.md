@@ -22,6 +22,7 @@ described in [1], [2].
     - I/O of graphs in binary files
     - Recall function
     - Metric functions
+    - Query point
     - Early termination
     - Local join
 
