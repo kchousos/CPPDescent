@@ -294,10 +294,9 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
   graph->setHashFunction((HashFunc)hashEdge);
 
   // Insert all points as vertices.
-  for (int i = 0; i < data->getSize(); i++)
-    graph->insertVertex((Pointer)data->getAt(i));
-
   int N = data->getSize();
+  for (int i = 0; i < N; i++)
+    graph->insertVertex((Pointer)data->getAt(i));
 
   for (int i = 0; i < N; i++) {
     Pointer a = (Pointer)data->getAt(i);
@@ -502,10 +501,12 @@ float cppdescent::euclideanDistance(Pointer a, Pointer b) {
   Vector* second = (Vector*)b;
   float result = 0;
 
-  if (first->getSize() != second->getSize())
+  int dimensions = first->getSize();
+
+  if (second->getSize() != dimensions)
     return -1.0;
 
-  for (int i = 0; i < first->getSize(); i++) {
+  for (int i = 0; i < dimensions; i++) {
     float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
     result += diff * diff;
   }
@@ -537,10 +538,12 @@ float cppdescent::manhattanDistance(Pointer a, Pointer b) {
   Vector* second = (Vector*)b;
   float result = 0;
 
-  if (first->getSize() != second->getSize())
+  int dimensions = first->getSize();
+
+  if (second->getSize() != dimensions)
     return -1.0;
 
-  for (int i = 0; i < first->getSize(); i++) {
+  for (int i = 0; i < dimensions; i++) {
     float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
     result += fabs(diff);
   }
