@@ -24,6 +24,7 @@ described in [1], [2].
     - Metric functions
     - Query point
     - Early termination
+    - Local join
 
 - [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
   (1115202000179, sdi2000179 *at* di.uoa.gr)
