@@ -21,8 +21,10 @@ class Graph {
   Vector* vec;
   Map* map;
   int size;
-  CompareFunc compare;
+  CompareFunc compare_vertices;
+  CompareFunc compare_data;
   DestroyFunc destroy;
+  DestroyFunc destroy_data;
   HashFunc hash;
 
  public:
@@ -46,11 +48,37 @@ class Graph {
   bool isNeighbor(Pointer v1, Pointer v2);
   // Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
-  CompareFunc getCompare() { return this->compare; };
+  CompareFunc getCompareData() { return this->compare_data; };
+  CompareFunc getCompareVertices() { return this->compare_vertices; };
   DestroyFunc getDestroy() { return this->destroy; };
+  DestroyFunc getDestroyData() { return this->destroy_data; };
   HashFunc getHash() { return this->hash; };
   Vector* getVec() { return this->vec; };
   Map* getMap() { return this->map; };
+};
+
+class GraphVertex {
+ private:
+  Pointer data;
+  PQueue* neighbors;
+  PQueue* reverse;
+  Graph* owner;
+
+ public:
+  GraphVertex(Pointer data, Graph* owner);
+  ~GraphVertex();
+  void addNeighbor(Pointer neighbor) { this->neighbors->insert(neighbor); };
+  void addReverse(Pointer reverse) { this->reverse->insert(reverse); };
+  void removeNeighbor(Pointer neighbor, CompareFunc compare) {
+    this->neighbors->remove(neighbor, compare);
+  };
+  void removeReverse(Pointer reverse, CompareFunc compare) {
+    this->reverse->remove(reverse, compare);
+  };
+  PQueue* getNeighbors() { return this->neighbors; };
+  PQueue* getReverse() { return this->reverse; };
+  Pointer getData() { return this->data; };
+  Graph* getOwner() { return this->owner; };
 };
 
 class GraphVertexPair {

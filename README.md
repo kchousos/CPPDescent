@@ -14,23 +14,24 @@ described in [1], [2].
   sdi2000215 *at* di.uoa.gr)
 
   - 1st submission
-    - Build/Testing/Code coverage pipeline.
-    - ADTVector, ADTList, ADTPQueue.
-    - Brute Force K-NN Graph creation. NN-Descent Graph creation.
-    - (Incomplete) Query point K-NN.
+    - Build/Testing/Code coverage pipeline
+    - ADTVector, ADTList, ADTPQueue
+    - Brute Force K-NN Graph creation. NN-Descent Graph creation
+    - (Incomplete) Query point K-NN
   - 2nd submission
-    - I/O of graphs in binary files.
-    - Recall function.
-    - Metric functions.
-    - Single point query.
+    - I/O of graphs in binary files
+    - Recall function
+    - Metric functions
+    - Query point
+    - Early termination
 
 - [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
   (1115202000179, sdi2000179 *at* di.uoa.gr)
 
   - 1st submission
-    - ADTMap, ADTGraph.
-    - Brute Force K-NN Graph creation.
-    - NN-Descent Graph creation.
+    - ADTMap, ADTGraph
+    - Brute Force K-NN Graph creation
+    - NN-Descent Graph creation
 
 ## Dependencies
 
@@ -66,7 +67,7 @@ distance.
 ### Results
 
 The *recall* percentage that is printed during execution is computed by
-the following formula, derived from \[1, Sec. 3.2\].
+the following formula, derived from [1, Sec. 3.2].
 
 > The recall of one object is the number of its true K-NN members found
 > divided by K. The recall of an approximate K-NNG is the average recall
@@ -87,6 +88,6 @@ its code coverage needs. The results are uploaded upon commit
 
 ## Bibliography
 
-[1] “How PyNNDescent works — pynndescent 0.5.0 documentation.” Accessed: Oct. 10, 2023. [Online]. Available: https://pynndescent.readthedocs.io/en/latest/how_pynndescent_works.html
+[1] W. Dong, C. Moses, and K. Li, “Efficient k-nearest neighbor graph construction for generic similarity measures,” in Proceedings of the 20th international conference on World wide web, in WWW ’11. New York, NY, USA: Association for Computing Machinery, Mar. 2011, pp. 577–586. doi: 10.1145/1963405.1963487.
 
-[2] W. Dong, C. Moses, and K. Li, “Efficient k-nearest neighbor graph construction for generic similarity measures,” in Proceedings of the 20th international conference on World wide web, in WWW ’11. New York, NY, USA: Association for Computing Machinery, Mar. 2011, pp. 577–586. doi: 10.1145/1963405.1963487.
+[2] “How PyNNDescent works — pynndescent 0.5.0 documentation.” Accessed: Oct. 10, 2023. [Online]. Available: https://pynndescent.readthedocs.io/en/latest/how_pynndescent_works.html

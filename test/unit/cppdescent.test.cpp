@@ -13,6 +13,8 @@
 #include <cmath>
 #include "gtest/gtest.h"
 
+#define delta 0.001
+
 struct BruteForceManualDataset : testing::Test {
  protected:
   virtual void SetUp() override {
@@ -435,8 +437,8 @@ TEST(HelperFunctions, recall) {
 
   Graph* bfGraph = cppdescent::KNNBruteForceGraph(
       vec, K, cppdescent::compareEdgesEuclidean, cppdescent::euclideanDistance);
-  Graph* nnGraph =
-      cppdescent::NNDescent_KNNGraph(vec, K, cppdescent::euclideanDistance);
+  Graph* nnGraph = cppdescent::NNDescent_KNNGraph(
+      vec, K, delta, cppdescent::euclideanDistance);
 
   ASSERT_GE(cppdescent::recall(bfGraph, nnGraph, N, K), 87.5);
 
