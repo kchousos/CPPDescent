@@ -17,7 +17,7 @@ described in [1], [2].
     - Build/Testing/Code coverage pipeline
     - ADTVector, ADTList, ADTPQueue
     - Brute Force K-NN Graph creation. NN-Descent Graph creation
-    - (Incomplete) Query point K-NN
+    - (Incomplete) Query point
   - 2nd submission
     - I/O of graphs in binary files
     - Recall function
