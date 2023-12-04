@@ -28,10 +28,10 @@ int compareInts(Pointer a, Pointer b) {
 int compareEdges(Pointer a, Pointer b) {
   GraphVertexPair* pair1 = (GraphVertexPair*)a;
   GraphVertexPair* pair2 = (GraphVertexPair*)b;
-  int first =
-      pair1->getOwner()->getCompare()(pair1->getVertex1(), pair2->getVertex1());
-  int second =
-      pair1->getOwner()->getCompare()(pair1->getVertex2(), pair2->getVertex2());
+  int first = pair1->getOwner()->getCompareData()(pair1->getVertex1(),
+                                                  pair2->getVertex1());
+  int second = pair1->getOwner()->getCompareData()(pair1->getVertex2(),
+                                                   pair2->getVertex2());
   if (first)
     return first;
   else if (second)
@@ -236,7 +236,6 @@ TEST(ADTGraphTest, getAdjacentPQ) {
 
   PQueue* adjPQ = graph->getAdjacentPQ(vertexArray[0]);
   ASSERT_NE(adjPQ->getMax(), nullptr);
-
   for (int i = 1; i < N; i++) {
     GraphVertexPair* pair = (GraphVertexPair*)adjPQ->getMax();
     ASSERT_EQ(compareInts(pair->getVertex2(), vertexArray[N - i]), 0)
@@ -248,7 +247,6 @@ TEST(ADTGraphTest, getAdjacentPQ) {
     delete vertexArray[i];
 
   delete[] vertexArray;
-  delete adjPQ;
   delete graph;
 }
 
@@ -328,7 +326,6 @@ TEST(ADTGraphTest, getReverseAdjacentPQ) {
     delete vertexArray[i];
 
   delete[] vertexArray;
-  delete revAdjPQ;
   delete graph;
 }
 
@@ -442,6 +439,5 @@ TEST(ADTGraphTest, getGeneralNeighborsPQ) {
 
   delete[] vertexArray;
   delete[] vertexArray2;
-  delete generalNPQ;
   delete graph;
 }

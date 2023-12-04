@@ -128,3 +128,38 @@ DestroyFunc PQueue::setDestroyValue(DestroyFunc destroyValue) {
   this->destroyValue = destroyValue;
   return old;
 }
+
+void PQueue::remove(Pointer value, CompareFunc compare) {
+  int lastNode = this->getSize();
+  if (lastNode == 0) {
+    std::cerr << "remove: Queue is empty. Exiting...\n";
+    return;
+  }
+
+  int tbr = this->find(value, compare);
+
+  if (tbr == -1) {
+    std::cerr << "remove: Given value not found. Exiting..." << std::endl;
+    return;
+  }
+
+  if (this->destroyValue != nullptr)
+    this->destroyValue(this->nodeValue(tbr));
+
+  this->nodeSwap(tbr, lastNode);
+  this->vector->removeLast();
+
+  // Reestablish the heap property.
+  this->bubbleDown(tbr);
+}
+
+int PQueue::find(Pointer value, CompareFunc compare_) {
+  int foundId = -1;
+  for (int i = 1; i <= this->getSize(); i++)
+    if (compare_(value, this->nodeValue(i)) == 0) {
+      foundId = i;
+      break;
+    }
+
+  return foundId;
+}
