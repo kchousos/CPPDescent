@@ -55,6 +55,9 @@ void destroyValue(Pointer value) {
 }
 
 void destroyVertex(GraphVertex* vertex) {
+  DestroyFunc destroy = vertex->getOwner()->getDestroyData();
+  if (destroy != nullptr)
+    destroy(vertex->getData());
   delete vertex;
 }
 
@@ -367,10 +370,6 @@ GraphVertex::GraphVertex(Pointer data, Graph* owner)
 }
 
 GraphVertex::~GraphVertex() {
-  DestroyFunc destroy = this->owner->getDestroyData();
-  if (destroy != nullptr)
-    destroy(this->data);
-
   delete neighbors;
   delete reverse;
 }

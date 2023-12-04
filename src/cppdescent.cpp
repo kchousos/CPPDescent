@@ -164,6 +164,9 @@ void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
     int pos1 = vec->findPos(gvertex1, compareGraphVertices);
     int pos2 = vec->findPos(gvertex2, compareGraphVertices);
 
+    delete gvertex1;
+    delete gvertex2;
+
     fwrite(&pos1, sizeof(int), 1, file);
     fwrite(&pos2, sizeof(int), 1, file);
   }
@@ -179,7 +182,8 @@ void deleteVectors(Pointer vec) {
 Graph* cppdescent::readBinGraph(const char* fp,
                                 int dimensions,
                                 DistanceFunc distance) {
-  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr, deleteVectors);
+  Graph* graph =
+      new Graph((CompareFunc)compareVertices, nullptr, deleteVectors);
   graph->setHashFunction((HashFunc)hashEdge);
 
   FILE* file = fopen(fp, "r");
