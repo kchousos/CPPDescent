@@ -179,8 +179,7 @@ void deleteVectors(Pointer vec) {
 Graph* cppdescent::readBinGraph(const char* fp,
                                 int dimensions,
                                 DistanceFunc distance) {
-  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr,
-                           nullptr);
+  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr, nullptr);
   graph->setHashFunction((HashFunc)hashEdge);
 
   FILE* file = fopen(fp, "r");
@@ -209,8 +208,7 @@ Graph* cppdescent::readBinGraph(const char* fp,
   // read the edges
   int pos1, pos2;
 
-  while (!feof(file)) {
-
+  for (int i = 0; i < (int)N * K; i++) {
     fread(&pos1, sizeof(int), 1, file);
     fread(&pos2, sizeof(int), 1, file);
 
@@ -221,7 +219,6 @@ Graph* cppdescent::readBinGraph(const char* fp,
     graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
   }
 
-    std::cout<<"Here\n";
   fclose(file);
   return graph;
 }

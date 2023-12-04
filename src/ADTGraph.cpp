@@ -55,7 +55,7 @@ void destroyValue(Pointer value) {
 }
 
 void destroyVertex(GraphVertex* vertex) {
-  delete vertex;  
+  delete vertex;
 }
 
 // Graph //
@@ -63,11 +63,14 @@ void destroyVertex(GraphVertex* vertex) {
 Graph::Graph(CompareFunc compare_data,
              DestroyFunc destroy,
              DestroyFunc destroy_data)
-    : size(0), compare_data(compare_data), destroy(destroy), destroy_data(destroy_data) {
+    : size(0),
+      compare_data(compare_data),
+      destroy(destroy),
+      destroy_data(destroy_data) {
   this->map = new Map((CompareFunc)compareVertexPair,
                       (DestroyFunc)destroyVertexPair, destroyValue);
   this->vec = new Vector(0, (DestroyFunc)destroyVertex);
-  
+
   this->compare_vertices = compareVertices;
 }
 
@@ -144,12 +147,19 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
   if (gvertex1 == nullptr || gvertex2 == nullptr)
     return;
 
-  GraphVertexPair* pair =
-      new GraphVertexPair(this, vertex1->getData(), vertex2->getData());
+  bool alreadyMember = false;
+
+  GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
+
+  if (this->map->find(pair) != nullptr)
+    alreadyMember = true;
+
   this->map->insert(pair, createFloat(weight));
 
-  gvertex1->addNeighbor(pair);
-  gvertex2->addReverse(pair);
+  if (alreadyMember == false) {
+    gvertex1->addNeighbor(pair);
+    gvertex2->addReverse(pair);
+  }
 
   delete vertex1;
   delete vertex2;
