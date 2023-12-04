@@ -308,10 +308,9 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
   graph->setHashFunction((HashFunc)hashEdge);
 
   // Insert all points as vertices.
-  for (int i = 0; i < data->getSize(); i++)
-    graph->insertVertex((Pointer)data->getAt(i));
-
   int N = data->getSize();
+  for (int i = 0; i < N; i++)
+    graph->insertVertex((Pointer)data->getAt(i));
 
   for (int i = 0; i < N; i++) {
     Pointer a = (Pointer)data->getAt(i);
@@ -431,8 +430,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   List* vertices = graph->getVertices();
   int N = graph->getSize();
   int c;
-
   int iterations = 0;
+  float dist;
 
   do {
     iterations++;
@@ -444,21 +443,18 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       List* vAll = graph->getGeneralNeighbors(v->getValue());
 
       for (ListNode* u1 = vAll->getHead(); u1 != nullptr; u1 = u1->getNext()) {
-        // u1All = Bbar[u1] = B[u1] U R[u1]
-        List* u1All = graph->getGeneralNeighbors(u1->getValue());
+        // We start from the node after u1 to avoid duplicates
+        for (ListNode* u2 = u1->getNext(); u2 != nullptr; u2 = u2->getNext()) {
+          dist = distance(u1->getValue(), u2->getValue());
 
-        for (ListNode* u2 = u1All->getHead(); u2 != nullptr;
-             u2 = u2->getNext()) {
-          // Otherwise the same edge could be added twice.
-          if (graph->isNeighbor(v->getValue(), u2->getValue()) == true)
-            continue;
+          if (graph->isNeighbor(u1->getValue(), u2->getValue()) == false)
+            c +=
+                updateNN(graph, u1->getValue(), u2->getValue(), dist, distance);
 
-          float dist = distance(v->getValue(), u2->getValue());
-
-          c += updateNN(graph, v->getValue(), u2->getValue(), dist, distance);
+          if (graph->isNeighbor(u2->getValue(), u1->getValue()) == false)
+            c +=
+                updateNN(graph, u2->getValue(), u1->getValue(), dist, distance);
         }
-
-        delete u1All;
       }
 
       delete vAll;
@@ -519,10 +515,12 @@ float cppdescent::euclideanDistance(Pointer a, Pointer b) {
   Vector* second = (Vector*)b;
   float result = 0;
 
-  if (first->getSize() != second->getSize())
+  int dimensions = first->getSize();
+
+  if (second->getSize() != dimensions)
     return -1.0;
 
-  for (int i = 0; i < first->getSize(); i++) {
+  for (int i = 0; i < dimensions; i++) {
     float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
     result += diff * diff;
   }
@@ -554,10 +552,12 @@ float cppdescent::manhattanDistance(Pointer a, Pointer b) {
   Vector* second = (Vector*)b;
   float result = 0;
 
-  if (first->getSize() != second->getSize())
+  int dimensions = first->getSize();
+
+  if (second->getSize() != dimensions)
     return -1.0;
 
-  for (int i = 0; i < first->getSize(); i++) {
+  for (int i = 0; i < dimensions; i++) {
     float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
     result += fabs(diff);
   }

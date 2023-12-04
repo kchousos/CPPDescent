@@ -44,6 +44,10 @@ function coverage {
     genhtml test/filtered_coverage.info --output-directory ./docs/lcov/
 }
 
+function profile {
+    gprof ./build/app/app | gprof2dot -s -w | dot -Tsvg -o ./docs/profile.svg
+}
+
 if [ "$#" -eq 0 ]; then
     # cleanBuild
     format
@@ -68,6 +72,14 @@ while [[ "$#" -gt 0 ]]; do
             ;;
         --coverage)
             coverage
+            ;;
+        --profile)
+            profile
+            ;;
+        --info)
+            createDocs
+            coverage
+            profile
             ;;
         *)
             echo "Unknown option: $1"
