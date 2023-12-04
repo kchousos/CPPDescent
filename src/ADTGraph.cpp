@@ -28,11 +28,12 @@ float* createFloat(float value) {
 int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
   int first = pair1->getOwner()->getCompareData()(pair1->getVertex1(),
                                                   pair2->getVertex1());
-  int second = pair1->getOwner()->getCompareData()(pair1->getVertex2(),
-                                                   pair2->getVertex2());
   if (first)
     return first;
-  else if (second)
+
+  int second = pair1->getOwner()->getCompareData()(pair1->getVertex2(),
+                                                   pair2->getVertex2());
+  if (second)
     return second;
 
   return 0;
