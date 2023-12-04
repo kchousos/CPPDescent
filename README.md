@@ -32,6 +32,8 @@ described in [1], [2].
     - ADTMap, ADTGraph
     - Brute Force K-NN Graph creation
     - NN-Descent Graph creation
+  - 2nd submission
+    - Graph refactoring
 
 ## Dependencies
 
