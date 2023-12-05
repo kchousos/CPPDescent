@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;8762ab8
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;4bf8c4d
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -94,6 +94,9 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>compareFloats</b> (P
 <tr class="memitem:aeb50415af86d6c71d7747acc4f53f4a6"><td class="memItemLeft" align="right" valign="top"><a id="aeb50415af86d6c71d7747acc4f53f4a6" name="aeb50415af86d6c71d7747acc4f53f4a6"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>deleteDatapointVectors</b> (<a class="el" href="classVector.html">Vector</a> *vec)</td></tr>
 <tr class="separator:aeb50415af86d6c71d7747acc4f53f4a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fe2134279f4a221a7c20f79460fb011"><td class="memItemLeft" align="right" valign="top"><a id="a3fe2134279f4a221a7c20f79460fb011" name="a3fe2134279f4a221a7c20f79460fb011"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>compareGraphVertices</b> (Pointer vertex1, Pointer vertex2)</td></tr>
+<tr class="separator:a3fe2134279f4a221a7c20f79460fb011"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a8d90b3c4cf7aeb2bdeb779ba30158f"><td class="memItemLeft" align="right" valign="top"><a id="a9a8d90b3c4cf7aeb2bdeb779ba30158f" name="a9a8d90b3c4cf7aeb2bdeb779ba30158f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (Pointer first, Pointer second)</td></tr>
 <tr class="separator:a9a8d90b3c4cf7aeb2bdeb779ba30158f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,6 +121,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
 <tr class="memitem:a78e2056b2675d8f38cb443bd732ff792"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a78e2056b2675d8f38cb443bd732ff792">compareEdgesEuclidean</a> (Pointer first, Pointer second)</td></tr>
 <tr class="memdesc:a78e2056b2675d8f38cb443bd732ff792"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare edges using the euclideanDistance function.  <br /></td></tr>
 <tr class="separator:a78e2056b2675d8f38cb443bd732ff792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65565742b394726db68c03d1b5749d43"><td class="memItemLeft" align="right" valign="top"><a id="a65565742b394726db68c03d1b5749d43" name="a65565742b394726db68c03d1b5749d43"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertexPairsEuclidean</b> (Pointer first, Pointer second)</td></tr>
+<tr class="separator:a65565742b394726db68c03d1b5749d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92eca47edae9a04cbdc4074a8db04750"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a92eca47edae9a04cbdc4074a8db04750">compareEdgesManhattan</a> (Pointer first, Pointer second)</td></tr>
 <tr class="memdesc:a92eca47edae9a04cbdc4074a8db04750"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare edges using the manhattanDistance function.  <br /></td></tr>
 <tr class="separator:a92eca47edae9a04cbdc4074a8db04750"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,9 +133,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
 <tr class="memitem:a14ee226430ec6599c6df2e480f44069b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a14ee226430ec6599c6df2e480f44069b">NNDescent_KNNGraph</a> (<a class="el" href="classVector.html">Vector</a> *data, int K, float delta, DistanceFunc distance)</td></tr>
 <tr class="memdesc:a14ee226430ec6599c6df2e480f44069b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the K-NN graph for the given dataset using the NN-Descent algorithm.  <br /></td></tr>
 <tr class="separator:a14ee226430ec6599c6df2e480f44069b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad662a4e417763509e1fa9c3d3100c9ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#ad662a4e417763509e1fa9c3d3100c9ff">NNDescent_Query</a> (<a class="el" href="classGraph.html">Graph</a> *graph, int K, CompareFunc compare, <a class="el" href="classVector.html">Vector</a> *query)</td></tr>
-<tr class="memdesc:ad662a4e417763509e1fa9c3d3100c9ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the K Nearest Neighbors of the query point in the graph.  <br /></td></tr>
-<tr class="separator:ad662a4e417763509e1fa9c3d3100c9ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e9967c3e1c127aa86e04515d17bebe6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPQueue.html">PQueue</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecppdescent.html#a2e9967c3e1c127aa86e04515d17bebe6">NNDescent_Query</a> (<a class="el" href="classGraph.html">Graph</a> *graph, int K, CompareFunc compare, <a class="el" href="classVector.html">Vector</a> *query)</td></tr>
+<tr class="memdesc:a2e9967c3e1c127aa86e04515d17bebe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the K Nearest Neighbors of the query point in the graph.  <br /></td></tr>
+<tr class="separator:a2e9967c3e1c127aa86e04515d17bebe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Functions for the creation of a K-NN graph. </p>
@@ -393,14 +399,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
 
 </div>
 </div>
-<a id="ad662a4e417763509e1fa9c3d3100c9ff" name="ad662a4e417763509e1fa9c3d3100c9ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad662a4e417763509e1fa9c3d3100c9ff">&#9670;&#160;</a></span>NNDescent_Query()</h2>
+<a id="a2e9967c3e1c127aa86e04515d17bebe6" name="a2e9967c3e1c127aa86e04515d17bebe6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e9967c3e1c127aa86e04515d17bebe6">&#9670;&#160;</a></span>NNDescent_Query()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classList.html">List</a> * cppdescent::NNDescent_Query </td>
+          <td class="memname"><a class="el" href="classPQueue.html">PQueue</a> * cppdescent::NNDescent_Query </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classGraph.html">Graph</a> *&#160;</td>
           <td class="paramname"><em>graph</em>, </td>
@@ -441,7 +447,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>compareVertices</b> (P
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>List* A list of the K-NN of the query. If the query point is of wrong dimensions, then nullptr is returned. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>PQueue* A priority queue of the K-NN of the query, with 'max' being the most distant point relative to the query. It contains GraphVertexPairs from the query point directed to the other nodes. If the query point is of wrong dimensions, then nullptr is returned. </dd></dl>
 
 </div>
 </div>

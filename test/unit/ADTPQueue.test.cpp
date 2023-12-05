@@ -60,6 +60,8 @@ TEST(ADTPQueueTest, create) {
   queue->removeMax();
   ASSERT_EQ(*(int*)queue->getMax(), 2);
 
+  ASSERT_EQ(*(int*)queue->getMin(), 0);
+
   delete values;
   delete queue;
 }
@@ -108,5 +110,20 @@ TEST(ADTPQueueTest, remove) {
   ASSERT_EQ(queue2->getMax(), &N);
   // queue2->removeMax();
   delete queue2;
+  delete[] array;
+}
+
+TEST(ADTPQueueTest, getMin) {
+  PQueue* queue = new PQueue(compareInts, deleteInts, nullptr);
+  int N = 50;
+  int** array = new int*[N];
+
+  for (int i = N - 1; i >= 0; i--) {
+    array[i] = createInt(i);
+    queue->insert(array[i]);
+    ASSERT_EQ(*(int*)queue->getMin(), *array[i]);
+  }
+
+  delete queue;
   delete[] array;
 }

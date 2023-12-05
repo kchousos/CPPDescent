@@ -17,73 +17,11 @@
 // Helper functions.
 //===================================
 
-int compareGraphVertices(Pointer vertex1, Pointer vertex2) {
+int cppdescent::compareGraphVertices(Pointer vertex1, Pointer vertex2) {
   GraphVertex* gvertex1 = (GraphVertex*)vertex1;
   GraphVertex* gvertex2 = (GraphVertex*)vertex2;
 
   return cppdescent::compareVertices(gvertex1->getData(), gvertex2->getData());
-}
-
-void swapEdges(GraphVertexPair* first, GraphVertexPair* second) {
-  GraphVertexPair temp = *first;
-  *first = *second;
-  *second = temp;
-}
-
-void EdgesBubbleSort(GraphVertexPair** edges, int size, CompareFunc compare) {
-  for (int j = size - 1; j > 0; j--)
-    if (compare((Pointer)edges[j], (Pointer)edges[j - 1]) > 0)
-      swapEdges(edges[j], edges[j - 1]);
-}
-
-int partition(GraphVertexPair** edges, int low, int high, CompareFunc compare) {
-  // choose the pivot
-
-  GraphVertexPair* pivot = edges[high];
-  // Index of smaller element and Indicate
-  // the right position of pivot found so far
-  int i = (low - 1);
-
-  for (int j = low; j <= high; j++) {
-    // If current element is smaller than the pivot
-    if (compare((Pointer)edges[j], (Pointer)pivot) > 0) {
-      // Increment index of smaller element
-      i++;
-      swapEdges(edges[i], edges[j]);
-    }
-  }
-  swapEdges(edges[i + 1], edges[high]);
-  return (i + 1);
-}
-
-void EdgesQuickSort(GraphVertexPair** edges,
-                    int low,
-                    int high,
-                    CompareFunc compare) {
-  if (low < high) {
-    int pi = partition(edges, low, high, compare);
-    EdgesQuickSort(edges, low, pi - 1, compare);
-    EdgesQuickSort(edges, pi + 1, high, compare);
-  }
-}
-
-bool EdgesBinarySearch(GraphVertexPair** edges,
-                       GraphVertexPair* edge,
-                       int low,
-                       int high,
-                       CompareFunc compare) {
-  while (low <= high) {
-    int mid = low + (high - low) / 2;
-
-    if (compare(edges[mid], edge) == 0)
-      return true;
-
-    if (compare(edges[mid], edge) > 0)
-      low = mid + 1;
-    else
-      high = mid - 1;
-  }
-  return false;
 }
 
 void destroyEdges(GraphVertexPair* pair) {
@@ -469,42 +407,66 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   return graph;
 }
 
-List* NNDescent_Query(Graph* graph, int K, CompareFunc compare, Vector* query) {
+PQueue* cppdescent::NNDescent_Query(Graph* graph,
+                                    int K,
+                                    CompareFunc compare,
+                                    Vector* query) {
   List* vertices = graph->getVertices();
 
   srand(time(0));
 
-  int pos = rand() % vertices->getSize();
+  int dimensions =
+      ((Vector*)((GraphVertex*)((Vector*)graph->getVec()->first()->getValue()))
+           ->getData())
+          ->getSize();
+  if (query->getSize() != dimensions)
+    return nullptr;
 
-  ListNode* node = vertices->getHead();
-  for (int i = 0; i <= pos; i++)
-    node = node->getNext();
+  // get random candidate from graph
+  int pos = rand() % vertices->getSize();
+  Pointer candidate = ((GraphVertex*)graph->getVec()->getAt(pos))->getData();
 
   PQueue* knn = new PQueue(compare, (DestroyFunc)destroyEdges, nullptr);
-  Pointer candidate = node->getValue();
 
-  GraphVertexPair* pair = new GraphVertexPair(graph, (Pointer)query, candidate);
-  knn->insert(pair);
+  List* candidates;
+  bool candidatesRemain = true;
 
-  List* candidates = graph->getAdjacent(candidate);
+  GraphVertex* queryVertex = new GraphVertex(query, graph);
 
-  while (true) {
+  while (candidatesRemain) {
+    candidatesRemain = false;
+
+    // get candidate's neighbors
+    candidates = graph->getGeneralNeighborsVertices(candidate);
+
+    // add best candidate's neighbors to the queue
     for (ListNode* node = candidates->getHead(); node != nullptr;
-         node = node->getNext()) {
-      pair = new GraphVertexPair(graph, (Pointer)query, node->getValue());
-      if (knn->getSize() < K || compare(knn->getMax(), pair) > 0) {
-        knn->removeMax();
+         node = node->getNext())
+      if (!((GraphVertex*)node->getValue())->checked()) {
+        ((GraphVertex*)node->getValue())->check();
+
+        candidatesRemain = true;
+
+        GraphVertexPair* pair =
+            new GraphVertexPair(graph, queryVertex, node->getValue());
+
         knn->insert(pair);
-      } else {
-        delete pair;
       }
 
-      List* candidateNeighbors = graph->getAdjacent(node->getValue());
-      candidateNeighbors->decreaseSize();
-    }
+    // truncuate queue to K
+    while (knn->getSize() > K)
+      knn->removeMax();
+
+    // get new best candidate
+    candidate = ((GraphVertex*)((GraphVertexPair*)knn->getMin())->getVertex2())
+                    ->getData();
+
+    delete candidates;
   }
 
   delete vertices;
+  delete queryVertex;
+  return knn;
 }
 
 // ============================ Metric Functions =============================
@@ -536,6 +498,27 @@ int cppdescent::compareEdgesEuclidean(Pointer first, Pointer second) {
                               (Vector*)pair1->getVertex2());
   float b = euclideanDistance((Vector*)pair2->getVertex1(),
                               (Vector*)pair2->getVertex2());
+
+  int value = 0;
+  if (b > a) {
+    value = -1;
+  } else if (a > b) {
+    value = 1;
+  }
+  return value;
+}
+
+int cppdescent::compareVertexPairsEuclidean(Pointer first, Pointer second) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)first;
+  GraphVertexPair* pair2 = (GraphVertexPair*)second;
+
+  Vector* vec11 = (Vector*)((GraphVertex*)pair1->getVertex1())->getData();
+  Vector* vec12 = (Vector*)((GraphVertex*)pair1->getVertex2())->getData();
+  Vector* vec21 = (Vector*)((GraphVertex*)pair2->getVertex1())->getData();
+  Vector* vec22 = (Vector*)((GraphVertex*)pair2->getVertex2())->getData();
+
+  float a = euclideanDistance(vec11, vec12);
+  float b = euclideanDistance(vec21, vec22);
 
   int value = 0;
   if (b > a) {

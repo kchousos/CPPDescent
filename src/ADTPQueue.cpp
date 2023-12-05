@@ -66,7 +66,7 @@ void PQueue::naiveHeapify(Vector* values) {
     this->insert(values->getAt(i));
 }
 
-// Priority Queue functions
+// Priority Queue functionsr
 
 PQueue::PQueue(CompareFunc compare, DestroyFunc destroyValue, Vector* values)
     : compare(compare), destroyValue(destroyValue) {
@@ -94,6 +94,19 @@ int PQueue::getSize() {
 
 Pointer PQueue::getMax() {
   return nodeValue(1);
+}
+
+Pointer PQueue::getMin() {
+  int firstLeaf = this->getSize() / 2 + 1;
+  Pointer min = this->getMax();
+
+  for (int i = firstLeaf; i < this->getSize() + 1; i++) {
+    Pointer value = nodeValue(i);
+    if (compare(min, value) > 0)
+      min = value;
+  }
+
+  return min;
 }
 
 void PQueue::insert(Pointer value) {

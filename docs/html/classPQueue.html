@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;8762ab8
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;4bf8c4d
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -97,6 +97,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abd46c02910bd2948a44d978b94ccd3fc"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPQueue.html#abd46c02910bd2948a44d978b94ccd3fc">getMax</a> ()</td></tr>
 <tr class="memdesc:abd46c02910bd2948a44d978b94ccd3fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the max element of the queue.  <br /></td></tr>
 <tr class="separator:abd46c02910bd2948a44d978b94ccd3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a146920be812a5439a8b7e13ab9bca286"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPQueue.html#a146920be812a5439a8b7e13ab9bca286">getMin</a> ()</td></tr>
+<tr class="memdesc:a146920be812a5439a8b7e13ab9bca286"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the min element of the queue.  <br /></td></tr>
+<tr class="separator:a146920be812a5439a8b7e13ab9bca286"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a075626b5be750943adaa534fc5a60f45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPQueue.html#a075626b5be750943adaa534fc5a60f45">insert</a> (Pointer value)</td></tr>
 <tr class="memdesc:a075626b5be750943adaa534fc5a60f45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a new element to the queue.  <br /></td></tr>
 <tr class="separator:a075626b5be750943adaa534fc5a60f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,6 +109,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7e014d3c439411d1b5ea4bb2f07dc568"><td class="memItemLeft" align="right" valign="top">DestroyFunc&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPQueue.html#a7e014d3c439411d1b5ea4bb2f07dc568">setDestroyValue</a> (DestroyFunc destroyValue)</td></tr>
 <tr class="memdesc:a7e014d3c439411d1b5ea4bb2f07dc568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Destroy Value object.  <br /></td></tr>
 <tr class="separator:a7e014d3c439411d1b5ea4bb2f07dc568"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f0bcee840aeec2339ace633b5f2fa0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPQueue.html#a78f0bcee840aeec2339ace633b5f2fa0">remove</a> (Pointer value, CompareFunc compare)</td></tr>
+<tr class="memdesc:a78f0bcee840aeec2339ace633b5f2fa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds (using the given compare function) and removes the node with the given value.  <br /></td></tr>
+<tr class="separator:a78f0bcee840aeec2339ace633b5f2fa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab7afa151f15d85a83f660c976588402"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPQueue.html#aab7afa151f15d85a83f660c976588402">find</a> (Pointer value, CompareFunc compare)</td></tr>
+<tr class="memdesc:aab7afa151f15d85a83f660c976588402"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the given value in the priority queue and returns its nodeId.  <br /></td></tr>
+<tr class="separator:aab7afa151f15d85a83f660c976588402"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa70a72c71d279284e8482de6551896d5"><td class="memItemLeft" align="right" valign="top"><a id="aa70a72c71d279284e8482de6551896d5" name="aa70a72c71d279284e8482de6551896d5"></a>
 Pointer&#160;</td><td class="memItemRight" valign="bottom"><b>nodeValue</b> (int nodeId)</td></tr>
 <tr class="separator:aa70a72c71d279284e8482de6551896d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,6 +201,44 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>naiveHeapify</b> (<a 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aab7afa151f15d85a83f660c976588402" name="aab7afa151f15d85a83f660c976588402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab7afa151f15d85a83f660c976588402">&#9670;&#160;</a></span>find()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int PQueue::find </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CompareFunc&#160;</td>
+          <td class="paramname"><em>compare</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finds the given value in the priority queue and returns its nodeId. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value we want to find. </td></tr>
+    <tr><td class="paramname">compare</td><td>Compare function to use. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
+
+</div>
+</div>
 <a id="abd46c02910bd2948a44d978b94ccd3fc" name="abd46c02910bd2948a44d978b94ccd3fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abd46c02910bd2948a44d978b94ccd3fc">&#9670;&#160;</a></span>getMax()</h2>
 
@@ -209,6 +256,26 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>naiveHeapify</b> (<a 
 
 <p>Get the max element of the queue. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer A generic pointer to the max element. </dd></dl>
+
+</div>
+</div>
+<a id="a146920be812a5439a8b7e13ab9bca286" name="a146920be812a5439a8b7e13ab9bca286"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a146920be812a5439a8b7e13ab9bca286">&#9670;&#160;</a></span>getMin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Pointer PQueue::getMin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the min element of the queue. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer A generic pointer to the min element. </dd></dl>
 
 </div>
 </div>
@@ -252,6 +319,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>naiveHeapify</b> (<a 
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>The value of the new element to be inserted. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a78f0bcee840aeec2339ace633b5f2fa0" name="a78f0bcee840aeec2339ace633b5f2fa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f0bcee840aeec2339ace633b5f2fa0">&#9670;&#160;</a></span>remove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PQueue::remove </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CompareFunc&#160;</td>
+          <td class="paramname"><em>compare</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finds (using the given compare function) and removes the node with the given value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value we want to remove. </td></tr>
+    <tr><td class="paramname">compare</td><td>Compare function to use for finding the node we want to remove. </td></tr>
   </table>
   </dd>
 </dl>
