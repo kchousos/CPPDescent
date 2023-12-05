@@ -24,68 +24,6 @@ int compareGraphVertices(Pointer vertex1, Pointer vertex2) {
   return cppdescent::compareVertices(gvertex1->getData(), gvertex2->getData());
 }
 
-void swapEdges(GraphVertexPair* first, GraphVertexPair* second) {
-  GraphVertexPair temp = *first;
-  *first = *second;
-  *second = temp;
-}
-
-void EdgesBubbleSort(GraphVertexPair** edges, int size, CompareFunc compare) {
-  for (int j = size - 1; j > 0; j--)
-    if (compare((Pointer)edges[j], (Pointer)edges[j - 1]) > 0)
-      swapEdges(edges[j], edges[j - 1]);
-}
-
-int partition(GraphVertexPair** edges, int low, int high, CompareFunc compare) {
-  // choose the pivot
-
-  GraphVertexPair* pivot = edges[high];
-  // Index of smaller element and Indicate
-  // the right position of pivot found so far
-  int i = (low - 1);
-
-  for (int j = low; j <= high; j++) {
-    // If current element is smaller than the pivot
-    if (compare((Pointer)edges[j], (Pointer)pivot) > 0) {
-      // Increment index of smaller element
-      i++;
-      swapEdges(edges[i], edges[j]);
-    }
-  }
-  swapEdges(edges[i + 1], edges[high]);
-  return (i + 1);
-}
-
-void EdgesQuickSort(GraphVertexPair** edges,
-                    int low,
-                    int high,
-                    CompareFunc compare) {
-  if (low < high) {
-    int pi = partition(edges, low, high, compare);
-    EdgesQuickSort(edges, low, pi - 1, compare);
-    EdgesQuickSort(edges, pi + 1, high, compare);
-  }
-}
-
-bool EdgesBinarySearch(GraphVertexPair** edges,
-                       GraphVertexPair* edge,
-                       int low,
-                       int high,
-                       CompareFunc compare) {
-  while (low <= high) {
-    int mid = low + (high - low) / 2;
-
-    if (compare(edges[mid], edge) == 0)
-      return true;
-
-    if (compare(edges[mid], edge) > 0)
-      low = mid + 1;
-    else
-      high = mid - 1;
-  }
-  return false;
-}
-
 void destroyEdges(GraphVertexPair* pair) {
   delete pair;
 }
@@ -159,13 +97,8 @@ void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
     Pointer vertex1 = pair->getVertex1();
     Pointer vertex2 = pair->getVertex2();
 
-    GraphVertex* gvertex1 = new GraphVertex(vertex1, graph);
-    GraphVertex* gvertex2 = new GraphVertex(vertex2, graph);
-    int pos1 = vec->findPos(gvertex1, compareGraphVertices);
-    int pos2 = vec->findPos(gvertex2, compareGraphVertices);
-
-    delete gvertex1;
-    delete gvertex2;
+    int pos1 = vec->findPos(vertex1, compareGraphVertices);
+    int pos2 = vec->findPos(vertex2, compareGraphVertices);
 
     fwrite(&pos1, sizeof(int), 1, file);
     fwrite(&pos2, sizeof(int), 1, file);
@@ -215,10 +148,8 @@ Graph* cppdescent::readBinGraph(const char* fp,
     fread(&pos1, sizeof(int), 1, file);
     fread(&pos2, sizeof(int), 1, file);
 
-    GraphVertex* gvertex1 = (GraphVertex*)graph->getVec()->getAt(pos1);
-    GraphVertex* gvertex2 = (GraphVertex*)graph->getVec()->getAt(pos2);
-    Pointer vertex1 = gvertex1->getData();
-    Pointer vertex2 = gvertex2->getData();
+    GraphVertex* vertex1 = (GraphVertex*)graph->getVec()->getAt(pos1);
+    GraphVertex* vertex2 = (GraphVertex*)graph->getVec()->getAt(pos2);
     graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
   }
 
@@ -237,13 +168,16 @@ float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
        bfNode != nullptr;
        bfNode = bfNode->getNext(), nnNode = nnNode->getNext()) {
     int trueNeighbors = 0;
-    List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
+    List* bfNodeAdjacent =
+        bfGraph->getAdjacent(((GraphVertex*)bfNode->getValue())->getData());
 
     for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
          adjacent = adjacent->getNext()) {
-      List* nnAdjacent = nnGraph->getAdjacent(nnNode->getValue());
+      List* nnAdjacent =
+          nnGraph->getAdjacent(((GraphVertex*)nnNode->getValue())->getData());
 
-      if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
+      if (nnAdjacent->find(((GraphVertex*)adjacent->getValue())->getData(),
+                           compareGraphVertices))
         trueNeighbors++;
 
       delete nnAdjacent;
@@ -309,19 +243,22 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
   // Insert all points as vertices.
   int N = data->getSize();
   for (int i = 0; i < N; i++)
-    graph->insertVertex((Pointer)data->getAt(i));
+    graph->insertVertex(data->getAt(i));
 
   for (int i = 0; i < N; i++) {
-    Pointer a = (Pointer)data->getAt(i);
+    Pointer a = data->getAt(i);
     PQueue* neighbors = new PQueue(compare, nullptr, nullptr);
 
     for (int j = 0; j < N; j++) {
       if (i == j)
         continue;
 
-      Pointer b = (Pointer)data->getAt(j);
-      GraphVertexPair* pair =
-          new GraphVertexPair(graph, (GraphVertex*)a, (GraphVertex*)b);
+      Pointer b = data->getAt(j);
+      GraphVertex* first =
+          (GraphVertex*)graph->getVertices()->find(a, compareGraphVertices);
+      GraphVertex* second =
+          (GraphVertex*)graph->getVertices()->find(b, compareGraphVertices);
+      GraphVertexPair* pair = new GraphVertexPair(graph, first, second);
 
       if (neighbors->getSize() < K) {
         neighbors->insert(pair);
@@ -338,7 +275,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
     for (int k = 0; k < K; k++) {
       GraphVertexPair* neighbor = (GraphVertexPair*)neighbors->getMax();
       neighbors->removeMax();
-      Pointer vec = ((GraphVertexPair*)neighbor)->getVertex2();
+      Pointer vec = ((GraphVertexPair*)neighbor)->getVertex2()->getData();
       delete neighbor;
       graph->insertEdge(a, vec, distance(a, vec));
     }
@@ -373,7 +310,7 @@ Graph* sampleGraph(Vector* data,
 
   // Insert all points as vertices.
   for (int i = 0; i < N; i++)
-    graph->insertVertex((Pointer)data->getAt(i));
+    graph->insertVertex(data->getAt(i));
 
   // Iterate all of the vertices.
   for (int i = 0; i < N; i++) {
@@ -386,16 +323,27 @@ Graph* sampleGraph(Vector* data,
         randPos = rand() % N;
 
       // Get the two vertices and create an edge between them.
-      Pointer v1 = (Pointer)data->getAt(i);
-      Pointer v2 = (Pointer)data->getAt(randPos);
-      while (graph->isNeighbor(v1, v2) == true) {
+      Pointer v1 = data->getAt(i);
+      Pointer v2 = data->getAt(randPos);
+      GraphVertex* vertex1 = new GraphVertex(v1, graph);
+      GraphVertex* vertex2 = new GraphVertex(v2, graph);
+      while (graph->isNeighbor(vertex1, vertex2) == true) {
         randPos = rand() % N;
-        v2 = (Pointer)data->getAt(randPos);
+        v2 = data->getAt(randPos);
+        delete vertex2;
+        vertex2 = new GraphVertex(v2, graph);
+        std::cout << "true\n";
       }
       float weight = distance(v1, v2);
+      // FIXME
       graph->insertEdge(v1, v2, weight);
+
+      delete vertex1;
+      delete vertex2;
     }
   }
+
+  std::cout << "Exiting sampleGraph.\n";
 
   return graph;
 }
@@ -440,7 +388,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
     for (ListNode* v = vertices->getHead(); v != nullptr; v = v->getNext()) {
       // vAll = Bbar[v] = B[v] U R[v]
-      List* vAll = graph->getGeneralNeighbors(v->getValue());
+      List* vAll =
+          graph->getGeneralNeighbors(((GraphVertex*)v->getValue())->getData());
 
       for (ListNode* u1 = vAll->getHead(); u1 != nullptr; u1 = u1->getNext()) {
         // We start from the node after u1 to avoid duplicates
@@ -546,10 +495,10 @@ int cppdescent::compareEdgesEuclidean(Pointer first, Pointer second) {
   GraphVertexPair* pair1 = (GraphVertexPair*)first;
   GraphVertexPair* pair2 = (GraphVertexPair*)second;
 
-  float a = euclideanDistance((Vector*)pair1->getVertex1(),
-                              (Vector*)pair1->getVertex2());
-  float b = euclideanDistance((Vector*)pair2->getVertex1(),
-                              (Vector*)pair2->getVertex2());
+  float a = euclideanDistance(((GraphVertex*)pair1->getVertex1())->getData(),
+                              ((GraphVertex*)pair1->getVertex2())->getData());
+  float b = euclideanDistance(((GraphVertex*)pair2->getVertex1())->getData(),
+                              ((GraphVertex*)pair2->getVertex2())->getData());
 
   int value = 0;
   if (b > a) {
@@ -582,10 +531,10 @@ int cppdescent::compareEdgesManhattan(Pointer first, Pointer second) {
   GraphVertexPair* pair1 = (GraphVertexPair*)first;
   GraphVertexPair* pair2 = (GraphVertexPair*)second;
 
-  float a = manhattanDistance((Vector*)pair1->getVertex1(),
-                              (Vector*)pair1->getVertex2());
-  float b = manhattanDistance((Vector*)pair2->getVertex1(),
-                              (Vector*)pair2->getVertex2());
+  float a = manhattanDistance(((GraphVertex*)pair1->getVertex1())->getData(),
+                              ((GraphVertex*)pair1->getVertex2())->getData());
+  float b = manhattanDistance(((GraphVertex*)pair2->getVertex1())->getData(),
+                              ((GraphVertex*)pair2->getVertex2())->getData());
 
   int value = 0;
   if (b > a) {
