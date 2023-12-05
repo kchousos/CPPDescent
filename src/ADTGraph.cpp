@@ -227,6 +227,26 @@ List* Graph::getAdjacent(Pointer vertex) {
   return list;
 }
 
+List* Graph::getAdjacentVertices(Pointer vertex) {
+  List* list = new List;
+  ListNode* node = LIST_BOF;
+
+  for (int i = 0; i < this->size; i++) {
+    GraphVertexPair* pair = new GraphVertexPair(
+        this, vertex, ((GraphVertex*)this->vec->getAt(i))->getData());
+    if (this->map->find(pair) != MAP_EOF) {
+      list->insertNext(node, this->vec->getAt(i));
+      if (node != nullptr)
+        node = list->next(node);
+      else
+        node = list->getHead();
+    }
+    delete pair;
+  }
+
+  return list;
+}
+
 int compareEdgeWeights(Pointer a, Pointer b) {
   GraphVertexPair* pair1 = (GraphVertexPair*)a;
   GraphVertexPair* pair2 = (GraphVertexPair*)b;
@@ -291,6 +311,26 @@ List* Graph::getReverseAdjacent(Pointer vertex) {
   return list;
 }
 
+List* Graph::getReverseAdjacentVertices(Pointer vertex) {
+  List* list = new List;
+  ListNode* node = LIST_BOF;
+
+  for (int i = 0; i < this->size; i++) {
+    GraphVertexPair* pair = new GraphVertexPair(
+        this, ((GraphVertex*)this->vec->getAt(i))->getData(), vertex);
+    if (this->map->find(pair) != MAP_EOF) {
+      list->insertNext(node, this->vec->getAt(i));
+      if (node != nullptr)
+        node = list->next(node);
+      else
+        node = list->getHead();
+    }
+    delete pair;
+  }
+
+  return list;
+}
+
 // The function itself leaves memory leaks. But, it is only used for
 // getGeneralNeighors, in which the memory of the revAdj is freed by another
 // PQueue.
@@ -317,6 +357,15 @@ PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
 List* Graph::getGeneralNeighbors(Pointer vertex) {
   List* generalNeighbors = this->getAdjacent(vertex);
   List* reverseAdjList = this->getReverseAdjacent(vertex);
+
+  generalNeighbors->mergeLists(reverseAdjList);
+  // delete reverseAdjList;
+  return generalNeighbors;
+}
+
+List* Graph::getGeneralNeighborsVertices(Pointer vertex) {
+  List* generalNeighbors = this->getAdjacentVertices(vertex);
+  List* reverseAdjList = this->getReverseAdjacentVertices(vertex);
 
   generalNeighbors->mergeLists(reverseAdjList);
   // delete reverseAdjList;
@@ -371,7 +420,7 @@ void Graph::setHashFunction(HashFunc hash) {
 }
 
 GraphVertex::GraphVertex(Pointer data, Graph* owner)
-    : data(data), owner(owner) {
+    : data(data), owner(owner), hasBeenChecked(false) {
   neighbors = new PQueue(compareEdgeWeights, nullptr, nullptr);
   reverse = new PQueue(compareEdgeWeights, nullptr, nullptr);
 }

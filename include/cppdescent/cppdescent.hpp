@@ -20,6 +20,8 @@ float compareFloats(Pointer a, Pointer b);
 
 int deleteDatapointVectors(Vector* vec);
 
+int compareGraphVertices(Pointer vertex1, Pointer vertex2);
+
 int compareVertices(Pointer first, Pointer second);
 
 // ================================ I/O ======================================
@@ -48,10 +50,10 @@ Vector* readBinData(const char* fp, int dimensions);
  *
  * 2. N * 100 floats: each vertex of 100 dimensions
  *
- * 3. N * K * 2 int: pairs of ints that describe the edges between the vertices.
- * Each int represents the index of the vertex in the order above. This will
- * be handy when we reconstruct the graph using the getAt() function of the
- * vector.
+ * 3. N * K * 2 int: pairs of ints that describe the edges between the
+ * vertices. Each int represents the index of the vertex in the order above.
+ * This will be handy when we reconstruct the graph using the getAt() function
+ * of the vector.
  *
  * @param fp The filepath to the created file.
  * @param K
@@ -60,8 +62,8 @@ Vector* readBinData(const char* fp, int dimensions);
 void writeBinGraph(const char* fp, Graph* graph, int K);
 
 /**
- * @brief Reads a graph from a binary file. To work correctly, the file needs to
- * be first created from the 'writeBinGraph' function.
+ * @brief Reads a graph from a binary file. To work correctly, the file needs
+ * to be first created from the 'writeBinGraph' function.
  *
  * @param fp The filepath.
  * @param dimensions The dimensions of the datapoints.
@@ -110,6 +112,8 @@ float manhattanDistance(Pointer a, Pointer b);
  * @return int
  */
 int compareEdgesEuclidean(Pointer first, Pointer second);
+
+int compareVertexPairsEuclidean(Pointer first, Pointer second);
 /**
  * @brief Compare edges using the manhattanDistance function.
  *

@@ -40,10 +40,13 @@ class Graph {
   void removeEdge(Pointer vertex1, Pointer vertex2);
   float getWeight(Pointer vertex1, Pointer vertex2);
   List* getAdjacent(Pointer vertex);
+  List* getAdjacentVertices(Pointer vertex);
   PQueue* getAdjacentPQ(Pointer vertex);
   List* getReverseAdjacent(Pointer vertex);
+  List* getReverseAdjacentVertices(Pointer vertex);
   PQueue* getReverseAdjacentPQ(Pointer vertex);
   List* getGeneralNeighbors(Pointer vertex);
+  List* getGeneralNeighborsVertices(Pointer vertex);
   PQueue* getGeneralNeighborsPQ(Pointer vertex);
   bool isNeighbor(Pointer v1, Pointer v2);
   // Map* shortestPathLengths();
@@ -63,6 +66,7 @@ class GraphVertex {
   PQueue* neighbors;
   PQueue* reverse;
   Graph* owner;
+  bool hasBeenChecked;
 
  public:
   GraphVertex(Pointer data, Graph* owner);
@@ -79,6 +83,8 @@ class GraphVertex {
   PQueue* getReverse() { return this->reverse; };
   Pointer getData() { return this->data; };
   Graph* getOwner() { return this->owner; };
+  void check() { this->hasBeenChecked = true; };
+  bool checked() { return this->hasBeenChecked; };
 };
 
 class GraphVertexPair {
