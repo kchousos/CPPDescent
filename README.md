@@ -34,7 +34,11 @@ described in [1], [2].
     - Brute Force K-NN Graph creation
     - NN-Descent Graph creation
   - 2nd submission
-    - Graph refactoring for more efficient neigbors retrieval
+    - Implementation of GraphVertex class
+    - Refactor of previous Graph implementation to use GraphVertex class (without changing the existing interface)
+    - `getMin()` property to Priority Queue
+    - `remove()` property to Priority Queue
+    - Implementation of `find()` helper function for Priority Queue
 
 ## Dependencies
 
