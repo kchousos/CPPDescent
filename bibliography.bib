@@ -1,0 +1,64 @@
+@software{bruggerBrj0Nndescent2023,
+  title = {Brj0/Nndescent},
+  author = {Brugger, Jon},
+  date = {2023-12-11T20:20:24Z},
+  origdate = {2023-05-29T16:34:03Z},
+  url = {https://github.com/brj0/nndescent},
+  abstract = {C++/Python implementation of Nearest Neighbor Descent for efficient approximate nearest neighbor search},
+  keywords = {approximate-nearest-neighbor-search,cpp,knn,knn-graphs,nearest-neighbor-search,nearest-neighbors,nearest-neighbours-classifier,python}
+}
+
+@inproceedings{dongEfficientKnearestNeighbor2011,
+  title = {Efficient K-Nearest Neighbor Graph Construction for Generic Similarity Measures},
+  booktitle = {Proceedings of the 20th International Conference on {{World}} Wide Web},
+  author = {Dong, Wei and Moses, Charikar and Li, Kai},
+  date = {2011-03-28},
+  series = {{{WWW}} '11},
+  pages = {577--586},
+  publisher = {{Association for Computing Machinery}},
+  location = {{New York, NY, USA}},
+  doi = {10.1145/1963405.1963487},
+  url = {https://dl.acm.org/doi/10.1145/1963405.1963487},
+  abstract = {K-Nearest Neighbor Graph (K-NNG) construction is an important operation with many web related applications, including collaborative filtering, similarity search, and many others in data mining and machine learning. Existing methods for K-NNG construction either do not scale, or are specific to certain similarity measures. We present NN-Descent, a simple yet efficient algorithm for approximate K-NNG construction with arbitrary similarity measures. Our method is based on local search, has minimal space overhead and does not rely on any shared global index. Hence, it is especially suitable for large-scale applications where data structures need to be distributed over the network. We have shown with a variety of datasets and similarity measures that the proposed method typically converges to above 90\% recall with each point comparing only to several percent of the whole dataset on average.},
+  isbn = {978-1-4503-0632-4},
+  file = {/home/kchou/Documents/Zotero/storage/B263WYSC/Dong et al_2011_Efficient k-nearest neighbor graph construction for generic similarity measures.pdf}
+}
+
+@video{enthoughtPyNNDescentFastApproximate2021,
+  entrysubtype = {video},
+  title = {{{PyNNDescent Fast Approximate Nearest Neighbor Search}} with {{Numba}} | {{SciPy}} 2021},
+  editor = {{Enthought}},
+  editortype = {director},
+  date = {2021-07-23},
+  url = {https://www.youtube.com/watch?v=xPadY4_kt3o}
+}
+
+@online{HowPyNNDescentWorks,
+  title = {How {{PyNNDescent}} Works — Pynndescent 0.5.0 Documentation},
+  url = {https://pynndescent.readthedocs.io/en/latest/how_pynndescent_works.html}
+}
+
+@online{kluserFastSingleCoreKNearest2021,
+  title = {Fast {{Single-Core K-Nearest Neighbor Graph Computation}}},
+  author = {Kluser, Dan and Bokstaller, Jonas and Rutz, Samuel and Buner, Tobias},
+  date = {2021-12-13},
+  eprint = {2112.06630},
+  eprinttype = {arxiv},
+  eprintclass = {cs, math},
+  doi = {10.48550/arXiv.2112.06630},
+  url = {http://arxiv.org/abs/2112.06630},
+  abstract = {Fast and reliable K-Nearest Neighbor Graph algorithms are more important than ever due to their widespread use in many data processing techniques. This paper presents a runtime optimized C implementation of the heuristic "NN-Descent" algorithm by Wei Dong et al. for the l2-distance metric. Various implementation optimizations are explained which improve performance for low-dimensional as well as high dimensional datasets. Optimizations to speed up the selection of which datapoint pairs to evaluate the distance for are primarily impactful for low-dimensional datasets. A heuristic which exploits the iterative nature of NN-Descent to reorder data in memory is presented which enables better use of locality and thereby improves the runtime. The restriction to the l2-distance metric allows for the use of blocked distance evaluations which significantly increase performance for high dimensional datasets. In combination the optimizations yield an implementation which significantly outperforms a widely used implementation of NN-Descent on all considered datasets. For instance, the runtime on the popular MNIST handwritten digits dataset is halved.},
+  pubstate = {preprint},
+  keywords = {Computer Science - Computational Geometry,Computer Science - Machine Learning,Mathematics - Numerical Analysis},
+  file = {/home/kchou/Documents/Zotero/storage/Z95YH3I2/Kluser et al_2021_Fast Single-Core K-Nearest Neighbor Graph Computation.pdf}
+}
+
+@video{stitchfixmultithreadedAlgoHourNearest2020,
+  entrysubtype = {video},
+  title = {Algo {{Hour}} - {{Nearest Neighbor Descent}} (and Friends) | {{Dr}}. {{Leland McInnes}}},
+  editor = {{Stitch Fix Multithreaded}},
+  editortype = {director},
+  date = {2020-05-22},
+  url = {https://www.youtube.com/watch?v=OvT2NY_FV_g},
+  abstract = {Finding nearest neighbors in a dataset is an important fundamental problem for many different machine learning tasks, particularly in unsupervised learning. The problem becomes particularly challenging for higher dimensional data. We’ll look at some of the classical tree based techniques, and look at some of the difficulties that occur. Next we’ll explore Nearest Neighbor Descent and related graph based algorithms, working from very simple intuitions to efficient implementations. The approaches provide a powerful and flexible framework for (approximate) nearest neighbor searching, and, as we will demonstrate, significantly outperform tree based approaches on a number of real world datasets. Dr. McInnes is a research mathematician and Data Scientist at the Tutte Institute for Mathematics and Computing in Ottawa, Ontario. He’s well-known for his and collaborators’ creation of the Accelerated HDBSCAN* algorithm, and UMAP – a manifold learning dimension reduction technique.}
+}
