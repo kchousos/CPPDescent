@@ -4,6 +4,7 @@ function cleanBuild {
     rm -rf build/
     cmake -S . -B build
     cmake --build build
+    mkdir -p ./build/cache
 }
 
 function createDocs {

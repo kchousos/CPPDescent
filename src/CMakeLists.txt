@@ -22,7 +22,7 @@ target_include_directories(cppdescent PUBLIC ../include)
 
 # All users of this library will need at least C++11
 target_compile_features(cppdescent PUBLIC cxx_std_11)
-target_compile_options(cppdescent PRIVATE -Wall -Wextra -Wpedantic -Werror -O2 -march=native)
+target_compile_options(cppdescent PRIVATE -Wall -Wextra -Wpedantic -O2 -march=native)
 
 # IDEs should put the headers in a nice place
 source_group(
