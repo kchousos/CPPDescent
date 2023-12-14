@@ -18,14 +18,25 @@ class AVLTree {
   int height;
   AVLTree* left;
   AVLTree* right;
+  CompareFunc compare;
+  DestroyFunc destroy;
+  AVLTree* max;
+  AVLTree* min;
 
  public:
-  AVLTree(Pointer key);
+  AVLTree(CompareFunc compare, DestroyFunc destroy, Pointer key);
   ~AVLTree();
-  int getHeight() { return this->height; };
-  int balance();
-  AVLTree* rightRotate(AVLTree* y);
-  AVLTree* leftRotate(AVLTree* x);
-  AVLTree* insert(Pointer key);
+  DestroyFunc setDestroyValue(DestroyFunc destroyValue);
+  AVLTree* find(Pointer key);
+  int getBalance();
+  void rightRotate();
+  void leftRotate();
+  void insert(Pointer key);
   void preorder();
+  int getHeight() { return this->height; };
+  void setHeight(int height) { this->height = height; };
+  AVLTree* getLeft() { return this->left; };
+  AVLTree* getRight() { return this->right; };
+  void setLeft(AVLTree* left) { this->left = left; };
+  void setRight(AVLTree* right) { this->left = right; };
 };
