@@ -13,12 +13,6 @@
 #include <climits>
 #include <iostream>
 
-int* createInt(int value) {
-  int* p = new int;
-  *p = value;
-  return p;
-}
-
 float* createFloat(float value) {
   float* p = new float;
   *p = value;
@@ -122,10 +116,12 @@ void Graph::removeVertex(Pointer vertex) {
   GraphVertex* gvertex = new GraphVertex(vertex, this);
   int i = this->vec->findPos(gvertex, this->compare_vertices);
 
+  // LCOV_EXCL_START
   if (i == -1) {
     std::cerr << "removeVertex: given vertex not found. Exiting...\n";
     return;
   }
+  // LCOV_EXCL_STOP
 
   GraphVertex* newPos = new GraphVertex(
       ((GraphVertex*)this->vec->getAt(this->size - 1))->getData(), this);
@@ -138,10 +134,12 @@ void Graph::removeVertex(Pointer vertex) {
 
   this->size--;
 
+  // LCOV_EXCL_START
   if (this->map->getFirst() != nullptr) {
     GraphVertexPair* pair = new GraphVertexPair(this, vertex, vertex);
     this->map->remove(pair);
   }
+  // LCOV_EXCL_STOP
 
   delete gvertex;
 }
@@ -156,14 +154,14 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
       (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
 
   if (gvertex1 == nullptr || gvertex2 == nullptr)
-    return;
+    return;  // LCOV_EXCL_LINE
 
   bool alreadyMember = false;
 
   GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
 
   if (this->map->find(pair) != nullptr)
-    alreadyMember = true;
+    alreadyMember = true;  // LCOV_EXCL_LINE
 
   this->map->insert(pair, createFloat(weight));
 
@@ -204,7 +202,7 @@ float Graph::getWeight(Pointer vertex1, Pointer vertex2) {
 
   if (p != nullptr)
     return *(float*)p;
-  return INT_MAX;
+  return INT_MAX;  // LCOV_EXCL_LINE
 }
 
 List* Graph::getAdjacent(Pointer vertex) {

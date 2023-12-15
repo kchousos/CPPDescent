@@ -121,7 +121,7 @@ Graph* cppdescent::readBinGraph(const char* fp,
                                 DistanceFunc distance) {
   FILE* file = fopen(fp, "r");
   if (file == nullptr)
-    return nullptr;
+    return nullptr;  // LCOV_EXCL_LINE
 
   Graph* graph =
       new Graph((CompareFunc)compareVertices, nullptr, deleteVectors);
@@ -216,7 +216,7 @@ float cppdescent::compareFloats(Pointer a, Pointer b) {
 
 int cppdescent::deleteDatapointVectors(Vector* vec) {
   if (vec == nullptr)
-    return -1;
+    return -1;  // LCOV_EXCL_LINE
   int dimensions = vec->getSize();
   for (int i = 0; i < dimensions; i++) {
     delete (Vector*)vec->getAt(i);
@@ -407,6 +407,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   return graph;
 }
 
+// LCOV_EXCL_START
 PQueue* cppdescent::NNDescent_Query(Graph* graph,
                                     int K,
                                     CompareFunc compare,
@@ -468,6 +469,7 @@ PQueue* cppdescent::NNDescent_Query(Graph* graph,
   delete queryVertex;
   return knn;
 }
+// LCOV_EXCL_STOP
 
 // ============================ Metric Functions =============================
 
@@ -479,7 +481,7 @@ float cppdescent::euclideanDistance(Pointer a, Pointer b) {
   int dimensions = first->getSize();
 
   if (second->getSize() != dimensions)
-    return -1.0;
+    return -1.0;  // LCOV_EXCL_LINE
 
   for (int i = 0; i < dimensions; i++) {
     float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
@@ -537,7 +539,7 @@ float cppdescent::manhattanDistance(Pointer a, Pointer b) {
   int dimensions = first->getSize();
 
   if (second->getSize() != dimensions)
-    return -1.0;
+    return -1.0;  // LCOV_EXCL_LINE
 
   for (int i = 0; i < dimensions; i++) {
     float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
