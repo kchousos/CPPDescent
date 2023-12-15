@@ -10,17 +10,15 @@
  */
 
 #include "cppdescent/ADTAVLTree.hpp"
+#include <stdlib.h>
 
-#define max(a, b)           \
-  ({                        \
-    __typeof__(a) _a = (a); \
-    __typeof__(b) _b = (b); \
-    _a > _b ? _a : _b;      \
-  })
+int max(int a, int b) {
+  return a > b ? a : b;
+}
 
 AVLTree::AVLTree(CompareFunc compare, DestroyFunc destroy, Pointer key)
-    : compare(compare),
-      destroy(destroy),
+    : destroy(destroy),
+      compare(compare),
       key(key),
       height(1),
       right(nullptr),
@@ -30,31 +28,47 @@ int AVLTree::getBalance() {
   return this->left->getHeight() - this->right->getHeight();
 }
 
-AVLTree* AVLTree::rightRotate(AVLTree* y) {
-  AVLTree* x = y->getLeft();
+AVLTree::~AVLTree() {
+  if (this->getLeft() != nullptr)
+    delete this->getLeft();
+  if (this->getRight() != nullptr)
+    delete this->getRight();
+  if (this->destroy != nullptr)
+    this->destroy(this->key);
+}
+
+AVLTree* AVLTree::rightRotate() {
+  AVLTree* x = this->getLeft();
   if (x == nullptr)
-    return y;
+    return this;
   AVLTree* T2 = x->getRight();
+  int h;
 
-  x->setRight(y);
-  y->setLeft(T2);
+  x->setRight(this);
+  this->setLeft(T2);
 
-  y->setHeight(max(y->getLeft()->getHeight(), y->getRight()->getHeight()) + 1);
+  if (T2 == nullptr)
+    h = 0;
+  else
+    h = this->getLeft()->getHeight();
+
+  this->setHeight(max(this->getLeft()->getHeight(), h) + 1);
   x->setHeight(max(x->getLeft()->getHeight(), x->getRight()->getHeight()) + 1);
 
   return x;
 }
 
-AVLTree* AVLTree::leftRotate(AVLTree* x) {
-  AVLTree* y = x->getRight();
+AVLTree* AVLTree::leftRotate() {
+  AVLTree* y = this->getRight();
   if (y == nullptr)
-    return x;
+    return this;
   AVLTree* T2 = y->getLeft();
 
-  y->setLeft(x);
-  x->setRight(T2);
+  y->setLeft(this);
+  this->setRight(T2);
 
-  x->setHeight(max(x->getLeft()->getHeight(), x->getRight()->getHeight()) + 1);
+  this->setHeight(
+      max(this->getLeft()->getHeight(), this->getRight()->getHeight()) + 1);
   y->setHeight(max(y->getLeft()->getHeight(), y->getRight()->getHeight()) + 1);
 
   return y;
@@ -84,5 +98,30 @@ AVLTree* AVLTree::insert(AVLTree* node, Pointer key) {
   // 4. Rotations
   // LL case
   if (balance > 1 && this->compare(key, node->getLeft()->getKey()) < 0)
-    return this->rightRotate(node);
+    return node->rightRotate();
+  else if (balance > 1 && this->compare(key, node->getLeft()->getKey()) > 0) {
+    node->setLeft(node->getLeft()->leftRotate());
+    return node->rightRotate();
+  } else if (balance < -1 && this->compare(key, node->getRight()->getKey()) < 0)
+    return node->leftRotate();
+  else if (balance < -1 && this->compare(key, node->getRight()->getKey()) > 0) {
+    node->setRight(node->getRight()->rightRotate());
+    return node->leftRotate();
+  }
+
+  return node;
+}
+
+bool AVLTree::isBalanced() {
+  if (this->getRight() == nullptr && this->getLeft() == nullptr)
+    return true;
+
+  int lh = this->getLeft()->getHeight();
+  int rh = this->getRight()->getHeight();
+
+  if (abs(lh - rh) <= 1 && this->getLeft()->isBalanced() &&
+      this->getRight()->isBalanced())
+    return true;
+
+  return false;
 }

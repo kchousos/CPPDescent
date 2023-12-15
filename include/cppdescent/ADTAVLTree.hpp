@@ -14,14 +14,14 @@
 
 class AVLTree {
  private:
+  DestroyFunc destroy;
+  CompareFunc compare;
   Pointer key;
   int height;
-  AVLTree* left;
   AVLTree* right;
-  CompareFunc compare;
-  DestroyFunc destroy;
-  AVLTree* max;
-  AVLTree* min;
+  AVLTree* left;
+  // AVLTree* max;
+  // AVLTree* min;
 
  public:
   AVLTree(CompareFunc compare, DestroyFunc destroy, Pointer key);
@@ -29,10 +29,10 @@ class AVLTree {
   DestroyFunc setDestroyValue(DestroyFunc destroyValue);
   AVLTree* find(Pointer key);
   int getBalance();
-  AVLTree* rightRotate(AVLTree* y);
-  AVLTree* leftRotate(AVLTree* x);
+  AVLTree* rightRotate();
+  AVLTree* leftRotate();
+  bool isBalanced();
   AVLTree* insert(AVLTree* node, Pointer key);
-  void preorder();
   Pointer getKey() { return this->key; };
   int getHeight() { return this->height; };
   void setHeight(int height) { this->height = height; };
