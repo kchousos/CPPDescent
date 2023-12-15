@@ -29,10 +29,11 @@ class AVLTree {
   DestroyFunc setDestroyValue(DestroyFunc destroyValue);
   AVLTree* find(Pointer key);
   int getBalance();
-  void rightRotate();
-  void leftRotate();
-  void insert(Pointer key);
+  AVLTree* rightRotate(AVLTree* y);
+  AVLTree* leftRotate(AVLTree* x);
+  AVLTree* insert(AVLTree* node, Pointer key);
   void preorder();
+  Pointer getKey() { return this->key; };
   int getHeight() { return this->height; };
   void setHeight(int height) { this->height = height; };
   AVLTree* getLeft() { return this->left; };
