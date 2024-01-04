@@ -69,6 +69,6 @@ package_add_test(cppdescent.test
                  ${PROJECT_SOURCE_DIR}/src/ADTList.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)
 
-package_add_test(ADTAVLTree.test 
-                 unit/ADTAVLTree.test.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTAVLTree.cpp)
+package_add_test(AVLTree.test 
+                 unit/AVLTree.test.cpp
+                 ${PROJECT_SOURCE_DIR}/src/AVLTree.cpp)
