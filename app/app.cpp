@@ -76,6 +76,8 @@ int main(int argc, char* argv[]) {
     if (bfGraph == nullptr) {
       std::cout << "No pre-computed brute force graph. Computing now...\n";
       bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare, distance);
+      std::cout << "Saving...\n";
+      cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
     }
 
     std::cout << "Total recall is "
