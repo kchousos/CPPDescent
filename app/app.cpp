@@ -6,7 +6,7 @@
 #include "cppdescent/cppdescent.hpp"
 
 int main(int argc, char* argv[]) {
-  if (argc != 5) {
+  if (argc != 6) {
     std::cout << "Wrong number of arguments. Please try again.\n";
     return -1;
   }
@@ -14,6 +14,7 @@ int main(int argc, char* argv[]) {
   int K = atoi(argv[1]);
   int dimensions = atoi(argv[3]);
   int metric = atoi(argv[4]);
+  float delta = atof(argv[5]);
 
   if (metric > 2 || metric < 1)
     return -1;
@@ -50,6 +51,7 @@ int main(int argc, char* argv[]) {
   bfPath.append(".bin");
 
   std::cout << "For K = " << K << "\n";
+  std::cout << "For δ = " << delta << "\n";
   std::cout << "Dataset: " << argv[2] << "\n";
   std::cout << "Dimensions: " << dimensions << "\n";
   std::cout << "----------------------------------------------------------\n";
@@ -57,35 +59,33 @@ int main(int argc, char* argv[]) {
   Graph* nnGraph;
   Graph* bfGraph;
 
-  for (float delta = 0.001; delta < 0.3; delta *= 10) {
-    auto start = std::chrono::high_resolution_clock::now();
+  auto start = std::chrono::high_resolution_clock::now();
 
-    // NN-Descent
-    nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, delta, distance);
+  // NN-Descent
+  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, delta, distance);
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration =
-        std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+  auto stop = std::chrono::high_resolution_clock::now();
+  auto duration =
+      std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-    std::cout << "NN-Descent K-NN Graph created in " << duration.count()
-              << " milliseconds for δ = " << delta << "\n";
+  std::cout << "NN-Descent K-NN Graph created in " << duration.count()
+            << " milliseconds for δ = " << delta << "\n";
 
-    // Read the graph files.
-    bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions, distance);
+  // Read the graph files.
+  bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions, distance);
 
-    if (bfGraph == nullptr) {
-      std::cout << "No pre-computed brute force graph. Computing now...\n";
-      bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare, distance);
-      std::cout << "Saving...\n";
-      cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
-    }
-
-    std::cout << "Total recall is "
-              << cppdescent::recall(bfGraph, nnGraph, N, K) << "%\n\n";
-
-    delete bfGraph;
-    delete nnGraph;
+  if (bfGraph == nullptr) {
+    std::cout << "No pre-computed brute force graph. Computing now...\n";
+    bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare, distance);
+    std::cout << "Saving...\n";
+    cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
   }
+
+  std::cout << "Total recall is " << cppdescent::recall(bfGraph, nnGraph, N, K)
+            << "%\n\n";
+
+  delete bfGraph;
+  delete nnGraph;
 
   // Query point
 
