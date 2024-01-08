@@ -87,45 +87,45 @@ int main(int argc, char* argv[]) {
   delete bfGraph;
   delete nnGraph;
 
-  // Query point
+  /*   // Query point
 
-  std::cout << "Query point example\n";
-  std::cout << "----------------------------------------------------------\n";
+    std::cout << "Query point example\n";
+    std::cout << "----------------------------------------------------------\n";
 
-  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, 0.01, distance);
-  srand(time(0));
+    nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, 0.01, distance);
+    srand(time(0));
 
-  Vector* query = new Vector(dimensions, cppdescent::deleteFloat);
-
-  for (int i = 0; i < dimensions; i++) {
-    float num = (float)(rand()) / (float)(rand());
-    query->setAt(i, cppdescent::createFloat(num));
-  }
-
-  PQueue* results = cppdescent::NNDescent_Query(
-      nnGraph, K, cppdescent::compareVertexPairsEuclidean, query);
-
-  int size = results->getSize();
-  for (int i = 0; i < size; i++) {
-    GraphVertexPair* max = (GraphVertexPair*)results->getMax();
-    results->removeMax();
-    Vector* neighbor = (Vector*)((GraphVertex*)max->getVertex2())->getData();
-
-    std::cout << "Neighbor " << i + 1 << " : [";
-
-    int dimensions = neighbor->getSize() > 8 ? 8 : neighbor->getSize();
+    Vector* query = new Vector(dimensions, cppdescent::deleteFloat);
 
     for (int i = 0; i < dimensions; i++) {
-      std::cout << std::fixed;
-      std::cout << *(float*)neighbor->getAt(i) << ", ";
+      float num = (float)(rand()) / (float)(rand());
+      query->setAt(i, cppdescent::createFloat(num));
     }
 
-    std::cout << "...]\n";
-  }
+    PQueue* results = cppdescent::NNDescent_Query(
+        nnGraph, K, cppdescent::compareVertexPairsEuclidean, query);
 
-  delete results;
-  delete query;
-  delete nnGraph;
+    int size = results->getSize();
+    for (int i = 0; i < size; i++) {
+      GraphVertexPair* max = (GraphVertexPair*)results->getMax();
+      results->removeMax();
+      Vector* neighbor = (Vector*)((GraphVertex*)max->getVertex2())->getData();
+
+      std::cout << "Neighbor " << i + 1 << " : [";
+
+      int dimensions = neighbor->getSize() > 8 ? 8 : neighbor->getSize();
+
+      for (int i = 0; i < dimensions; i++) {
+        std::cout << std::fixed;
+        std::cout << *(float*)neighbor->getAt(i) << ", ";
+      }
+
+      std::cout << "...]\n";
+    } */
+
+  // delete results;
+  // delete query;
+  // delete nnGraph;
 
   cppdescent::deleteDatapointVectors(vec);
 }
