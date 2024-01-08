@@ -65,10 +65,10 @@ To run the main executable, the following commands suffice:
 
     $ cmake -S . -B build
     $ cmake --build build
-    $ ./build/app/app <K> <filepath-to-dataset> <dimensions> <1 or 2>
+    $ ./build/app/app <K> <filepath-to-dataset> <dimensions> <1 or 2> <delta>
 
-The last argument concerns the metric function that will be used. 1 means
-that the euclidean distance will be used and 2 stands for the manhattan
+The second from last argument concerns the metric function that will be used.
+1 means that the euclidean distance will be used and 2 stands for the manhattan
 distance.
 
 ### Results
