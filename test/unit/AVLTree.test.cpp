@@ -1,5 +1,5 @@
 /**
- * @file ADTAVLTree.test.cpp
+ * @file AVLTree.test.cpp
  * @author Konstantinos Chousos
  * @brief
  * @version 0.1
@@ -40,6 +40,8 @@ TEST(AVLTree, insert) {
 
     avl->insert(valueArray[i]);
 
+    avl->getMax()->print();
+
     ASSERT_EQ(avl->getSize(), (i + 1));
   }
 
@@ -48,6 +50,8 @@ TEST(AVLTree, insert) {
   // κόμβος)
   int* newValue = createIntValue(0);
   avl->insert(newValue);
+
+  // std::cout << avl->getMax()->getKey() << std::endl;
 
   ASSERT_EQ(avl->getSize(), N);
 
@@ -63,5 +67,5 @@ TEST(AVLTree, insert) {
   avl2->insert(&local_value3);
 
   delete avl2;
-  delete[] valueArray;
+  // delete[] valueArray;
 }

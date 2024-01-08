@@ -10,6 +10,7 @@
  */
 #pragma once
 
+#include <iostream>
 #include "common.hpp"
 
 class AVLNode {
@@ -24,8 +25,8 @@ class AVLNode {
           int height = 1,
           AVLNode* left = nullptr,
           AVLNode* right = nullptr);
-  AVLNode* rightRotate();
-  AVLNode* leftRotate();
+  // AVLNode* rightRotate();
+  // AVLNode* leftRotate();
   AVLNode* repairBalance();
   AVLNode* insert(Pointer key,
                   CompareFunc compare,
@@ -37,7 +38,10 @@ class AVLNode {
                   bool* removed,
                   Pointer* oldValue);
   Pointer getKey() { return this->key; };
-  int getHeight() { return this->height; };
+  int getHeight() {
+    this->print();
+    return this->height;
+  };
   void setHeight(int height) { this->height = height; };
   AVLNode* getLeft() { return this->left; };
   AVLNode* getRight() { return this->right; };
@@ -46,6 +50,14 @@ class AVLNode {
   void updateHeight();
   int getBalance();
   bool isBalanced();
+  void print() {
+    std::cout << "--------------------" << std::endl;
+    std::cout << "key: " << this->key << std::endl;
+    std::cout << "height: " << this->height << std::endl;
+    std::cout << "left: " << this->left << std::endl;
+    std::cout << "right: " << this->right << std::endl;
+    std::cout << "--------------------" << std::endl;
+  };
 };
 
 class AVLTree {
@@ -70,6 +82,6 @@ class AVLTree {
   void setDestroyKey(DestroyFunc destroyKey) {
     this->destroy_key = destroyKey;
   };
-  AVLNode* getMax() { return this->max; };
+  AVLNode* getMax() { return this->root; };
   AVLNode* getMin() { return this->min; };
 };

@@ -27,16 +27,18 @@ AVLTree::AVLTree(CompareFunc compare,
 }
 
 void AVLTree::insert(Pointer key) {
-  bool inserted;
+  bool inserted = false;
   Pointer oldKey;
+
   this->root = this->root->insert(key, compare, &inserted, &oldKey);
 
   // If a new node is inserted change the AVL's size. Destroy the old key of the
   // node if it is updated
   if (inserted == true)
     this->size++;
-  else if (this->destroy_key != nullptr)
+  else if (this->destroy_key != nullptr && oldKey != nullptr)
     this->destroy_key(oldKey);
+  return;
 }
 
 bool AVLTree::remove(Pointer key) {
@@ -62,46 +64,58 @@ AVLTree::~AVLTree() {}
 AVLNode::AVLNode(Pointer key, int height, AVLNode* left, AVLNode* right)
     : key(key), height(height), left(left), right(right) {}
 
-AVLNode* AVLNode::rightRotate() {
-  AVLNode* x = this->left;
+AVLNode* rightRotate(AVLNode* root) {
+  AVLNode* x = root->getLeft();
   if (x == nullptr)
-    return this;
+    return root;
 
-  AVLNode* rightNode = x->right;
+  AVLNode* rightNode = x->getRight();
   int h;
 
-  x->setRight(this);
-  this->setLeft(rightNode);
+  x->setRight(root);
+  root->setLeft(rightNode);
 
   if (rightNode == nullptr)
     h = 0;
   else
-    h = this->left->height;
+    h = root->getLeft()->getHeight();
 
-  this->setHeight(max(this->left->height, h) + 1);
-  x->setHeight(max(x->left->height, x->right->height) + 1);
+  root->setHeight(max(root->getLeft()->getHeight(), h) + 1);
+  x->setHeight(max(x->getLeft()->getHeight(), x->getRight()->getHeight()) + 1);
 
   return x;
 }
 
-AVLNode* AVLNode::leftRotate() {
-  AVLNode* y = this->right;
+AVLNode* leftRotate(AVLNode* root) {
+  AVLNode* y = root->getRight();
   if (y == nullptr)
-    return this;
+    return root;
 
-  AVLNode* leftNode = y->left;
+  AVLNode* leftNode = y->getLeft();
 
-  y->setLeft(this);
-  this->setRight(leftNode);
+  y->setLeft(root);
+  root->setRight(leftNode);
 
-  this->setHeight(max(this->left->height, this->right->height) + 1);
-  y->setHeight(max(y->left->height, y->right->height) + 1);
+  root->setHeight(
+      max(root->getLeft()->getHeight(), root->getRight()->getHeight()) + 1);
+  y->setHeight(max(y->getLeft()->getHeight(), y->getRight()->getHeight()) + 1);
 
   return y;
 }
 
 int AVLNode::getBalance() {
-  return this->left->height - this->right->height;
+  int balance = 0;
+  if (this->left == nullptr)
+    if (this->right == nullptr)
+      balance = 0;
+    else
+      balance = -this->right->height;
+  else if (this->right == nullptr)
+    balance = this->left->height;
+  else
+    balance = this->left->height - this->right->height;
+
+  return balance;
 }
 
 bool AVLNode::isBalanced() {
@@ -119,7 +133,18 @@ bool AVLNode::isBalanced() {
 }
 
 void AVLNode::updateHeight() {
-  this->height = 1 + max(this->left->height, this->right->height);
+  int newHeight = 0;
+  if (this->left == nullptr)
+    if (this->right == nullptr)
+      newHeight = 1;
+    else
+      newHeight = this->right->height;
+  else if (this->right == nullptr)
+    newHeight = this->left->height;
+  else
+    newHeight = max(this->left->height, this->right->height);
+
+  this->height = 1 + newHeight;
 }
 
 AVLNode* AVLNode::repairBalance() {
@@ -129,16 +154,16 @@ AVLNode* AVLNode::repairBalance() {
   if (balance > 1) {
     // Left subtree is unbalanced
     if (this->left->getBalance() >= 0)
-      return this->rightRotate();
+      return rightRotate(this);
     else
-      return this->leftRotate();
+      return leftRotate(this);
 
   } else if (balance < -1) {
     // Right subtree is unbalanced
     if (this->right->getBalance() <= 0)
-      return this->leftRotate();
+      return leftRotate(this);
     else
-      return this->rightRotate();
+      return rightRotate(this);
   }
 
   // No rotation needed
@@ -151,7 +176,8 @@ AVLNode* AVLNode::insert(Pointer key,
                          Pointer* oldKey) {
   if (this->key == nullptr) {
     *inserted = true;
-    return new AVLNode(key);
+    this->key = key;
+    return this;
   }
   // To find the right place for the insertion we have to compare the current
   // node's key with the given one
@@ -166,14 +192,26 @@ AVLNode* AVLNode::insert(Pointer key,
   } else if (compareResult < 0) {
     // std::cout << "HERE - else if" << std::endl;
     // value < node->value, keep searching in the left subtree
-    this->left = this->insert(key, compare, inserted, oldKey);
+    if (this->left != nullptr) {
+      this->left->insert(key, compare, inserted, oldKey);
+    } else {
+      *inserted = true;
+      this->left = new AVLNode(nullptr);
+      this->left->insert(key, compare, inserted, oldKey);
+      // return this->left;
+    }
 
   } else {
     // std::cout << "HERE - else" << std::endl;
     // value > node->value, keep searching in the left subtree
-    AVLNode* right = this->right;
-
-    this->right = this->insert(key, compare, inserted, oldKey);
+    if (this->right != nullptr) {
+      this->right->insert(key, compare, inserted, oldKey);
+    } else {
+      *inserted = true;
+      this->right = new AVLNode(nullptr);
+      this->right->insert(key, compare, inserted, oldKey);
+      // return this->right;
+    }
   }
 
   return this->repairBalance();
