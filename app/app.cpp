@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <string>
 #include "cppdescent/cppdescent.hpp"
 
 int main(int argc, char* argv[]) {
@@ -32,9 +33,14 @@ int main(int argc, char* argv[]) {
   }
 
   // find filepath to computed brute force graph
+  std::string fullFilePath = argv[2];
+  size_t lastSeparator = fullFilePath.find_last_of("/");
+  std::string filenameWithExtension = fullFilePath.substr(lastSeparator + 1);
+  size_t lastDot = filenameWithExtension.find_last_of(".");
+  std::string filenameWithoutExtension =
+      filenameWithExtension.substr(0, lastDot);
   std::string bfPath("./datasets/computed/");
-  bfPath.append("N-");
-  bfPath.append(std::to_string(N));
+  bfPath.append(filenameWithoutExtension);
   bfPath.append("_K-");
   bfPath.append(std::to_string(K));
   if (metric == 1)
