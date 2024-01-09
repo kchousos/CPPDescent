@@ -38,21 +38,18 @@ class AVLNode {
                   bool* removed,
                   Pointer* oldValue);
   Pointer getKey() { return this->key; };
-  int getHeight() {
-    this->print();
-    return this->height;
-  };
+  int getHeight() { return this->height; };
   void setHeight(int height) { this->height = height; };
   AVLNode* getLeft() { return this->left; };
   AVLNode* getRight() { return this->right; };
   void setLeft(AVLNode* left) { this->left = left; };
-  void setRight(AVLNode* right) { this->left = right; };
+  void setRight(AVLNode* right) { this->right = right; };
   void updateHeight();
   int getBalance();
   bool isBalanced();
   void print() {
     std::cout << "--------------------" << std::endl;
-    std::cout << "key: " << this->key << std::endl;
+    std::cout << "key: " << *(int*)this->key << std::endl;
     std::cout << "height: " << this->height << std::endl;
     std::cout << "left: " << this->left << std::endl;
     std::cout << "right: " << this->right << std::endl;

@@ -70,18 +70,12 @@ AVLNode* rightRotate(AVLNode* root) {
     return root;
 
   AVLNode* rightNode = x->getRight();
-  int h;
 
   x->setRight(root);
   root->setLeft(rightNode);
 
-  if (rightNode == nullptr)
-    h = 0;
-  else
-    h = root->getLeft()->getHeight();
-
-  root->setHeight(max(root->getLeft()->getHeight(), h) + 1);
-  x->setHeight(max(x->getLeft()->getHeight(), x->getRight()->getHeight()) + 1);
+  root->updateHeight();
+  x->updateHeight();
 
   return x;
 }
@@ -96,9 +90,8 @@ AVLNode* leftRotate(AVLNode* root) {
   y->setLeft(root);
   root->setRight(leftNode);
 
-  root->setHeight(
-      max(root->getLeft()->getHeight(), root->getRight()->getHeight()) + 1);
-  y->setHeight(max(y->getLeft()->getHeight(), y->getRight()->getHeight()) + 1);
+  root->updateHeight();
+  y->updateHeight();
 
   return y;
 }
@@ -183,14 +176,12 @@ AVLNode* AVLNode::insert(Pointer key,
   // node's key with the given one
   int compareResult = compare(key, this->key);
   if (compareResult == 0) {
-    // std::cout << "HERE - if" << std::endl;
     // An equivalent key found, so we update it
     *inserted = false;
     *oldKey = this->key;
     this->key = key;
 
   } else if (compareResult < 0) {
-    // std::cout << "HERE - else if" << std::endl;
     // value < node->value, keep searching in the left subtree
     if (this->left != nullptr) {
       this->left->insert(key, compare, inserted, oldKey);
@@ -198,11 +189,9 @@ AVLNode* AVLNode::insert(Pointer key,
       *inserted = true;
       this->left = new AVLNode(nullptr);
       this->left->insert(key, compare, inserted, oldKey);
-      // return this->left;
     }
 
   } else {
-    // std::cout << "HERE - else" << std::endl;
     // value > node->value, keep searching in the left subtree
     if (this->right != nullptr) {
       this->right->insert(key, compare, inserted, oldKey);
@@ -210,7 +199,6 @@ AVLNode* AVLNode::insert(Pointer key,
       *inserted = true;
       this->right = new AVLNode(nullptr);
       this->right->insert(key, compare, inserted, oldKey);
-      // return this->right;
     }
   }
 
@@ -236,6 +224,11 @@ AVLNode* AVLNode::remove(Pointer key,
                          CompareFunc compare,
                          bool* removed,
                          Pointer* oldKey) {
+  if (this->key == nullptr) {
+    *removed = false;
+    return nullptr;
+  }
+
   int compareResult = compare(key, this->key);
   if (compareResult == 0) {
     // Equivalent value found, so we delete it.
@@ -246,14 +239,14 @@ AVLNode* AVLNode::remove(Pointer key,
       // There is no left subtree,so we delete the current node and the new root
       // is the right child
       AVLNode* right = this->right;
-      // delete this;
+      delete this;
       return right;
 
     } else if (this->right == nullptr) {
       // There is no right subtree, so we delete the current node and the new
       // root is the left child
       AVLNode* left = this->left;
-      // delete this;
+      delete this;
       return left;
 
     } else {
@@ -266,7 +259,7 @@ AVLNode* AVLNode::remove(Pointer key,
       minRight->left = this->left;
       minRight->right = this->right;
 
-      // delete this;
+      delete this;
 
       return minRight->repairBalance();
     }
