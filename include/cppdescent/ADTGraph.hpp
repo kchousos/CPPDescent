@@ -100,3 +100,15 @@ class GraphVertexPair {
   Pointer vertex2;
   Graph* owner;
 };
+
+class Neighbor {
+ public:
+  Neighbor(Pointer datapoint) : value(datapoint), flag(1){};
+  void setFalse() { this->flag = 0; };
+  int getFlag() { return this->flag; };
+  Pointer getValue() { return this->value; };
+
+ private:
+  Pointer value;
+  int flag;
+};

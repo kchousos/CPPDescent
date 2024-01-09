@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "ADTList.hpp"
 #include "ADTVector.hpp"
 
 /**
@@ -92,6 +93,13 @@ class PQueue {
    * @return int
    */
   int find(Pointer value, CompareFunc compare);
+
+  /**
+   * @brief Returns all the elements as a vector.
+   *
+   * @return List*
+   */
+  Vector* toVector() { return this->vector; };
 
   // Helper functions
   // These are used because the node IDs are 1-based, where as the

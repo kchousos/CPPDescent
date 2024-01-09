@@ -40,6 +40,15 @@ int compareVertices(Pointer vertex1, Pointer vertex2) {
   return v1->getOwner()->getCompareData()(v1->getData(), v2->getData());
 }
 
+int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
+  Pointer pair1 = ((Neighbor*)neighbor1)->getValue();
+  Pointer pair2 = ((Neighbor*)neighbor2)->getValue();
+  GraphVertexPair* p1 = (GraphVertexPair*)pair1;
+  GraphVertexPair* p2 = (GraphVertexPair*)pair2;
+
+  return compareVertexPair(p1, p2);
+}
+
 void destroyVertexPair(GraphVertexPair* pair) {
   delete pair;
 }
@@ -159,6 +168,7 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
   bool alreadyMember = false;
 
   GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
+  Neighbor* neighbor = new Neighbor(pair);
 
   if (this->map->find(pair) != nullptr)
     alreadyMember = true;  // LCOV_EXCL_LINE
@@ -166,8 +176,8 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
   this->map->insert(pair, createFloat(weight));
 
   if (alreadyMember == false) {
-    gvertex1->addNeighbor(pair);
-    gvertex2->addReverse(pair);
+    gvertex1->addNeighbor(neighbor);
+    gvertex2->addReverse(neighbor);
   }
 
   delete vertex1;
@@ -185,8 +195,8 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
 
   GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
 
-  gvertex1->removeNeighbor(pair, (CompareFunc)compareVertexPair);
-  gvertex2->removeReverse(pair, (CompareFunc)compareVertexPair);
+  gvertex1->removeNeighbor(pair, (CompareFunc)compareNeighbors);
+  gvertex2->removeReverse(pair, (CompareFunc)compareNeighbors);
 
   this->map->remove(pair);
 
