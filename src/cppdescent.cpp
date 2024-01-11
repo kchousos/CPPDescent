@@ -310,7 +310,7 @@ Graph* sampleGraph(Vector* data,
 
   // Insert all points as vertices.
   for (int i = 0; i < N; i++)
-    graph->insertVertex((Pointer)data->getAt(i));
+    graph->insertVertex(data->getAt(i));
 
   // Iterate all of the vertices.
   for (int i = 0; i < N; i++) {
@@ -323,8 +323,8 @@ Graph* sampleGraph(Vector* data,
         randPos = rand() % N;
 
       // Get the two vertices and create an edge between them.
-      Pointer v1 = (Pointer)data->getAt(i);
-      Pointer v2 = (Pointer)data->getAt(randPos);
+      Pointer v1 = data->getAt(i);
+      Pointer v2 = data->getAt(randPos);
       while (graph->isNeighbor(v1, v2) == true) {
         randPos = rand() % N;
         v2 = (Pointer)data->getAt(randPos);
@@ -338,22 +338,37 @@ Graph* sampleGraph(Vector* data,
 }
 
 int updateNN(Graph* graph,
-             Pointer v,
+             Pointer u1,
              Pointer u2,
              float dist,
              DistanceFunc distance) {
-  PQueue* vAll = graph->getAdjacentPQ(v);
-  Pointer max = ((GraphVertexPair*)vAll->getMax())->getVertex2();
-  float maxDist = distance(v, max);
+  PQueue* direct = ((GraphVertex*)u1)->getNeighbors();
+  Pointer max = ((GraphVertexPair*)((Neighbor*)direct->getMax())->getPair())
+                    ->getVertex2();
+  float maxDist = graph->getWeight(((GraphVertex*)u1)->getData(),
+                                   ((GraphVertex*)max)->getData());
 
   if (dist < maxDist) {
-    graph->removeEdge(v, max);
-    graph->insertEdge(v, u2, dist);
+    graph->removeEdge(((GraphVertex*)u1)->getData(),
+                      ((GraphVertex*)max)->getData());
+    graph->insertEdge(((GraphVertex*)u1)->getData(),
+                      ((GraphVertex*)u2)->getData(), dist);
     return 1;
   }
 
   // delete vAll;
   return 0;
+}
+
+GraphVertex* getOther(Neighbor* neighbor, int direct) {
+  GraphVertex* other;
+
+  if (direct)
+    other = (GraphVertex*)((GraphVertexPair*)neighbor->getPair())->getVertex2();
+  else
+    other = (GraphVertex*)((GraphVertexPair*)neighbor->getPair())->getVertex1();
+
+  return other;
 }
 
 Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
@@ -364,7 +379,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
-  List* vertices = graph->getVertices();
+  Vector* vertices = graph->getVerticesV();
   int N = graph->getSize();
   int c;
   int iterations = 0;
@@ -375,22 +390,33 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
     c = 0;
 
-    for (ListNode* v = vertices->getHead(); v != nullptr; v = v->getNext()) {
-      // vAll = Bbar[v] = B[v] U R[v]
-      List* vAll = graph->getGeneralNeighbors(v->getValue());
+    for (int v = 0; v < N; v++) {
+      // vAll = Bbar[v] = B[v] ⋃ R[v]
+      Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
+      int neighborsNum = vAll->getSize();
 
-      for (ListNode* u1 = vAll->getHead(); u1 != nullptr; u1 = u1->getNext()) {
-        // We start from the node after u1 to avoid duplicates
-        for (ListNode* u2 = u1->getNext(); u2 != nullptr; u2 = u2->getNext()) {
-          dist = distance(u1->getValue(), u2->getValue());
+      for (int U1 = 0; U1 < neighborsNum; U1++) {
+        Neighbor* neighbor1 = (Neighbor*)vAll->getAt(U1);
+        // the direct neighbors are in the first K cells of vAll, the rest are
+        // reverse.
+        int direct = U1 < K ? 1 : 0;
 
-          if (graph->isNeighbor(u1->getValue(), u2->getValue()) == false)
-            c +=
-                updateNN(graph, u1->getValue(), u2->getValue(), dist, distance);
+        GraphVertex* u1 = getOther(neighbor1, direct);
 
-          if (graph->isNeighbor(u2->getValue(), u1->getValue()) == false)
-            c +=
-                updateNN(graph, u2->getValue(), u1->getValue(), dist, distance);
+        for (int U2 = U1 + 1; U2 < neighborsNum; U2++) {
+          Neighbor* neighbor2 = (Neighbor*)vAll->getAt(U2);
+          // the direct neighbors are in the first K cells of vAll, the rest are
+          // reverse.
+          int direct2 = U2 < K ? 1 : 0;
+          GraphVertex* u2 = getOther(neighbor2, direct2);
+
+          dist = distance(u1->getData(), u2->getData());
+
+          if (graph->isNeighbor(u1->getData(), u2->getData()) == false)
+            c += updateNN(graph, u1, u2, dist, distance);
+
+          if (graph->isNeighbor(u2->getData(), u1->getData()) == false)
+            c += updateNN(graph, u2, u1, dist, distance);
         }
       }
 
@@ -400,7 +426,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
     std::cout << "Number of changes in the graph (c) = " << c << "\n";
   } while (c >= delta * N * K);
 
-  delete vertices;
+  // delete vertices;
 
   std::cout << "NN-Descent iterations: " << iterations << "\n";
 

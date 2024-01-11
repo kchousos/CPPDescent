@@ -34,11 +34,14 @@ class Graph {
   ~Graph();
   int getSize();
   void insertVertex(Pointer vertex);
+  Vector* getVerticesV();
   List* getVertices();
   void removeVertex(Pointer vertex);
   void insertEdge(Pointer vertex1, Pointer vertex2, float weight);
   void removeEdge(Pointer vertex1, Pointer vertex2);
   float getWeight(Pointer vertex1, Pointer vertex2);
+  Vector* getAdjacentV(Pointer vertex);
+  Vector* getReverseAdjacentV(Pointer vertex);
   List* getAdjacent(Pointer vertex);
   List* getAdjacentVertices(Pointer vertex);
   PQueue* getAdjacentPQ(Pointer vertex);
@@ -46,6 +49,7 @@ class Graph {
   List* getReverseAdjacentVertices(Pointer vertex);
   PQueue* getReverseAdjacentPQ(Pointer vertex);
   List* getGeneralNeighbors(Pointer vertex);
+  Vector* getGeneralNeighborsV(Pointer vertex);
   List* getGeneralNeighborsVertices(Pointer vertex);
   PQueue* getGeneralNeighborsPQ(Pointer vertex);
   bool isNeighbor(Pointer v1, Pointer v2);
@@ -103,12 +107,12 @@ class GraphVertexPair {
 
 class Neighbor {
  public:
-  Neighbor(Pointer datapoint) : value(datapoint), flag(1){};
+  Neighbor(GraphVertexPair* pair) : pair(pair), flag(1){};
   void setFalse() { this->flag = 0; };
   int getFlag() { return this->flag; };
-  Pointer getValue() { return this->value; };
+  GraphVertexPair* getPair() { return this->pair; };
 
  private:
-  Pointer value;
+  GraphVertexPair* pair;
   int flag;
 };

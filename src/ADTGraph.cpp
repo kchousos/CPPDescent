@@ -41,12 +41,20 @@ int compareVertices(Pointer vertex1, Pointer vertex2) {
 }
 
 int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
-  Pointer pair1 = ((Neighbor*)neighbor1)->getValue();
-  Pointer pair2 = ((Neighbor*)neighbor2)->getValue();
-  GraphVertexPair* p1 = (GraphVertexPair*)pair1;
-  GraphVertexPair* p2 = (GraphVertexPair*)pair2;
+  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
+  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
 
-  return compareVertexPair(p1, p2);
+  int first = pair1->getOwner()->getCompareVertices()(pair1->getVertex1(),
+                                                      pair2->getVertex1());
+  if (first)
+    return first;
+
+  int second = pair1->getOwner()->getCompareVertices()(pair1->getVertex2(),
+                                                       pair2->getVertex2());
+  if (second)
+    return second;
+
+  return 0;
 }
 
 void destroyVertexPair(GraphVertexPair* pair) {
@@ -100,8 +108,6 @@ void Graph::insertVertex(Pointer vertex) {
 }
 
 /**
- * @brief
- *
  * The returned list needs to be deleted, but the list's elements are pointers
  * the the vector's elements, so the list shouldn't have a `destroyValue`.
  *
@@ -119,6 +125,10 @@ List* Graph::getVertices() {
   }
 
   return list;
+}
+
+Vector* Graph::getVerticesV() {
+  return this->vec;
 }
 
 void Graph::removeVertex(Pointer vertex) {
@@ -168,7 +178,8 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
   bool alreadyMember = false;
 
   GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
-  Neighbor* neighbor = new Neighbor(pair);
+  GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
+  Neighbor* neighbor = new Neighbor(neighborPair);
 
   if (this->map->find(pair) != nullptr)
     alreadyMember = true;  // LCOV_EXCL_LINE
@@ -194,12 +205,15 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
       (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
 
   GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
+  GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
+  Neighbor* neighbor = new Neighbor(neighborPair);
 
-  gvertex1->removeNeighbor(pair, (CompareFunc)compareNeighbors);
-  gvertex2->removeReverse(pair, (CompareFunc)compareNeighbors);
+  gvertex1->removeNeighbor(neighbor, (CompareFunc)compareNeighbors);
+  gvertex2->removeReverse(neighbor, (CompareFunc)compareNeighbors);
 
   this->map->remove(pair);
 
+  delete neighbor;
   delete pair;
   delete vertex1;
   delete vertex2;
@@ -213,6 +227,22 @@ float Graph::getWeight(Pointer vertex1, Pointer vertex2) {
   if (p != nullptr)
     return *(float*)p;
   return INT_MAX;  // LCOV_EXCL_LINE
+}
+
+Vector* Graph::getAdjacentV(Pointer vertex) {
+  GraphVertex* gvertex = (GraphVertex*)vertex;
+
+  PQueue* pqueue = gvertex->getNeighbors();
+
+  return pqueue->toVector();
+}
+
+Vector* Graph::getReverseAdjacentV(Pointer vertex) {
+  GraphVertex* gvertex = (GraphVertex*)vertex;
+
+  PQueue* pqueue = gvertex->getReverse();
+
+  return pqueue->toVector();
 }
 
 List* Graph::getAdjacent(Pointer vertex) {
@@ -362,6 +392,31 @@ PQueue* Graph::getReverseAdjacentPQ(Pointer vertex) {
   return found->getReverse();
 }
 
+/**
+ * @brief Returns a vector where the K first elements are the direct neighbors
+ * of the vertex and the rest are the reverse ones.
+ *
+ * @param vertex
+ * @return Vector*
+ */
+Vector* Graph::getGeneralNeighborsV(Pointer vertex) {
+  Vector* direct = getAdjacentV(vertex);
+  Vector* reverse = getReverseAdjacentV(vertex);
+
+  Vector* neighbors = new Vector(0, nullptr);
+
+  for (int i = 0; i < direct->getSize(); i++) {
+    Neighbor* neighbor = (Neighbor*)direct->getAt(i);
+    neighbors->insertLast(neighbor);
+  }
+  for (int i = 0; i < reverse->getSize(); i++) {
+    Neighbor* neighbor = (Neighbor*)reverse->getAt(i);
+    neighbors->insertLast(neighbor);
+  }
+
+  return neighbors;
+}
+
 List* Graph::getGeneralNeighbors(Pointer vertex) {
   List* generalNeighbors = this->getAdjacent(vertex);
   List* reverseAdjList = this->getReverseAdjacent(vertex);
@@ -429,8 +484,8 @@ void Graph::setHashFunction(HashFunc hash) {
 
 GraphVertex::GraphVertex(Pointer data, Graph* owner)
     : data(data), owner(owner), hasBeenChecked(false) {
-  neighbors = new PQueue(compareEdgeWeights, nullptr, nullptr);
-  reverse = new PQueue(compareEdgeWeights, nullptr, nullptr);
+  neighbors = new PQueue(compareNeighbors, nullptr, nullptr);
+  reverse = new PQueue(compareNeighbors, nullptr, nullptr);
 }
 
 GraphVertex::~GraphVertex() {
