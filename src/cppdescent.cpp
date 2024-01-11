@@ -345,8 +345,8 @@ int updateNN(Graph* graph,
   PQueue* direct = ((GraphVertex*)u1)->getNeighbors();
   Pointer max = ((GraphVertexPair*)((Neighbor*)direct->getMax())->getPair())
                     ->getVertex2();
-  float maxDist = graph->getWeight(((GraphVertex*)u1)->getData(),
-                                   ((GraphVertex*)max)->getData());
+  float maxDist =
+      distance(((GraphVertex*)u1)->getData(), ((GraphVertex*)max)->getData());
 
   if (dist < maxDist) {
     graph->removeEdge(((GraphVertex*)u1)->getData(),
@@ -356,7 +356,6 @@ int updateNN(Graph* graph,
     return 1;
   }
 
-  // delete vAll;
   return 0;
 }
 
@@ -377,6 +376,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       DistanceFunc distance) {
   // B[v] <- Sample(V, K) for all v in V
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
+  std::cout << "Starting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
   Vector* vertices = graph->getVerticesV();
@@ -397,16 +397,17 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
       for (int U1 = 0; U1 < neighborsNum; U1++) {
         Neighbor* neighbor1 = (Neighbor*)vAll->getAt(U1);
+
         // the direct neighbors are in the first K cells of vAll, the rest are
         // reverse.
         int direct = U1 < K ? 1 : 0;
-
         GraphVertex* u1 = getOther(neighbor1, direct);
 
         for (int U2 = U1 + 1; U2 < neighborsNum; U2++) {
           Neighbor* neighbor2 = (Neighbor*)vAll->getAt(U2);
-          // the direct neighbors are in the first K cells of vAll, the rest are
-          // reverse.
+
+          // the direct neighbors are in the first K cells of vAll, the rest
+          // are reverse.
           int direct2 = U2 < K ? 1 : 0;
           GraphVertex* u2 = getOther(neighbor2, direct2);
 
@@ -425,8 +426,6 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
     std::cout << "Number of changes in the graph (c) = " << c << "\n";
   } while (c >= delta * N * K);
-
-  // delete vertices;
 
   std::cout << "NN-Descent iterations: " << iterations << "\n";
 

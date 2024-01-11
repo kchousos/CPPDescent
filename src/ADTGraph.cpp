@@ -44,17 +44,21 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
   GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
   GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
 
-  int first = pair1->getOwner()->getCompareVertices()(pair1->getVertex1(),
-                                                      pair2->getVertex1());
-  if (first)
-    return first;
+  float first = pair1->getOwner()->getWeight(
+      ((GraphVertex*)pair1->getVertex1())->getData(),
+      ((GraphVertex*)pair1->getVertex2())->getData());
+  float second = pair2->getOwner()->getWeight(
+      ((GraphVertex*)pair2->getVertex1())->getData(),
+      ((GraphVertex*)pair2->getVertex2())->getData());
 
-  int second = pair1->getOwner()->getCompareVertices()(pair1->getVertex2(),
-                                                       pair2->getVertex2());
-  if (second)
-    return second;
+  float result = first - second;
 
-  return 0;
+  if (result < 0)
+    return -1;
+  else if (result > 0)
+    return 1;
+  else
+    return 0;
 }
 
 void destroyVertexPair(GraphVertexPair* pair) {
@@ -204,15 +208,16 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
   GraphVertex* gvertex2 =
       (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
 
-  GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
   GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
   Neighbor* neighbor = new Neighbor(neighborPair);
 
   gvertex1->removeNeighbor(neighbor, (CompareFunc)compareNeighbors);
   gvertex2->removeReverse(neighbor, (CompareFunc)compareNeighbors);
 
+  GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
   this->map->remove(pair);
 
+  delete neighborPair;
   delete neighbor;
   delete pair;
   delete vertex1;
