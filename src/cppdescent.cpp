@@ -406,6 +406,9 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
         for (int U2 = U1 + 1; U2 < neighborsNum; U2++) {
           Neighbor* neighbor2 = (Neighbor*)vAll->getAt(U2);
 
+          if (!neighbor1->getFlag())
+            continue;
+
           // the direct neighbors are in the first K cells of vAll, the rest
           // are reverse.
           int direct2 = U2 < K ? 1 : 0;
@@ -419,6 +422,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
           if (graph->isNeighbor(u2->getData(), u1->getData()) == false)
             c += updateNN(graph, u2, u1, dist, distance);
         }
+
+        neighbor1->setFalse();
       }
 
       delete vAll;
