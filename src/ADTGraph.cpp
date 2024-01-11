@@ -61,6 +61,25 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
     return 0;
 }
 
+int compareNeighborsBin(Pointer neighbor1, Pointer neighbor2) {
+  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
+  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
+
+  int first = pair1->getOwner()->getCompareData()(
+      ((GraphVertex*)pair1->getVertex1())->getData(),
+      ((GraphVertex*)pair2->getVertex1())->getData());
+  if (first)
+    return first;
+
+  int second = pair1->getOwner()->getCompareData()(
+      ((GraphVertex*)pair1->getVertex2())->getData(),
+      ((GraphVertex*)pair2->getVertex2())->getData());
+  if (second)
+    return second;
+
+  return 0;
+}
+
 void destroyVertexPair(GraphVertexPair* pair) {
   delete pair;
 }
@@ -211,8 +230,8 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
   GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
   Neighbor* neighbor = new Neighbor(neighborPair);
 
-  gvertex1->removeNeighbor(neighbor, (CompareFunc)compareNeighbors);
-  gvertex2->removeReverse(neighbor, (CompareFunc)compareNeighbors);
+  gvertex1->removeNeighbor(neighbor, (CompareFunc)compareNeighborsBin);
+  gvertex2->removeReverse(neighbor, (CompareFunc)compareNeighborsBin);
 
   GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
   this->map->remove(pair);
