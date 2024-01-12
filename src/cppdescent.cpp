@@ -34,6 +34,27 @@ uint hashEdge(Pointer value) {
   return hash;
 }
 
+int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
+  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
+  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
+
+  float first = pair1->getOwner()->getWeight(
+      ((GraphVertex*)pair1->getVertex1())->getData(),
+      ((GraphVertex*)pair1->getVertex2())->getData());
+  float second = pair2->getOwner()->getWeight(
+      ((GraphVertex*)pair2->getVertex1())->getData(),
+      ((GraphVertex*)pair2->getVertex2())->getData());
+
+  float result = first - second;
+
+  if (result < 0)
+    return -1;
+  else if (result > 0)
+    return 1;
+  else
+    return 0;
+}
+
 //===================================
 // CPPDescent functions.
 //===================================
@@ -165,37 +186,57 @@ Graph* cppdescent::readBinGraph(const char* fp,
 }
 
 float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
-  List* bfVertices = bfGraph->getVertices();
-  List* nnVertices = nnGraph->getVertices();
+  Vector* bfVertices = bfGraph->getVerticesV();
+  Vector* nnVertices = nnGraph->getVerticesV();
 
   float recall = 0;
 
-  for (ListNode *bfNode = bfVertices->getHead(),
-                *nnNode = nnVertices->getHead();
-       bfNode != nullptr;
-       bfNode = bfNode->getNext(), nnNode = nnNode->getNext()) {
+  for (int bfNode = 0, nnNode = 0; bfNode < bfVertices->getSize();
+       bfNode++, nnNode++) {
     int trueNeighbors = 0;
-    List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
+    Vector* bfNodeAdjacent = bfGraph->getAdjacentV(bfVertices->getAt(bfNode));
 
-    for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
-         adjacent = adjacent->getNext()) {
-      List* nnAdjacent = nnGraph->getAdjacent(nnNode->getValue());
+    for (int adjacent = 0; adjacent < bfNodeAdjacent->getSize(); adjacent++) {
+      Vector* nnAdjacent = nnGraph->getAdjacentV(nnVertices->getAt(nnNode));
 
-      if (nnAdjacent->find(adjacent->getValue(), cppdescent::compareVertices))
+      if (nnAdjacent->find(bfNodeAdjacent->getAt(adjacent),
+                           cppdescent::compareNeighbors))
         trueNeighbors++;
 
-      delete nnAdjacent;
+      // delete nnAdjacent;
     }
 
     recall += (float)trueNeighbors / (float)K;
-    delete bfNodeAdjacent;
+    // delete bfNodeAdjacent;
   }
+
+  // for (ListNode *bfNode = bfVertices->getHead(),
+  //               *nnNode = nnVertices->getHead();
+  //      bfNode != nullptr;
+  //      bfNode = bfNode->getNext(), nnNode = nnNode->getNext()) {
+  //   int trueNeighbors = 0;
+  //   List* bfNodeAdjacent = bfGraph->getAdjacent(bfNode->getValue());
+
+  //   for (ListNode* adjacent = bfNodeAdjacent->getHead(); adjacent != nullptr;
+  //        adjacent = adjacent->getNext()) {
+  //     List* nnAdjacent = nnGraph->getAdjacent(nnNode->getValue());
+
+  //     if (nnAdjacent->find(adjacent->getValue(),
+  //     cppdescent::compareVertices))
+  //       trueNeighbors++;
+
+  //     delete nnAdjacent;
+  //   }
+
+  //   recall += (float)trueNeighbors / (float)K;
+  //   delete bfNodeAdjacent;
+  // }
 
   recall = recall / (float)N;
   recall *= 100;
 
-  delete bfVertices;
-  delete nnVertices;
+  // delete bfVertices;
+  // delete nnVertices;
 
   return recall;
 }
