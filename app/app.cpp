@@ -77,6 +77,8 @@ int main(int argc, char* argv[]) {
   std::cout << "NN-Descent K-NN Graph created in " << duration.count()
             << " milliseconds for δ = " << delta << "\n";
 
+  std::cout << "Computing recall...\n";
+
   // Read the graph files.
   bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions, distance);
 

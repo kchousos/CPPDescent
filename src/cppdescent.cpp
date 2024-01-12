@@ -562,9 +562,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
           if (graph->isNeighbor(u2->getData(), u1->getData()) == false)
             c += updateNN(graph, u2, u1, dist, distance);
         }
-      }
 
-      for (int U1 = 0; U1 < new_v->getSize(); U1++) {
         for (int U2 = 0; U2 < old_v->getSize(); U2++) {
           GraphVertex* u1 = (GraphVertex*)new_v->getAt(U1);
           GraphVertex* u2 = (GraphVertex*)old_v->getAt(U2);
