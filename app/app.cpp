@@ -6,7 +6,7 @@
 #include "cppdescent/cppdescent.hpp"
 
 int main(int argc, char* argv[]) {
-  if (argc != 6) {
+  if (argc != 7) {
     std::cout << "Wrong number of arguments. Please try again.\n";
     return -1;
   }
@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
   int dimensions = atoi(argv[3]);
   int metric = atoi(argv[4]);
   float delta = atof(argv[5]);
+  float rho = atof(argv[6]);
 
   if (metric > 2 || metric < 1)
     return -1;
@@ -62,7 +63,7 @@ int main(int argc, char* argv[]) {
   auto start = std::chrono::high_resolution_clock::now();
 
   // NN-Descent
-  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, delta, distance);
+  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, delta, rho, distance);
 
   auto stop = std::chrono::high_resolution_clock::now();
   auto duration =

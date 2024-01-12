@@ -386,6 +386,7 @@ GraphVertex* getOther(Neighbor* neighbor, int direct) {
 Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       int K,
                                       float delta,
+                                      float rho,
                                       DistanceFunc distance) {
   // B[v] <- Sample(V, K) for all v in V
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);

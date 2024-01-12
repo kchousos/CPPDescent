@@ -156,6 +156,7 @@ Graph* KNNBruteForceGraph(Vector* data,
  * @param K The number of nearest neighbors to compute.
  * @param delta The iterations will stop when the number of edges that were
  * updated is less than delta*N*K.
+ * @param rho The sampling rate
  * @param distance The function to be used to compute the distances between
  * vertices.
  * @return Graph* The complete K-NN graph of the dataset.
@@ -163,6 +164,7 @@ Graph* KNNBruteForceGraph(Vector* data,
 Graph* NNDescent_KNNGraph(Vector* data,
                           int K,
                           float delta,
+                          float rho,
                           DistanceFunc distance);
 /**
  * @brief Computes the K Nearest Neighbors of the query point in the graph.

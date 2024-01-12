@@ -14,6 +14,7 @@
 #include "gtest/gtest.h"
 
 #define delta 0.001
+#define rho 0.5
 
 struct BruteForceManualDataset : testing::Test {
  protected:
@@ -438,7 +439,7 @@ TEST(HelperFunctions, recall) {
   Graph* bfGraph = cppdescent::KNNBruteForceGraph(
       vec, K, cppdescent::compareEdgesEuclidean, cppdescent::euclideanDistance);
   Graph* nnGraph = cppdescent::NNDescent_KNNGraph(
-      vec, K, delta, cppdescent::euclideanDistance);
+      vec, K, delta, rho, cppdescent::euclideanDistance);
 
   ASSERT_GE(cppdescent::recall(bfGraph, nnGraph, N, K), 87.5);
 
