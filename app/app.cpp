@@ -58,6 +58,7 @@ int main(int argc, char* argv[]) {
 
   std::cout << "For K = " << K << "\n";
   std::cout << "For δ = " << delta << "\n";
+  std::cout << "For ρ = " << rho << "\n";
   std::cout << "Dataset: " << argv[2] << "\n";
   std::cout << "Dimensions: " << dimensions << "\n";
   std::cout << "----------------------------------------------------------\n";

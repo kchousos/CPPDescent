@@ -460,7 +460,7 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
 
   if (trues < 2 * rho * K) {
     // if there are less trues than 2ρK, simply put them all
-    for (int i = 0; i <= trues; i++) {
+    for (int i = 0; i < trues; i++) {
       GraphVertex* v =
           getOther((Neighbor*)neighbors->getAt(i), trueMetadata[i][2]);
       sets.new_v->insertLast(v);
@@ -486,7 +486,7 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
   }
 
   if (falses < rho * K) {
-    for (int i = 0; i <= falses; i++) {
+    for (int i = 0; i < falses; i++) {
       GraphVertex* v = getOther((Neighbor*)neighbors->getAt(i), 0);
       sets.old_v->insertLast(v);
     }
