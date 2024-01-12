@@ -2,8 +2,8 @@
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.debugConfig": {
         "args": [
-            "10",
-            "./datasets/00000200.bin",
+            "2",
+            "./datasets/00000020.bin",
             "100",
             "1",
             "0.01",

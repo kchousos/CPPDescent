@@ -443,10 +443,10 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
     if (neighbor->getFlag()) {
       // in the `trues` array add this neighbor's position
       trueMetadata[trues][0] = i;
-      trues++;
       neighbor->setFalse();
       if (i < K)
         trueMetadata[trues][2] = 1;
+      trues++;
     } else if (i < K) {
       // neighbor has flag = false and is direct
       GraphVertex* v = getOther(neighbor, 1);
