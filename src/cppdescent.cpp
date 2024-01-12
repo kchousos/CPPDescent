@@ -408,22 +408,24 @@ struct sets {
  * @return struct sets
  */
 struct sets getSets(Vector* neighbors, int K, float rho) {
-  int trueMetadata[neighbors->getSize()][2];
-  int falseMetadata[neighbors->getSize() - K][2];
+  int** trueMetadata = new int*[neighbors->getSize()];
+  for (int i = 0; i < neighbors->getSize(); ++i)
+    trueMetadata[i] = new int[3];
+
+  int** reverseFalseMetadata = new int*[neighbors->getSize() - K];
+  for (int i = 0; i < neighbors->getSize() - K; ++i)
+    reverseFalseMetadata[i] = new int[2];
 
   for (int i = 0; i < neighbors->getSize(); i++) {
-    // positions of true
-    trueMetadata[i][0] = -1;
     // has been added?
     trueMetadata[i][1] = 0;
+    // is it a direct neighbor?
+    trueMetadata[i][2] = 0;
   }
 
-  for (int i = 0; i < neighbors->getSize() - K; i++) {
-    // positions of false
-    falseMetadata[i][0] = -1;
+  for (int i = 0; i < neighbors->getSize() - K; i++)
     // has been added?
-    falseMetadata[i][1] = 0;
-  }
+    reverseFalseMetadata[i][1] = 0;
 
   struct sets sets;
   // rhoK of direct true and rhoK of reverse true
@@ -443,43 +445,76 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
       trueMetadata[trues][0] = i;
       trues++;
       neighbor->setFalse();
+      if (i < K)
+        trueMetadata[trues][2] = 1;
     } else if (i < K) {
       // neighbor has flag = false and is direct
-      sets.old_v->insertLast(neighbor);
+      GraphVertex* v = getOther(neighbor, 1);
+      sets.old_v->insertLast(v);
     } else {
       // neighbor has flag = false and is reverse, so needs sampling
-      falseMetadata[falses][0] = i;
+      reverseFalseMetadata[falses][0] = i;
       falses++;
     }
   }
 
-  // new[v] sampling
-  for (int i = 0; i < 2 * rho * K; i++) {
-    int selected = rand() % trues;
+  if (trues < 2 * rho * K) {
+    // if there are less trues than 2ρK, simply put them all
+    for (int i = 0; i <= trues; i++) {
+      GraphVertex* v =
+          getOther((Neighbor*)neighbors->getAt(i), trueMetadata[i][2]);
+      sets.new_v->insertLast(v);
+    }
+  } else {
+    // new[v] sampling
+    for (int i = 0; i < 2 * rho * K; i++) {
+      int selected = rand() % trues;
 
-    // if it already has been selected, choose another
-    while (trueMetadata[selected][1])
-      selected = rand() % trues;
+      // if it already has been selected, choose another
+      while (trueMetadata[selected][1])
+        selected = rand() % trues;
 
-    // has now been selected, do not select again
-    trueMetadata[selected][1] = 1;
+      // has now been selected, do not select again
+      trueMetadata[selected][1] = 1;
 
-    sets.new_v->insertLast(neighbors->getAt(trueMetadata[selected][0]));
+      GraphVertex* v =
+          getOther((Neighbor*)neighbors->getAt(trueMetadata[selected][0]),
+                   trueMetadata[selected][2]);
+
+      sets.new_v->insertLast(v);
+    }
   }
 
-  // old[v] sampling
-  for (int i = 0; i < rho * K; i++) {
-    int selected = rand() % falses;
+  if (falses < rho * K) {
+    for (int i = 0; i <= falses; i++) {
+      GraphVertex* v = getOther((Neighbor*)neighbors->getAt(i), 0);
+      sets.old_v->insertLast(v);
+    }
+  } else {
+    // old[v] sampling
+    for (int i = 0; i < rho * K; i++) {
+      int selected = rand() % falses;
 
-    // if it already has been selected, choose another
-    while (falseMetadata[selected][1])
-      selected = rand() % falses;
+      // if it already has been selected, choose another
+      while (reverseFalseMetadata[selected][1])
+        selected = rand() % falses;
 
-    // has now been selected, do not select again
-    falseMetadata[selected][1] = 1;
+      // has now been selected, do not select again
+      reverseFalseMetadata[selected][1] = 1;
 
-    sets.old_v->insertLast(neighbors->getAt(falseMetadata[selected][0]));
+      GraphVertex* v = getOther(
+          (Neighbor*)neighbors->getAt(reverseFalseMetadata[selected][0]), 0);
+      sets.old_v->insertLast(v);
+    }
   }
+
+  for (int i = 0; i < neighbors->getSize(); ++i)
+    delete[] trueMetadata[i];
+  delete[] trueMetadata;
+
+  for (int i = 0; i < neighbors->getSize() - K; ++i)
+    delete[] reverseFalseMetadata[i];
+  delete[] reverseFalseMetadata;
 
   return sets;
 }
@@ -505,33 +540,19 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
     c = 0;
 
-    // TODO: delete the sets struct
-
     for (int v = 0; v < N; v++) {
       // vAll = Bbar[v] = B[v] ⋃ R[v]
       Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
-      int neighborsNum = vAll->getSize();
 
       struct sets sets = getSets(vAll, K, rho);
 
-      for (int U1 = 0; U1 < neighborsNum; U1++) {
-        Neighbor* neighbor1 = (Neighbor*)vAll->getAt(U1);
+      Vector* new_v = sets.new_v;
+      Vector* old_v = sets.old_v;
 
-        // the direct neighbors are in the first K cells of vAll, the rest are
-        // reverse.
-        int direct = U1 < K ? 1 : 0;
-        GraphVertex* u1 = getOther(neighbor1, direct);
-
-        if (!neighbor1->getFlag())
-          continue;
-
-        for (int U2 = U1 + 1; U2 < neighborsNum; U2++) {
-          Neighbor* neighbor2 = (Neighbor*)vAll->getAt(U2);
-
-          // the direct neighbors are in the first K cells of vAll, the rest
-          // are reverse.
-          int direct2 = U2 < K ? 1 : 0;
-          GraphVertex* u2 = getOther(neighbor2, direct2);
+      for (int U1 = 0; U1 < new_v->getSize(); U1++) {
+        for (int U2 = U1 + 1; U2 < new_v->getSize(); U2++) {
+          GraphVertex* u1 = (GraphVertex*)new_v->getAt(U1);
+          GraphVertex* u2 = (GraphVertex*)new_v->getAt(U2);
 
           dist = distance(u1->getData(), u2->getData());
 
@@ -541,11 +562,26 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
           if (graph->isNeighbor(u2->getData(), u1->getData()) == false)
             c += updateNN(graph, u2, u1, dist, distance);
         }
+      }
 
-        neighbor1->setFalse();
+      for (int U1 = 0; U1 < new_v->getSize(); U1++) {
+        for (int U2 = 0; U2 < old_v->getSize(); U2++) {
+          GraphVertex* u1 = (GraphVertex*)new_v->getAt(U1);
+          GraphVertex* u2 = (GraphVertex*)old_v->getAt(U2);
+
+          dist = distance(u1->getData(), u2->getData());
+
+          if (graph->isNeighbor(u1->getData(), u2->getData()) == false)
+            c += updateNN(graph, u1, u2, dist, distance);
+
+          if (graph->isNeighbor(u2->getData(), u1->getData()) == false)
+            c += updateNN(graph, u2, u1, dist, distance);
+        }
       }
 
       delete vAll;
+      delete new_v;
+      delete old_v;
     }
 
     std::cout << "Number of changes in the graph (c) = " << c << "\n";
