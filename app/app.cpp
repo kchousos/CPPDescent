@@ -17,6 +17,11 @@ int main(int argc, char* argv[]) {
   float delta = atof(argv[5]);
   float rho = atof(argv[6]);
 
+  if (rho <= 0 || rho > 1) {
+    std::cout << "rho must be in (0,1]. Please try again.\n";
+    return -1;
+  }
+
   if (metric > 2 || metric < 1)
     return -1;
 
