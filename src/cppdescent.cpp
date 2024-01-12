@@ -383,6 +383,107 @@ GraphVertex* getOther(Neighbor* neighbor, int direct) {
   return other;
 }
 
+struct sets {
+  Vector* new_v;
+  Vector* old_v;
+};
+
+/**
+ * @brief Get the Sets object
+ *
+ * Returns a `sets` struct containing a vector pointer to the new[v] set and
+ * another to the old[v] set.
+ *
+ * The first contains rho*K of direct neighbors with
+ * their flag equal to true and rho*K reverse neighbors with true. In other
+ * words, it contains 2*rho*K neighbors with flag = true.
+ *
+ * The second contains all of the direct neighbors with flag = false, which in
+ * the worst case will be K, and rho*K of the reverse neighbors with flag =
+ * false. In other words, K + rho*K neighbors with flag = false.
+ *
+ * @param neighbors
+ * @param K
+ * @param rho
+ * @return struct sets
+ */
+struct sets getSets(Vector* neighbors, int K, float rho) {
+  int trueMetadata[neighbors->getSize()][2];
+  int falseMetadata[neighbors->getSize() - K][2];
+
+  for (int i = 0; i < neighbors->getSize(); i++) {
+    // positions of true
+    trueMetadata[i][0] = -1;
+    // has been added?
+    trueMetadata[i][1] = 0;
+  }
+
+  for (int i = 0; i < neighbors->getSize() - K; i++) {
+    // positions of false
+    falseMetadata[i][0] = -1;
+    // has been added?
+    falseMetadata[i][1] = 0;
+  }
+
+  struct sets sets;
+  // rhoK of direct true and rhoK of reverse true
+  sets.new_v = new Vector(0, nullptr);
+  // K of direct false and rhoK of reverse false
+  sets.old_v = new Vector(0, nullptr);
+
+  int trues = 0;
+  int falses = 0;
+
+  for (int i = 0; i < neighbors->getSize(); i++) {
+    Neighbor* neighbor = (Neighbor*)neighbors->getAt(i);
+
+    // neighbor has flag = true
+    if (neighbor->getFlag()) {
+      // in the `trues` array add this neighbor's position
+      trueMetadata[trues][0] = i;
+      trues++;
+      neighbor->setFalse();
+    } else if (i < K) {
+      // neighbor has flag = false and is direct
+      sets.old_v->insertLast(neighbor);
+    } else {
+      // neighbor has flag = false and is reverse, so needs sampling
+      falseMetadata[falses][0] = i;
+      falses++;
+    }
+  }
+
+  // new[v] sampling
+  for (int i = 0; i < 2 * rho * K; i++) {
+    int selected = rand() % trues;
+
+    // if it already has been selected, choose another
+    while (trueMetadata[selected][1])
+      selected = rand() % trues;
+
+    // has now been selected, do not select again
+    trueMetadata[selected][1] = 1;
+
+    sets.new_v->insertLast(neighbors->getAt(trueMetadata[selected][0]));
+  }
+
+  // old[v] sampling
+  for (int i = 0; i < rho * K; i++) {
+    int selected = rand() % falses;
+
+    // if it already has been selected, choose another
+    while (falseMetadata[selected][1])
+      selected = rand() % falses;
+
+    // has now been selected, do not select again
+    falseMetadata[selected][1] = 1;
+
+    sets.old_v->insertLast(neighbors->getAt(falseMetadata[selected][0]));
+  }
+
+  return sets;
+}
+
 Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       int K,
                                       float delta,
@@ -404,10 +505,14 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
     c = 0;
 
+    // TODO: delete the sets struct
+
     for (int v = 0; v < N; v++) {
       // vAll = Bbar[v] = B[v] ⋃ R[v]
       Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
       int neighborsNum = vAll->getSize();
+
+      struct sets sets = getSets(vAll, K, rho);
 
       for (int U1 = 0; U1 < neighborsNum; U1++) {
         Neighbor* neighbor1 = (Neighbor*)vAll->getAt(U1);
@@ -417,11 +522,11 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
         int direct = U1 < K ? 1 : 0;
         GraphVertex* u1 = getOther(neighbor1, direct);
 
+        if (!neighbor1->getFlag())
+          continue;
+
         for (int U2 = U1 + 1; U2 < neighborsNum; U2++) {
           Neighbor* neighbor2 = (Neighbor*)vAll->getAt(U2);
-
-          if (!neighbor1->getFlag())
-            continue;
 
           // the direct neighbors are in the first K cells of vAll, the rest
           // are reverse.
