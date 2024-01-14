@@ -213,12 +213,10 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
   Neighbor* neighbor = new Neighbor(neighborPair);
 
   if (gvertex1->getNeighbors()->find(neighbor,
-                                     (CompareFunc)compareNeighborsBin) == -1 &&
+                                     (CompareFunc)compareNeighborsBin) != -1 &&
       gvertex2->getReverse()->find(neighbor,
-                                   (CompareFunc)compareNeighborsBin) == -1) {
+                                   (CompareFunc)compareNeighborsBin) != -1)
     alreadyMember = true;
-    std::cout << "already member\n";
-  }
 
   // if (this->map->find(pair) != nullptr)
   //   alreadyMember = true;  // LCOV_EXCL_LINE

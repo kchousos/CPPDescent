@@ -38,12 +38,12 @@ int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
   GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
   GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
 
-  float first = pair1->getOwner()->getWeight(
-      ((GraphVertex*)pair1->getVertex1())->getData(),
-      ((GraphVertex*)pair1->getVertex2())->getData());
-  float second = pair2->getOwner()->getWeight(
-      ((GraphVertex*)pair2->getVertex1())->getData(),
-      ((GraphVertex*)pair2->getVertex2())->getData());
+  float first =
+      euclideanDistance(((GraphVertex*)pair1->getVertex1())->getData(),
+                        ((GraphVertex*)pair1->getVertex2())->getData());
+  float second =
+      euclideanDistance(((GraphVertex*)pair2->getVertex1())->getData(),
+                        ((GraphVertex*)pair2->getVertex2())->getData());
 
   float result = first - second;
 
@@ -198,8 +198,8 @@ float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
     Vector* nnAdjacent = nnGraph->getAdjacentV(nnVertices->getAt(node));
 
     for (int adjacent = 0; adjacent < nnAdjacent->getSize(); adjacent++)
-      if (nnAdjacent->find(bfNodeAdjacent->getAt(adjacent),
-                           cppdescent::compareNeighbors))
+      if (bfNodeAdjacent->find(nnAdjacent->getAt(adjacent),
+                               cppdescent::compareNeighbors) != nullptr)
         trueNeighbors++;
 
     recall += (float)trueNeighbors / (float)K;
@@ -523,6 +523,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       float rho,
                                       DistanceFunc distance) {
   // B[v] <- Sample(V, K) for all v in V
+  std::cout << "Computing starting graph...\n";
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
   std::cout << "Starting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we
@@ -533,16 +534,24 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   int iterations = 0;
   float dist;
 
+  struct sets* allSets = new struct sets[N];
+
   do {
     iterations++;
 
     c = 0;
 
     for (int v = 0; v < N; v++) {
+      Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
+
+      allSets[v] = getSets(vAll, K, rho);
+    }
+
+    for (int v = 0; v < N; v++) {
       // vAll = Bbar[v] = B[v] ⋃ R[v]
       Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
 
-      struct sets sets = getSets(vAll, K, rho);
+      struct sets sets = allSets[v];
 
       Vector* new_v = sets.new_v;
       Vector* old_v = sets.old_v;
@@ -582,6 +591,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
     std::cout << "Number of changes in the graph (c) = " << c << "\n";
   } while (c >= delta * N * K);
+
+  delete[] allSets;
 
   std::cout << "NN-Descent iterations: " << iterations << "\n";
 
