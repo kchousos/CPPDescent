@@ -52,10 +52,8 @@ Vector* readBinData(const char* fp, int dimensions);
  *
  * 2. N * 100 floats: each vertex of 100 dimensions
  *
- * 3. N * K * 2 int: pairs of ints that describe the edges between the
- * vertices. Each int represents the index of the vertex in the order above.
- * This will be handy when we reconstruct the graph using the getAt() function
- * of the vector.
+ * 3. N * K * 1 int: For each vertex sequentially, the positions of its K
+ * neighbors.
  *
  * @param fp The filepath to the created file.
  * @param K
@@ -69,10 +67,9 @@ void writeBinGraph(const char* fp, Graph* graph, int K);
  *
  * @param fp The filepath.
  * @param dimensions The dimensions of the datapoints.
- * @param distance A function to compute the distance between the vertices.
  * @return Graph*
  */
-Graph* readBinGraph(const char* fp, int dimensions, DistanceFunc distance);
+Graph* readBinGraph(const char* fp, int dimensions);
 
 // ============================ Helper Functions =============================
 /**
@@ -137,14 +134,9 @@ int compareEdgesManhattan(Pointer first, Pointer second);
  * @param data A pointer to the parent N-sized vector.
  * @param K The number of Nearest Neigbors to find.
  * @param compare The function to use to compare the distances.
- * @param distance The function that computes the distance between two points
- * (vectors).
  * @return Graph* A pointer to the optimal K-NN graph.
  */
-Graph* KNNBruteForceGraph(Vector* data,
-                          int K,
-                          CompareFunc compare,
-                          DistanceFunc distance);
+Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare);
 /**
  * @brief Computes the K-NN graph for the given dataset using the NN-Descent
  * algorithm.

@@ -81,11 +81,11 @@ int main(int argc, char* argv[]) {
   std::cout << "Computing recall...\n";
 
   // Read the graph files.
-  bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions, distance);
+  bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions);
 
   if (bfGraph == nullptr) {
     std::cout << "No pre-computed brute force graph. Computing now...\n";
-    bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare, distance);
+    bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare);
     std::cout << "Saving...\n";
     cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
   }

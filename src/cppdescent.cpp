@@ -55,6 +55,36 @@ int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
     return 0;
 }
 
+int compareNeighborsBin2(Pointer neighbor1, Pointer neighbor2) {
+  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
+  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
+
+  int first = pair1->getOwner()->getCompareData()(
+      ((GraphVertex*)pair1->getVertex1())->getData(),
+      ((GraphVertex*)pair2->getVertex1())->getData());
+  if (first)
+    return first;
+
+  int second = pair1->getOwner()->getCompareData()(
+      ((GraphVertex*)pair1->getVertex2())->getData(),
+      ((GraphVertex*)pair2->getVertex2())->getData());
+  if (second)
+    return second;
+
+  return 0;
+}
+
+GraphVertex* getOther(Neighbor* neighbor, int direct) {
+  GraphVertex* other;
+
+  if (direct)
+    other = (GraphVertex*)((GraphVertexPair*)neighbor->getPair())->getVertex2();
+  else
+    other = (GraphVertex*)((GraphVertexPair*)neighbor->getPair())->getVertex1();
+
+  return other;
+}
+
 //===================================
 // CPPDescent functions.
 //===================================
@@ -108,26 +138,18 @@ void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
       fwrite((float*)vertex->getAt(j), sizeof(float), 1, file);
   }
 
-  Map* map = graph->getMap();
-
   // edges
-  for (MapNode* node = map->getFirst(); node != MAP_EOF;
-       node = map->getNext(node)) {
-    GraphVertexPair* pair = (GraphVertexPair*)node->getKey();
-
-    Pointer vertex1 = pair->getVertex1();
-    Pointer vertex2 = pair->getVertex2();
-
-    GraphVertex* gvertex1 = new GraphVertex(vertex1, graph);
-    GraphVertex* gvertex2 = new GraphVertex(vertex2, graph);
-    int pos1 = vec->findPos(gvertex1, compareGraphVertices);
-    int pos2 = vec->findPos(gvertex2, compareGraphVertices);
-
-    delete gvertex1;
-    delete gvertex2;
-
-    fwrite(&pos1, sizeof(int), 1, file);
-    fwrite(&pos2, sizeof(int), 1, file);
+  for (int i = 0; i < (int)N; i++) {
+    GraphVertex* gvertex = (GraphVertex*)vec->getAt(i);
+    // neighbors
+    Vector* neighbors = gvertex->getNeighbors()->toVector();
+    for (int k = 0; k < K; k++) {
+      // get the kth neigbor from the vector
+      GraphVertex* neighbor = getOther(((Neighbor*)neighbors->getAt(k)), 1);
+      // find its position in the graph's vector
+      int pos = vec->findPos(neighbor, compareGraphVertices);
+      fwrite(&pos, sizeof(int), 1, file);
+    }
   }
 
   fclose(file);
@@ -137,16 +159,13 @@ void deleteVectors(Pointer vec) {
   delete (Vector*)vec;
 }
 
-Graph* cppdescent::readBinGraph(const char* fp,
-                                int dimensions,
-                                DistanceFunc distance) {
+Graph* cppdescent::readBinGraph(const char* fp, int dimensions) {
   FILE* file = fopen(fp, "r");
   if (file == nullptr)
     return nullptr;  // LCOV_EXCL_LINE
 
   Graph* graph =
       new Graph((CompareFunc)compareVertices, nullptr, deleteVectors);
-  graph->setHashFunction((HashFunc)hashEdge);
 
   uint32_t N;
   int K;
@@ -167,18 +186,14 @@ Graph* cppdescent::readBinGraph(const char* fp,
     graph->insertVertex(vertex);
   }
 
-  // read the edges
-  int pos1, pos2;
-
-  for (int i = 0; i < (int)N * K; i++) {
-    fread(&pos1, sizeof(int), 1, file);
-    fread(&pos2, sizeof(int), 1, file);
-
-    GraphVertex* gvertex1 = (GraphVertex*)graph->getVec()->getAt(pos1);
-    GraphVertex* gvertex2 = (GraphVertex*)graph->getVec()->getAt(pos2);
-    Pointer vertex1 = gvertex1->getData();
-    Pointer vertex2 = gvertex2->getData();
-    graph->insertEdge(vertex1, vertex2, distance(vertex1, vertex2));
+  for (int i = 0; i < (int)N; i++) {
+    GraphVertex* v1 = (GraphVertex*)graph->getVec()->getAt(i);
+    int pos;
+    for (int k = 0; k < K; k++) {
+      fread(&pos, sizeof(int), 1, file);
+      GraphVertex* v2 = (GraphVertex*)graph->getVec()->getAt(pos);
+      graph->insertEdge(v1->getData(), v2->getData());
+    }
   }
 
   fclose(file);
@@ -199,7 +214,7 @@ float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
 
     for (int adjacent = 0; adjacent < nnAdjacent->getSize(); adjacent++)
       if (bfNodeAdjacent->find(nnAdjacent->getAt(adjacent),
-                               cppdescent::compareNeighbors) != nullptr)
+                               compareNeighborsBin2) != nullptr)
         trueNeighbors++;
 
     recall += (float)trueNeighbors / (float)K;
@@ -250,10 +265,8 @@ int cppdescent::compareVertices(Pointer first, Pointer second) {
 
 Graph* cppdescent::KNNBruteForceGraph(Vector* data,
                                       int K,
-                                      CompareFunc compare,
-                                      DistanceFunc distance) {
+                                      CompareFunc compare) {
   Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
-  graph->setHashFunction((HashFunc)hashEdge);
 
   // Insert all points as vertices.
   int N = data->getSize();
@@ -288,7 +301,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
       neighbors->removeMax();
       Pointer vec = ((GraphVertexPair*)neighbor)->getVertex2();
       delete neighbor;
-      graph->insertEdge(a, vec, distance(a, vec));
+      graph->insertEdge(a, vec);
     }
 
     delete neighbors;
@@ -308,12 +321,8 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
  * @param distance
  * @return Graph* The created graph.
  */
-Graph* sampleGraph(Vector* data,
-                   int K,
-                   CompareFunc compare,
-                   DistanceFunc distance) {
+Graph* sampleGraph(Vector* data, int K, CompareFunc compare) {
   Graph* graph = new Graph((CompareFunc)compare, nullptr);
-  graph->setHashFunction((HashFunc)hashEdge);
 
   int N = data->getSize();
 
@@ -340,8 +349,7 @@ Graph* sampleGraph(Vector* data,
         randPos = rand() % N;
         v2 = (Pointer)data->getAt(randPos);
       }
-      // float weight = distance(v1, v2);
-      graph->insertEdge(v1, v2, 1);
+      graph->insertEdge(v1, v2);
     }
   }
 
@@ -363,22 +371,11 @@ int updateNN(Graph* graph,
     graph->removeEdge(((GraphVertex*)u1)->getData(),
                       ((GraphVertex*)max)->getData());
     graph->insertEdge(((GraphVertex*)u1)->getData(),
-                      ((GraphVertex*)u2)->getData(), dist);
+                      ((GraphVertex*)u2)->getData());
     return 1;
   }
 
   return 0;
-}
-
-GraphVertex* getOther(Neighbor* neighbor, int direct) {
-  GraphVertex* other;
-
-  if (direct)
-    other = (GraphVertex*)((GraphVertexPair*)neighbor->getPair())->getVertex2();
-  else
-    other = (GraphVertex*)((GraphVertexPair*)neighbor->getPair())->getVertex1();
-
-  return other;
 }
 
 struct sets {
@@ -524,7 +521,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       DistanceFunc distance) {
   // B[v] <- Sample(V, K) for all v in V
   std::cout << "Computing starting graph...\n";
-  Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices, distance);
+  Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices);
   std::cout << "Starting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
@@ -600,67 +597,68 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 }
 
 // LCOV_EXCL_START
-PQueue* cppdescent::NNDescent_Query(Graph* graph,
-                                    int K,
-                                    CompareFunc compare,
-                                    Vector* query) {
-  List* vertices = graph->getVertices();
+// PQueue* cppdescent::NNDescent_Query(Graph* graph,
+//                                     int K,
+//                                     CompareFunc compare,
+//                                     Vector* query) {
+//   List* vertices = graph->getVertices();
 
-  srand(time(0));
+//   srand(time(0));
 
-  int dimensions =
-      ((Vector*)((GraphVertex*)((Vector*)graph->getVec()->first()->getValue()))
-           ->getData())
-          ->getSize();
-  if (query->getSize() != dimensions)
-    return nullptr;
+//   int dimensions =
+//       ((Vector*)((GraphVertex*)((Vector*)graph->getVec()->first()->getValue()))
+//            ->getData())
+//           ->getSize();
+//   if (query->getSize() != dimensions)
+//     return nullptr;
 
-  // get random candidate from graph
-  int pos = rand() % vertices->getSize();
-  Pointer candidate = ((GraphVertex*)graph->getVec()->getAt(pos))->getData();
+//   // get random candidate from graph
+//   int pos = rand() % vertices->getSize();
+//   Pointer candidate = ((GraphVertex*)graph->getVec()->getAt(pos))->getData();
 
-  PQueue* knn = new PQueue(compare, (DestroyFunc)destroyEdges, nullptr);
+//   PQueue* knn = new PQueue(compare, (DestroyFunc)destroyEdges, nullptr);
 
-  List* candidates;
-  bool candidatesRemain = true;
+//   List* candidates;
+//   bool candidatesRemain = true;
 
-  GraphVertex* queryVertex = new GraphVertex(query, graph);
+//   GraphVertex* queryVertex = new GraphVertex(query, graph);
 
-  while (candidatesRemain) {
-    candidatesRemain = false;
+//   while (candidatesRemain) {
+//     candidatesRemain = false;
 
-    // get candidate's neighbors
-    candidates = graph->getGeneralNeighborsVertices(candidate);
+//     // get candidate's neighbors
+//     candidates = graph->getGeneralNeighborsVertices(candidate);
 
-    // add best candidate's neighbors to the queue
-    for (ListNode* node = candidates->getHead(); node != nullptr;
-         node = node->getNext())
-      if (!((GraphVertex*)node->getValue())->checked()) {
-        ((GraphVertex*)node->getValue())->check();
+//     // add best candidate's neighbors to the queue
+//     for (ListNode* node = candidates->getHead(); node != nullptr;
+//          node = node->getNext())
+//       if (!((GraphVertex*)node->getValue())->checked()) {
+//         ((GraphVertex*)node->getValue())->check();
 
-        candidatesRemain = true;
+//         candidatesRemain = true;
 
-        GraphVertexPair* pair =
-            new GraphVertexPair(graph, queryVertex, node->getValue());
+//         GraphVertexPair* pair =
+//             new GraphVertexPair(graph, queryVertex, node->getValue());
 
-        knn->insert(pair);
-      }
+//         knn->insert(pair);
+//       }
 
-    // truncuate queue to K
-    while (knn->getSize() > K)
-      knn->removeMax();
+//     // truncuate queue to K
+//     while (knn->getSize() > K)
+//       knn->removeMax();
 
-    // get new best candidate
-    candidate = ((GraphVertex*)((GraphVertexPair*)knn->getMin())->getVertex2())
-                    ->getData();
+//     // get new best candidate
+//     candidate =
+//     ((GraphVertex*)((GraphVertexPair*)knn->getMin())->getVertex2())
+//                     ->getData();
 
-    delete candidates;
-  }
+//     delete candidates;
+//   }
 
-  delete vertices;
-  delete queryVertex;
-  return knn;
-}
+//   delete vertices;
+//   delete queryVertex;
+//   return knn;
+// }
 // LCOV_EXCL_STOP
 
 // ============================ Metric Functions =============================

@@ -19,13 +19,11 @@
 class Graph {
  private:
   Vector* vec;
-  Map* map;
   int size;
   CompareFunc compare_vertices;
   CompareFunc compare_data;
   DestroyFunc destroy;
   DestroyFunc destroy_data;
-  HashFunc hash;
 
  public:
   Graph(CompareFunc compare,
@@ -37,7 +35,7 @@ class Graph {
   Vector* getVerticesV();
   List* getVertices();
   void removeVertex(Pointer vertex);
-  void insertEdge(Pointer vertex1, Pointer vertex2, float weight);
+  void insertEdge(Pointer vertex1, Pointer vertex2);
   void removeEdge(Pointer vertex1, Pointer vertex2);
   float getWeight(Pointer vertex1, Pointer vertex2);
   Vector* getAdjacentV(Pointer vertex);
@@ -59,9 +57,7 @@ class Graph {
   CompareFunc getCompareVertices() { return this->compare_vertices; };
   DestroyFunc getDestroy() { return this->destroy; };
   DestroyFunc getDestroyData() { return this->destroy_data; };
-  HashFunc getHash() { return this->hash; };
   Vector* getVec() { return this->vec; };
-  Map* getMap() { return this->map; };
 };
 
 class GraphVertex {
