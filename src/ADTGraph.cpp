@@ -52,13 +52,6 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
       ((GraphVertex*)pair2->getVertex1())->getData(),
       ((GraphVertex*)pair2->getVertex2())->getData());
 
-  // float first = pair1->getOwner()->getWeight(
-  //     ((GraphVertex*)pair1->getVertex1())->getData(),
-  //     ((GraphVertex*)pair1->getVertex2())->getData());
-  // float second = pair2->getOwner()->getWeight(
-  //     ((GraphVertex*)pair2->getVertex1())->getData(),
-  //     ((GraphVertex*)pair2->getVertex2())->getData());
-
   float result = first - second;
 
   if (result < 0)
@@ -304,9 +297,7 @@ bool Graph::isNeighbor(Pointer v1, Pointer v2) {
   Neighbor* neighbor = new Neighbor(neighborPair);
 
   if (gvertex1->getNeighbors()->find(neighbor,
-                                     (CompareFunc)compareNeighborsBin) != -1 ||
-      gvertex2->getReverse()->find(neighbor,
-                                   (CompareFunc)compareNeighborsBin) != -1)
+                                     (CompareFunc)compareNeighborsBin) != -1)
     alreadyMember = true;
 
   delete neighborPair;
@@ -317,12 +308,33 @@ bool Graph::isNeighbor(Pointer v1, Pointer v2) {
   return alreadyMember;
 }
 
+bool Graph::isNeighborVertex(Pointer v1, Pointer v2) {
+  GraphVertex* gvertex1 = (GraphVertex*)v1;
+  GraphVertex* gvertex2 = (GraphVertex*)v2;
+
+  bool alreadyMember = false;
+
+  GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
+  Neighbor* neighbor = new Neighbor(neighborPair);
+
+  if (gvertex1->getNeighbors()->find(neighbor,
+                                     (CompareFunc)compareNeighborsBin) != -1)
+    alreadyMember = true;
+
+  delete neighborPair;
+  delete neighbor;
+
+  return alreadyMember;
+}
+
 Graph::~Graph() {
   delete this->vec;
 }
 
 // TODO
-void destroyNeighbor(Pointer neighbor) {}
+void destroyNeighbor(Pointer neighbor) {
+  // delete (Neighbor*)neighbor;
+}
 
 GraphVertex::GraphVertex(Pointer data, Graph* owner)
     : data(data), owner(owner), hasBeenChecked(false) {

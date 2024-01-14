@@ -542,6 +542,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
 
       allSets[v] = getSets(vAll, K, rho);
+
+      delete vAll;
     }
 
     for (int v = 0; v < N; v++) {
@@ -560,10 +562,10 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1->getData(), u2->getData());
 
-          if (graph->isNeighbor(u1->getData(), u2->getData()) == false)
+          if (graph->isNeighborVertex(u1, u2) == false)
             c += updateNN(graph, u1, u2, dist, distance);
 
-          if (graph->isNeighbor(u2->getData(), u1->getData()) == false)
+          if (graph->isNeighborVertex(u2, u1) == false)
             c += updateNN(graph, u2, u1, dist, distance);
         }
 
@@ -573,10 +575,10 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1->getData(), u2->getData());
 
-          if (graph->isNeighbor(u1->getData(), u2->getData()) == false)
+          if (graph->isNeighborVertex(u1, u2) == false)
             c += updateNN(graph, u1, u2, dist, distance);
 
-          if (graph->isNeighbor(u2->getData(), u1->getData()) == false)
+          if (graph->isNeighborVertex(u2, u1) == false)
             c += updateNN(graph, u2, u1, dist, distance);
         }
       }
