@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
       std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
   std::cout << "NN-Descent K-NN Graph created in " << duration.count()
-            << " milliseconds for δ = " << delta << "\n";
+            << " milliseconds for δ = " << delta << ", ρ = " << rho << "\n";
 
   std::cout << "Computing recall...\n";
 

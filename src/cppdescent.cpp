@@ -191,18 +191,16 @@ float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
 
   float recall = 0;
 
-  for (int bfNode = 0, nnNode = 0; bfNode < bfVertices->getSize();
-       bfNode++, nnNode++) {
+  for (int node = 0; node < bfVertices->getSize(); node++) {
     int trueNeighbors = 0;
-    Vector* bfNodeAdjacent = bfGraph->getAdjacentV(bfVertices->getAt(bfNode));
+    Vector* bfNodeAdjacent = bfGraph->getAdjacentV(bfVertices->getAt(node));
 
-    for (int adjacent = 0; adjacent < bfNodeAdjacent->getSize(); adjacent++) {
-      Vector* nnAdjacent = nnGraph->getAdjacentV(nnVertices->getAt(nnNode));
+    Vector* nnAdjacent = nnGraph->getAdjacentV(nnVertices->getAt(node));
 
+    for (int adjacent = 0; adjacent < nnAdjacent->getSize(); adjacent++)
       if (nnAdjacent->find(bfNodeAdjacent->getAt(adjacent),
                            cppdescent::compareNeighbors))
         trueNeighbors++;
-    }
 
     recall += (float)trueNeighbors / (float)K;
   }

@@ -213,10 +213,12 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
   Neighbor* neighbor = new Neighbor(neighborPair);
 
   if (gvertex1->getNeighbors()->find(neighbor,
-                                     (CompareFunc)compareNeighborsBin) != -1 ||
+                                     (CompareFunc)compareNeighborsBin) == -1 &&
       gvertex2->getReverse()->find(neighbor,
-                                   (CompareFunc)compareNeighborsBin) != -1)
+                                   (CompareFunc)compareNeighborsBin) == -1) {
     alreadyMember = true;
+    std::cout << "already member\n";
+  }
 
   // if (this->map->find(pair) != nullptr)
   //   alreadyMember = true;  // LCOV_EXCL_LINE
@@ -496,13 +498,31 @@ PQueue* Graph::getGeneralNeighborsPQ(Pointer vertex) {
 }
 
 bool Graph::isNeighbor(Pointer v1, Pointer v2) {
-  GraphVertexPair* pair = new GraphVertexPair(this, v1, v2);
-  Pointer p = this->map->find(pair);
-  delete pair;
+  GraphVertex* vertex1 = new GraphVertex(v1, this);
+  GraphVertex* vertex2 = new GraphVertex(v2, this);
 
-  if (p != nullptr)
-    return true;
-  return false;
+  GraphVertex* gvertex1 =
+      (GraphVertex*)this->vec->find(vertex1, this->compare_vertices);
+  GraphVertex* gvertex2 =
+      (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
+
+  bool alreadyMember = false;
+
+  GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
+  Neighbor* neighbor = new Neighbor(neighborPair);
+
+  if (gvertex1->getNeighbors()->find(neighbor,
+                                     (CompareFunc)compareNeighborsBin) != -1 ||
+      gvertex2->getReverse()->find(neighbor,
+                                   (CompareFunc)compareNeighborsBin) != -1)
+    alreadyMember = true;
+
+  delete neighborPair;
+  delete neighbor;
+  delete vertex1;
+  delete vertex2;
+
+  return alreadyMember;
 }
 
 Graph::~Graph() {
