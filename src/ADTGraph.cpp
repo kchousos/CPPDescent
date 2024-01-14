@@ -12,6 +12,7 @@
 #include "cppdescent/ADTGraph.hpp"
 #include <climits>
 #include <iostream>
+#include "cppdescent/cppdescent.hpp"
 
 float* createFloat(float value) {
   float* p = new float;
@@ -44,12 +45,19 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
   GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
   GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
 
-  float first = pair1->getOwner()->getWeight(
+  float first = cppdescent::euclideanDistance(
       ((GraphVertex*)pair1->getVertex1())->getData(),
       ((GraphVertex*)pair1->getVertex2())->getData());
-  float second = pair2->getOwner()->getWeight(
+  float second = cppdescent::euclideanDistance(
       ((GraphVertex*)pair2->getVertex1())->getData(),
       ((GraphVertex*)pair2->getVertex2())->getData());
+
+  // float first = pair1->getOwner()->getWeight(
+  //     ((GraphVertex*)pair1->getVertex1())->getData(),
+  //     ((GraphVertex*)pair1->getVertex2())->getData());
+  // float second = pair2->getOwner()->getWeight(
+  //     ((GraphVertex*)pair2->getVertex1())->getData(),
+  //     ((GraphVertex*)pair2->getVertex2())->getData());
 
   float result = first - second;
 
@@ -200,14 +208,20 @@ void Graph::insertEdge(Pointer data1, Pointer data2, float weight = 1) {
 
   bool alreadyMember = false;
 
-  GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
+  // GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
   GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
   Neighbor* neighbor = new Neighbor(neighborPair);
 
-  if (this->map->find(pair) != nullptr)
-    alreadyMember = true;  // LCOV_EXCL_LINE
+  if (gvertex1->getNeighbors()->find(neighbor,
+                                     (CompareFunc)compareNeighborsBin) != -1 ||
+      gvertex2->getReverse()->find(neighbor,
+                                   (CompareFunc)compareNeighborsBin) != -1)
+    alreadyMember = true;
 
-  this->map->insert(pair, createFloat(weight));
+  // if (this->map->find(pair) != nullptr)
+  //   alreadyMember = true;  // LCOV_EXCL_LINE
+
+  // this->map->insert(pair, createFloat(weight));
 
   if (alreadyMember == false) {
     gvertex1->addNeighbor(neighbor);
@@ -233,12 +247,12 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
   gvertex1->removeNeighbor(neighbor, (CompareFunc)compareNeighborsBin);
   gvertex2->removeReverse(neighbor, (CompareFunc)compareNeighborsBin);
 
-  GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
-  this->map->remove(pair);
+  // GraphVertexPair* pair = new GraphVertexPair(this, data1, data2);
+  // this->map->remove(pair);
 
   delete neighborPair;
   delete neighbor;
-  delete pair;
+  // delete pair;
   delete vertex1;
   delete vertex2;
 }
@@ -496,20 +510,18 @@ Graph::~Graph() {
   delete this->map;
 }
 
-// // TODO
-// Map* Graph::shortestPathLengths() {
-//   return nullptr;
-// }
-
 void Graph::setHashFunction(HashFunc hash) {
   this->hash = hash;
   this->map->setHashFunction(this->hash);
 }
 
+// TODO
+void destroyNeighbor(Pointer neighbor) {}
+
 GraphVertex::GraphVertex(Pointer data, Graph* owner)
     : data(data), owner(owner), hasBeenChecked(false) {
-  neighbors = new PQueue(compareNeighbors, nullptr, nullptr);
-  reverse = new PQueue(compareNeighbors, nullptr, nullptr);
+  neighbors = new PQueue(compareNeighbors, destroyNeighbor, nullptr);
+  reverse = new PQueue(compareNeighbors, destroyNeighbor, nullptr);
 }
 
 GraphVertex::~GraphVertex() {

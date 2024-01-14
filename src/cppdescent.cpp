@@ -342,8 +342,8 @@ Graph* sampleGraph(Vector* data,
         randPos = rand() % N;
         v2 = (Pointer)data->getAt(randPos);
       }
-      float weight = distance(v1, v2);
-      graph->insertEdge(v1, v2, weight);
+      // float weight = distance(v1, v2);
+      graph->insertEdge(v1, v2, 1);
     }
   }
 
