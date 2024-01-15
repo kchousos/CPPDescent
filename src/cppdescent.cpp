@@ -327,7 +327,7 @@ Graph* sampleGraph(Vector* data, int K, CompareFunc compare) {
   // Iterate all of the vertices.
   for (int i = 0; i < N; i++) {
     // For each vertex, add K random neighbors.
-    Pointer v1 = data->getAt(i);
+    Pointer v1 = graph->getVec()->getAt(i);
     for (int j = 0; j < K; j++) {
       int randPos = rand() % N;  // The position of the neighbor.
 
@@ -336,10 +336,10 @@ Graph* sampleGraph(Vector* data, int K, CompareFunc compare) {
         randPos = rand() % N;
 
       // Get the two vertices and create an edge between them.
-      Pointer v2 = data->getAt(randPos);
+      Pointer v2 = graph->getVec()->getAt(randPos);
       while (graph->isNeighbor(v1, v2) == true) {
         randPos = rand() % N;
-        v2 = (Pointer)data->getAt(randPos);
+        v2 = (Pointer)graph->getVec()->getAt(randPos);
       }
       graph->insertEdge(v1, v2);
     }
