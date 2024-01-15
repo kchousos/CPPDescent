@@ -168,11 +168,11 @@ Graph* cppdescent::readBinGraph(const char* fp, int dimensions) {
   float datapoint;
   // read the vertices
   for (int i = 0; i < (int)N; i++) {
-    Vector* vertex = new Vector(dimensions, (DestroyFunc)deleteFloat);
+    gsl_vector* vertex = gsl_vector_alloc(dimensions);
 
     for (int j = 0; j < dimensions; j++) {
       fread(&datapoint, sizeof(float), 1, file);
-      vertex->setAt(j, createFloat(datapoint));
+      gsl_vector_set(vertex, j, datapoint);
     }
 
     graph->insertVertex(vertex);
@@ -184,7 +184,7 @@ Graph* cppdescent::readBinGraph(const char* fp, int dimensions) {
     for (int k = 0; k < K; k++) {
       fread(&pos, sizeof(int), 1, file);
       GraphVertex* v2 = (GraphVertex*)graph->getVec()->getAt(pos);
-      graph->insertEdge(v1->getData(), v2->getData());
+      graph->insertEdge(v1, v2);
     }
   }
 
