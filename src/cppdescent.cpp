@@ -258,7 +258,7 @@ int cppdescent::compareVertices(Pointer first, Pointer second) {
 Graph* cppdescent::KNNBruteForceGraph(Vector* data,
                                       int K,
                                       CompareFunc compare) {
-  Graph* graph = new Graph((CompareFunc)compareVertices, nullptr);
+  Graph* graph = new Graph((CompareFunc)gsl_vector_equal, nullptr);
 
   // Insert all points as vertices.
   int N = data->getSize();
@@ -520,7 +520,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       DistanceFunc distance) {
   std::cout << "Initializing starting graph...\n";
   // B[v] <- Sample(V, K) for all v in V
-  Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices);
+  Graph* graph = sampleGraph(data, K, (CompareFunc)gsl_vector_equal);
   std::cout << "Starting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
