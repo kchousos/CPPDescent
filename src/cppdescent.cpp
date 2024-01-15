@@ -9,6 +9,7 @@
  *
  */
 #include "cppdescent/cppdescent.hpp"
+#include <gsl/gsl_vector.h>
 #include <omp.h>
 #include <cmath>
 #include <cstdint>
@@ -91,11 +92,11 @@ Vector* cppdescent::readBinData(const char* fp, int dimensions) {
   float value;
 
   for (int i = 0; i < (int)N; i++) {
-    Vector* datapoints = new Vector(dimensions, deleteFloat);
+    gsl_vector* datapoints = gsl_vector_alloc(dimensions);
 
     for (int j = 0; j < dimensions; j++) {
       fread(&value, sizeof(float), 1, data);
-      datapoints->setAt(j, createFloat(value));
+      gsl_vector_set(datapoints, j, value);
     }
 
     elements->setAt(i, datapoints);
@@ -236,7 +237,7 @@ int cppdescent::deleteDatapointVectors(Vector* vec) {
     return -1;  // LCOV_EXCL_LINE
   int dimensions = vec->getSize();
   for (int i = 0; i < dimensions; i++) {
-    delete (Vector*)vec->getAt(i);
+    gsl_vector_free((gsl_vector*)vec->getAt(i));
   }
 
   delete vec;
