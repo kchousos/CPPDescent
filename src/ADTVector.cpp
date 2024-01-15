@@ -92,6 +92,35 @@ Pointer Vector::find(Pointer value, CompareFunc compare) {
   return nullptr;
 }
 
+Pointer Vector::binaryFind(Pointer value, CompareFunc compare) {
+  int l = 0;
+  int r = this->getSize() - 1;
+
+  for (int i = 0; i < this->size; i++)
+    if (compare(this->array[i].getValue(), value) == 0)
+      return this->array[i].getValue();
+
+  while (l <= r) {
+    int m = l + (r - l) / 2;
+    int comparison = compare(this->array[m].getValue(), value);
+
+    // Check if x is present at mid
+    if (comparison == 0)
+      return this->array[m].getValue();
+
+    // If x greater, ignore left half
+    if (comparison < 0)
+      l = m + 1;
+
+    // If x is smaller, ignore right half
+    else
+      r = m - 1;
+  }
+
+  // If we reach here, then element was not present
+  return nullptr;
+}
+
 int Vector::findPos(Pointer value, CompareFunc compare) {
   for (int i = 0; i < this->size; i++)
     if (compare(this->array[i].getValue(), value) == 0)

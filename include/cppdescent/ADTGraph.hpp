@@ -19,13 +19,11 @@
 class Graph {
  private:
   Vector* vec;
-  Map* map;
   int size;
   CompareFunc compare_vertices;
   CompareFunc compare_data;
   DestroyFunc destroy;
   DestroyFunc destroy_data;
-  HashFunc hash;
 
  public:
   Graph(CompareFunc compare,
@@ -34,11 +32,14 @@ class Graph {
   ~Graph();
   int getSize();
   void insertVertex(Pointer vertex);
+  Vector* getVerticesV();
   List* getVertices();
   void removeVertex(Pointer vertex);
-  void insertEdge(Pointer vertex1, Pointer vertex2, float weight);
+  void insertEdge(Pointer vertex1, Pointer vertex2);
   void removeEdge(Pointer vertex1, Pointer vertex2);
   float getWeight(Pointer vertex1, Pointer vertex2);
+  Vector* getAdjacentV(Pointer vertex);
+  Vector* getReverseAdjacentV(Pointer vertex);
   List* getAdjacent(Pointer vertex);
   List* getAdjacentVertices(Pointer vertex);
   PQueue* getAdjacentPQ(Pointer vertex);
@@ -46,18 +47,18 @@ class Graph {
   List* getReverseAdjacentVertices(Pointer vertex);
   PQueue* getReverseAdjacentPQ(Pointer vertex);
   List* getGeneralNeighbors(Pointer vertex);
+  Vector* getGeneralNeighborsV(Pointer vertex);
   List* getGeneralNeighborsVertices(Pointer vertex);
   PQueue* getGeneralNeighborsPQ(Pointer vertex);
   bool isNeighbor(Pointer v1, Pointer v2);
+  bool isNeighborVertex(Pointer v1, Pointer v2);
   // Map* shortestPathLengths();
   void setHashFunction(HashFunc hash);
   CompareFunc getCompareData() { return this->compare_data; };
   CompareFunc getCompareVertices() { return this->compare_vertices; };
   DestroyFunc getDestroy() { return this->destroy; };
   DestroyFunc getDestroyData() { return this->destroy_data; };
-  HashFunc getHash() { return this->hash; };
   Vector* getVec() { return this->vec; };
-  Map* getMap() { return this->map; };
 };
 
 class GraphVertex {
@@ -99,4 +100,16 @@ class GraphVertexPair {
   Pointer vertex1;
   Pointer vertex2;
   Graph* owner;
+};
+
+class Neighbor {
+ public:
+  Neighbor(GraphVertexPair* pair) : pair(pair), flag(1){};
+  void setFalse() { this->flag = 0; };
+  int getFlag() { return this->flag; };
+  GraphVertexPair* getPair() { return this->pair; };
+
+ private:
+  GraphVertexPair* pair;
+  int flag;
 };

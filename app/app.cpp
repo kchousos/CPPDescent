@@ -6,7 +6,7 @@
 #include "cppdescent/cppdescent.hpp"
 
 int main(int argc, char* argv[]) {
-  if (argc != 6) {
+  if (argc != 7) {
     std::cout << "Wrong number of arguments. Please try again.\n";
     return -1;
   }
@@ -15,6 +15,12 @@ int main(int argc, char* argv[]) {
   int dimensions = atoi(argv[3]);
   int metric = atoi(argv[4]);
   float delta = atof(argv[5]);
+  float rho = atof(argv[6]);
+
+  if (rho <= 0 || rho > 1) {
+    std::cout << "rho must be in (0,1]. Please try again.\n";
+    return -1;
+  }
 
   if (metric > 2 || metric < 1)
     return -1;
@@ -52,6 +58,7 @@ int main(int argc, char* argv[]) {
 
   std::cout << "For K = " << K << "\n";
   std::cout << "For δ = " << delta << "\n";
+  std::cout << "For ρ = " << rho << "\n";
   std::cout << "Dataset: " << argv[2] << "\n";
   std::cout << "Dimensions: " << dimensions << "\n";
   std::cout << "----------------------------------------------------------\n";
@@ -62,21 +69,23 @@ int main(int argc, char* argv[]) {
   auto start = std::chrono::high_resolution_clock::now();
 
   // NN-Descent
-  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, delta, distance);
+  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, delta, rho, distance);
 
   auto stop = std::chrono::high_resolution_clock::now();
   auto duration =
       std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
   std::cout << "NN-Descent K-NN Graph created in " << duration.count()
-            << " milliseconds for δ = " << delta << "\n";
+            << " milliseconds for δ = " << delta << ", ρ = " << rho << "\n";
+
+  std::cout << "Computing recall...\n";
 
   // Read the graph files.
-  bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions, distance);
+  bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions);
 
   if (bfGraph == nullptr) {
     std::cout << "No pre-computed brute force graph. Computing now...\n";
-    bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare, distance);
+    bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare);
     std::cout << "Saving...\n";
     cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
   }

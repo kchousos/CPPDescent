@@ -120,6 +120,14 @@ class Vector {
    */
   Pointer find(Pointer value, CompareFunc compare);
   /**
+   * @brief Find the element with value equal to value using binary search.
+   *
+   * @param value The value to look for.
+   * @param compare The function to be used for comparison.
+   * @return Pointer A pointer to the found value.
+   */
+  Pointer binaryFind(Pointer value, CompareFunc compare);
+  /**
    * @brief Find the first element with value equal to value and return its pos.
    *
    * @param value The value to look for.
