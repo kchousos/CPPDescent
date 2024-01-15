@@ -14,4 +14,4 @@ datasets/10000000.bin
 
 vgcore.*
 gmon.out
-callgrind.out
+callgrind*
