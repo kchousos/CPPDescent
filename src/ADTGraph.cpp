@@ -202,8 +202,6 @@ void Graph::insertEdge(Pointer data1, Pointer data2) {
   GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
   if (gvertex1->getNeighbors()->find(
-          pair, (CompareFunc)comparePointersOfNeighbors) != -1 &&
-      gvertex2->getReverse()->find(
           pair, (CompareFunc)comparePointersOfNeighbors) != -1) {
     alreadyMember = true;
     delete pair;
@@ -335,7 +333,7 @@ Graph::~Graph() {
 GraphVertex::GraphVertex(Pointer data, Graph* owner)
     : data(data), owner(owner), hasBeenChecked(false) {
   neighbors = new PQueue(compareNeighbors, nullptr, nullptr);
-  reverse = new PQueue(compareNeighbors, nullptr, nullptr);
+  reverse = new PQueue(compareNeighbors, (DestroyFunc)destroyEdgePair, nullptr);
 }
 
 GraphVertex::~GraphVertex() {
