@@ -91,25 +91,28 @@ class GraphVertex {
 class GraphVertexPair {
  public:
   GraphVertexPair(Graph* owner, Pointer vertex1, Pointer vertex2)
-      : vertex1(vertex1), vertex2(vertex2), owner(owner){};
+      : vertex1(vertex1), vertex2(vertex2), owner(owner), flag(true){};
   Pointer getVertex1() { return this->vertex1; };
   Pointer getVertex2() { return this->vertex2; };
   Graph* getOwner() { return this->owner; };
+  void setFalse() { this->flag = false; };
+  bool getFlag() { return this->flag; };
 
  private:
+  bool flag;
   Pointer vertex1;
   Pointer vertex2;
   Graph* owner;
 };
 
-class Neighbor {
- public:
-  Neighbor(GraphVertexPair* pair) : pair(pair), flag(1){};
-  void setFalse() { this->flag = 0; };
-  int getFlag() { return this->flag; };
-  GraphVertexPair* getPair() { return this->pair; };
+// class Neighbor {
+//  public:
+//   Neighbor(GraphVertexPair* pair) : pair(pair), flag(1){};
+//   void setFalse() { this->flag = 0; };
+//   int getFlag() { return this->flag; };
+//   GraphVertexPair* getPair() { return this->pair; };
 
- private:
-  GraphVertexPair* pair;
-  int flag;
-};
+//  private:
+//   GraphVertexPair* pair;
+//   int flag;
+// };

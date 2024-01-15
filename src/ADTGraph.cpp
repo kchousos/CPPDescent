@@ -21,8 +21,8 @@ float* createFloat(float value) {
 }
 
 int comparePointersOfNeighbors(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
-  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
+  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
+  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
 
   if (pair1->getVertex1() != pair2->getVertex1() ||
       pair1->getVertex2() != pair2->getVertex2())
@@ -53,8 +53,8 @@ int compareVertices(Pointer vertex1, Pointer vertex2) {
 }
 
 int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
-  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
+  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
+  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
 
   float first = cppdescent::euclideanDistance(
       ((GraphVertex*)pair1->getVertex1())->getData(),
@@ -74,8 +74,8 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
 }
 
 int compareNeighborsBin(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
-  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
+  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
+  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
 
   int first = pair1->getOwner()->getCompareData()(
       ((GraphVertex*)pair1->getVertex1())->getData(),
@@ -203,18 +203,19 @@ void Graph::insertEdge(Pointer data1, Pointer data2) {
 
   bool alreadyMember = false;
 
-  GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
-  Neighbor* neighbor = new Neighbor(neighborPair);
+  GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
   if (gvertex1->getNeighbors()->find(
-          neighbor, (CompareFunc)comparePointersOfNeighbors) != -1 &&
+          pair, (CompareFunc)comparePointersOfNeighbors) != -1 &&
       gvertex2->getReverse()->find(
-          neighbor, (CompareFunc)comparePointersOfNeighbors) != -1)
+          pair, (CompareFunc)comparePointersOfNeighbors) != -1) {
     alreadyMember = true;
+    delete pair;
+  }
 
   if (alreadyMember == false) {
-    gvertex1->addNeighbor(neighbor);
-    gvertex2->addReverse(neighbor);
+    gvertex1->addNeighbor(pair);
+    gvertex2->addReverse(pair);
   }
 
   delete vertex1;
@@ -230,14 +231,12 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
   GraphVertex* gvertex2 =
       (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
 
-  GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
-  Neighbor* neighbor = new Neighbor(neighborPair);
+  GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
-  gvertex1->removeNeighbor(neighbor, (CompareFunc)comparePointersOfNeighbors);
-  gvertex2->removeReverse(neighbor, (CompareFunc)comparePointersOfNeighbors);
+  gvertex1->removeNeighbor(pair, (CompareFunc)comparePointersOfNeighbors);
+  gvertex2->removeReverse(pair, (CompareFunc)comparePointersOfNeighbors);
 
-  delete neighborPair;
-  delete neighbor;
+  delete pair;
   delete vertex1;
   delete vertex2;
 }
@@ -276,12 +275,12 @@ Vector* Graph::getGeneralNeighborsV(Pointer vertex) {
   Vector* neighbors = new Vector(0, nullptr);
 
   for (int i = 0; i < direct->getSize(); i++) {
-    Neighbor* neighbor = (Neighbor*)direct->getAt(i);
-    neighbors->insertLast(neighbor);
+    GraphVertexPair* pair = (GraphVertexPair*)direct->getAt(i);
+    neighbors->insertLast(pair);
   }
   for (int i = 0; i < reverse->getSize(); i++) {
-    Neighbor* neighbor = (Neighbor*)reverse->getAt(i);
-    neighbors->insertLast(neighbor);
+    GraphVertexPair* pair = (GraphVertexPair*)reverse->getAt(i);
+    neighbors->insertLast(pair);
   }
 
   return neighbors;
@@ -304,15 +303,12 @@ bool Graph::isNeighbor(Pointer v1, Pointer v2) {
 
   bool alreadyMember = false;
 
-  GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
-  Neighbor* neighbor = new Neighbor(neighborPair);
+  GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
-  if (gvertex1->getNeighbors()->find(neighbor, (CompareFunc)compareNeighbors) !=
-      -1)
+  if (gvertex1->getNeighbors()->find(pair, (CompareFunc)compareNeighbors) != -1)
     alreadyMember = true;
 
-  delete neighborPair;
-  delete neighbor;
+  delete pair;
   delete vertex1;
   delete vertex2;
 
@@ -325,15 +321,13 @@ bool Graph::isNeighborVertex(Pointer v1, Pointer v2) {
 
   bool alreadyMember = false;
 
-  GraphVertexPair* neighborPair = new GraphVertexPair(this, gvertex1, gvertex2);
-  Neighbor* neighbor = new Neighbor(neighborPair);
+  GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
   if (gvertex1->getNeighbors()->toVector()->binaryFind(
-          neighbor, (CompareFunc)comparePointersOfNeighbors) != nullptr)
+          pair, (CompareFunc)comparePointersOfNeighbors) != nullptr)
     alreadyMember = true;
 
-  delete neighborPair;
-  delete neighbor;
+  delete pair;
 
   return alreadyMember;
 }
