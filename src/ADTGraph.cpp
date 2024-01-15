@@ -92,10 +92,6 @@ int compareNeighborsBin(Pointer neighbor1, Pointer neighbor2) {
   return 0;
 }
 
-void destroyVertexPair(GraphVertexPair* pair) {
-  delete pair;
-}
-
 void destroyValue(Pointer value) {
   delete (int*)value;
 }
@@ -336,15 +332,10 @@ Graph::~Graph() {
   delete this->vec;
 }
 
-// TODO
-void destroyNeighbor(Pointer neighbor) {
-  // delete (Neighbor*)neighbor;
-}
-
 GraphVertex::GraphVertex(Pointer data, Graph* owner)
     : data(data), owner(owner), hasBeenChecked(false) {
-  neighbors = new PQueue(compareNeighbors, destroyNeighbor, nullptr);
-  reverse = new PQueue(compareNeighbors, destroyNeighbor, nullptr);
+  neighbors = new PQueue(compareNeighbors, nullptr, nullptr);
+  reverse = new PQueue(compareNeighbors, nullptr, nullptr);
 }
 
 GraphVertex::~GraphVertex() {

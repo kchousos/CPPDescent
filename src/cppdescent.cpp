@@ -36,8 +36,8 @@ uint hashEdge(Pointer value) {
 }
 
 int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
-  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
+  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
+  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
 
   float first =
       euclideanDistance(((GraphVertex*)pair1->getVertex1())->getData(),
@@ -57,8 +57,8 @@ int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
 }
 
 int compareNeighborsBin2(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = ((Neighbor*)neighbor1)->getPair();
-  GraphVertexPair* pair2 = ((Neighbor*)neighbor2)->getPair();
+  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
+  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
 
   int first = pair1->getOwner()->getCompareData()(
       ((GraphVertex*)pair1->getVertex1())->getData(),
@@ -73,17 +73,6 @@ int compareNeighborsBin2(Pointer neighbor1, Pointer neighbor2) {
     return second;
 
   return 0;
-}
-
-GraphVertex* getOther(Neighbor* neighbor, int direct) {
-  GraphVertex* other;
-
-  if (direct)
-    other = (GraphVertex*)((GraphVertexPair*)neighbor->getPair())->getVertex2();
-  else
-    other = (GraphVertex*)((GraphVertexPair*)neighbor->getPair())->getVertex1();
-
-  return other;
 }
 
 //===================================
@@ -146,7 +135,8 @@ void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
     Vector* neighbors = gvertex->getNeighbors()->toVector();
     for (int k = 0; k < K; k++) {
       // get the kth neigbor from the vector
-      GraphVertex* neighbor = getOther(((Neighbor*)neighbors->getAt(k)), 1);
+      Pointer neighbor =
+          (((GraphVertexPair*)neighbors->getAt(k)))->getVertex2();
       // find its position in the graph's vector
       int pos = vec->findPos(neighbor, compareGraphVertices);
       fwrite(&pos, sizeof(int), 1, file);
@@ -363,8 +353,7 @@ int updateNN(Graph* graph,
              float dist,
              DistanceFunc distance) {
   PQueue* direct = ((GraphVertex*)u1)->getNeighbors();
-  Pointer max = ((GraphVertexPair*)((Neighbor*)direct->getMax())->getPair())
-                    ->getVertex2();
+  Pointer max = ((GraphVertexPair*)direct->getMax())->getVertex2();
   float maxDist =
       distance(((GraphVertex*)u1)->getData(), ((GraphVertex*)max)->getData());
 
@@ -433,19 +422,19 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
   int falses = 0;
 
   for (int i = 0; i < neighbors->getSize(); i++) {
-    Neighbor* neighbor = (Neighbor*)neighbors->getAt(i);
+    GraphVertexPair* pair = (GraphVertexPair*)neighbors->getAt(i);
 
     // neighbor has flag = true
-    if (neighbor->getFlag()) {
+    if (pair->getFlag()) {
       // in the `trues` array add this neighbor's position
       trueMetadata[trues][0] = i;
-      neighbor->setFalse();
+      pair->setFalse();
       if (i < K)
         trueMetadata[trues][2] = 1;
       trues++;
     } else if (i < K) {
       // neighbor has flag = false and is direct
-      GraphVertex* v = getOther(neighbor, 1);
+      Pointer v = pair->getVertex2();
       sets.old_v->insertLast(v);
     } else {
       // neighbor has flag = false and is reverse, so needs sampling
@@ -457,8 +446,11 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
   if (trues < 2 * rho * K) {
     // if there are less trues than 2ρK, simply put them all
     for (int i = 0; i < trues; i++) {
-      GraphVertex* v =
-          getOther((Neighbor*)neighbors->getAt(i), trueMetadata[i][2]);
+      Pointer v;
+      if (trueMetadata[i][2])
+        v = ((GraphVertexPair*)neighbors->getAt(i))->getVertex2();
+      else
+        v = ((GraphVertexPair*)neighbors->getAt(i))->getVertex1();
       sets.new_v->insertLast(v);
     }
   } else {
@@ -473,9 +465,13 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
       // has now been selected, do not select again
       trueMetadata[selected][1] = 1;
 
-      GraphVertex* v =
-          getOther((Neighbor*)neighbors->getAt(trueMetadata[selected][0]),
-                   trueMetadata[selected][2]);
+      Pointer v;
+      if (trueMetadata[selected][2])
+        v = ((GraphVertexPair*)neighbors->getAt(trueMetadata[selected][0]))
+                ->getVertex2();
+      else
+        v = ((GraphVertexPair*)neighbors->getAt(trueMetadata[selected][0]))
+                ->getVertex1();
 
       sets.new_v->insertLast(v);
     }
@@ -483,7 +479,7 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
 
   if (falses < rho * K) {
     for (int i = 0; i < falses; i++) {
-      GraphVertex* v = getOther((Neighbor*)neighbors->getAt(i), 0);
+      Pointer v = ((GraphVertexPair*)neighbors->getAt(i))->getVertex1();
       sets.old_v->insertLast(v);
     }
   } else {
@@ -498,8 +494,9 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
       // has now been selected, do not select again
       reverseFalseMetadata[selected][1] = 1;
 
-      GraphVertex* v = getOther(
-          (Neighbor*)neighbors->getAt(reverseFalseMetadata[selected][0]), 0);
+      Pointer v = ((GraphVertexPair*)neighbors->getAt(
+                       reverseFalseMetadata[selected][0]))
+                      ->getVertex1();
       sets.old_v->insertLast(v);
     }
   }
