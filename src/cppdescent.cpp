@@ -9,6 +9,7 @@
  *
  */
 #include "cppdescent/cppdescent.hpp"
+#include <omp.h>
 #include <cmath>
 #include <cstdint>
 #include <iostream>
@@ -335,6 +336,7 @@ Graph* sampleGraph(Vector* data, int K, CompareFunc compare) {
   // Iterate all of the vertices.
   for (int i = 0; i < N; i++) {
     // For each vertex, add K random neighbors.
+    Pointer v1 = data->getAt(i);
     for (int j = 0; j < K; j++) {
       int randPos = rand() % N;  // The position of the neighbor.
 
@@ -343,7 +345,6 @@ Graph* sampleGraph(Vector* data, int K, CompareFunc compare) {
         randPos = rand() % N;
 
       // Get the two vertices and create an edge between them.
-      Pointer v1 = data->getAt(i);
       Pointer v2 = data->getAt(randPos);
       while (graph->isNeighbor(v1, v2) == true) {
         randPos = rand() % N;
@@ -519,8 +520,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       float delta,
                                       float rho,
                                       DistanceFunc distance) {
+  std::cout << "Initializing starting graph...\n";
   // B[v] <- Sample(V, K) for all v in V
-  std::cout << "Computing starting graph...\n";
   Graph* graph = sampleGraph(data, K, (CompareFunc)compareVertices);
   std::cout << "Starting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we
@@ -538,7 +539,9 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
     c = 0;
 
+#pragma omp parallel for
     for (int v = 0; v < N; v++) {
+      // vAll = Bbar[v] = B[v] ⋃ R[v]
       Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
 
       allSets[v] = getSets(vAll, K, rho);
@@ -547,9 +550,6 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
     }
 
     for (int v = 0; v < N; v++) {
-      // vAll = Bbar[v] = B[v] ⋃ R[v]
-      Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
-
       struct sets sets = allSets[v];
 
       Vector* new_v = sets.new_v;
@@ -583,7 +583,6 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
         }
       }
 
-      delete vAll;
       delete new_v;
       delete old_v;
     }
