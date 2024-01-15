@@ -21,21 +21,6 @@ float* createFloat(float value) {
   return p;
 }
 
-int compareGraphVertexPairs(Pointer p1, Pointer p2) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)p1;
-  GraphVertexPair* pair2 = (GraphVertexPair*)p2;
-
-  if (!gsl_vector_equal(
-          (gsl_vector*)((GraphVertex*)pair1->getVertex1())->getData(),
-          (gsl_vector*)((GraphVertex*)pair2->getVertex1())->getData()) ||
-      !gsl_vector_equal(
-          (gsl_vector*)((GraphVertex*)pair1->getVertex2())->getData(),
-          (gsl_vector*)((GraphVertex*)pair2->getVertex2())->getData()))
-    return 1;
-
-  return 0;
-}
-
 int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
   int first = pair1->getOwner()->getCompareData()(pair1->getVertex1(),
                                                   pair2->getVertex1());
@@ -213,7 +198,7 @@ void Graph::insertEdge(Pointer data1, Pointer data2) {
   GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
   if (gvertex1->getNeighbors()->find(
-          pair, (CompareFunc)compareGraphVertexPairs) != -1) {
+          pair, (CompareFunc)cppdescent::compareGraphVertexPairs) != -1) {
     alreadyMember = true;
     delete pair;
   }
@@ -238,8 +223,10 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
 
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
 
-  vertex1->removeNeighbor(pair, (CompareFunc)compareGraphVertexPairs);
-  vertex2->removeReverse(pair, (CompareFunc)compareGraphVertexPairs);
+  vertex1->removeNeighbor(pair,
+                          (CompareFunc)cppdescent::compareGraphVertexPairs);
+  vertex2->removeReverse(pair,
+                         (CompareFunc)cppdescent::compareGraphVertexPairs);
 
   delete pair;
   // delete vertex1;
@@ -332,7 +319,7 @@ bool Graph::isNeighborVertex(Pointer v1, Pointer v2) {
   GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
   if (gvertex1->getNeighbors()->toVector()->binaryFind(
-          pair, (CompareFunc)compareGraphVertexPairs) != nullptr)
+          pair, (CompareFunc)cppdescent::compareGraphVertexPairs) != nullptr)
     alreadyMember = true;
 
   delete pair;

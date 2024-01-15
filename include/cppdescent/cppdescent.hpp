@@ -26,6 +26,8 @@ int compareVertices(Pointer first, Pointer second);
 
 int compareNeighbors(Pointer a, Pointer b);
 
+int compareGraphVertexPairs(Pointer p1, Pointer p2);
+
 // ================================ I/O ======================================
 /**
  * @brief Reads the data from a binary file.

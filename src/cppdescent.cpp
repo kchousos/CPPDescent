@@ -57,21 +57,17 @@ int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
     return 0;
 }
 
-int compareNeighborsBin2(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
-  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
+int cppdescent::compareGraphVertexPairs(Pointer p1, Pointer p2) {
+  GraphVertexPair* pair1 = (GraphVertexPair*)p1;
+  GraphVertexPair* pair2 = (GraphVertexPair*)p2;
 
-  int first = pair1->getOwner()->getCompareData()(
-      ((GraphVertex*)pair1->getVertex1())->getData(),
-      ((GraphVertex*)pair2->getVertex1())->getData());
-  if (first)
-    return first;
-
-  int second = pair1->getOwner()->getCompareData()(
-      ((GraphVertex*)pair1->getVertex2())->getData(),
-      ((GraphVertex*)pair2->getVertex2())->getData());
-  if (second)
-    return second;
+  if (!gsl_vector_equal(
+          (gsl_vector*)((GraphVertex*)pair1->getVertex1())->getData(),
+          (gsl_vector*)((GraphVertex*)pair2->getVertex1())->getData()) ||
+      !gsl_vector_equal(
+          (gsl_vector*)((GraphVertex*)pair1->getVertex2())->getData(),
+          (gsl_vector*)((GraphVertex*)pair2->getVertex2())->getData()))
+    return 1;
 
   return 0;
 }
@@ -206,7 +202,7 @@ float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
 
     for (int adjacent = 0; adjacent < nnAdjacent->getSize(); adjacent++)
       if (bfNodeAdjacent->find(nnAdjacent->getAt(adjacent),
-                               compareNeighborsBin2) != nullptr)
+                               cppdescent::compareGraphVertexPairs) != nullptr)
         trueNeighbors++;
 
     recall += (float)trueNeighbors / (float)K;
