@@ -90,8 +90,7 @@ TEST(IO, readData) {
   ASSERT_FLOAT_EQ(lastValue,
                   *(float*)lastElement->getAt(lastElement->getSize() - 1));
 
-  int result = cppdescent::deleteDatapointVectors(vec);
-  ASSERT_EQ(result, 0);
+  delete vec;
 }
 
 // TEST_F(BruteForceManualDataset, binaryGraphFiles) {

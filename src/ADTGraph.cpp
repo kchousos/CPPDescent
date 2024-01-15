@@ -90,9 +90,7 @@ void destroyValue(Pointer value) {
 }
 
 void destroyVertex(GraphVertex* vertex) {
-  DestroyFunc destroy = vertex->getOwner()->getDestroyData();
-  if (destroy != nullptr)
-    destroy(vertex->getData());
+  gsl_vector_free((gsl_vector*)vertex->getData());
 
   delete vertex;
 }

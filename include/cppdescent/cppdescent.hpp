@@ -18,8 +18,6 @@ float* createFloat(float value);
 
 float compareFloats(Pointer a, Pointer b);
 
-int deleteDatapointVectors(Vector* vec);
-
 int compareGraphVertices(Pointer vertex1, Pointer vertex2);
 
 int compareVertices(Pointer first, Pointer second);

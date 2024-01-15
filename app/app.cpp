@@ -136,5 +136,5 @@ int main(int argc, char* argv[]) {
   // delete query;
   // delete nnGraph;
 
-  cppdescent::deleteDatapointVectors(vec);
+  delete vec;
 }

@@ -228,18 +228,6 @@ float cppdescent::compareFloats(Pointer a, Pointer b) {
   return (*(float*)a - *(float*)b);
 }
 
-int cppdescent::deleteDatapointVectors(Vector* vec) {
-  if (vec == nullptr)
-    return -1;  // LCOV_EXCL_LINE
-  int dimensions = vec->getSize();
-  for (int i = 0; i < dimensions; i++) {
-    gsl_vector_free((gsl_vector*)vec->getAt(i));
-  }
-
-  delete vec;
-  return 0;
-}
-
 int cppdescent::compareVertices(Pointer first, Pointer second) {
   Vector* vec1 = (Vector*)first;
   Vector* vec2 = (Vector*)second;
