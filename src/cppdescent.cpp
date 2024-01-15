@@ -663,17 +663,17 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 // ============================ Metric Functions =============================
 
 float cppdescent::euclideanDistance(Pointer a, Pointer b) {
-  Vector* first = (Vector*)a;
-  Vector* second = (Vector*)b;
+  gsl_vector* first = (gsl_vector*)a;
+  gsl_vector* second = (gsl_vector*)b;
   float result = 0;
 
-  int dimensions = first->getSize();
+  int dimensions = first->size;
 
-  if (second->getSize() != dimensions)
+  if ((int)second->size != dimensions)
     return -1.0;  // LCOV_EXCL_LINE
 
   for (int i = 0; i < dimensions; i++) {
-    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
+    float diff = gsl_vector_get(first, i) - gsl_vector_get(second, i);
     result += diff * diff;
   }
 
