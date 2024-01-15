@@ -29,7 +29,7 @@ int compareGraphVertexPairs(Pointer p1, Pointer p2) {
           (gsl_vector*)((GraphVertex*)pair1->getVertex1())->getData(),
           (gsl_vector*)((GraphVertex*)pair2->getVertex1())->getData()) ||
       !gsl_vector_equal(
-          (gsl_vector*)((GraphVertex*)pair2->getVertex1())->getData(),
+          (gsl_vector*)((GraphVertex*)pair1->getVertex2())->getData(),
           (gsl_vector*)((GraphVertex*)pair2->getVertex2())->getData()))
     return 1;
 
@@ -228,22 +228,22 @@ void Graph::insertEdge(Pointer data1, Pointer data2) {
 }
 
 void Graph::removeEdge(Pointer data1, Pointer data2) {
-  GraphVertex* vertex1 = new GraphVertex(data1, this);
-  GraphVertex* vertex2 = new GraphVertex(data2, this);
+  GraphVertex* vertex1 = (GraphVertex*)data1;
+  GraphVertex* vertex2 = (GraphVertex*)data2;
 
-  GraphVertex* gvertex1 =
-      (GraphVertex*)this->vec->find(vertex1, this->compare_vertices);
-  GraphVertex* gvertex2 =
-      (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
+  // GraphVertex* gvertex1 =
+  //     (GraphVertex*)this->vec->find(vertex1, this->compare_vertices);
+  // GraphVertex* gvertex2 =
+  //     (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
 
-  GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
+  GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
 
-  gvertex1->removeNeighbor(pair, (CompareFunc)compareGraphVertexPairs);
-  gvertex2->removeReverse(pair, (CompareFunc)compareGraphVertexPairs);
+  vertex1->removeNeighbor(pair, (CompareFunc)compareGraphVertexPairs);
+  vertex2->removeReverse(pair, (CompareFunc)compareGraphVertexPairs);
 
   delete pair;
-  delete vertex1;
-  delete vertex2;
+  // delete vertex1;
+  // delete vertex2;
 }
 
 Vector* Graph::getAdjacentV(Pointer vertex) {

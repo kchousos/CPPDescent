@@ -359,10 +359,8 @@ int updateNN(Graph* graph,
       distance(((GraphVertex*)u1)->getData(), ((GraphVertex*)max)->getData());
 
   if (dist < maxDist) {
-    graph->removeEdge(((GraphVertex*)u1)->getData(),
-                      ((GraphVertex*)max)->getData());
-    graph->insertEdge(((GraphVertex*)u1)->getData(),
-                      ((GraphVertex*)u2)->getData());
+    graph->removeEdge(u1, max);
+    graph->insertEdge(u1, u2);
     return 1;
   }
 
