@@ -22,11 +22,12 @@ target_include_directories(cppdescent PUBLIC ../include)
 
 # All users of this library will need at least C++11
 target_compile_features(cppdescent PUBLIC cxx_std_11)
-target_compile_options(cppdescent PRIVATE -Wall -Wextra -Wpedantic -O2 -march=native -ffast-math -fopenmp)
+target_compile_options(cppdescent PRIVATE -Wall -Wextra -Wpedantic -O2 -march=native -ffast-math)
 
+find_package(GSL REQUIRED)
 find_package(OpenMP)
 if(OpenMP_CXX_FOUND)
-    target_link_libraries(cppdescent PUBLIC OpenMP::OpenMP_CXX)
+    target_link_libraries(cppdescent PUBLIC OpenMP::OpenMP_CXX GSL::gsl GSL::gslcblas)
 endif()
 
 # IDEs should put the headers in a nice place

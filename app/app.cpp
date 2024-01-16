@@ -6,24 +6,20 @@
 #include "cppdescent/cppdescent.hpp"
 
 int main(int argc, char* argv[]) {
-  if (argc != 7) {
+  if (argc != 6) {
     std::cout << "Wrong number of arguments. Please try again.\n";
     return -1;
   }
 
   int K = atoi(argv[1]);
   int dimensions = atoi(argv[3]);
-  int metric = atoi(argv[4]);
-  float delta = atof(argv[5]);
-  float rho = atof(argv[6]);
+  float delta = atof(argv[4]);
+  float rho = atof(argv[5]);
 
   if (rho <= 0 || rho > 1) {
     std::cout << "rho must be in (0,1]. Please try again.\n";
     return -1;
   }
-
-  if (metric > 2 || metric < 1)
-    return -1;
 
   Vector* vec = cppdescent::readBinData((char*)argv[2], dimensions);
   int N = vec->getSize();
@@ -31,13 +27,8 @@ int main(int argc, char* argv[]) {
   DistanceFunc distance = nullptr;
   CompareFunc compare = nullptr;
 
-  if (metric == 1) {
-    distance = cppdescent::euclideanDistance;
-    compare = cppdescent::compareEdgesEuclidean;
-  } else if (metric == 2) {
-    distance = cppdescent::manhattanDistance;
-    compare = cppdescent::compareEdgesManhattan;
-  }
+  distance = cppdescent::euclideanDistance;
+  compare = cppdescent::compareEdgesEuclidean;
 
   // find filepath to computed brute force graph
   std::string fullFilePath = argv[2];
@@ -50,10 +41,7 @@ int main(int argc, char* argv[]) {
   bfPath.append(filenameWithoutExtension);
   bfPath.append("_K-");
   bfPath.append(std::to_string(K));
-  if (metric == 1)
-    bfPath.append("_euclidean");
-  else
-    bfPath.append("_manhattan");
+  bfPath.append("_euclidean");
   bfPath.append(".bin");
 
   std::cout << "For K = " << K << "\n";
@@ -83,11 +71,16 @@ int main(int argc, char* argv[]) {
   // Read the graph files.
   bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions);
 
+  bool computed = false;
+  Vector* vec2;
+
   if (bfGraph == nullptr) {
-    std::cout << "No pre-computed brute force graph. Computing now...\n";
-    bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare);
-    std::cout << "Saving...\n";
+    std::cout << "\tNo pre-computed brute force graph. Computing now...\n";
+    vec2 = cppdescent::readBinData((char*)argv[2], dimensions);
+    bfGraph = cppdescent::KNNBruteForceGraph(vec2, K, compare);
+    std::cout << "\tSaving...\n";
     cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
+    computed = true;
   }
 
   std::cout << "Total recall is " << cppdescent::recall(bfGraph, nnGraph, N, K)
@@ -136,5 +129,8 @@ int main(int argc, char* argv[]) {
   // delete query;
   // delete nnGraph;
 
-  cppdescent::deleteDatapointVectors(vec);
+  if (computed)
+    delete vec2;
+
+  delete vec;
 }
