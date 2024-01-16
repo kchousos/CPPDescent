@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <chrono>
 #include <cstdlib>
 #include <ctime>
@@ -5,23 +6,54 @@
 #include <string>
 #include "cppdescent/cppdescent.hpp"
 
+#define dimensions 100
+
 int main(int argc, char* argv[]) {
-  if (argc != 6) {
-    std::cout << "Wrong number of arguments. Please try again.\n";
-    return -1;
+  int K;
+  float delta = 0.01;
+  float rho = 0.5;
+  char* path = nullptr;
+
+  int opt;
+
+  while ((opt = getopt(argc, argv, ":d:r:K:")) != -1) {
+    switch (opt) {
+      case 'd':
+        delta = atof(optarg);
+        break;
+      case 'r':
+        rho = atof(optarg);
+        break;
+      case 'K':
+        K = atoi(optarg);
+        break;
+      case ':':
+        printf("option %c needs a value. Please try again.\n", optopt);
+        return -1;
+      case '?':
+        printf("unknown option: %c. Please try again.\n", optopt);
+        return -1;
+    }
   }
 
-  int K = atoi(argv[1]);
-  int dimensions = atoi(argv[3]);
-  float delta = atof(argv[4]);
-  float rho = atof(argv[5]);
+  path = argv[optind];
 
   if (rho <= 0 || rho > 1) {
     std::cout << "rho must be in (0,1]. Please try again.\n";
     return -1;
   }
 
-  Vector* vec = cppdescent::readBinData((char*)argv[2], dimensions);
+  if (delta <= 0) {
+    std::cout << "delta must be greater than 0. Please try again.\n";
+    return -1;
+  }
+
+  if (!path) {
+    std::cout << "Dataset must be specified. Please try again.\n";
+    return -1;
+  }
+
+  Vector* vec = cppdescent::readBinData(path, dimensions);
   int N = vec->getSize();
 
   DistanceFunc distance = nullptr;
@@ -76,7 +108,7 @@ int main(int argc, char* argv[]) {
 
   if (bfGraph == nullptr) {
     std::cout << "\tNo pre-computed brute force graph. Computing now...\n";
-    vec2 = cppdescent::readBinData((char*)argv[2], dimensions);
+    vec2 = cppdescent::readBinData(path, dimensions);
     bfGraph = cppdescent::KNNBruteForceGraph(vec2, K, compare);
     std::cout << "\tSaving...\n";
     cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
