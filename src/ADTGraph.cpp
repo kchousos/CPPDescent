@@ -30,12 +30,10 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
   GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
   GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
 
-  float first = cppdescent::euclideanDistance(
-      ((GraphVertex*)pair1->getVertex1())->getData(),
-      ((GraphVertex*)pair1->getVertex2())->getData());
-  float second = cppdescent::euclideanDistance(
-      ((GraphVertex*)pair2->getVertex1())->getData(),
-      ((GraphVertex*)pair2->getVertex2())->getData());
+  float first =
+      cppdescent::euclideanDistance(pair1->getVertex1(), pair1->getVertex2());
+  float second =
+      cppdescent::euclideanDistance(pair2->getVertex1(), pair2->getVertex2());
 
   float result = first - second;
 
