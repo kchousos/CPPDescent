@@ -321,7 +321,7 @@ Graph* sampleGraph(Vector* data, int K, CompareFunc compare) {
 
       // Get the two vertices and create an edge between them.
       Pointer v2 = graph->getVec()->getAt(randPos);
-      while (graph->isNeighbor(v1, v2) == true) {
+      while (graph->isNeighborVertex(v1, v2) == true) {
         randPos = rand() % N;
         v2 = (Pointer)graph->getVec()->getAt(randPos);
       }
