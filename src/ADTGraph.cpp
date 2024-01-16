@@ -282,32 +282,6 @@ void swap(Pointer p, Pointer q) {
   q = tmp;
 }
 
-bool Graph::isNeighbor(Pointer v1, Pointer v2) {
-  // GraphVertex* vertex1 = new GraphVertex(v1, this);
-  // GraphVertex* vertex2 = new GraphVertex(v2, this);
-
-  // GraphVertex* gvertex1 =
-  //     (GraphVertex*)this->vec->find(vertex1, this->compare_vertices);
-  // GraphVertex* gvertex2 =
-  //     (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
-
-  GraphVertex* gvertex1 = (GraphVertex*)v1;
-  GraphVertex* gvertex2 = (GraphVertex*)v2;
-
-  bool alreadyMember = false;
-
-  GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
-
-  if (gvertex1->getNeighbors()->find(pair, (CompareFunc)compareNeighbors) != -1)
-    alreadyMember = true;
-
-  delete pair;
-  // delete vertex1;
-  // delete vertex2;
-
-  return alreadyMember;
-}
-
 bool Graph::isNeighborVertex(Pointer v1, Pointer v2) {
   GraphVertex* gvertex1 = (GraphVertex*)v1;
   GraphVertex* gvertex2 = (GraphVertex*)v2;
