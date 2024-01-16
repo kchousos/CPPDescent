@@ -148,7 +148,7 @@ Graph* cppdescent::readBinGraph(const char* fp, int dimensions) {
   if (file == nullptr)
     return nullptr;  // LCOV_EXCL_LINE
 
-  Graph* graph = new Graph(nullptr, nullptr, nullptr);
+  Graph* graph = new Graph(nullptr, nullptr);
 
   uint32_t N;
   int K;

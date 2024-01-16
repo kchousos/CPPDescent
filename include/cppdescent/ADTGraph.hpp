@@ -22,13 +22,10 @@ class Graph {
   int size;
   CompareFunc compare_vertices;
   CompareFunc compare_data;
-  DestroyFunc destroy;
   DestroyFunc destroy_data;
 
  public:
-  Graph(CompareFunc compare,
-        DestroyFunc destroy,
-        DestroyFunc vecDestroy = nullptr);
+  Graph(CompareFunc compare, DestroyFunc vecDestroy);
   ~Graph();
   int getSize();
   void insertVertex(Pointer vertex);
@@ -43,7 +40,6 @@ class Graph {
   bool isNeighborVertex(Pointer v1, Pointer v2);
   CompareFunc getCompareData() { return this->compare_data; };
   CompareFunc getCompareVertices() { return this->compare_vertices; };
-  DestroyFunc getDestroy() { return this->destroy; };
   DestroyFunc getDestroyData() { return this->destroy_data; };
   Vector* getVec() { return this->vec; };
 };

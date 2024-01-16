@@ -15,26 +15,6 @@
 #include <iostream>
 #include "cppdescent/cppdescent.hpp"
 
-float* createFloat(float value) {
-  float* p = new float;
-  *p = value;
-  return p;
-}
-
-int compareVertexPair(GraphVertexPair* pair1, GraphVertexPair* pair2) {
-  int first = pair1->getOwner()->getCompareData()(pair1->getVertex1(),
-                                                  pair2->getVertex1());
-  if (first)
-    return first;
-
-  int second = pair1->getOwner()->getCompareData()(pair1->getVertex2(),
-                                                   pair2->getVertex2());
-  if (second)
-    return second;
-
-  return 0;
-}
-
 int compareVertices(Pointer vertex1, Pointer vertex2) {
   GraphVertex* v1 = (GraphVertex*)vertex1;
   GraphVertex* v2 = (GraphVertex*)vertex2;
@@ -66,29 +46,6 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
     return 0;
 }
 
-int compareNeighborsBin(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
-  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
-
-  int first = pair1->getOwner()->getCompareData()(
-      ((GraphVertex*)pair1->getVertex1())->getData(),
-      ((GraphVertex*)pair2->getVertex1())->getData());
-  if (first)
-    return first;
-
-  int second = pair1->getOwner()->getCompareData()(
-      ((GraphVertex*)pair1->getVertex2())->getData(),
-      ((GraphVertex*)pair2->getVertex2())->getData());
-  if (second)
-    return second;
-
-  return 0;
-}
-
-void destroyValue(Pointer value) {
-  delete (int*)value;
-}
-
 void destroyVertex(GraphVertex* vertex) {
   gsl_vector_free((gsl_vector*)vertex->getData());
 
@@ -97,13 +54,8 @@ void destroyVertex(GraphVertex* vertex) {
 
 // Graph //
 
-Graph::Graph(CompareFunc compare_data,
-             DestroyFunc destroy,
-             DestroyFunc destroy_data)
-    : size(0),
-      compare_data(compare_data),
-      destroy(destroy),
-      destroy_data(destroy_data) {
+Graph::Graph(CompareFunc compare_data, DestroyFunc destroy_data)
+    : size(0), compare_data(compare_data), destroy_data(destroy_data) {
   this->vec = new Vector(0, (DestroyFunc)destroyVertex);
 
   this->compare_vertices = compareVertices;
@@ -177,17 +129,6 @@ void Graph::removeVertex(Pointer vertex) {
 }
 
 void Graph::insertEdge(Pointer data1, Pointer data2) {
-  // GraphVertex* vertex1 = new GraphVertex(data1, this);
-  // GraphVertex* vertex2 = new GraphVertex(data2, this);
-
-  // GraphVertex* gvertex1 =
-  //     (GraphVertex*)this->vec->find(vertex1, this->compare_vertices);
-  // GraphVertex* gvertex2 =
-  //     (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
-
-  // if (gvertex1 == nullptr || gvertex2 == nullptr)
-  //   return;  // LCOV_EXCL_LINE
-
   GraphVertex* gvertex1 = (GraphVertex*)data1;
   GraphVertex* gvertex2 = (GraphVertex*)data2;
 
@@ -213,11 +154,6 @@ void Graph::insertEdge(Pointer data1, Pointer data2) {
 void Graph::removeEdge(Pointer data1, Pointer data2) {
   GraphVertex* vertex1 = (GraphVertex*)data1;
   GraphVertex* vertex2 = (GraphVertex*)data2;
-
-  // GraphVertex* gvertex1 =
-  //     (GraphVertex*)this->vec->find(vertex1, this->compare_vertices);
-  // GraphVertex* gvertex2 =
-  //     (GraphVertex*)this->vec->find(vertex2, this->compare_vertices);
 
   GraphVertexPair* pair = new GraphVertexPair(this, vertex1, vertex2);
 
