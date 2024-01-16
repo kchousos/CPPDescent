@@ -83,11 +83,16 @@ int main(int argc, char* argv[]) {
   // Read the graph files.
   bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions);
 
+  bool computed = false;
+  Vector* vec2;
+
   if (bfGraph == nullptr) {
     std::cout << "\tNo pre-computed brute force graph. Computing now...\n";
-    bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare);
+    vec2 = cppdescent::readBinData((char*)argv[2], dimensions);
+    bfGraph = cppdescent::KNNBruteForceGraph(vec2, K, compare);
     std::cout << "\tSaving...\n";
     cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
+    computed = true;
   }
 
   std::cout << "Total recall is " << cppdescent::recall(bfGraph, nnGraph, N, K)
@@ -135,6 +140,9 @@ int main(int argc, char* argv[]) {
   // delete results;
   // delete query;
   // delete nnGraph;
+
+  if (computed)
+    delete vec2;
 
   delete vec;
 }

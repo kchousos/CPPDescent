@@ -23,17 +23,15 @@ int cppdescent::compareGraphVertices(Pointer vertex1, Pointer vertex2) {
   GraphVertex* gvertex1 = (GraphVertex*)vertex1;
   GraphVertex* gvertex2 = (GraphVertex*)vertex2;
 
-  return cppdescent::compareVertices(gvertex1->getData(), gvertex2->getData());
+  if (gsl_vector_equal((gsl_vector*)gvertex1->getData(),
+                       (gsl_vector*)gvertex2->getData()))
+    return 0;
+
+  return 1;
 }
 
 void destroyEdges(GraphVertexPair* pair) {
   delete pair;
-}
-
-uint hashEdge(Pointer value) {
-  GraphVertexPair* pair = (GraphVertexPair*)value;
-  size_t hash = (size_t)pair->getVertex1() + (size_t)pair->getVertex2();
-  return hash;
 }
 
 int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
@@ -118,11 +116,13 @@ void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
   // vertices
   for (int i = 0; i < (int)N; i++) {
     GraphVertex* gvertex = (GraphVertex*)vec->getAt(i);
-    Vector* vertex = (Vector*)gvertex->getData();
-    int dimensions = vertex->getSize();
+    gsl_vector* vertex = (gsl_vector*)gvertex->getData();
+    int dimensions = vertex->size;
 
-    for (int j = 0; j < dimensions; j++)
-      fwrite((float*)vertex->getAt(j), sizeof(float), 1, file);
+    for (int j = 0; j < dimensions; j++) {
+      float datapoint = gsl_vector_get(vertex, j);
+      fwrite(&datapoint, sizeof(float), 1, file);
+    }
   }
 
   // edges

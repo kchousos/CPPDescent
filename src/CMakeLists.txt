@@ -27,7 +27,7 @@ target_compile_options(cppdescent PRIVATE -Wall -Wextra -Wpedantic -O2 -march=na
 find_package(GSL REQUIRED)
 find_package(OpenMP)
 if(OpenMP_CXX_FOUND)
-    target_link_libraries(cppdescent PUBLIC GSL::gsl GSL::gslcblas)
+    target_link_libraries(cppdescent PUBLIC OpenMP::OpenMP_CXX GSL::gsl GSL::gslcblas)
 endif()
 
 # IDEs should put the headers in a nice place
