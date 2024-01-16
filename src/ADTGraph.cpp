@@ -10,6 +10,7 @@
  */
 
 #include "cppdescent/ADTGraph.hpp"
+#include <gsl/gsl_blas.h>
 #include <gsl/gsl_vector.h>
 #include <climits>
 #include <iostream>
@@ -29,12 +30,10 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
   GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
   GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
 
-  float first = cppdescent::euclideanDistance(
-      ((GraphVertex*)pair1->getVertex1())->getData(),
-      ((GraphVertex*)pair1->getVertex2())->getData());
-  float second = cppdescent::euclideanDistance(
-      ((GraphVertex*)pair2->getVertex1())->getData(),
-      ((GraphVertex*)pair2->getVertex2())->getData());
+  float first =
+      cppdescent::euclideanDistance(pair1->getVertex1(), pair1->getVertex2());
+  float second =
+      cppdescent::euclideanDistance(pair2->getVertex1(), pair2->getVertex2());
 
   float result = first - second;
 
@@ -72,11 +71,18 @@ int Graph::getSize() {
  */
 void Graph::insertVertex(Pointer vertex) {
   GraphVertex* gvertex = new GraphVertex(vertex, this);
+  gsl_vector* x = (gsl_vector*)vertex;
 
-  if (this->vec->find(gvertex, this->compare_vertices) == nullptr) {
-    this->vec->insertLast(gvertex);
-    this->size++;
+  if (this->vec->find(gvertex, this->compare_vertices) != nullptr) {
+    delete gvertex;
+    return;
   }
+
+  this->vec->insertLast(gvertex);
+  this->size++;
+  double norm;
+  gsl_blas_ddot(x, x, &norm);
+  gvertex->setNorm(norm);
 }
 
 Vector* Graph::getVerticesV() {

@@ -51,6 +51,7 @@ class GraphVertex {
   PQueue* reverse;
   Graph* owner;
   bool hasBeenChecked;
+  double norm;
 
  public:
   GraphVertex(Pointer data, Graph* owner);
@@ -69,6 +70,8 @@ class GraphVertex {
   Graph* getOwner() { return this->owner; };
   void check() { this->hasBeenChecked = true; };
   bool checked() { return this->hasBeenChecked; };
+  void setNorm(double norm) { this->norm = norm; };
+  double getNorm() { return this->norm; };
 };
 
 class GraphVertexPair {
