@@ -12,12 +12,6 @@ typedef float (*DistanceFunc)(Pointer a, Pointer b);
  *
  */
 namespace cppdescent {
-void deleteFloat(Pointer value);
-
-float* createFloat(float value);
-
-float compareFloats(Pointer a, Pointer b);
-
 int compareGraphVertices(Pointer vertex1, Pointer vertex2);
 
 int compareVertices(Pointer first, Pointer second);

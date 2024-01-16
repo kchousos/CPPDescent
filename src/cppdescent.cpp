@@ -143,17 +143,12 @@ void cppdescent::writeBinGraph(const char* fp, Graph* graph, int K) {
   fclose(file);
 }
 
-void deleteVectors(Pointer vec) {
-  delete (Vector*)vec;
-}
-
 Graph* cppdescent::readBinGraph(const char* fp, int dimensions) {
   FILE* file = fopen(fp, "r");
   if (file == nullptr)
     return nullptr;  // LCOV_EXCL_LINE
 
-  Graph* graph =
-      new Graph((CompareFunc)compareVertices, nullptr, deleteVectors);
+  Graph* graph = new Graph(nullptr, nullptr, nullptr);
 
   uint32_t N;
   int K;
@@ -214,35 +209,10 @@ float cppdescent::recall(Graph* bfGraph, Graph* nnGraph, int N, int K) {
   return recall;
 }
 
-void cppdescent::deleteFloat(Pointer value) {
-  delete (float*)value;
-}
-
-float* cppdescent::createFloat(float value) {
-  float* p = new float;
-  *p = value;
-  return p;
-}
-
-float cppdescent::compareFloats(Pointer a, Pointer b) {
-  return (*(float*)a - *(float*)b);
-}
-
-int cppdescent::compareVertices(Pointer first, Pointer second) {
-  Vector* vec1 = (Vector*)first;
-  Vector* vec2 = (Vector*)second;
-  int dimensions = vec1->getSize();
-  for (int i = 0; i < dimensions; i++)
-    if (cppdescent::compareFloats(vec1->getAt(i), vec2->getAt(i)))
-      return 1;
-
-  return 0;
-}
-
 Graph* cppdescent::KNNBruteForceGraph(Vector* data,
                                       int K,
                                       CompareFunc compare) {
-  Graph* graph = new Graph((CompareFunc)gsl_vector_equal, nullptr);
+  Graph* graph = new Graph(nullptr, nullptr);
 
   // Insert all points as vertices.
   int N = data->getSize();
@@ -298,7 +268,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
  * @return Graph* The created graph.
  */
 Graph* sampleGraph(Vector* data, int K, CompareFunc compare) {
-  Graph* graph = new Graph((CompareFunc)compare, nullptr);
+  Graph* graph = new Graph(nullptr, nullptr);
 
   int N = data->getSize();
 
