@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "enter program name, for example ${workspaceFolder}/build/test/AVLTree.test",
+            "program": "${workspaceFolder}/build/test/AVLTree.test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
