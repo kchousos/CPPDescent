@@ -267,7 +267,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
  * @param distance
  * @return Graph* The created graph.
  */
-Graph* sampleGraph(Vector* data, int K, CompareFunc compare) {
+Graph* sampleGraph(Vector* data, int K) {
   Graph* graph = new Graph(nullptr, nullptr);
 
   int N = data->getSize();
@@ -473,7 +473,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   std::cout << "NN-Descent\n";
   std::cout << "\tInitializing starting graph...\n";
   // B[v] <- Sample(V, K) for all v in V
-  Graph* graph = sampleGraph(data, K, (CompareFunc)gsl_vector_equal);
+  Graph* graph = sampleGraph(data, K);
   std::cout << "\tStarting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
