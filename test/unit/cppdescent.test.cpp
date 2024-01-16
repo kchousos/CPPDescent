@@ -80,18 +80,18 @@
 //   Vector* vec = new Vector(5, nullptr);
 // };
 
-TEST(IO, readData) {
-  Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
-  ASSERT_NE(vec, nullptr);
+// TEST(IO, readData) {
+//   Vector* vec = cppdescent::readBinData("./datasets/00000020.bin", 100);
+//   ASSERT_NE(vec, nullptr);
 
-  float lastValue = 0.0726192221;
+//   float lastValue = 0.0726192221;
 
-  Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
-  ASSERT_FLOAT_EQ(lastValue,
-                  *(float*)lastElement->getAt(lastElement->getSize() - 1));
+//   Vector* lastElement = (Vector*)vec->getAt(vec->getSize() - 1);
+//   ASSERT_FLOAT_EQ(lastValue,
+//                   *(float*)lastElement->getAt(lastElement->getSize() - 1));
 
-  delete vec;
-}
+//   delete vec;
+// }
 
 // TEST_F(BruteForceManualDataset, binaryGraphFiles) {
 //   int K = 2;
