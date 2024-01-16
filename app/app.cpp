@@ -84,9 +84,9 @@ int main(int argc, char* argv[]) {
   bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions);
 
   if (bfGraph == nullptr) {
-    std::cout << "No pre-computed brute force graph. Computing now...\n";
+    std::cout << "\tNo pre-computed brute force graph. Computing now...\n";
     bfGraph = cppdescent::KNNBruteForceGraph(vec, K, compare);
-    std::cout << "Saving...\n";
+    std::cout << "\tSaving...\n";
     cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
   }
 

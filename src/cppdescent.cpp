@@ -247,17 +247,17 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
   // Insert all points as vertices.
   int N = data->getSize();
   for (int i = 0; i < N; i++)
-    graph->insertVertex((Pointer)data->getAt(i));
+    graph->insertVertex(data->getAt(i));
 
   for (int i = 0; i < N; i++) {
-    Pointer a = (Pointer)data->getAt(i);
+    Pointer a = graph->getVec()->getAt(i);
     PQueue* neighbors = new PQueue(compare, nullptr, nullptr);
 
     for (int j = 0; j < N; j++) {
       if (i == j)
         continue;
 
-      Pointer b = (Pointer)data->getAt(j);
+      Pointer b = graph->getVec()->getAt(j);
       GraphVertexPair* pair = new GraphVertexPair(graph, a, b);
 
       if (neighbors->getSize() < K) {
@@ -500,10 +500,11 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       float delta,
                                       float rho,
                                       DistanceFunc distance) {
-  std::cout << "Initializing starting graph...\n";
+  std::cout << "NN-Descent\n";
+  std::cout << "\tInitializing starting graph...\n";
   // B[v] <- Sample(V, K) for all v in V
   Graph* graph = sampleGraph(data, K, (CompareFunc)gsl_vector_equal);
-  std::cout << "Starting graph has been created\n";
+  std::cout << "\tStarting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
   Vector* vertices = graph->getVerticesV();
@@ -567,12 +568,12 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       delete old_v;
     }
 
-    std::cout << "Number of changes in the graph (c) = " << c << "\n";
+    std::cout << "\tNumber of changes in the graph (c) = " << c << "\n";
   } while (c >= delta * N * K);
 
   delete[] allSets;
 
-  std::cout << "NN-Descent iterations: " << iterations << "\n";
+  std::cout << "\tNN-Descent iterations: " << iterations << "\n";
 
   return graph;
 }
@@ -667,10 +668,10 @@ int cppdescent::compareEdgesEuclidean(Pointer first, Pointer second) {
   GraphVertexPair* pair1 = (GraphVertexPair*)first;
   GraphVertexPair* pair2 = (GraphVertexPair*)second;
 
-  float a = euclideanDistance((Vector*)pair1->getVertex1(),
-                              (Vector*)pair1->getVertex2());
-  float b = euclideanDistance((Vector*)pair2->getVertex1(),
-                              (Vector*)pair2->getVertex2());
+  float a = euclideanDistance(((GraphVertex*)pair1->getVertex1())->getData(),
+                              ((GraphVertex*)pair1->getVertex2())->getData());
+  float b = euclideanDistance(((GraphVertex*)pair2->getVertex1())->getData(),
+                              ((GraphVertex*)pair2->getVertex2())->getData());
 
   int value = 0;
   if (b > a) {
