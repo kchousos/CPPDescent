@@ -79,26 +79,6 @@ void Graph::insertVertex(Pointer vertex) {
   }
 }
 
-/**
- * The returned list needs to be deleted, but the list's elements are pointers
- * the the vector's elements, so the list shouldn't have a `destroyValue`.
- *
- * @return List*
- */
-List* Graph::getVertices() {
-  List* list = new List;
-  ListNode* node = LIST_BOF;
-  for (int i = 0; i < this->size; i++) {
-    list->insertNext(node, ((GraphVertex*)this->vec->getAt(i))->getData());
-    if (node != LIST_BOF)
-      node = list->next(node);
-    else
-      node = list->getHead();
-  }
-
-  return list;
-}
-
 Vector* Graph::getVerticesV() {
   return this->vec;
 }
@@ -146,9 +126,6 @@ void Graph::insertEdge(Pointer data1, Pointer data2) {
     gvertex1->addNeighbor(pair);
     gvertex2->addReverse(pair);
   }
-
-  // delete vertex1;
-  // delete vertex2;
 }
 
 void Graph::removeEdge(Pointer data1, Pointer data2) {
@@ -212,12 +189,6 @@ Vector* Graph::getGeneralNeighborsV(Pointer vertex) {
   return neighbors;
 }
 
-void swap(Pointer p, Pointer q) {
-  Pointer tmp = p;
-  p = q;
-  q = tmp;
-}
-
 bool Graph::isNeighborVertex(Pointer v1, Pointer v2) {
   GraphVertex* gvertex1 = (GraphVertex*)v1;
   GraphVertex* gvertex2 = (GraphVertex*)v2;
@@ -238,6 +209,8 @@ bool Graph::isNeighborVertex(Pointer v1, Pointer v2) {
 Graph::~Graph() {
   delete this->vec;
 }
+
+// GraphVertex
 
 GraphVertex::GraphVertex(Pointer data, Graph* owner)
     : data(data), owner(owner), hasBeenChecked(false) {
