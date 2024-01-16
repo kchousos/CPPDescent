@@ -9,6 +9,7 @@
  *
  */
 #include "cppdescent/cppdescent.hpp"
+#include <gsl/gsl_blas.h>
 #include <gsl/gsl_vector.h>
 #include <omp.h>
 #include <cmath>
@@ -38,12 +39,8 @@ int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
   GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
   GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
 
-  float first =
-      euclideanDistance(((GraphVertex*)pair1->getVertex1())->getData(),
-                        ((GraphVertex*)pair1->getVertex2())->getData());
-  float second =
-      euclideanDistance(((GraphVertex*)pair2->getVertex1())->getData(),
-                        ((GraphVertex*)pair2->getVertex2())->getData());
+  float first = euclideanDistance(pair1->getVertex1(), pair1->getVertex2());
+  float second = euclideanDistance(pair2->getVertex1(), pair2->getVertex2());
 
   float result = first - second;
 
@@ -616,21 +613,19 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 // ============================ Metric Functions =============================
 
 float cppdescent::euclideanDistance(Pointer a, Pointer b) {
-  gsl_vector* first = (gsl_vector*)a;
-  gsl_vector* second = (gsl_vector*)b;
+  GraphVertex* first = (GraphVertex*)a;
+  GraphVertex* second = (GraphVertex*)b;
   float result = 0;
 
-  int dimensions = first->size;
+  double x2 = first->getNorm();
+  double y2 = second->getNorm();
 
-  if ((int)second->size != dimensions)
-    return -1.0;  // LCOV_EXCL_LINE
+  double xy;
+  gsl_blas_ddot((gsl_vector*)first->getData(), (gsl_vector*)second->getData(),
+                &xy);
 
-  for (int i = 0; i < dimensions; i++) {
-    float diff = gsl_vector_get(first, i) - gsl_vector_get(second, i);
-    result += diff * diff;
-  }
+  result = x2 + y2 - 2 * xy;
 
-  result = sqrtf(result);
   return result;
 }
 
@@ -638,67 +633,8 @@ int cppdescent::compareEdgesEuclidean(Pointer first, Pointer second) {
   GraphVertexPair* pair1 = (GraphVertexPair*)first;
   GraphVertexPair* pair2 = (GraphVertexPair*)second;
 
-  float a = euclideanDistance(((GraphVertex*)pair1->getVertex1())->getData(),
-                              ((GraphVertex*)pair1->getVertex2())->getData());
-  float b = euclideanDistance(((GraphVertex*)pair2->getVertex1())->getData(),
-                              ((GraphVertex*)pair2->getVertex2())->getData());
-
-  int value = 0;
-  if (b > a) {
-    value = -1;
-  } else if (a > b) {
-    value = 1;
-  }
-  return value;
-}
-
-int cppdescent::compareVertexPairsEuclidean(Pointer first, Pointer second) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)first;
-  GraphVertexPair* pair2 = (GraphVertexPair*)second;
-
-  Vector* vec11 = (Vector*)((GraphVertex*)pair1->getVertex1())->getData();
-  Vector* vec12 = (Vector*)((GraphVertex*)pair1->getVertex2())->getData();
-  Vector* vec21 = (Vector*)((GraphVertex*)pair2->getVertex1())->getData();
-  Vector* vec22 = (Vector*)((GraphVertex*)pair2->getVertex2())->getData();
-
-  float a = euclideanDistance(vec11, vec12);
-  float b = euclideanDistance(vec21, vec22);
-
-  int value = 0;
-  if (b > a) {
-    value = -1;
-  } else if (a > b) {
-    value = 1;
-  }
-  return value;
-}
-
-float cppdescent::manhattanDistance(Pointer a, Pointer b) {
-  Vector* first = (Vector*)a;
-  Vector* second = (Vector*)b;
-  float result = 0;
-
-  int dimensions = first->getSize();
-
-  if (second->getSize() != dimensions)
-    return -1.0;  // LCOV_EXCL_LINE
-
-  for (int i = 0; i < dimensions; i++) {
-    float diff = *(float*)first->getAt(i) - *(float*)second->getAt(i);
-    result += fabs(diff);
-  }
-
-  return result;
-}
-
-int cppdescent::compareEdgesManhattan(Pointer first, Pointer second) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)first;
-  GraphVertexPair* pair2 = (GraphVertexPair*)second;
-
-  float a = manhattanDistance((Vector*)pair1->getVertex1(),
-                              (Vector*)pair1->getVertex2());
-  float b = manhattanDistance((Vector*)pair2->getVertex1(),
-                              (Vector*)pair2->getVertex2());
+  float a = euclideanDistance(pair1->getVertex1(), pair1->getVertex2());
+  float b = euclideanDistance(pair2->getVertex1(), pair2->getVertex2());
 
   int value = 0;
   if (b > a) {

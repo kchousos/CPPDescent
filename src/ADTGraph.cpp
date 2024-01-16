@@ -10,6 +10,7 @@
  */
 
 #include "cppdescent/ADTGraph.hpp"
+#include <gsl/gsl_blas.h>
 #include <gsl/gsl_vector.h>
 #include <climits>
 #include <iostream>
@@ -72,11 +73,18 @@ int Graph::getSize() {
  */
 void Graph::insertVertex(Pointer vertex) {
   GraphVertex* gvertex = new GraphVertex(vertex, this);
+  gsl_vector* x = (gsl_vector*)vertex;
 
-  if (this->vec->find(gvertex, this->compare_vertices) == nullptr) {
-    this->vec->insertLast(gvertex);
-    this->size++;
+  if (this->vec->find(gvertex, this->compare_vertices) != nullptr) {
+    delete gvertex;
+    return;
   }
+
+  this->vec->insertLast(gvertex);
+  this->size++;
+  double norm;
+  gsl_blas_ddot(x, x, &norm);
+  gvertex->setNorm(norm);
 }
 
 Vector* Graph::getVerticesV() {
