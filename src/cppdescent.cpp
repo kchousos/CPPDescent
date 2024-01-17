@@ -308,11 +308,14 @@ int updateNN(Graph* graph,
   PQueue* direct = ((GraphVertex*)u1)->getNeighbors();
   Pointer max = ((GraphVertexPair*)direct->getMax())->getVertex2();
   float maxDist = distance(u1, max);
+  int K = direct->getSize();
 
   if (dist < maxDist) {
-    graph->removeEdge(u1, max);
     graph->insertEdge(u1, u2);
-    return 1;
+    if (direct->getSize() == K + 1) {
+      graph->removeEdge(u1, max);
+      return 1;
+    }
   }
 
   return 0;
@@ -511,11 +514,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1, u2);
 
-          if (graph->isNeighborVertex(u1, u2) == false)
-            c += updateNN(graph, u1, u2, dist, distance);
-
-          if (graph->isNeighborVertex(u2, u1) == false)
-            c += updateNN(graph, u2, u1, dist, distance);
+          c += updateNN(graph, u1, u2, dist, distance);
+          c += updateNN(graph, u2, u1, dist, distance);
         }
 
         for (int U2 = 0; U2 < old_v->getSize(); U2++) {
@@ -524,11 +524,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1, u2);
 
-          if (graph->isNeighborVertex(u1, u2) == false)
-            c += updateNN(graph, u1, u2, dist, distance);
-
-          if (graph->isNeighborVertex(u2, u1) == false)
-            c += updateNN(graph, u2, u1, dist, distance);
+          c += updateNN(graph, u1, u2, dist, distance);
+          c += updateNN(graph, u2, u1, dist, distance);
         }
       }
 

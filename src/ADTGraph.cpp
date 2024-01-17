@@ -147,8 +147,6 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
                          (CompareFunc)cppdescent::compareGraphVertexPairs);
 
   delete pair;
-  // delete vertex1;
-  // delete vertex2;
 }
 
 Vector* Graph::getAdjacentV(Pointer vertex) {
