@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;4bf8c4d
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;9e98e11
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -74,7 +74,7 @@ $(function() {
   <div class="headertitle"><div class="title">CPP-Descent </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__2home_2kchou_2HDD_2Documents_2DiT_27_xCE_xBF_01_xCE_x95_xCE_xBE_xCE_xAC_xCE_xBC_xCE_xB7_xCE_xBD_xCE_xBF_2_xCE_x91_xCE_xBD_xCE_xAC_xCF_x80_xCF_x84_xCF_x85_xCE_xBE_xCE_xB7_01_xCE_x9B_xCE_xBF_xCE_xB3_xCE_xB9_xCF_x83_xCE_xBC_xCE_xB9_xCE_xBA_xCE_xBF_xCF_x8D_01_xCE_xB3_xCE_xB9_xCE_xB1_01_xCE_xA0_xCE_xBB_xCE_xB7_xCF_x81_xCE_xBF_xCF_x86_xCE_xBF_xCF_x81_xCE_xB9_xCE_xB1_xCE_xBA_xCE_xAC_01_xCE_xA3_xCF_x85_xCF_x83_xCF_x84_xCE_xAE_xCE_xBC_xCE_xB1_xCF_x84_xCE_xB1_01_07Project_08_2Project_2README"></a> Part of the <a href="https://eclass.uoa.gr/courses/DI485/">“Software Development for Computing Systems” course</a> of the <a href="https://www.di.uoa.gr/en">Department of Informatics and Telecommunications, UoA</a> for the first semester of the academic year 2023-2024.</p>
+<div class="textblock"><p><a class="anchor" id="md__2home_2kchou_2Documents_2DiT_27_xCE_xBF_01_xCE_x95_xCE_xBE_xCE_xAC_xCE_xBC_xCE_xB7_xCE_xBD_xCE_xBF_2_xCE_x91_xCE_xBD_xCE_xAC_xCF_x80_xCF_x84_xCF_x85_xCE_xBE_xCE_xB7_01_xCE_x9B_xCE_xBF_xCE_xB3_xCE_xB9_xCF_x83_xCE_xBC_xCE_xB9_xCE_xBA_xCE_xBF_xCF_x8D_01_xCE_xB3_xCE_xB9_xCE_xB1_01_xCE_xA0_xCE_xBB_xCE_xB7_xCF_x81_xCE_xBF_xCF_x86_xCE_xBF_xCF_x81_xCE_xB9_xCE_xB1_xCE_xBA_xCE_xAC_01_xCE_xA3_xCF_x85_xCF_x83_xCF_x84_xCE_xAE_xCE_xBC_xCE_xB1_xCF_x84_xCE_xB1_01_07Project_08_2Project_2README"></a> Part of the <a href="https://eclass.uoa.gr/courses/DI485/">“Software Development for Computing Systems” course</a> of the <a href="https://www.di.uoa.gr/en">Department of Informatics and Telecommunications, UoA</a> for the first semester of the academic year 2023-2024.</p>
 <p>A library that implements the KNN-Graph creation and search algorithms described in [1], [2].</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Contributors</h1>
@@ -106,7 +106,11 @@ Contributors</h1>
 </ul>
 </li>
 <li>2nd submission<ul>
-<li><a class="el" href="classGraph.html">Graph</a> refactoring for more efficient neigbors retrieval</li>
+<li>Implementation of <a class="el" href="classGraphVertex.html">GraphVertex</a> class</li>
+<li>Refactor of previous <a class="el" href="classGraph.html">Graph</a> implementation to use <a class="el" href="classGraphVertex.html">GraphVertex</a> class (without changing the existing interface)</li>
+<li><code>getMin()</code> property to Priority Queue</li>
+<li><code>remove()</code> property to Priority Queue</li>
+<li>Implementation of <code>find()</code> helper function for Priority Queue</li>
 </ul>
 </li>
 </ul>
@@ -127,8 +131,8 @@ Minor dependencies</h2>
 Running the project</h1>
 <p>To run the main executable, the following commands suffice: </p><pre class="fragment">$ cmake -S . -B build
 $ cmake --build build
-$ ./build/app/app &lt;K&gt; &lt;filepath-to-dataset&gt; &lt;dimensions&gt; &lt;1 or 2&gt;
-</pre><p> The last argument concerns the metric function that will be used. 1 means that the euclidean distance will be used and 2 stands for the manhattan distance.</p>
+$ ./build/app/app &lt;K&gt; &lt;filepath-to-dataset&gt; &lt;dimensions&gt; &lt;1 or 2&gt; &lt;delta&gt;
+</pre><p> The second from last argument concerns the metric function that will be used. 1 means that the euclidean distance will be used and 2 stands for the manhattan distance.</p>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Results</h2>
 <p>The <em>recall</em> percentage that is printed during execution is computed by the following formula, derived from [1, Sec. 3.2].</p>

@@ -1,22 +1,24 @@
 <map id="ADTGraph.cpp" name="ADTGraph.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="291,5,399,30"/>
-<area shape="rect" id="Node000002" href="$ADTGraph_8hpp.html" title="Abstract undirected graph with weighted edges." alt="" coords="113,78,291,103"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="322,33,240,73,238,69,320,28"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="315,78,375,103"/>
-<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="348,31,348,63,342,63,342,31"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="399,78,470,103"/>
-<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="361,28,410,67,407,71,358,33"/>
-<area shape="rect" id="Node000003" href="$ADTList_8hpp_source.html" title=" " alt="" coords="5,223,98,248"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="156,106,114,124,94,137,78,152,63,180,56,210,51,209,58,178,73,149,91,132,111,119,154,101"/>
-<area shape="rect" id="Node000005" href="$ADTMap_8hpp.html" title=" " alt="" coords="88,151,186,175"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="193,105,159,142,155,138,189,101"/>
-<area shape="rect" id="Node000006" href="$ADTPQueue_8hpp.html" title=" " alt="" coords="209,151,329,175"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="215,101,250,138,246,142,211,105"/>
-<area shape="rect" id="Node000007" href="$ADTVector_8hpp.html" title="ADTVector implementation using a dynamic array." alt="" coords="214,223,324,248"/>
-<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="269,101,310,119,328,132,343,149,348,169,340,187,324,204,306,218,302,213,321,200,336,184,343,168,338,152,325,136,307,123,267,106"/>
-<area shape="rect" id="Node000004" href="$common_8hpp_source.html" title=" " alt="" coords="89,296,185,321"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="67,246,114,284,110,289,64,251"/>
-<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="140,176,140,281,134,281,134,176"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="272,176,272,209,266,209,266,176"/>
-<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="248,251,173,291,170,286,246,246"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="211,5,319,30"/>
+<area shape="rect" id="Node000002" href="$ADTGraph_8hpp.html" title="Abstract undirected graph with weighted edges." alt="" coords="335,151,513,175"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,23,136,28,60,41,32,51,13,65,9,72,8,80,19,101,38,116,66,128,143,145,233,155,320,159,320,164,233,160,142,150,65,133,35,120,15,104,3,81,4,70,9,61,29,47,59,36,135,22,211,17"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="29,78,130,103"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="235,33,125,75,123,70,234,28"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="154,78,267,103"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="258,32,230,68,226,65,254,29"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="290,78,349,103"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="276,29,304,65,300,68,272,32"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="373,78,445,103"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="290,28,374,69,371,74,288,33"/>
+<area shape="rect" id="Node000010" href="$cppdescent_8hpp_source.html" title=" " alt="" coords="469,78,653,103"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="315,28,498,71,497,77,314,33"/>
+<area shape="rect" id="Node000003" href="$ADTPQueue_8hpp.html" title=" " alt="" coords="353,223,473,248"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="425,176,420,209,414,208,419,175"/>
+<area shape="rect" id="Node000004" href="$ADTVector_8hpp.html" title="ADTVector implementation using a dynamic array." alt="" coords="456,296,565,321"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="441,174,465,194,487,222,501,252,509,281,504,282,496,253,483,225,461,198,438,178"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="431,246,485,285,481,289,428,251"/>
+<area shape="rect" id="Node000005" href="$common_8hpp_source.html" title=" " alt="" coords="462,369,559,393"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="513,321,513,354,508,354,508,321"/>
+<area shape="poly" id="edge11_Node000010_Node000002" title=" " alt="" coords="540,106,461,146,458,141,537,101"/>
+<area shape="poly" id="edge12_Node000010_Node000004" title=" " alt="" coords="561,104,519,282,514,281,556,103"/>
 </map>

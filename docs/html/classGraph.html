@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;4bf8c4d
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;9e98e11
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -80,103 +80,77 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6654cbf8394c4678a1ca083989c7d832"><td class="memItemLeft" align="right" valign="top"><a id="a6654cbf8394c4678a1ca083989c7d832" name="a6654cbf8394c4678a1ca083989c7d832"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Graph</b> (CompareFunc compare, DestroyFunc destroy, DestroyFunc vecDestroy=nullptr)</td></tr>
-<tr class="separator:a6654cbf8394c4678a1ca083989c7d832"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7829f5986b57095f543339c8f2501215"><td class="memItemLeft" align="right" valign="top"><a id="a7829f5986b57095f543339c8f2501215" name="a7829f5986b57095f543339c8f2501215"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Graph</b> (CompareFunc compare, DestroyFunc vecDestroy)</td></tr>
+<tr class="separator:a7829f5986b57095f543339c8f2501215"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7d965333f0ae9e6727676db3224ec4b"><td class="memItemLeft" align="right" valign="top"><a id="ab7d965333f0ae9e6727676db3224ec4b" name="ab7d965333f0ae9e6727676db3224ec4b"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>getSize</b> ()</td></tr>
 <tr class="separator:ab7d965333f0ae9e6727676db3224ec4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#aa6d1efd712d1f5edfb2f9fb645690f09">insertVertex</a> (Pointer vertex)</td></tr>
 <tr class="memdesc:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a vertex to the graph (if it doesn't already exist).  <br /></td></tr>
 <tr class="separator:aa6d1efd712d1f5edfb2f9fb645690f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#a5f6611ef49b5dd7c948feab09b8e7e35">getVertices</a> ()</td></tr>
-<tr class="memdesc:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">The returned list needs to be deleted, but the list's elements are pointers the the vector's elements, so the list shouldn't have a <code>destroyValue</code>.  <br /></td></tr>
-<tr class="separator:a5f6611ef49b5dd7c948feab09b8e7e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8095cdf2ccc889d0e783196918be0f39"><td class="memItemLeft" align="right" valign="top"><a id="a8095cdf2ccc889d0e783196918be0f39" name="a8095cdf2ccc889d0e783196918be0f39"></a>
+<a class="el" href="classVector.html">Vector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getVerticesV</b> ()</td></tr>
+<tr class="separator:a8095cdf2ccc889d0e783196918be0f39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e582c71907028054f879a7ed1368a33"><td class="memItemLeft" align="right" valign="top"><a id="a4e582c71907028054f879a7ed1368a33" name="a4e582c71907028054f879a7ed1368a33"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>removeVertex</b> (Pointer vertex)</td></tr>
 <tr class="separator:a4e582c71907028054f879a7ed1368a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa777d7b8755c673d9850aaf95e883407"><td class="memItemLeft" align="right" valign="top"><a id="aa777d7b8755c673d9850aaf95e883407" name="aa777d7b8755c673d9850aaf95e883407"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>insertEdge</b> (Pointer vertex1, Pointer vertex2, float weight)</td></tr>
-<tr class="separator:aa777d7b8755c673d9850aaf95e883407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af55667e5ab778ecac46a02014be8cfb9"><td class="memItemLeft" align="right" valign="top"><a id="af55667e5ab778ecac46a02014be8cfb9" name="af55667e5ab778ecac46a02014be8cfb9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>insertEdge</b> (Pointer vertex1, Pointer vertex2)</td></tr>
+<tr class="separator:af55667e5ab778ecac46a02014be8cfb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dcaa864c285e0dead022feafa9760a3"><td class="memItemLeft" align="right" valign="top"><a id="a2dcaa864c285e0dead022feafa9760a3" name="a2dcaa864c285e0dead022feafa9760a3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdge</b> (Pointer vertex1, Pointer vertex2)</td></tr>
 <tr class="separator:a2dcaa864c285e0dead022feafa9760a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c0d77f2facbccbf6b40aa5f57df321a"><td class="memItemLeft" align="right" valign="top"><a id="a3c0d77f2facbccbf6b40aa5f57df321a" name="a3c0d77f2facbccbf6b40aa5f57df321a"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>getWeight</b> (Pointer vertex1, Pointer vertex2)</td></tr>
-<tr class="separator:a3c0d77f2facbccbf6b40aa5f57df321a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f9b79711bcc8719699f2e33069053c3"><td class="memItemLeft" align="right" valign="top"><a id="a8f9b79711bcc8719699f2e33069053c3" name="a8f9b79711bcc8719699f2e33069053c3"></a>
-<a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getAdjacent</b> (Pointer vertex)</td></tr>
-<tr class="separator:a8f9b79711bcc8719699f2e33069053c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03ec36c0074ee9ac14b579d3f624b29a"><td class="memItemLeft" align="right" valign="top"><a id="a03ec36c0074ee9ac14b579d3f624b29a" name="a03ec36c0074ee9ac14b579d3f624b29a"></a>
-<a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getAdjacentVertices</b> (Pointer vertex)</td></tr>
-<tr class="separator:a03ec36c0074ee9ac14b579d3f624b29a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15c2d41593750a2691c25c0161801130"><td class="memItemLeft" align="right" valign="top"><a id="a15c2d41593750a2691c25c0161801130" name="a15c2d41593750a2691c25c0161801130"></a>
-<a class="el" href="classPQueue.html">PQueue</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getAdjacentPQ</b> (Pointer vertex)</td></tr>
-<tr class="separator:a15c2d41593750a2691c25c0161801130"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad124f8c9a7adfe7d0e0cfd4073dc7088"><td class="memItemLeft" align="right" valign="top"><a id="ad124f8c9a7adfe7d0e0cfd4073dc7088" name="ad124f8c9a7adfe7d0e0cfd4073dc7088"></a>
-<a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getReverseAdjacent</b> (Pointer vertex)</td></tr>
-<tr class="separator:ad124f8c9a7adfe7d0e0cfd4073dc7088"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5352fa3accbc1bd9d378af31d68eca7"><td class="memItemLeft" align="right" valign="top"><a id="af5352fa3accbc1bd9d378af31d68eca7" name="af5352fa3accbc1bd9d378af31d68eca7"></a>
-<a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getReverseAdjacentVertices</b> (Pointer vertex)</td></tr>
-<tr class="separator:af5352fa3accbc1bd9d378af31d68eca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad426647595e507547185b24dea806bfe"><td class="memItemLeft" align="right" valign="top"><a id="ad426647595e507547185b24dea806bfe" name="ad426647595e507547185b24dea806bfe"></a>
-<a class="el" href="classPQueue.html">PQueue</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getReverseAdjacentPQ</b> (Pointer vertex)</td></tr>
-<tr class="separator:ad426647595e507547185b24dea806bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4393e8179861a3e8856d2c21f8cdce4e"><td class="memItemLeft" align="right" valign="top"><a id="a4393e8179861a3e8856d2c21f8cdce4e" name="a4393e8179861a3e8856d2c21f8cdce4e"></a>
-<a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getGeneralNeighbors</b> (Pointer vertex)</td></tr>
-<tr class="separator:a4393e8179861a3e8856d2c21f8cdce4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a310b8f7dcc06d1c3c54d8e4dad1c5622"><td class="memItemLeft" align="right" valign="top"><a id="a310b8f7dcc06d1c3c54d8e4dad1c5622" name="a310b8f7dcc06d1c3c54d8e4dad1c5622"></a>
-<a class="el" href="classList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getGeneralNeighborsVertices</b> (Pointer vertex)</td></tr>
-<tr class="separator:a310b8f7dcc06d1c3c54d8e4dad1c5622"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3dff5ea69b23758acf076a203d81293"><td class="memItemLeft" align="right" valign="top"><a id="ae3dff5ea69b23758acf076a203d81293" name="ae3dff5ea69b23758acf076a203d81293"></a>
-<a class="el" href="classPQueue.html">PQueue</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getGeneralNeighborsPQ</b> (Pointer vertex)</td></tr>
-<tr class="separator:ae3dff5ea69b23758acf076a203d81293"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21c2fd922161d77deb0e2b7108d29fd2"><td class="memItemLeft" align="right" valign="top"><a id="a21c2fd922161d77deb0e2b7108d29fd2" name="a21c2fd922161d77deb0e2b7108d29fd2"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isNeighbor</b> (Pointer v1, Pointer v2)</td></tr>
-<tr class="separator:a21c2fd922161d77deb0e2b7108d29fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1efc5da28694b555ff75a62eafbfdbb"><td class="memItemLeft" align="right" valign="top"><a id="ab1efc5da28694b555ff75a62eafbfdbb" name="ab1efc5da28694b555ff75a62eafbfdbb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setHashFunction</b> (HashFunc hash)</td></tr>
-<tr class="separator:ab1efc5da28694b555ff75a62eafbfdbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83310c0bb628bb14ac21b9ec263be820"><td class="memItemLeft" align="right" valign="top"><a id="a83310c0bb628bb14ac21b9ec263be820" name="a83310c0bb628bb14ac21b9ec263be820"></a>
+<a class="el" href="classVector.html">Vector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getAdjacentV</b> (Pointer vertex)</td></tr>
+<tr class="separator:a83310c0bb628bb14ac21b9ec263be820"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ba39888a28ae931d0441fb81e03ca11"><td class="memItemLeft" align="right" valign="top"><a id="a0ba39888a28ae931d0441fb81e03ca11" name="a0ba39888a28ae931d0441fb81e03ca11"></a>
+<a class="el" href="classVector.html">Vector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getReverseAdjacentV</b> (Pointer vertex)</td></tr>
+<tr class="separator:a0ba39888a28ae931d0441fb81e03ca11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52ccdc67a2011e8cf29ef2c2330f25ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVector.html">Vector</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#a52ccdc67a2011e8cf29ef2c2330f25ec">getGeneralNeighborsV</a> (Pointer vertex)</td></tr>
+<tr class="memdesc:a52ccdc67a2011e8cf29ef2c2330f25ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector where the K first elements are the direct neighbors of the vertex and the rest are the reverse ones.  <br /></td></tr>
+<tr class="separator:a52ccdc67a2011e8cf29ef2c2330f25ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4c9cca4188ad8e07b75266aebe2b0e2"><td class="memItemLeft" align="right" valign="top"><a id="aa4c9cca4188ad8e07b75266aebe2b0e2" name="aa4c9cca4188ad8e07b75266aebe2b0e2"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isNeighborVertex</b> (Pointer v1, Pointer v2)</td></tr>
+<tr class="separator:aa4c9cca4188ad8e07b75266aebe2b0e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a011f95d5f9a8d859aad84baec044522f"><td class="memItemLeft" align="right" valign="top"><a id="a011f95d5f9a8d859aad84baec044522f" name="a011f95d5f9a8d859aad84baec044522f"></a>
 CompareFunc&#160;</td><td class="memItemRight" valign="bottom"><b>getCompareData</b> ()</td></tr>
 <tr class="separator:a011f95d5f9a8d859aad84baec044522f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f0e94056b308c56d635fbe3c90d02fd"><td class="memItemLeft" align="right" valign="top"><a id="a8f0e94056b308c56d635fbe3c90d02fd" name="a8f0e94056b308c56d635fbe3c90d02fd"></a>
 CompareFunc&#160;</td><td class="memItemRight" valign="bottom"><b>getCompareVertices</b> ()</td></tr>
 <tr class="separator:a8f0e94056b308c56d635fbe3c90d02fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72e991d9edf70c1998bd9ff8f54c0322"><td class="memItemLeft" align="right" valign="top"><a id="a72e991d9edf70c1998bd9ff8f54c0322" name="a72e991d9edf70c1998bd9ff8f54c0322"></a>
-DestroyFunc&#160;</td><td class="memItemRight" valign="bottom"><b>getDestroy</b> ()</td></tr>
-<tr class="separator:a72e991d9edf70c1998bd9ff8f54c0322"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1606fa52a60951f447c563fb361c4a87"><td class="memItemLeft" align="right" valign="top"><a id="a1606fa52a60951f447c563fb361c4a87" name="a1606fa52a60951f447c563fb361c4a87"></a>
 DestroyFunc&#160;</td><td class="memItemRight" valign="bottom"><b>getDestroyData</b> ()</td></tr>
 <tr class="separator:a1606fa52a60951f447c563fb361c4a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3eb37d3af4b6a1d9831a7fa2e1b9bfeb"><td class="memItemLeft" align="right" valign="top"><a id="a3eb37d3af4b6a1d9831a7fa2e1b9bfeb" name="a3eb37d3af4b6a1d9831a7fa2e1b9bfeb"></a>
-HashFunc&#160;</td><td class="memItemRight" valign="bottom"><b>getHash</b> ()</td></tr>
-<tr class="separator:a3eb37d3af4b6a1d9831a7fa2e1b9bfeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7ee21239c21d7d19b436e7be1484775"><td class="memItemLeft" align="right" valign="top"><a id="af7ee21239c21d7d19b436e7be1484775" name="af7ee21239c21d7d19b436e7be1484775"></a>
 <a class="el" href="classVector.html">Vector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getVec</b> ()</td></tr>
 <tr class="separator:af7ee21239c21d7d19b436e7be1484775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a465e2bc5d96e50d938aaf0931908dfd6"><td class="memItemLeft" align="right" valign="top"><a id="a465e2bc5d96e50d938aaf0931908dfd6" name="a465e2bc5d96e50d938aaf0931908dfd6"></a>
-<a class="el" href="classMap.html">Map</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getMap</b> ()</td></tr>
-<tr class="separator:a465e2bc5d96e50d938aaf0931908dfd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5f6611ef49b5dd7c948feab09b8e7e35" name="a5f6611ef49b5dd7c948feab09b8e7e35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f6611ef49b5dd7c948feab09b8e7e35">&#9670;&#160;</a></span>getVertices()</h2>
+<a id="a52ccdc67a2011e8cf29ef2c2330f25ec" name="a52ccdc67a2011e8cf29ef2c2330f25ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52ccdc67a2011e8cf29ef2c2330f25ec">&#9670;&#160;</a></span>getGeneralNeighborsV()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classList.html">List</a> * Graph::getVertices </td>
+          <td class="memname"><a class="el" href="classVector.html">Vector</a> * Graph::getGeneralNeighborsV </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>vertex</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The returned list needs to be deleted, but the list's elements are pointers the the vector's elements, so the list shouldn't have a <code>destroyValue</code>. </p>
-<dl class="section return"><dt>Returns</dt><dd>List* </dd></dl>
+<p>Returns a vector where the K first elements are the direct neighbors of the vertex and the rest are the reverse ones. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertex</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Vector* </dd></dl>
 
 </div>
 </div>

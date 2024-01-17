@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['knnbruteforcegraph_0',['KNNBruteForceGraph',['../namespacecppdescent.html#a3d5c832c39245e41693b9b0245696ca7',1,'cppdescent']]]
+  ['knnbruteforcegraph_0',['KNNBruteForceGraph',['../namespacecppdescent.html#a26e6a371135451e459dd3399e20d38ac',1,'cppdescent']]]
 ];

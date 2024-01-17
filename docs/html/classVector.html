@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CPPDescent<span id="projectnumber">&#160;4bf8c4d
+   <div id="projectname">CPPDescent<span id="projectnumber">&#160;9e98e11
 (with uncommitted changes)</span>
    </div>
    <div id="projectbrief">A C++ KNN-Graph creation library</div>
@@ -109,6 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4e4f24c760e61008e9d85a34209ec700"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#a4e4f24c760e61008e9d85a34209ec700">find</a> (Pointer value, CompareFunc compare)</td></tr>
 <tr class="memdesc:a4e4f24c760e61008e9d85a34209ec700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the first element with value equal to value.  <br /></td></tr>
 <tr class="separator:a4e4f24c760e61008e9d85a34209ec700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae579dcdca52d7325fdb270757dffa2a6"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#ae579dcdca52d7325fdb270757dffa2a6">binaryFind</a> (Pointer value, CompareFunc compare)</td></tr>
+<tr class="memdesc:ae579dcdca52d7325fdb270757dffa2a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the element with value equal to value using binary search.  <br /></td></tr>
+<tr class="separator:ae579dcdca52d7325fdb270757dffa2a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0039a1e3b5532fe6994ba953b9a671ee"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVector.html#a0039a1e3b5532fe6994ba953b9a671ee">findPos</a> (Pointer value, CompareFunc compare)</td></tr>
 <tr class="memdesc:a0039a1e3b5532fe6994ba953b9a671ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the first element with value equal to value and return its pos.  <br /></td></tr>
 <tr class="separator:a0039a1e3b5532fe6994ba953b9a671ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -198,6 +201,44 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae579dcdca52d7325fdb270757dffa2a6" name="ae579dcdca52d7325fdb270757dffa2a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae579dcdca52d7325fdb270757dffa2a6">&#9670;&#160;</a></span>binaryFind()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Pointer Vector::binaryFind </td>
+          <td>(</td>
+          <td class="paramtype">Pointer&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CompareFunc&#160;</td>
+          <td class="paramname"><em>compare</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Find the element with value equal to value using binary search. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to look for. </td></tr>
+    <tr><td class="paramname">compare</td><td>The function to be used for comparison. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer A pointer to the found value. </dd></dl>
+
+</div>
+</div>
 <a id="a4e4f24c760e61008e9d85a34209ec700" name="a4e4f24c760e61008e9d85a34209ec700"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4e4f24c760e61008e9d85a34209ec700">&#9670;&#160;</a></span>find()</h2>
 
