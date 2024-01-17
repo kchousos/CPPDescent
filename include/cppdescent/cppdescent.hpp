@@ -6,6 +6,7 @@
 #include "ADTVector.hpp"
 
 typedef float (*DistanceFunc)(Pointer a, Pointer b);
+extern bool verbose;
 
 /**
  * @brief Functions for the creation of a K-NN graph.
@@ -149,9 +150,9 @@ Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare);
  */
 Graph* NNDescent_KNNGraph(Vector* data,
                           int K,
-                          float delta,
-                          float rho,
-                          DistanceFunc distance);
+                          float delta = 0.01,
+                          float rho = 0.5,
+                          DistanceFunc distance = euclideanDistance);
 /**
  * @brief Computes the K Nearest Neighbors of the query point in the graph.
  *

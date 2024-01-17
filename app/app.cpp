@@ -9,7 +9,7 @@
 #define dimensions 100
 
 int main(int argc, char* argv[]) {
-  int K;
+  int K = -1;
   float delta = 0.01;
   float rho = 0.5;
   char* path = nullptr;
@@ -76,12 +76,14 @@ int main(int argc, char* argv[]) {
   bfPath.append("_euclidean");
   bfPath.append(".bin");
 
-  std::cout << "For K = " << K << "\n";
-  std::cout << "For δ = " << delta << "\n";
-  std::cout << "For ρ = " << rho << "\n";
-  std::cout << "Dataset: " << argv[2] << "\n";
-  std::cout << "Dimensions: " << dimensions << "\n";
-  std::cout << "----------------------------------------------------------\n";
+  if (verbose) {
+    std::cout << "For K = " << K << "\n";
+    std::cout << "For δ = " << delta << "\n";
+    std::cout << "For ρ = " << rho << "\n";
+    std::cout << "Dataset: " << argv[2] << "\n";
+    std::cout << "Dimensions: " << dimensions << "\n";
+    std::cout << "----------------------------------------------------------\n";
+  }
 
   Graph* nnGraph;
   Graph* bfGraph;
@@ -89,34 +91,42 @@ int main(int argc, char* argv[]) {
   auto start = std::chrono::high_resolution_clock::now();
 
   // NN-Descent
+  if (verbose)
+    std::cout << "NN-Descent\n";
+
   nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, delta, rho, distance);
 
   auto stop = std::chrono::high_resolution_clock::now();
   auto duration =
       std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-  std::cout << "NN-Descent K-NN Graph created in " << duration.count()
-            << " milliseconds for δ = " << delta << ", ρ = " << rho << "\n";
+  if (verbose)
+    std::cout << "NN-Descent K-NN Graph created in " << duration.count()
+              << " milliseconds for δ = " << delta << ", ρ = " << rho << "\n";
 
-  std::cout << "Computing recall...\n";
+  if (verbose)
+    std::cout << "Computing recall...\n";
 
   // Read the graph files.
   bfGraph = cppdescent::readBinGraph(bfPath.c_str(), dimensions);
 
   bool computed = false;
-  Vector* vec2;
+  Vector* vec2 = nullptr;
 
   if (bfGraph == nullptr) {
-    std::cout << "\tNo pre-computed brute force graph. Computing now...\n";
+    if (verbose)
+      std::cout << "\tNo pre-computed brute force graph. Computing now...\n";
     vec2 = cppdescent::readBinData(path, dimensions);
     bfGraph = cppdescent::KNNBruteForceGraph(vec2, K, compare);
-    std::cout << "\tSaving...\n";
+    if (verbose)
+      std::cout << "\tSaving...\n";
     cppdescent::writeBinGraph(bfPath.c_str(), bfGraph, K);
     computed = true;
   }
 
-  std::cout << "Total recall is " << cppdescent::recall(bfGraph, nnGraph, N, K)
-            << "%\n\n";
+  if (verbose)
+    std::cout << "Total recall is "
+              << cppdescent::recall(bfGraph, nnGraph, N, K) << "%\n\n";
 
   delete bfGraph;
   delete nnGraph;

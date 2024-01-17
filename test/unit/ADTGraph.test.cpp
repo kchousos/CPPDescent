@@ -10,7 +10,6 @@
  */
 
 #include "cppdescent/ADTGraph.hpp"
-#include "cppdescent/ADTList.hpp"
 #include "cppdescent/ADTPQueue.hpp"
 #include "cppdescent/cppdescent.hpp"
 #include "gtest/gtest.h"

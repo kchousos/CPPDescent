@@ -16,6 +16,8 @@
 #include <cstdint>
 #include <iostream>
 
+bool verbose = true;
+
 //===================================
 // Helper functions.
 //===================================
@@ -466,11 +468,12 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       float delta,
                                       float rho,
                                       DistanceFunc distance) {
-  std::cout << "NN-Descent\n";
-  std::cout << "\tInitializing starting graph...\n";
+  if (verbose)
+    std::cout << "\tInitializing starting graph...\n";
   // B[v] <- Sample(V, K) for all v in V
   Graph* graph = sampleGraph(data, K);
-  std::cout << "\tStarting graph has been created\n";
+  if (verbose)
+    std::cout << "\tStarting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we
   // only need to get them once and not in each iteration.
   Vector* vertices = graph->getVerticesV();
@@ -534,12 +537,14 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       delete old_v;
     }
 
-    std::cout << "\tNumber of changes in the graph (c) = " << c << "\n";
+    if (verbose)
+      std::cout << "\tNumber of changes in the graph (c) = " << c << "\n";
   } while (c >= delta * N * K);
 
   delete[] allSets;
 
-  std::cout << "\tNN-Descent iterations: " << iterations << "\n";
+  if (verbose)
+    std::cout << "\tNN-Descent iterations: " << iterations << "\n";
 
   return graph;
 }

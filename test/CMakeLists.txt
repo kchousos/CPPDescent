@@ -34,10 +34,6 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 # Declare tests
-package_add_test(ADTList.test 
-                 unit/ADTList.test.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTList.cpp)
-
 package_add_test(ADTVector.test 
                  unit/ADTVector.test.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)
@@ -47,16 +43,9 @@ package_add_test(ADTPQueue.test
                  ${PROJECT_SOURCE_DIR}/src/ADTPQueue.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)
 
-package_add_test(ADTMap.test 
-                 unit/ADTMap.test.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTMap.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTMap.cpp)
-
 package_add_test(ADTGraph.test 
                  unit/ADTGraph.test.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTGraph.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTMap.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTList.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTPQueue.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)
 
@@ -65,6 +54,4 @@ package_add_test(cppdescent.test
                  ${PROJECT_SOURCE_DIR}/src/cppdescent.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTPQueue.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTGraph.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTMap.cpp
-                 ${PROJECT_SOURCE_DIR}/src/ADTList.cpp
                  ${PROJECT_SOURCE_DIR}/src/ADTVector.cpp)

@@ -11,8 +11,6 @@
 
 #pragma once
 
-#include "ADTList.hpp"
-#include "ADTMap.hpp"
 #include "ADTPQueue.hpp"
 #include "ADTVector.hpp"
 
@@ -30,7 +28,6 @@ class Graph {
   int getSize();
   void insertVertex(Pointer vertex);
   Vector* getVerticesV();
-  List* getVertices();
   void removeVertex(Pointer vertex);
   void insertEdge(Pointer vertex1, Pointer vertex2);
   void removeEdge(Pointer vertex1, Pointer vertex2);

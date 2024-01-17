@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include "ADTList.hpp"
 #include "ADTVector.hpp"
 
 /**
@@ -97,7 +96,7 @@ class PQueue {
   /**
    * @brief Returns all the elements as a vector.
    *
-   * @return List*
+   * @return Vector*
    */
   Vector* toVector() { return this->vector; };
 
