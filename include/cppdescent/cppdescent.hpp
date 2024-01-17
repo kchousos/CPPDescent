@@ -15,10 +15,6 @@ extern bool verbose;
 namespace cppdescent {
 int compareGraphVertices(Pointer vertex1, Pointer vertex2);
 
-int compareVertices(Pointer first, Pointer second);
-
-int compareNeighbors(Pointer a, Pointer b);
-
 int compareGraphVertexPairs(Pointer p1, Pointer p2);
 
 // ================================ I/O ======================================

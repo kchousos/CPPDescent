@@ -36,23 +36,6 @@ void destroyEdges(GraphVertexPair* pair) {
   delete pair;
 }
 
-int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
-  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
-
-  float first = euclideanDistance(pair1->getVertex1(), pair1->getVertex2());
-  float second = euclideanDistance(pair2->getVertex1(), pair2->getVertex2());
-
-  float result = first - second;
-
-  if (result < 0)
-    return -1;
-  else if (result > 0)
-    return 1;
-  else
-    return 0;
-}
-
 int cppdescent::compareGraphVertexPairs(Pointer p1, Pointer p2) {
   GraphVertexPair* pair1 = (GraphVertexPair*)p1;
   GraphVertexPair* pair2 = (GraphVertexPair*)p2;
@@ -173,7 +156,7 @@ Graph* cppdescent::readBinGraph(const char* fp, int dimensions) {
     for (int k = 0; k < K; k++) {
       fread(&pos, sizeof(int), 1, file);
       GraphVertex* v2 = (GraphVertex*)graph->getVec()->getAt(pos);
-      graph->insertEdge(v1, v2);
+      graph->insertEdge(v1, v2, 0);
     }
   }
 
@@ -245,7 +228,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
       neighbors->removeMax();
       Pointer vec = ((GraphVertexPair*)neighbor)->getVertex2();
       delete neighbor;
-      graph->insertEdge(a, vec);
+      graph->insertEdge(a, vec, 0);
     }
 
     delete neighbors;
@@ -293,7 +276,7 @@ Graph* sampleGraph(Vector* data, int K) {
         randPos = rand() % N;
         v2 = (Pointer)graph->getVec()->getAt(randPos);
       }
-      graph->insertEdge(v1, v2);
+      graph->insertEdge(v1, v2, 0);
     }
   }
 
@@ -311,7 +294,7 @@ int updateNN(Graph* graph,
   int K = direct->getSize();
 
   if (dist < maxDist) {
-    graph->insertEdge(u1, u2);
+    graph->insertEdge(u1, u2, dist);
     if (direct->getSize() == K + 1) {
       graph->removeEdge(u1, max);
       return 1;

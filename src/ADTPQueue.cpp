@@ -167,12 +167,10 @@ void PQueue::remove(Pointer value, CompareFunc compare) {
 }
 
 int PQueue::find(Pointer value, CompareFunc compare_) {
-  int foundId = -1;
   for (int i = 1; i <= this->getSize(); i++)
     if (compare_(value, this->nodeValue(i)) == 0) {
-      foundId = i;
-      break;
+      return i;
     }
 
-  return foundId;
+  return -1;
 }
