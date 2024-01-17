@@ -96,10 +96,6 @@ Pointer Vector::binaryFind(Pointer value, CompareFunc compare) {
   int l = 0;
   int r = this->getSize() - 1;
 
-  for (int i = 0; i < this->size; i++)
-    if (compare(this->array[i].getValue(), value) == 0)
-      return this->array[i].getValue();
-
   while (l <= r) {
     int m = l + (r - l) / 2;
     int comparison = compare(this->array[m].getValue(), value);
@@ -110,14 +106,19 @@ Pointer Vector::binaryFind(Pointer value, CompareFunc compare) {
 
     // If x greater, ignore left half
     if (comparison < 0)
-      l = m + 1;
+      r = m - 1;
 
     // If x is smaller, ignore right half
     else
-      r = m - 1;
+      l = m + 1;
   }
 
   // If we reach here, then element was not present
+
+  for (int i = 0; i < this->size; i++)
+    if (compare(this->array[i].getValue(), value) == 0)
+      return this->array[i].getValue();
+
   return nullptr;
 }
 
@@ -173,4 +174,10 @@ vectorNode* Vector::findNode(Pointer value, CompareFunc compare) {
       return &this->array[i];  // found
 
   return VECTOR_EOF;  // not found
+}
+
+void Vector::swap(int pos1, int pos2) {
+  Pointer temp = this->array[pos1].getValue();
+  this->array[pos1].setValue(this->array[pos2].getValue());
+  this->array[pos2].setValue(temp);
 }

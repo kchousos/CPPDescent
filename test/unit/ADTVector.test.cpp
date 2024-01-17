@@ -147,6 +147,9 @@ TEST(ADTVectorTest, find) {
   int notExists = -1;
   ASSERT_EQ(v->find(&notExists, compareInts), nullptr);
   ASSERT_EQ(v->findNode(&notExists, compareInts), VECTOR_EOF);
+  ASSERT_EQ(v->findPos(&notExists, compareInts), -1);
+
+  ASSERT_NE(v->binaryFind(&array[600], compareInts), nullptr);
 
   delete[] array;
   delete v;

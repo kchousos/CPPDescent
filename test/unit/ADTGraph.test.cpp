@@ -10,82 +10,33 @@
  */
 
 #include "cppdescent/ADTGraph.hpp"
+#include <gsl/gsl_vector.h>
 #include "cppdescent/ADTPQueue.hpp"
 #include "cppdescent/cppdescent.hpp"
 #include "gtest/gtest.h"
 
-/**
- * @brief A simple function to compare 2 integer pointers.
- *
- * @param a Int pointer 1
- * @param b Int pointer 2
- * @return int < 0 => a < b, > 0 => a > b, = 0 => a == b
- */
-int compareInts(Pointer a, Pointer b) {
-  return *(int*)a - *(int*)b;
+int compareNeighborsTest(Pointer vertex1, Pointer vertex2) {
+  GraphVertex* v1 = (GraphVertex*)((GraphVertexPair*)vertex1)->getVertex2();
+  GraphVertex* v2 = (GraphVertex*)vertex2;
+
+  if (gsl_vector_equal((gsl_vector*)v1->getData(), (gsl_vector*)v2->getData()))
+    return 0;
+  else
+    return 1;
 }
 
-int compareEdges(Pointer a, Pointer b) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)a;
-  GraphVertexPair* pair2 = (GraphVertexPair*)b;
-  int first = pair1->getOwner()->getCompareData()(pair1->getVertex1(),
-                                                  pair2->getVertex1());
-  int second = pair1->getOwner()->getCompareData()(pair1->getVertex2(),
-                                                   pair2->getVertex2());
-  if (first)
-    return first;
-  else if (second)
-    return second;
+int compareReverseTest(Pointer vertex1, Pointer vertex2) {
+  GraphVertex* v1 = (GraphVertex*)((GraphVertexPair*)vertex1)->getVertex1();
+  GraphVertex* v2 = (GraphVertex*)vertex2;
 
-  return 0;
-}
-
-// int compareEdges(Pointer first, Pointer second) {
-//   GraphVertexPair* pair1 = (GraphVertexPair*)first;
-//   GraphVertexPair* pair2 = (GraphVertexPair*)second;
-
-//   if (pair1->getVertex1() != pair2->getVertex1() ||
-//       pair1->getVertex2() != pair2->getVertex2())
-//     return 1;
-
-//   return 0;
-// }
-
-/**
- * @brief Delete an int pointer.
- *
- * @param value The pointer to be deleted.
- */
-void deleteInts(Pointer value) {
-  delete (int*)value;
-}
-
-/**
- * @brief Create an int object in a new memory space with the given value.
- *
- * @param value The value of the created int object.
- * @return int* The created pointer p, where *p = value.
- */
-int* createIntValue(int value) {
-  int* p = new int;
-  *p = value;
-  return p;
-}
-
-/**
- * @brief Cast to size_t that has the same length as a Pointer
- *
- * @param value The value to be hashed.
- * @return unsigned int The hash value.
- */
-uint hashPointer(Pointer value) {
-  GraphVertexPair* pair = (GraphVertexPair*)value;
-  size_t hash = (size_t)pair->getVertex1() + (size_t)pair->getVertex2();
-  return hash;
+  if (gsl_vector_equal((gsl_vector*)v1->getData(), (gsl_vector*)v2->getData()))
+    return 0;
+  else
+    return 1;
 }
 
 TEST(ADTGraphTest, create) {
-  Graph* graph = new Graph(compareInts, nullptr);
+  Graph* graph = new Graph(nullptr, nullptr);
 
   ASSERT_NE(graph, nullptr);
   ASSERT_EQ(graph->getSize(), 0);
@@ -93,241 +44,222 @@ TEST(ADTGraphTest, create) {
   delete graph;
 }
 
-// TEST(ADTGraphTest, removeEdges) {
-//   Graph* graph = new Graph(compareInts, deleteInts);
+TEST(ADTGraphTest, insertRemoveVertex) {
+  Graph* graph = new Graph(nullptr, nullptr);
 
-//   int N = 10;
+  int N = 10;
 
-//   int** vertexArray = new int*[N];
+  gsl_vector** vertexArray = new gsl_vector*[N];
 
-//   for (int i = 0; i < N; i++) {
-//     vertexArray[i] = createIntValue(i);
-//     graph->insertVertex(vertexArray[i]);
-//   }
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = gsl_vector_alloc(N);
 
-// FIXME
-// for (int i = 0; i < N; i++)
-//   for (int j = 0; j < N; j++) {
-//     graph->insertEdge(vertexArray[i], vertexArray[j]);
-//     ASSERT_FLOAT_EQ(
-//         cppdescent::euclideanDistance(vertexArray[i], vertexArray[j]),
-//         *vertexArray[i] - *vertexArray[j]);
-//   }
+    for (int j = 0; j < N; j++)
+      gsl_vector_set(vertexArray[i], j, (float)(rand() % N + 1));
+  }
 
-// FIXME
-// for (int i = 0; i < N; i++)
-//   for (int j = 0; j < N; j++) {
-//     graph->removeEdge(vertexArray[i], vertexArray[j]);
-//     List* adjacent = graph->getAdjacent(vertexArray[i]);
-//     ASSERT_EQ(adjacent->getSize(), N - j - 1);
-//     ASSERT_EQ(adjacent->find(vertexArray[j], compareInts), nullptr);
-//     delete adjacent;
-//   }
+  for (int i = 0; i < N; i++) {
+    graph->insertVertex(vertexArray[i]);
+    ASSERT_EQ(graph->getSize(), i + 1);
+  }
 
-// for (int i = 0; i < N; i++)
-//   delete vertexArray[i];
+  // Try to insert an already inserted value
 
-// delete[] vertexArray;
-// delete graph;
-// }
+  graph->insertVertex(vertexArray[0]);
+  ASSERT_EQ(graph->getSize(), N);
 
-// TEST(ADTGraphTest, insertRemove) {
-//   Graph* graph = new Graph(compareInts, deleteInts);
+  Vector* vertices = graph->getVerticesV();
 
-//   int N = 1000;
+  for (int i = 0; i < N; i++)
+    ASSERT_EQ(((GraphVertex*)vertices->getAt(i))->getData(), vertexArray[i]);
 
-//   int** vertexArray = new int*[N];
+  for (int i = 0; i < N; i++) {
+    graph->removeVertex(vertexArray[i]);
+    ASSERT_EQ(graph->getSize(), N - i - 1);
+  }
 
-//   for (int i = 0; i < N; i++) {
-//     vertexArray[i] = createIntValue(i);
-//     graph->insertVertex(vertexArray[i]);
+  delete[] vertexArray;
+  delete graph;
+}
 
-//     ASSERT_EQ(graph->getSize(), i + 1);
-//   }
+TEST(ADTGraphTest, insertRemoveEdges) {
+  Graph* graph = new Graph(nullptr, nullptr);
 
-//   List* list = graph->getVertices();
-//   ListNode* node = list->getHead();
+  int N = 10;
 
-//   for (int i = 0; i < N; i++) {
-//     ASSERT_EQ(node->getValue(), vertexArray[i]);
-//     node = node->getNext();
-//   }
+  gsl_vector** vertexArray = new gsl_vector*[N];
 
-//   for (int i = 0; i < N; i++) {
-//     graph->removeVertex(vertexArray[i]);
-//     ASSERT_EQ(graph->getSize(), N - i - 1);
-//   }
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = gsl_vector_alloc(N);
 
-//   delete list;
+    for (int j = 0; j < N; j++)
+      gsl_vector_set(vertexArray[i], j, (float)(rand() % N + 1));
+  }
 
-//   list = graph->getVertices();
-//   ASSERT_EQ(list->getSize(), 0);
+  for (int i = 0; i < N; i++) {
+    graph->insertVertex(vertexArray[i]);
+    ASSERT_EQ(graph->getSize(), i + 1);
+  }
 
-//   for (int i = 0; i < N; i++)
-//     delete vertexArray[i];
+  GraphVertex** gvertexArray = new GraphVertex*[N];
 
-//   delete[] vertexArray;
+  for (int i = 0; i < N; i++)
+    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
 
-//   delete list;
-//   delete graph;
-// }
+  for (int i = 1; i < N; i++) {
+    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
+    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+    ASSERT_EQ(gvertexArray[0]->getNeighbors()->getSize(), i);
+  }
 
-// TEST(ADTGraphTest, getAdjacent) {
-//   Graph* graph = new Graph(compareInts, deleteInts);
+  // Try to insert an already inserted edge
 
-//   graph->setHashFunction(hashPointer);
+  graph->insertEdge(gvertexArray[0], gvertexArray[1]);
+  ASSERT_EQ(gvertexArray[0]->getNeighbors()->getSize(), N - 1);
 
-//   int N = 1000;
+  for (int i = 1; i < N; i++) {
+    graph->removeEdge(gvertexArray[0], gvertexArray[i]);
+    ASSERT_FALSE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+  }
 
-//   int** vertexArray = new int*[N];
+  for (int i = 0; i < N; i++)
+    delete gvertexArray[i];
 
-//   for (int i = 0; i < N; i++) {
-//     vertexArray[i] = createIntValue(i);
-//     graph->insertVertex(vertexArray[i]);
-//     List* list = graph->getVertices();
-//     int* value = createIntValue(i);
-//     ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
-//     delete value;
-//     delete list;
-//   }
+  delete[] gvertexArray;
+  delete[] vertexArray;
+  delete graph;
+}
 
-//   for (int i = 1; i < N; i++)
-//     graph->insertEdge(vertexArray[0], vertexArray[i], i);
+TEST(ADTGraphTest, getAdjacent) {
+  Graph* graph = new Graph(nullptr, nullptr);
 
-//   List* list2 = graph->getAdjacent(vertexArray[0]);
-//   ASSERT_NE(list2->getHead(), nullptr);
+  int N = 10;
 
-//   ListNode* node = list2->getHead();
+  gsl_vector** vertexArray = new gsl_vector*[N];
 
-//   for (int i = 1; i < N; i++) {
-//     ASSERT_EQ(node->getValue(), vertexArray[i]) << "i: " << i << "\n";
-//     node = list2->next(node);
-//   }
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = gsl_vector_alloc(N);
 
-//   for (int i = 0; i < N; i++)
-//     delete vertexArray[i];
+    for (int j = 0; j < N; j++)
+      gsl_vector_set(vertexArray[i], j, (float)(rand() % N + 1));
+  }
 
-//   delete[] vertexArray;
-//   delete list2;
-//   delete graph;
-// }
+  for (int i = 0; i < N; i++) {
+    graph->insertVertex(vertexArray[i]);
+    ASSERT_EQ(graph->getSize(), i + 1);
+  }
 
-// TEST(ADTGraphTest, getAdjacentPQ) {
-//   Graph* graph = new Graph(compareInts, deleteInts);
+  GraphVertex** gvertexArray = new GraphVertex*[N];
 
-//   graph->setHashFunction(hashPointer);
+  for (int i = 0; i < N; i++)
+    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
 
-//   int N = 1000;
+  for (int i = 1; i < N; i++) {
+    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
+    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+  }
 
-//   int** vertexArray = new int*[N];
+  Vector* adj = graph->getAdjacentV(gvertexArray[0]);
 
-//   for (int i = 0; i < N; i++) {
-//     vertexArray[i] = createIntValue(i);
-//     graph->insertVertex(vertexArray[i]);
-//     List* list = graph->getVertices();
-//     int* value = createIntValue(i);
-//     ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
-//     delete value;
-//     delete list;
-//   }
+  for (int i = 1; i < N; i++)
+    ASSERT_NE(adj->find(gvertexArray[i], compareNeighborsTest), nullptr);
 
-//   for (int i = 1; i < N; i++)
-//     graph->insertEdge(vertexArray[0], vertexArray[i], i);
+  for (int i = 0; i < N; i++)
+    delete gvertexArray[i];
 
-//   PQueue* adjPQ = graph->getAdjacentPQ(vertexArray[0]);
-//   ASSERT_NE(adjPQ->getMax(), nullptr);
-//   for (int i = 1; i < N; i++) {
-//     GraphVertexPair* pair = (GraphVertexPair*)adjPQ->getMax();
-//     ASSERT_EQ(compareInts(pair->getVertex2(), vertexArray[N - i]), 0)
-//         << "i: " << i << "\n";
-//     adjPQ->removeMax();
-//   }
+  delete[] gvertexArray;
+  delete[] vertexArray;
+  delete graph;
+}
 
-//   for (int i = 0; i < N; i++)
-//     delete vertexArray[i];
+TEST(ADTGraphTest, getReverse) {
+  Graph* graph = new Graph(nullptr, nullptr);
 
-//   delete[] vertexArray;
-//   delete graph;
-// }
+  int N = 10;
 
-// TEST(ADTGraphTest, getReverseAdjacent) {
-//   Graph* graph = new Graph(compareInts, deleteInts);
+  gsl_vector** vertexArray = new gsl_vector*[N];
 
-//   graph->setHashFunction(hashPointer);
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = gsl_vector_alloc(N);
 
-//   int N = 1000;
+    for (int j = 0; j < N; j++)
+      gsl_vector_set(vertexArray[i], j, (float)(rand() % N + 1));
+  }
 
-//   int** vertexArray = new int*[N];
+  for (int i = 0; i < N; i++) {
+    graph->insertVertex(vertexArray[i]);
+    ASSERT_EQ(graph->getSize(), i + 1);
+  }
 
-//   for (int i = 0; i < N; i++) {
-//     vertexArray[i] = createIntValue(i);
-//     graph->insertVertex(vertexArray[i]);
-//     List* list = graph->getVertices();
-//     int* value = createIntValue(i);
-//     ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
-//     delete value;
-//     delete list;
-//   }
+  GraphVertex** gvertexArray = new GraphVertex*[N];
 
-//   for (int i = 1; i < N; i++)
-//     graph->insertEdge(vertexArray[i], vertexArray[0], i);
+  for (int i = 0; i < N; i++)
+    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
 
-//   List* list2 = graph->getReverseAdjacent(vertexArray[0]);
-//   ASSERT_NE(list2->getHead(), nullptr);
+  for (int i = 1; i < N; i++) {
+    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
+    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+  }
 
-//   ListNode* node = list2->getHead();
+  for (int i = 1; i < N; i++) {
+    Vector* adj = graph->getReverseAdjacentV(gvertexArray[i]);
+    ASSERT_NE(adj->find(gvertexArray[0], compareReverseTest), nullptr);
+  }
 
-//   for (int i = 1; i < N; i++) {
-//     ASSERT_EQ(node->getValue(), vertexArray[i]) << "i: " << i << "\n";
-//     node = list2->next(node);
-//   }
+  for (int i = 0; i < N; i++)
+    delete gvertexArray[i];
 
-//   for (int i = 0; i < N; i++)
-//     delete vertexArray[i];
+  delete[] gvertexArray;
+  delete[] vertexArray;
+  delete graph;
+}
 
-//   delete[] vertexArray;
-//   delete list2;
-//   delete graph;
-// }
+TEST(ADTGraphTest, getGenearalNeighbors) {
+  Graph* graph = new Graph(nullptr, nullptr);
 
-// TEST(ADTGraphTest, getReverseAdjacentPQ) {
-//   Graph* graph = new Graph(compareInts, deleteInts);
+  int N = 10;
 
-//   graph->setHashFunction(hashPointer);
+  gsl_vector** vertexArray = new gsl_vector*[N];
 
-//   int N = 1000;
+  for (int i = 0; i < N; i++) {
+    vertexArray[i] = gsl_vector_alloc(N);
 
-//   int** vertexArray = new int*[N];
+    for (int j = 0; j < N; j++)
+      gsl_vector_set(vertexArray[i], j, (float)(rand() % N + 1));
+  }
 
-//   for (int i = 0; i < N; i++) {
-//     vertexArray[i] = createIntValue(i);
-//     graph->insertVertex(vertexArray[i]);
-//     List* list = graph->getVertices();
-//     int* value = createIntValue(i);
-//     ASSERT_EQ(list->find(value, compareInts), vertexArray[i]);
-//     delete value;
-//     delete list;
-//   }
+  for (int i = 0; i < N; i++) {
+    graph->insertVertex(vertexArray[i]);
+    ASSERT_EQ(graph->getSize(), i + 1);
+  }
 
-//   for (int i = 1; i < N; i++)
-//     graph->insertEdge(vertexArray[i], vertexArray[0], i);
+  GraphVertex** gvertexArray = new GraphVertex*[N];
 
-//   PQueue* revAdjPQ = graph->getReverseAdjacentPQ(vertexArray[0]);
-//   ASSERT_NE(revAdjPQ->getMax(), nullptr);
+  for (int i = 0; i < N; i++)
+    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
 
-//   for (int i = 1; i < N; i++) {
-//     GraphVertexPair* pair = (GraphVertexPair*)revAdjPQ->getMax();
-//     ASSERT_EQ(compareInts(pair->getVertex1(), vertexArray[N - i]), 0)
-//         << "i: " << i << "\n";
-//     revAdjPQ->removeMax();
-//   }
+  for (int i = 1; i < N; i++) {
+    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
+    graph->insertEdge(gvertexArray[i], gvertexArray[0]);
+    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+  }
 
-//   for (int i = 0; i < N; i++)
-//     delete vertexArray[i];
+  Vector* adj = graph->getGeneralNeighborsV(gvertexArray[0]);
 
-//   delete[] vertexArray;
-//   delete graph;
-// }
+  for (int i = 1; i < N; i++)
+    ASSERT_NE(adj->find(gvertexArray[i], compareNeighborsTest), nullptr);
+
+  for (int i = 1; i < N; i++)
+    ASSERT_NE(adj->find(gvertexArray[i], compareReverseTest), nullptr);
+
+  for (int i = 0; i < N; i++)
+    delete gvertexArray[i];
+
+  delete adj;
+  delete[] gvertexArray;
+  delete[] vertexArray;
+  delete graph;
+}
 
 // TEST(ADTGraphTest, getGeneralNeighbors) {
 //   Graph* graph = new Graph(compareInts, deleteInts);
