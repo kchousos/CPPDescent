@@ -83,6 +83,7 @@ void Graph::insertVertex(Pointer vertex) {
   double norm;
   gsl_blas_ddot(x, x, &norm);
   gvertex->setNorm(norm);
+  gvertex->setPos(this->size - 1);
 }
 
 Vector* Graph::getVerticesV() {
@@ -203,7 +204,7 @@ bool Graph::isNeighborVertex(Pointer v1, Pointer v2) {
 
   GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
-  if (gvertex1->getNeighbors()->toVector()->binaryFind(
+  if (gvertex1->getNeighbors()->toVector()->find(
           pair, (CompareFunc)cppdescent::compareGraphVertexPairs) != nullptr)
     alreadyMember = true;
 

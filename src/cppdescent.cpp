@@ -26,8 +26,7 @@ int cppdescent::compareGraphVertices(Pointer vertex1, Pointer vertex2) {
   GraphVertex* gvertex1 = (GraphVertex*)vertex1;
   GraphVertex* gvertex2 = (GraphVertex*)vertex2;
 
-  if (gsl_vector_equal((gsl_vector*)gvertex1->getData(),
-                       (gsl_vector*)gvertex2->getData()))
+  if (gvertex1->getPos() == gvertex2->getPos())
     return 0;
 
   return 1;
@@ -58,15 +57,15 @@ int cppdescent::compareGraphVertexPairs(Pointer p1, Pointer p2) {
   GraphVertexPair* pair1 = (GraphVertexPair*)p1;
   GraphVertexPair* pair2 = (GraphVertexPair*)p2;
 
-  if (!gsl_vector_equal(
-          (gsl_vector*)((GraphVertex*)pair1->getVertex1())->getData(),
-          (gsl_vector*)((GraphVertex*)pair2->getVertex1())->getData()) ||
-      !gsl_vector_equal(
-          (gsl_vector*)((GraphVertex*)pair1->getVertex2())->getData(),
-          (gsl_vector*)((GraphVertex*)pair2->getVertex2())->getData()))
-    return 1;
+  GraphVertex* n11 = (GraphVertex*)pair1->getVertex1();
+  GraphVertex* n12 = (GraphVertex*)pair1->getVertex2();
+  GraphVertex* n21 = (GraphVertex*)pair2->getVertex1();
+  GraphVertex* n22 = (GraphVertex*)pair2->getVertex2();
 
-  return 0;
+  if (n11->getPos() == n21->getPos() && n12->getPos() == n22->getPos())
+    return 0;
+
+  return 1;
 }
 
 //===================================

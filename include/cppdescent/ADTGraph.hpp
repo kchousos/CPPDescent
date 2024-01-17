@@ -49,10 +49,13 @@ class GraphVertex {
   Graph* owner;
   bool hasBeenChecked;
   double norm;
+  int posInGraphVector;
 
  public:
   GraphVertex(Pointer data, Graph* owner);
   ~GraphVertex();
+  void setPos(int pos) { this->posInGraphVector = pos; };
+  int getPos() { return this->posInGraphVector; };
   void addNeighbor(Pointer neighbor) { this->neighbors->insert(neighbor); };
   void addReverse(Pointer reverse) { this->reverse->insert(reverse); };
   void removeNeighbor(Pointer neighbor, CompareFunc compare) {
