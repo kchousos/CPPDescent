@@ -166,11 +166,10 @@ void PQueue::remove(Pointer value, CompareFunc compare) {
   this->bubbleDown(tbr);
 }
 
-int PQueue::find(Pointer value, CompareFunc compare_) {
+int PQueue::find(Pointer value, CompareFunc compare) {
   for (int i = 1; i <= this->getSize(); i++)
-    if (compare_(value, this->nodeValue(i)) == 0) {
+    if (compare(value, this->nodeValue(i)) == 0)
       return i;
-    }
 
   return -1;
 }
