@@ -183,6 +183,14 @@ class Vector {
    * @return vectorNode The resulting node.
    */
   vectorNode* findNode(Pointer value, CompareFunc compare);
+  /**
+   * @brief Swaps the value that is saved in pos1 with the one in pos2.
+   *
+   * @param pos1 Index of the first element to be swaped.
+   * @param pos2 Index of the second element to be swaped.
+   * @return vectorNode The resulting node.
+   */
+  void swap(int pos1, int pos2);
 
  private:
   vectorNode* array;

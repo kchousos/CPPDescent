@@ -95,6 +95,10 @@ TEST(ADTPQueueTest, remove) {
   for (int i = 0; i < N; i++)
     queue->insert(array[i]);
 
+  // Try to remove a value that is not member of PQueue
+
+  queue->remove(&N, compareInts);
+
   for (int i = N - 1; i >= 0; i--) {
     int* value = (int*)queue->getMax();
     ASSERT_EQ(*value, i);
@@ -102,6 +106,10 @@ TEST(ADTPQueueTest, remove) {
     queue->removeMax();
     ASSERT_EQ(queue->getSize(), i);
   }
+
+  // Try to remove from empty queue
+
+  queue->remove(array[0], compareInts);
 
   delete queue;
 

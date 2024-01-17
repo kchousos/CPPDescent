@@ -39,10 +39,8 @@ int compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
 
   if (result < 0)
     return -1;
-  else if (result > 0)
-    return 1;
   else
-    return 0;
+    return 1;
 }
 
 void destroyVertex(GraphVertex* vertex) {
@@ -101,13 +99,7 @@ void Graph::removeVertex(Pointer vertex) {
   }
   // LCOV_EXCL_STOP
 
-  GraphVertex* newPos = new GraphVertex(
-      ((GraphVertex*)this->vec->getAt(this->size - 1))->getData(), this);
-  GraphVertex* newLast =
-      new GraphVertex(((GraphVertex*)this->vec->getAt(i))->getData(), this);
-
-  this->vec->setAt(i, newPos);
-  this->vec->setAt(this->size - 1, newLast);
+  this->vec->swap(i, this->size - 1);
   this->vec->removeLast();
 
   this->size--;
