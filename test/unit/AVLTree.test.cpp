@@ -53,7 +53,7 @@ TEST(AVLTree, insert) {
     // ASSERT_EQ(avl->find(valueArray[i]), valueArray[i]) << i;
   }
 
-  avl->printTree();
+  // avl->printTree();
 
   // Δοκιμάζουμε την insert με τιμές που υπάρχουν ήδη στο Set
   // και ελέγχουμε ότι δεν ενημερώθηκε το size (καθώς δεν προστέθηκε νέος
@@ -70,42 +70,31 @@ TEST(AVLTree, insert) {
   delete[] valueArray;
 }
 
-// TEST(AVLTree, remove) {
-//   AVLTree* avl = new AVLTree(compareInts, deleteInts, deleteInts, nullptr);
+TEST(AVLTree, remove) {
+  int N = 1000;
 
-//   int N = 1000;
+  int** valueArray = new int*[N];
 
-//   int** valueArray = new int*[N];
+  // Δοκιμάζουμε την insert με νέες τιμές κάθε φορά και με αυτόματο free
+  for (int i = 0; i < N; i++)
+    valueArray[i] = createIntValue(i);
 
-//   // Δοκιμάζουμε την insert με νέες τιμές κάθε φορά και με αυτόματο free
-//   for (int i = 0; i < N; i++)
-//     valueArray[i] = createIntValue(i);
+  shuffle(valueArray, N);
 
-//   shuffle(valueArray, N);
+  AVLTree* avl = new AVLTree(compareInts, valueArray[0]);
+  for (int i = 0; i < N; i++)
+    avl->insert(valueArray[i]);
 
-//   for (int i = 0; i < N; i++)
-//     avl->insert(valueArray[i]);
+  int not_exists = 2000;
+  ASSERT_FALSE(avl->remove(&not_exists));
 
-//   int not_exists = 2000;
-//   ASSERT_FALSE(avl->remove(&not_exists));
+  avl->printTree();
 
-//   avl->printTree();
+  for (int i = 0; i < N; i++) {
+    avl->remove(valueArray[i]);
+    ASSERT_EQ(avl->getSize(), N - i);
+  }
 
-//   for (int i = 0; i < N; i++) {
-//     avl->remove(valueArray[i]);
-//     ASSERT_EQ(avl->getSize(), N - i);
-//   }
-
-//   delete avl;
-
-//   AVLTree* avl2 = new AVLTree(compareInts, nullptr, nullptr, nullptr);
-
-//   int local_value1 = 0;
-
-//   avl2->insert(&local_value1);
-//   ASSERT_TRUE(avl->remove(&local_value1));
-//   ASSERT_EQ(avl->getSize(), 0);
-
-//   delete avl2;
-//   delete[] valueArray;
-// }
+  delete avl;
+  delete[] valueArray;
+}

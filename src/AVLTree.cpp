@@ -444,6 +444,70 @@ AVLNode* AVLNode::insert(Pointer key, CompareFunc compare, bool* inserted) {
   return this;
 }
 
+AVLNode* AVLNode::remove(Pointer key, CompareFunc compare, bool* removed) {
+  int compareResult = compare(key, this->key);
+
+  if (compareResult < 0) {
+    this->left = this->left == nullptr
+                     ? nullptr
+                     : this->left->remove(key, compare, removed);
+  } else if (compareResult > 0) {
+    this->right = this->right == nullptr
+                      ? nullptr
+                      : this->right->remove(key, compare, removed);
+  } else {
+    // Node with only one child or no child
+    if ((this->left == nullptr) || (this->right == nullptr)) {
+      AVLNode* temp = this->left ? this->left : this->right;
+
+      // No child case
+      if (temp == nullptr) {
+        delete this;
+      } else {  // One child case
+        this->key = temp->key;
+        this->right = nullptr;
+        this->left = nullptr;
+        delete temp;  // Copy the contents of the non-empty child
+      }
+      *removed = true;
+    } else {
+      // Node with two children, get the inorder successor
+      AVLNode* temp = this->right;
+      while (temp->left != nullptr)
+        temp = temp->left;
+
+      // Copy the inorder successor's data to this node
+      this->key = temp->key;
+
+      // Delete the inorder successor
+      this->right = this->right->remove(temp->key, compare, removed);
+    }
+  }
+
+  this->updateHeight();
+
+  int balance = this->getBalance();
+
+  // Left-Left case
+  if (balance > 1 && compare(key, this->left->key) < 0) {
+    return this->rightRotate();
+  }
+  // Left-Right case
+  else if (balance > 1 && compare(key, this->left->key) > 0) {
+    this->left = this->left->leftRotate();
+    return this->rightRotate();
+  }
+  // Right-Right case
+  else if (balance < -1 && compare(key, this->right->key) > 0) {
+    return this->leftRotate();
+  } else if (balance < -1 && compare(key, this->right->key) < 0) {
+    this->right = this->right->rightRotate();
+    return this->leftRotate();
+  }
+
+  return this;
+}
+
 ///////   AVLTree   ///////
 
 AVLTree::AVLTree(CompareFunc compare, Pointer key) {
@@ -456,10 +520,33 @@ void AVLTree::insert(Pointer key) {
   bool* inserted = new bool;
   *inserted = false;
 
-  this->root = this->root->insert(key, this->compare, inserted);
+  if (this->root == nullptr) {
+    *inserted == true;
+    this->root = new AVLNode(key);
+  } else {
+    this->root = this->root->insert(key, this->compare, inserted);
+  }
 
   if (*inserted == true)
     this->size++;
 
   delete inserted;
+}
+
+bool AVLTree::remove(Pointer key) {
+  bool* removed = new bool;
+  *removed = false;
+
+  if (this->compare(key, this->root->getKey()) == 0) {
+    *removed = true;
+    delete this->root;
+    this->root == nullptr;
+  } else {
+    this->root = this->root->remove(key, this->compare, removed);
+  }
+
+  if (*removed == true)
+    this->size--;
+
+  delete removed;
 }

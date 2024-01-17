@@ -106,11 +106,12 @@ class AVLNode {
 
  public:
   AVLNode(Pointer key);
+  Pointer getKey() { return this->key; };
   int getHeight();
   int getBalance();
   AVLNode* rightRotate();
   AVLNode* leftRotate();
-  AVLNode* insert(Pointer key, CompareFunc compare, bool*);
+  AVLNode* insert(Pointer key, CompareFunc compare, bool* inserted);
   void print() {
     std::cout << "--------------------" << std::endl;
     std::cout << "key: " << *(int*)this->key << std::endl;
@@ -130,8 +131,7 @@ class AVLNode {
       this->right->printTree();
   }
   void updateHeight();
-  void preorder();
-  void destroy();
+  AVLNode* remove(Pointer key, CompareFunc compare, bool* removed);
 };
 
 class AVLTree {
@@ -144,5 +144,6 @@ class AVLTree {
   AVLTree(CompareFunc compare, Pointer key);
   int getSize() { return this->size; };
   void insert(Pointer key);
+  bool remove(Pointer key);
   void printTree() { this->root->printTree(); };
 };
