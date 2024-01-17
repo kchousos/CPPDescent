@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 
   int opt;
 
-  while ((opt = getopt(argc, argv, ":d:r:K:")) != -1) {
+  while ((opt = getopt(argc, argv, ":d:r:K:q")) != -1) {
     switch (opt) {
       case 'd':
         delta = atof(optarg);
@@ -26,6 +26,9 @@ int main(int argc, char* argv[]) {
         break;
       case 'K':
         K = atoi(optarg);
+        break;
+      case 'q':
+        verbose = false;
         break;
       case ':':
         printf("option %c needs a value. Please try again.\n", optopt);
