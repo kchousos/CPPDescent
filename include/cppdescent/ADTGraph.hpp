@@ -29,7 +29,7 @@ class Graph {
   void insertVertex(Pointer vertex);
   Vector* getVerticesV();
   void removeVertex(Pointer vertex);
-  void insertEdge(Pointer vertex1, Pointer vertex2);
+  void insertEdge(Pointer vertex1, Pointer vertex2, float dist);
   void removeEdge(Pointer vertex1, Pointer vertex2);
   Vector* getAdjacentV(Pointer vertex);
   Vector* getReverseAdjacentV(Pointer vertex);
@@ -49,10 +49,13 @@ class GraphVertex {
   Graph* owner;
   bool hasBeenChecked;
   double norm;
+  int posInGraphVector;
 
  public:
   GraphVertex(Pointer data, Graph* owner);
   ~GraphVertex();
+  void setPos(int pos) { this->posInGraphVector = pos; };
+  int getPos() { return this->posInGraphVector; };
   void addNeighbor(Pointer neighbor) { this->neighbors->insert(neighbor); };
   void addReverse(Pointer reverse) { this->reverse->insert(reverse); };
   void removeNeighbor(Pointer neighbor, CompareFunc compare) {
@@ -80,10 +83,13 @@ class GraphVertexPair {
   Graph* getOwner() { return this->owner; };
   void setFalse() { this->flag = false; };
   bool getFlag() { return this->flag; };
+  void setDist(float dist) { this->dist = dist; };
+  float getDist() { return this->dist; };
 
  private:
   bool flag;
   Pointer vertex1;
   Pointer vertex2;
   Graph* owner;
+  float dist;
 };

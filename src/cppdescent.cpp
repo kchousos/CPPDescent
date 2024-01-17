@@ -26,8 +26,7 @@ int cppdescent::compareGraphVertices(Pointer vertex1, Pointer vertex2) {
   GraphVertex* gvertex1 = (GraphVertex*)vertex1;
   GraphVertex* gvertex2 = (GraphVertex*)vertex2;
 
-  if (gsl_vector_equal((gsl_vector*)gvertex1->getData(),
-                       (gsl_vector*)gvertex2->getData()))
+  if (gvertex1->getPos() == gvertex2->getPos())
     return 0;
 
   return 1;
@@ -37,36 +36,19 @@ void destroyEdges(GraphVertexPair* pair) {
   delete pair;
 }
 
-int cppdescent::compareNeighbors(Pointer neighbor1, Pointer neighbor2) {
-  GraphVertexPair* pair1 = (GraphVertexPair*)neighbor1;
-  GraphVertexPair* pair2 = (GraphVertexPair*)neighbor2;
-
-  float first = euclideanDistance(pair1->getVertex1(), pair1->getVertex2());
-  float second = euclideanDistance(pair2->getVertex1(), pair2->getVertex2());
-
-  float result = first - second;
-
-  if (result < 0)
-    return -1;
-  else if (result > 0)
-    return 1;
-  else
-    return 0;
-}
-
 int cppdescent::compareGraphVertexPairs(Pointer p1, Pointer p2) {
   GraphVertexPair* pair1 = (GraphVertexPair*)p1;
   GraphVertexPair* pair2 = (GraphVertexPair*)p2;
 
-  if (!gsl_vector_equal(
-          (gsl_vector*)((GraphVertex*)pair1->getVertex1())->getData(),
-          (gsl_vector*)((GraphVertex*)pair2->getVertex1())->getData()) ||
-      !gsl_vector_equal(
-          (gsl_vector*)((GraphVertex*)pair1->getVertex2())->getData(),
-          (gsl_vector*)((GraphVertex*)pair2->getVertex2())->getData()))
-    return 1;
+  GraphVertex* n11 = (GraphVertex*)pair1->getVertex1();
+  GraphVertex* n12 = (GraphVertex*)pair1->getVertex2();
+  GraphVertex* n21 = (GraphVertex*)pair2->getVertex1();
+  GraphVertex* n22 = (GraphVertex*)pair2->getVertex2();
 
-  return 0;
+  if (n11->getPos() == n21->getPos() && n12->getPos() == n22->getPos())
+    return 0;
+
+  return 1;
 }
 
 //===================================
@@ -174,7 +156,7 @@ Graph* cppdescent::readBinGraph(const char* fp, int dimensions) {
     for (int k = 0; k < K; k++) {
       fread(&pos, sizeof(int), 1, file);
       GraphVertex* v2 = (GraphVertex*)graph->getVec()->getAt(pos);
-      graph->insertEdge(v1, v2);
+      graph->insertEdge(v1, v2, 0);
     }
   }
 
@@ -246,7 +228,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
       neighbors->removeMax();
       Pointer vec = ((GraphVertexPair*)neighbor)->getVertex2();
       delete neighbor;
-      graph->insertEdge(a, vec);
+      graph->insertEdge(a, vec, 0);
     }
 
     delete neighbors;
@@ -294,7 +276,7 @@ Graph* sampleGraph(Vector* data, int K) {
         randPos = rand() % N;
         v2 = (Pointer)graph->getVec()->getAt(randPos);
       }
-      graph->insertEdge(v1, v2);
+      graph->insertEdge(v1, v2, 0);
     }
   }
 
@@ -309,11 +291,14 @@ int updateNN(Graph* graph,
   PQueue* direct = ((GraphVertex*)u1)->getNeighbors();
   Pointer max = ((GraphVertexPair*)direct->getMax())->getVertex2();
   float maxDist = distance(u1, max);
+  int K = direct->getSize();
 
   if (dist < maxDist) {
-    graph->removeEdge(u1, max);
-    graph->insertEdge(u1, u2);
-    return 1;
+    graph->insertEdge(u1, u2, dist);
+    if (direct->getSize() == K + 1) {
+      graph->removeEdge(u1, max);
+      return 1;
+    }
   }
 
   return 0;
@@ -512,11 +497,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1, u2);
 
-          if (graph->isNeighborVertex(u1, u2) == false)
-            c += updateNN(graph, u1, u2, dist, distance);
-
-          if (graph->isNeighborVertex(u2, u1) == false)
-            c += updateNN(graph, u2, u1, dist, distance);
+          c += updateNN(graph, u1, u2, dist, distance);
+          c += updateNN(graph, u2, u1, dist, distance);
         }
 
         for (int U2 = 0; U2 < old_v->getSize(); U2++) {
@@ -525,11 +507,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1, u2);
 
-          if (graph->isNeighborVertex(u1, u2) == false)
-            c += updateNN(graph, u1, u2, dist, distance);
-
-          if (graph->isNeighborVertex(u2, u1) == false)
-            c += updateNN(graph, u2, u1, dist, distance);
+          c += updateNN(graph, u1, u2, dist, distance);
+          c += updateNN(graph, u2, u1, dist, distance);
         }
       }
 

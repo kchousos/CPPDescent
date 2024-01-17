@@ -81,6 +81,7 @@ void Graph::insertVertex(Pointer vertex) {
   double norm;
   gsl_blas_ddot(x, x, &norm);
   gvertex->setNorm(norm);
+  gvertex->setPos(this->size - 1);
 }
 
 Vector* Graph::getVerticesV() {
@@ -106,24 +107,21 @@ void Graph::removeVertex(Pointer vertex) {
   delete gvertex;
 }
 
-void Graph::insertEdge(Pointer data1, Pointer data2) {
+void Graph::insertEdge(Pointer data1, Pointer data2, float dist) {
   GraphVertex* gvertex1 = (GraphVertex*)data1;
   GraphVertex* gvertex2 = (GraphVertex*)data2;
 
-  bool alreadyMember = false;
-
   GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
+  pair->setDist(dist);
 
   if (gvertex1->getNeighbors()->find(
           pair, (CompareFunc)cppdescent::compareGraphVertexPairs) != -1) {
-    alreadyMember = true;
     delete pair;
+    return;
   }
 
-  if (alreadyMember == false) {
-    gvertex1->addNeighbor(pair);
-    gvertex2->addReverse(pair);
-  }
+  gvertex1->addNeighbor(pair);
+  gvertex2->addReverse(pair);
 }
 
 void Graph::removeEdge(Pointer data1, Pointer data2) {
@@ -138,8 +136,6 @@ void Graph::removeEdge(Pointer data1, Pointer data2) {
                          (CompareFunc)cppdescent::compareGraphVertexPairs);
 
   delete pair;
-  // delete vertex1;
-  // delete vertex2;
 }
 
 Vector* Graph::getAdjacentV(Pointer vertex) {
@@ -195,7 +191,7 @@ bool Graph::isNeighborVertex(Pointer v1, Pointer v2) {
 
   GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
 
-  if (gvertex1->getNeighbors()->toVector()->binaryFind(
+  if (gvertex1->getNeighbors()->toVector()->find(
           pair, (CompareFunc)cppdescent::compareGraphVertexPairs) != nullptr)
     alreadyMember = true;
 
