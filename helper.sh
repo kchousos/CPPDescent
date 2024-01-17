@@ -52,7 +52,7 @@ function profile {
 if [ "$#" -eq 0 ]; then
     # cleanBuild
     format
-    # runTests isn't needed because coverage runs them anyway
+# runTests isn't needed because coverage runs them anyway
     coverage
     createDocs
 fi

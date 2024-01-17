@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
   compare = cppdescent::compareEdgesEuclidean;
 
   // find filepath to computed brute force graph
-  std::string fullFilePath = argv[2];
+  std::string fullFilePath = path;
   size_t lastSeparator = fullFilePath.find_last_of("/");
   std::string filenameWithExtension = fullFilePath.substr(lastSeparator + 1);
   size_t lastDot = filenameWithExtension.find_last_of(".");
@@ -127,17 +127,23 @@ int main(int argc, char* argv[]) {
     computed = true;
   }
 
+  float recall = cppdescent::recall(bfGraph, nnGraph, N, K);
+
   if (verbose)
-    std::cout << "Total recall is "
-              << cppdescent::recall(bfGraph, nnGraph, N, K) << "%\n\n";
+    std::cout << "Total recall is " << recall << "%\n\n";
 
   delete bfGraph;
   delete nnGraph;
 
+  if (!verbose)
+    std::cout << N << "," << K << "," << delta << "," << rho << ","
+              << duration.count() << "," << recall << "\n";
+
   /*   // Query point
 
     std::cout << "Query point example\n";
-    std::cout << "----------------------------------------------------------\n";
+    std::cout <<
+    "----------------------------------------------------------\n";
 
     nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, 0.01, distance);
     srand(time(0));
@@ -156,11 +162,13 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < size; i++) {
       GraphVertexPair* max = (GraphVertexPair*)results->getMax();
       results->removeMax();
-      Vector* neighbor = (Vector*)((GraphVertex*)max->getVertex2())->getData();
+      Vector* neighbor =
+    (Vector*)((GraphVertex*)max->getVertex2())->getData();
 
       std::cout << "Neighbor " << i + 1 << " : [";
 
-      int dimensions = neighbor->getSize() > 8 ? 8 : neighbor->getSize();
+      int dimensions = neighbor->getSize() > 8 ? 8 :
+    neighbor->getSize();
 
       for (int i = 0; i < dimensions; i++) {
         std::cout << std::fixed;
