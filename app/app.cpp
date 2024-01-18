@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
     std::cout << "For δ = " << delta << "\n";
     std::cout << "For ρ = " << rho << "\n";
     if (D != 0)
-      std::cout << T << "random projection trees are used, for D = " << D
+      std::cout << T << " random projection trees are used, for D = " << D
                 << "\n";
     std::cout << "Dataset: " << path << "\n";
     std::cout << "Dimensions: " << dimensions << "\n";
