@@ -101,15 +101,17 @@ TEST(ADTGraphTest, insertRemoveEdges) {
     ASSERT_EQ(graph->getSize(), i + 1);
   }
 
-  GraphVertex** gvertexArray = new GraphVertex*[N];
+  // GraphVertex** gvertexArray = new GraphVertex*[N];
 
-  for (int i = 0; i < N; i++)
-    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
+  // for (int i = 0; i < N; i++)
+  //   gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
+
+  Vector* vec = graph->getVerticesV();
 
   for (int i = 1; i < N; i++) {
-    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
-    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
-    ASSERT_EQ(gvertexArray[0]->getNeighbors()->getSize(), i);
+    graph->insertEdge(vec->getAt(0), vec->getAt(i));
+    ASSERT_TRUE(graph->isNeighborVertex(vec->getAt(0), vec->getAt(i)));
+    ASSERT_EQ(((GraphVertex*)vec->getAt(0))->getNeighbors()->getSize(), i);
   }
 
   // Try to insert an already inserted edge
