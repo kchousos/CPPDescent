@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define parameter configurations
-K_VALUES=(5 10)
+K_VALUES=(20 50 100)
 DELTA_VALUES=(0.001 0.01 0.1)
 RHO_VALUES=(0.25 0.5 0.75 1)
 
