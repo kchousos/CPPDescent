@@ -185,6 +185,6 @@ PQueue* NNDescent_Query(Graph* graph,
  * result in a connected graph.
  * @param dimensions The dimensions of each datapoint.
  */
-void RPT_ltK(Graph* graph, Vector* vec, int K, int D, int dimensions);
+void RPT_lessThanK(Graph* graph, Vector* vec, int K, int D, int dimensions);
 
 };  // namespace cppdescent

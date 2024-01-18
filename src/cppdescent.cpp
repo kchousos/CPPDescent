@@ -55,11 +55,11 @@ int cppdescent::compareGraphVertexPairs(Pointer p1, Pointer p2) {
 // RPTrees functions.
 //===================================
 
-void cppdescent::RPT_ltK(Graph* graph,
-                         Vector* vec,
-                         int K,
-                         int D,
-                         int dimensions) {
+void cppdescent::RPT_lessThanK(Graph* graph,
+                               Vector* vec,
+                               int K,
+                               int D,
+                               int dimensions) {
   const float epsilon = 1e-8;
 
   // first call of function, whole graph is passed
@@ -177,9 +177,9 @@ void cppdescent::RPT_ltK(Graph* graph,
   }
 #pragma omp parallel sections
   {
-    { RPT_ltK(graph, side0, K, D, dimensions); }
+    { RPT_lessThanK(graph, side0, K, D, dimensions); }
 #pragma omp section
-    { RPT_ltK(graph, side1, K, D, dimensions); }
+    { RPT_lessThanK(graph, side1, K, D, dimensions); }
   }
 
   gsl_vector_free(midpoint);
@@ -602,7 +602,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
     graph = new Graph(nullptr, nullptr);
     for (int i = 0; i < data->getSize(); i++)
       graph->insertVertex(data->getAt(i));
-    RPT_ltK(graph, nullptr, K, D, 100);
+    RPT_lessThanK(graph, nullptr, K, D, 100);
   } else
     graph = sampleGraph(data, K);
 
@@ -633,6 +633,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       delete vAll;
     }
 
+#pragma omp parallel for ordered schedule(dynamic)
     for (int v = 0; v < N; v++) {
       struct sets sets = allSets[v];
 
@@ -646,7 +647,9 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1, u2);
 
+#pragma omp ordered
           c += updateNN(graph, u1, u2, dist, distance);
+#pragma omp ordered
           c += updateNN(graph, u2, u1, dist, distance);
         }
 
@@ -656,7 +659,9 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1, u2);
 
+#pragma omp ordered
           c += updateNN(graph, u1, u2, dist, distance);
+#pragma omp ordered
           c += updateNN(graph, u2, u1, dist, distance);
         }
       }
