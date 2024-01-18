@@ -40,7 +40,7 @@ function coverage {
     runTests
     rm -f ./test/coverage.info ./test/filtered_coverage.info
     rm -rf docs/lcov
-    lcov -c -d ./build/test/CMakeFiles/ -o ./test/coverage.info --ignore-errors mismatch
+    lcov -c -d ./build/test/CMakeFiles/ -o ./test/coverage.info --ignore-errors mismatch --ignore-errors gcov
     lcov --remove ./test/coverage.info "/usr/*" "$(pwd)/extern/googletest/*" "$(pwd)/test/unit/*" "$(pwd)/include/**" -o ./test/filtered_coverage.info
     genhtml test/filtered_coverage.info --output-directory ./docs/lcov/
 }

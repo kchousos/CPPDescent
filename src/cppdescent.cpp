@@ -17,6 +17,7 @@
 #include <iostream>
 
 bool verbose = true;
+int dimensions = 100;
 
 //===================================
 // Helper functions.
@@ -473,7 +474,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
     for (int i = 0; i < data->getSize(); i++)
       graph->insertVertex(data->getAt(i));
     for (int i = 0; i < Trees; i++)
-      RPTree(graph, nullptr, K, D, 100);
+      RPTree(graph, nullptr, K, D, dimensions);
   } else
     graph = sampleGraph(data, K);
 
