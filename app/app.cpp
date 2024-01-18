@@ -55,6 +55,11 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
+  if (D >= K) {
+    std::cout << "D must be greater than K. Please try again.\n";
+    return -1;
+  }
+
   if (!path) {
     std::cout << "Dataset must be specified. Please try again.\n";
     return -1;

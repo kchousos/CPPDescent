@@ -80,10 +80,15 @@ void cppdescent::RPT_ltK(Graph* graph,
       }
     }
 
-    for (int d = D; d < K; d++) {
+    for (int d = size; d < K; d++) {
       int randPos = rand() % graph->getSize();
+
+      while (vec->find(graph->getVec()->getAt(randPos), compareGraphVertices) !=
+             nullptr)
+        randPos = rand() % graph->getSize();
+
       for (int i = 0; i < size; i++)
-        graph->insertEdge(vec->getAt(i), graph->getVerticesV()->getAt(randPos));
+        graph->insertEdge(vec->getAt(i), graph->getVec()->getAt(randPos));
     }
 
     return;
@@ -159,14 +164,14 @@ void cppdescent::RPT_ltK(Graph* graph,
   Vector* side0 = new Vector(cnt0, nullptr);
   Vector* side1 = new Vector(cnt1, nullptr);
   cnt0 = 0;
-  cnt1 = 1;
+  cnt1 = 0;
 
   for (int i = 0; i < size; i++) {
     if (side[i] == 0) {
       side0->setAt(cnt0, vec->getAt(i));
       cnt0++;
     } else {
-      side0->setAt(cnt1, vec->getAt(i));
+      side1->setAt(cnt1, vec->getAt(i));
       cnt1++;
     }
   }
@@ -177,6 +182,8 @@ void cppdescent::RPT_ltK(Graph* graph,
   gsl_vector_free(midpoint);
   gsl_vector_free(hyperplane);
   delete[] side;
+  delete side0;
+  delete side1;
 }
 
 //===================================
@@ -588,7 +595,10 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   Graph* graph = nullptr;
 
   if (D != 0) {
-    Graph* graph = new Graph(nullptr, nullptr);
+    std::cout << "\tUsing random projection tree...\n";
+    graph = new Graph(nullptr, nullptr);
+    for (int i = 0; i < data->getSize(); i++)
+      graph->insertVertex(data->getAt(i));
     RPT_ltK(graph, nullptr, K, D, 100);
   } else
     graph = sampleGraph(data, K);

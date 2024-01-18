@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Define parameter configurations
+K_VALUES=(5 10)
+DELTA_VALUES=(0.001 0.01 0.1)
+RHO_VALUES=(0.25 0.5 0.75 1)
+
 if [ "$#" -ne 2 ]; then
     echo "Usage: ./experiments.sh <path/to/dataset> <path/to/output-csv>"
     exit 1
@@ -19,11 +24,6 @@ DATASET_PATH=$1
 
 # Write the CSV header
 echo "N,K,delta,rho,time_ms,recall" > $OUTPUT_CSV
-
-# Define parameter configurations
-K_VALUES=(5 10)
-DELTA_VALUES=(0.001 0.01 0.1)
-RHO_VALUES=(0.25 0.5 0.75 1)
 
 # Loop through parameter configurations
 for K in "${K_VALUES[@]}"; do
