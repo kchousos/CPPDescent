@@ -11,13 +11,14 @@
 int main(int argc, char* argv[]) {
   int K = -1;
   int D = 0;
+  int T = 4;
   float delta = 0.01;
   float rho = 0.5;
   char* path = nullptr;
 
   int opt;
 
-  while ((opt = getopt(argc, argv, ":d:r:K:qD:")) != -1) {
+  while ((opt = getopt(argc, argv, ":d:r:K:qD:T:")) != -1) {
     switch (opt) {
       case 'd':
         delta = atof(optarg);
@@ -27,6 +28,9 @@ int main(int argc, char* argv[]) {
         break;
       case 'K':
         K = atoi(optarg);
+        break;
+      case 'T':
+        T = atoi(optarg);
         break;
       case 'D':
         D = atoi(optarg);
@@ -60,6 +64,11 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
+  if (T < 2) {
+    std::cout << "T (RPTrees) must be at least 2. Please try again.\n";
+    return -1;
+  }
+
   if (!path) {
     std::cout << "Dataset must be specified. Please try again.\n";
     return -1;
@@ -90,7 +99,8 @@ int main(int argc, char* argv[]) {
     std::cout << "For δ = " << delta << "\n";
     std::cout << "For ρ = " << rho << "\n";
     if (D != 0)
-      std::cout << "Random Projection Tree is used, for D = " << D << "\n";
+      std::cout << T << "random projection trees are used, for D = " << D
+                << "\n";
     std::cout << "Dataset: " << path << "\n";
     std::cout << "Dimensions: " << dimensions << "\n";
     std::cout << "----------------------------------------------------------\n";
@@ -105,7 +115,7 @@ int main(int argc, char* argv[]) {
   if (verbose)
     std::cout << "NN-Descent\n";
 
-  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, D, delta, rho, distance);
+  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, D, T, delta, rho, distance);
 
   auto stop = std::chrono::high_resolution_clock::now();
   auto duration =

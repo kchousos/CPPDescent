@@ -137,6 +137,8 @@ Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare);
  *
  * @param data A Vector of the vertices of the graph.
  * @param K The number of nearest neighbors to compute.
+ * @param K The number of nearest neighbors to compute.
+ * @param K The number of nearest neighbors to compute.
  * @param delta The iterations will stop when the number of edges that were
  * updated is less than delta*N*K.
  * @param rho The sampling rate
@@ -147,6 +149,7 @@ Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare);
 Graph* NNDescent_KNNGraph(Vector* data,
                           int K,
                           int D,
+                          int Trees,
                           float delta,
                           float rho,
                           DistanceFunc distance);
@@ -185,6 +188,6 @@ PQueue* NNDescent_Query(Graph* graph,
  * result in a connected graph.
  * @param dimensions The dimensions of each datapoint.
  */
-void RPT_lessThanK(Graph* graph, Vector* vec, int K, int D, int dimensions);
+void RPTree(Graph* graph, Vector* vec, int K, int D, int dimensions);
 
 };  // namespace cppdescent
