@@ -166,4 +166,23 @@ PQueue* NNDescent_Query(Graph* graph,
                         int K,
                         CompareFunc compare,
                         Vector* query);
+
+// ========================= Random Projection Trees =========================
+
+/**
+ * @brief Creates a graph using random projection trees.
+ *
+ * Starts by splitting the dataspace using a hyperplane, and calling itself
+ * recursively in each "slice".
+ *
+ * The starting graph has no edges, only the vertices.
+ *
+ * @param graph
+ * @param K The open upper bound of elements in a leaf.
+ * @param D The maximum number of elements in a leaf. Must be less than K to
+ * result in a connected graph.
+ * @param dimensions The dimensions of each datapoint.
+ */
+void RPT_ltK(Graph* graph, Vector* vec, int K, int D, int dimensions);
+
 };  // namespace cppdescent

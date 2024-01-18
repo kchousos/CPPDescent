@@ -52,6 +52,134 @@ int cppdescent::compareGraphVertexPairs(Pointer p1, Pointer p2) {
 }
 
 //===================================
+// RPTrees functions.
+//===================================
+
+void cppdescent::RPT_ltK(Graph* graph,
+                         Vector* vec,
+                         int K,
+                         int D,
+                         int dimensions) {
+  const float epsilon = 1e-8;
+
+  // first call of function, whole graph is passed
+  if (vec == nullptr)
+    vec = graph->getVerticesV();
+
+  int size = vec->getSize();
+
+  // We are at a leaf
+  if (size <= D) {
+    // connect all vertices in the leaf with eachother
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
+        if (i == j)
+          continue;
+
+        graph->insertEdge(vec->getAt(i), vec->getAt(j));
+      }
+    }
+
+    for (int d = D; d < K; d++) {
+      int randPos = rand() % graph->getSize();
+      for (int i = 0; i < size; i++)
+        graph->insertEdge(vec->getAt(i), graph->getVerticesV()->getAt(randPos));
+    }
+
+    return;
+  }
+
+  int pos0 = rand() % size;
+  int pos1 = rand() % size;
+
+  if (pos0 == pos1)
+    pos0 = (pos1 + 1) % size;
+
+  GraphVertex* g0 = (GraphVertex*)vec->getAt(pos0);
+  GraphVertex* g1 = (GraphVertex*)vec->getAt(pos1);
+
+  gsl_vector* midpoint = gsl_vector_alloc(dimensions);
+  gsl_vector* hyperplane = gsl_vector_alloc(dimensions);
+
+  for (int i = 0; i < dimensions; i++) {
+    float mid_value = (gsl_vector_get((gsl_vector*)g0->getData(), i) +
+                       gsl_vector_get((gsl_vector*)g1->getData(), i)) /
+                      2.0;
+    gsl_vector_set(midpoint, i, mid_value);
+    float hyper_value = (gsl_vector_get((gsl_vector*)g0->getData(), i) -
+                         gsl_vector_get((gsl_vector*)g1->getData(), i));
+    gsl_vector_set(hyperplane, i, hyper_value);
+  }
+
+  double offset;
+  gsl_blas_ddot(midpoint, hyperplane, &offset);
+
+  int cnt0 = 0;
+  int cnt1 = 0;
+
+  int* side = new int[size];
+
+  // split the vertices
+  for (int i = 0; i < size; i++) {
+    GraphVertex* gi = (GraphVertex*)vec->getAt(i);
+    gsl_vector* veci = (gsl_vector*)gi->getData();
+
+    double margin;
+    gsl_blas_ddot(hyperplane, veci, &margin);
+
+    if (margin > offset + epsilon) {
+      cnt1++;
+      side[i] = 1;
+    } else if (margin < offset - epsilon) {
+      cnt0++;
+      side[i] = 0;
+    } else if (rand() % 2 == 0) {
+      cnt1++;
+      side[i] = 1;
+    } else {
+      cnt0++;
+      side[i] = 0;
+    }
+  }
+
+  // if all vertices are on one side
+  if (cnt1 == 0 || cnt0 == 0) {
+    cnt0 = 0;
+    cnt1 = 0;
+    for (int i = 0; i < size; ++i) {
+      side[i] = rand() % 2;
+      if (side[i] == 0) {
+        ++cnt0;
+      } else {
+        ++cnt1;
+      }
+    }
+  }
+
+  Vector* side0 = new Vector(cnt0, nullptr);
+  Vector* side1 = new Vector(cnt1, nullptr);
+  cnt0 = 0;
+  cnt1 = 1;
+
+  for (int i = 0; i < size; i++) {
+    if (side[i] == 0) {
+      side0->setAt(cnt0, vec->getAt(i));
+      cnt0++;
+    } else {
+      side0->setAt(cnt1, vec->getAt(i));
+      cnt1++;
+    }
+  }
+
+  RPT_ltK(graph, side0, K, D, dimensions);
+  RPT_ltK(graph, side1, K, D, dimensions);
+
+  gsl_vector_free(midpoint);
+  gsl_vector_free(hyperplane);
+  delete[] side;
+}
+
+//===================================
 // CPPDescent functions.
 //===================================
 
