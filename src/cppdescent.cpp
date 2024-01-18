@@ -300,7 +300,6 @@ int updateNN(Graph* graph,
       return 1;
     }
   }
-
   return 0;
 }
 
@@ -470,11 +469,11 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   struct sets* allSets = new struct sets[N];
 
   do {
+#pragma omp parallel shared(delta, K, N, rho, iterations, c)
     iterations++;
 
     c = 0;
 
-#pragma omp parallel for
     for (int v = 0; v < N; v++) {
       // vAll = Bbar[v] = B[v] ⋃ R[v]
       Vector* vAll = graph->getGeneralNeighborsV(vertices->getAt(v));
@@ -483,39 +482,41 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
       delete vAll;
     }
-
     for (int v = 0; v < N; v++) {
       struct sets sets = allSets[v];
 
       Vector* new_v = sets.new_v;
       Vector* old_v = sets.old_v;
-
       for (int U1 = 0; U1 < new_v->getSize(); U1++) {
         for (int U2 = U1 + 1; U2 < new_v->getSize(); U2++) {
           GraphVertex* u1 = (GraphVertex*)new_v->getAt(U1);
           GraphVertex* u2 = (GraphVertex*)new_v->getAt(U2);
 
           dist = distance(u1, u2);
-
-          c += updateNN(graph, u1, u2, dist, distance);
-          c += updateNN(graph, u2, u1, dist, distance);
+#pragma omp critical
+          {
+            c += updateNN(graph, u1, u2, dist, distance);
+            c += updateNN(graph, u2, u1, dist, distance);
+          }
         }
-
         for (int U2 = 0; U2 < old_v->getSize(); U2++) {
           GraphVertex* u1 = (GraphVertex*)new_v->getAt(U1);
           GraphVertex* u2 = (GraphVertex*)old_v->getAt(U2);
 
           dist = distance(u1, u2);
-
-          c += updateNN(graph, u1, u2, dist, distance);
-          c += updateNN(graph, u2, u1, dist, distance);
+#pragma omp critical
+          {
+            c += updateNN(graph, u1, u2, dist, distance);
+            c += updateNN(graph, u2, u1, dist, distance);
+          }
         }
       }
-
-      delete new_v;
-      delete old_v;
+#pragma omp critical
+      {
+        delete new_v;
+        delete old_v;
+      }
     }
-
     if (verbose)
       std::cout << "\tNumber of changes in the graph (c) = " << c << "\n";
   } while (c >= delta * N * K);
