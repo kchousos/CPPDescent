@@ -578,13 +578,21 @@ struct sets getSets(Vector* neighbors, int K, float rho) {
 
 Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
                                       int K,
+                                      int D,
                                       float delta,
                                       float rho,
                                       DistanceFunc distance) {
   if (verbose)
     std::cout << "\tInitializing starting graph...\n";
-  // B[v] <- Sample(V, K) for all v in V
-  Graph* graph = sampleGraph(data, K);
+
+  Graph* graph = nullptr;
+
+  if (D != 0) {
+    Graph* graph = new Graph(nullptr, nullptr);
+    RPT_ltK(graph, nullptr, K, D, 100);
+  } else
+    graph = sampleGraph(data, K);
+
   if (verbose)
     std::cout << "\tStarting graph has been created\n";
   // The vertices do not change, only the edges between them are modified. So we

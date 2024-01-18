@@ -10,13 +10,14 @@
 
 int main(int argc, char* argv[]) {
   int K = -1;
+  int D = 0;
   float delta = 0.01;
   float rho = 0.5;
   char* path = nullptr;
 
   int opt;
 
-  while ((opt = getopt(argc, argv, ":d:r:K:q")) != -1) {
+  while ((opt = getopt(argc, argv, ":d:r:K:qD:")) != -1) {
     switch (opt) {
       case 'd':
         delta = atof(optarg);
@@ -26,6 +27,9 @@ int main(int argc, char* argv[]) {
         break;
       case 'K':
         K = atoi(optarg);
+        break;
+      case 'D':
+        D = atoi(optarg);
         break;
       case 'q':
         verbose = false;
@@ -59,11 +63,8 @@ int main(int argc, char* argv[]) {
   Vector* vec = cppdescent::readBinData(path, dimensions);
   int N = vec->getSize();
 
-  DistanceFunc distance = nullptr;
-  CompareFunc compare = nullptr;
-
-  distance = cppdescent::euclideanDistance;
-  compare = cppdescent::compareEdgesEuclidean;
+  DistanceFunc distance = cppdescent::euclideanDistance;
+  CompareFunc compare = cppdescent::compareEdgesEuclidean;
 
   // find filepath to computed brute force graph
   std::string fullFilePath = path;
@@ -83,7 +84,9 @@ int main(int argc, char* argv[]) {
     std::cout << "For K = " << K << "\n";
     std::cout << "For δ = " << delta << "\n";
     std::cout << "For ρ = " << rho << "\n";
-    std::cout << "Dataset: " << argv[2] << "\n";
+    if (D != 0)
+      std::cout << "Random Projection Tree is used, for D = " << D << "\n";
+    std::cout << "Dataset: " << path << "\n";
     std::cout << "Dimensions: " << dimensions << "\n";
     std::cout << "----------------------------------------------------------\n";
   }
@@ -97,7 +100,7 @@ int main(int argc, char* argv[]) {
   if (verbose)
     std::cout << "NN-Descent\n";
 
-  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, delta, rho, distance);
+  nnGraph = cppdescent::NNDescent_KNNGraph(vec, K, D, delta, rho, distance);
 
   auto stop = std::chrono::high_resolution_clock::now();
   auto duration =

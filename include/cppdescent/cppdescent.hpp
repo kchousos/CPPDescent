@@ -146,9 +146,10 @@ Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare);
  */
 Graph* NNDescent_KNNGraph(Vector* data,
                           int K,
-                          float delta = 0.01,
-                          float rho = 0.5,
-                          DistanceFunc distance = euclideanDistance);
+                          int D,
+                          float delta,
+                          float rho,
+                          DistanceFunc distance);
 /**
  * @brief Computes the K Nearest Neighbors of the query point in the graph.
  *
@@ -178,6 +179,7 @@ PQueue* NNDescent_Query(Graph* graph,
  * The starting graph has no edges, only the vertices.
  *
  * @param graph
+ * @param vec
  * @param K The open upper bound of elements in a leaf.
  * @param D The maximum number of elements in a leaf. Must be less than K to
  * result in a connected graph.
