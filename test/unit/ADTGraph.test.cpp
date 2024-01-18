@@ -101,31 +101,24 @@ TEST(ADTGraphTest, insertRemoveEdges) {
     ASSERT_EQ(graph->getSize(), i + 1);
   }
 
-  GraphVertex** gvertexArray = new GraphVertex*[N];
-
-  for (int i = 0; i < N; i++)
-    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
+  Vector* vec = graph->getVerticesV();
 
   for (int i = 1; i < N; i++) {
-    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
-    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
-    ASSERT_EQ(gvertexArray[0]->getNeighbors()->getSize(), i);
+    graph->insertEdge(vec->getAt(0), vec->getAt(i));
+    ASSERT_TRUE(graph->isNeighborVertex(vec->getAt(0), vec->getAt(i)));
+    ASSERT_EQ(((GraphVertex*)vec->getAt(0))->getNeighbors()->getSize(), i);
   }
 
   // Try to insert an already inserted edge
 
-  graph->insertEdge(gvertexArray[0], gvertexArray[1]);
-  ASSERT_EQ(gvertexArray[0]->getNeighbors()->getSize(), N - 1);
+  graph->insertEdge(vec->getAt(0), vec->getAt(1));
+  ASSERT_EQ(((GraphVertex*)vec->getAt(0))->getNeighbors()->getSize(), N - 1);
 
   for (int i = 1; i < N; i++) {
-    graph->removeEdge(gvertexArray[0], gvertexArray[i]);
-    ASSERT_FALSE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+    graph->removeEdge(vec->getAt(0), vec->getAt(i));
+    ASSERT_FALSE(graph->isNeighborVertex(vec->getAt(0), vec->getAt(i)));
   }
 
-  for (int i = 0; i < N; i++)
-    delete gvertexArray[i];
-
-  delete[] gvertexArray;
   delete[] vertexArray;
   delete graph;
 }
@@ -149,25 +142,18 @@ TEST(ADTGraphTest, getAdjacent) {
     ASSERT_EQ(graph->getSize(), i + 1);
   }
 
-  GraphVertex** gvertexArray = new GraphVertex*[N];
-
-  for (int i = 0; i < N; i++)
-    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
+  Vector* vec = graph->getVerticesV();
 
   for (int i = 1; i < N; i++) {
-    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
-    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+    graph->insertEdge(vec->getAt(0), vec->getAt(i));
+    ASSERT_TRUE(graph->isNeighborVertex(vec->getAt(0), vec->getAt(i)));
   }
 
-  Vector* adj = graph->getAdjacentV(gvertexArray[0]);
+  Vector* adj = graph->getAdjacentV(vec->getAt(0));
 
   for (int i = 1; i < N; i++)
-    ASSERT_NE(adj->find(gvertexArray[i], compareNeighborsTest), nullptr);
+    ASSERT_NE(adj->find(vec->getAt(i), compareNeighborsTest), nullptr);
 
-  for (int i = 0; i < N; i++)
-    delete gvertexArray[i];
-
-  delete[] gvertexArray;
   delete[] vertexArray;
   delete graph;
 }
@@ -191,25 +177,18 @@ TEST(ADTGraphTest, getReverse) {
     ASSERT_EQ(graph->getSize(), i + 1);
   }
 
-  GraphVertex** gvertexArray = new GraphVertex*[N];
-
-  for (int i = 0; i < N; i++)
-    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
+  Vector* vec = graph->getVerticesV();
 
   for (int i = 1; i < N; i++) {
-    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
-    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+    graph->insertEdge(vec->getAt(0), vec->getAt(i));
+    ASSERT_TRUE(graph->isNeighborVertex(vec->getAt(0), vec->getAt(i)));
   }
 
   for (int i = 1; i < N; i++) {
-    Vector* adj = graph->getReverseAdjacentV(gvertexArray[i]);
-    ASSERT_NE(adj->find(gvertexArray[0], compareReverseTest), nullptr);
+    Vector* adj = graph->getReverseAdjacentV(vec->getAt(i));
+    ASSERT_NE(adj->find(vec->getAt(0), compareReverseTest), nullptr);
   }
 
-  for (int i = 0; i < N; i++)
-    delete gvertexArray[i];
-
-  delete[] gvertexArray;
   delete[] vertexArray;
   delete graph;
 }
@@ -233,30 +212,23 @@ TEST(ADTGraphTest, getGenearalNeighbors) {
     ASSERT_EQ(graph->getSize(), i + 1);
   }
 
-  GraphVertex** gvertexArray = new GraphVertex*[N];
-
-  for (int i = 0; i < N; i++)
-    gvertexArray[i] = new GraphVertex(vertexArray[i], graph);
+  Vector* vec = graph->getVerticesV();
 
   for (int i = 1; i < N; i++) {
-    graph->insertEdge(gvertexArray[0], gvertexArray[i]);
-    graph->insertEdge(gvertexArray[i], gvertexArray[0]);
-    ASSERT_TRUE(graph->isNeighborVertex(gvertexArray[0], gvertexArray[i]));
+    graph->insertEdge(vec->getAt(0), vec->getAt(i));
+    graph->insertEdge(vec->getAt(i), vec->getAt(0));
+    ASSERT_TRUE(graph->isNeighborVertex(vec->getAt(0), vec->getAt(i)));
   }
 
-  Vector* adj = graph->getGeneralNeighborsV(gvertexArray[0]);
+  Vector* adj = graph->getGeneralNeighborsV(vec->getAt(0));
 
   for (int i = 1; i < N; i++)
-    ASSERT_NE(adj->find(gvertexArray[i], compareNeighborsTest), nullptr);
+    ASSERT_NE(adj->find(vec->getAt(i), compareNeighborsTest), nullptr);
 
   for (int i = 1; i < N; i++)
-    ASSERT_NE(adj->find(gvertexArray[i], compareReverseTest), nullptr);
-
-  for (int i = 0; i < N; i++)
-    delete gvertexArray[i];
+    ASSERT_NE(adj->find(vec->getAt(i), compareReverseTest), nullptr);
 
   delete adj;
-  delete[] gvertexArray;
   delete[] vertexArray;
   delete graph;
 }
