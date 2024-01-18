@@ -96,14 +96,14 @@ For example:
 
 ### Command-line flags
 
-| Flag | Default value | Usage                                                                                                                                                                            |
-| ---- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-K` | -             | The $K$ number of neighbors for each datapoint. This value *must* be given.                                                                                                      |
-| `-d` | 0.01          | The precision parameter $\delta$ used for early termination. If the updates during an iteration are less than $\delta KN$, then the algorithm concludes.                         |
-| `-r` | 0.5           | The sample rate $\rho$ used for sampling. Before local join, we sample $\rho K$ out of the K-NN items marked `true` for each object to use in local join.                        |
-| `-D` | 0             | The upper bound of vertices a *random projection tree*'s leaf must have. If set to 0, then the starting graph is created randomly. Must be less than $K$.                        |
-| `-T` | 4             | The number of *random projection trees* to create. Must be at least 2.                                                                                                           |
-| `-q` |               | For "quiet". If this flag is set, then the output is a line of comma separated values. Mainly used for automating experiments with the [corresponding script](./experiments.sh). |
+| Flag | Default value | Usage                                                                                                                                                                                       |
+| ---- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-K` | -             | The $K$ number of neighbors for each datapoint. This value *must* be given.                                                                                                                 |
+| `-d` | 0.01          | The precision parameter $\delta$ used for early termination. If the updates during an iteration are less than $\delta KN$, then the algorithm concludes.                                    |
+| `-r` | 0.5           | The sample rate $\rho$ used for sampling. Before local join, we sample $\rho K$ out of the K-NN items marked `true` for each object to use in local join.                                   |
+| `-D` | 0             | The upper bound of vertices a *random projection tree*'s leaf must have. If set to 0, then the starting graph is created randomly. Must be less than $K$.                                   |
+| `-T` | 4             | The number of *random projection trees* to create. Must be at least 2.                                                                                                                      |
+| `-q` |               | For "quiet". If this flag is set, then the output is a line of comma separated values. Mainly used for automating experiments with the [corresponding script](./cppdescent/experiments.sh). |
 
 ### Results
 
