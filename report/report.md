@@ -4,7 +4,7 @@ subtitle: Software Development for Computing Systems, Winter 2023-2024`\\\medski
 author:
 	- Konstantinos Chousos`\\\medskip \small{Student ID:~1115202000215}`{=latex}
 	- Anastasios-Phaedon Seitanidis`\\\medskip \small{Student ID:~1115202000179}`{=latex}
-bibliography: bibliography.bib
+bibliography: [bibliography.bib]
 date: \today
 lang: en
 nocite: |
@@ -129,37 +129,98 @@ For the computation of the euclidean norms, the dot product of $\mathbf{xy}$, bu
 
 Before the algorithm can begin improving a given graph, first a graph must be given. The default strategy is to draw $K$ random edges for each vertex in the newly read graph, thus getting a totally random head-start.
 
-A more sophisticated technique is the usage of random projection trees [@dasguptaRandomProjectionTrees2008] for the initialization of said graph. The idea is simple: For the given dataset, we take a line (actually hyperplane for dimensions > 2) and split it in two halves. Then, we do the same thing recursively until we have at most $D$ datapoints on each split --- these final areas are the tree's *leaves*.
+A more sophisticated technique is the usage of random projection trees [@dasguptaRandomProjectionTrees2008] for the initialization of said graph. The idea is simple: For the given dataset, we take a line (actually hyperplane for dimensions > 2) and split it in two halves. Then, we do the same thing recursively until we have at most $D$ datapoints on each split --- these final areas are the tree's *leaves*. The given dataset will then be splitted something like the one shown in [@fig:rptree].
 
 ![A 2-dimensional dataset partitioned by a random projection tree [@dasguptaRandomProjectionTrees2008].](./static/rptree.png){#fig:rptree width=40%}
 
+The only problem that this method brings is that there is a danger of the graph being non-connected. For this, we can do two things: Set $D$ strictly lower than $K$ and then add random neighbors until their number reaches $K$. Secondly, we can create more than one RPT. In this library, specifically in the `RPTree()` function, the RPTs are created recursively and concurrently, with each half of each split being "taken" by a new thread. This is done using the OpenMP Library [@openmp21], which is also used more generally in the program, as part of the next optimization: parallelization.
+
+## Parallelization
+
+Portions of the algorithm are executed in parallel, since they access and modify different things. For this purpose, the OpenMP Library [@openmp21] is used, since it provides an easy and quick way to add parallelization to your program.
+
+The parts that are parallelized were taken from Algorithm 2 of the paper [@dongEfficientKnearestNeighbor2011, pp. 580(4)], as seen in [@fig:algo].
+
+![The full NN-Descent algorithm as presented in [@dongEfficientKnearestNeighbor2011].](./static/algo.png){#fig:algo width=45%}
+
 # Experiments {#sec:experiments}
 
-## Experimental Setup
+The datasets used both for the development and the following experiments are the ones of the ACM SIGMOD 2023 competition, that are hosted on [@chousosKchousosCPPDescent2024]. On all experiments, the distance function used is the euclidean distance. A lot of experiments were conducted for a lot of different parameter combinations. But, our conclusion is that the biggest bottleneck (at least in our implementation) is the $K$. Our $B[v]$'s are implemented as a Priority Queue. Even though it serves us by keeping the $K$ neighbors sorted, the problem arises when we try to insert a new neighbor. In `updateNN`, when we insert a new neighbor to see if it belongs in the $K$ nearest, we also check that it isn't already there. But since the internals of the p. queue are obfuscated and its array is not sorted, our only option is to linearly search for it. This gives a complexity of $O(K)$ for each vertex, making searches for large $K$ slow.
 
-### Performance Measures
+## Performance Measures
 
-### Default Parameters
+As @dongEfficientKnearestNeighbor2011, we also use the *recall* to test our library's performance:
 
-### System Environment
+> The ground truth is true K-NN obtained by scanning the datasets in brute force. The recall of one object is the number of its true K-NN members found divided by $K$. The recall of an approximate K-NNG is the average recall of all objects.
 
-## Experimental Results
+## Default Parameters
+
+Unless stated otherwise, the parameters' default values can be seen in [@tbl:parameters]. $D=0$ means that a basic random graph is used as a start, and no RPTs are computed.
+
+: The parameters used and their default values. {#tbl:parameters}
+
+| Parameter | Default value |
+| --------- | ------------- |
+| $K$       | -             |
+| $\delta$  | 0.01          |
+| $\rho$    | 0.5           |
+| $D$       | 0             |
+| $T$       | 4             |
+
+## System Environment
+
+The experiments were conducted on a desktop PC of the following configuration: An AMD Ryzen 5 3600 6-Core Processor with 12 threads and16GB main memory. The operating system used was Fedora Linux 39, with the 6.6.11-200 kernel and GCC 13.2.1. 
 
 ### Performance
 
-#### Execution Speed
+: Results for $K$ = 100, $\delta$ = 0.01 without the use of RPTs and single-threaded. {#tbl:performance}
 
-#### Memory Consumption
+| Dataset (N) | $\rho$ | Time (ms) | Iterations | Recall   |
+| ----------- | ------ | --------- | ---------- | -------- |
+| 200         | 0.5    | 4457      | 2          | 99.0001% |
+|             | 1.0    | 5736      | 2          | 99.0001% |
+| 500         | 0.5    | 8757      | 2          | 98.9996% |
+|             | 1.0    | 13188     | 2          | 98.9996% |
+| 1000 (1)    | 0.5    | 16317     | 2          | 98.9993% |
+|             | 1.0    | 24627     | 2          | 98.9993% |
+| 5000 (1)    | 0.5    | 102537    | 3          | 98.853%  |
+|             | 1.0    | 145606    | 3          | 98.991%  |
 
-#### Single vs. Multi-Threading
+```{=latex}
+\begin{filecontents*}{data.csv}
+N,time
+200,4457
+500,8757
+1000,16317
+2000,33557
+5000,102537
+10000,251263
+\end{filecontents*}
 
-### Performance as Data Scales
+\begin{figure}
+\pgfplotsset{width=\linewidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+	xlabel=Dataset,
+	ylabel=Time (ms),
+]
+\addplot table [x=N, y=time, col sep=comma] {data.csv};
+\end{axis}
+\end{tikzpicture}
+\caption{Plot of execution time corresponding to the dataset. Data shown in \ref{tbl:performance}. This plot reinforces the claim that NN-Descent has a complexity of $O(n^{1.14})$ due to its shape.}
+\end{figure}
+```
 
-### Tweaking the Parameters
+<!-- ### Tweaking the Parameters -->
 
-# Conclusion
+# Known Issues/Future Work
+
+As stated in [@sec:experiments], our heap implementation is not optimal. Right now we are in the middle of migrating to AVL trees for that purpose, though their implementation and integration to the project were not done by the writing of this report.
 
 # Acknowledgements
+
+We would like to thank our instructor Sarantis Paskalis for his guidance in regards to this project and our colleagues who generously shared tips and findings with us.
 
 ```{=latex}
 \end{multicols}

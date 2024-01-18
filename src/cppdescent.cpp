@@ -507,6 +507,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       delete vAll;
     }
 
+    // #pragma omp parallel for
     for (int v = 0; v < N; v++) {
       struct sets sets = allSets[v];
 

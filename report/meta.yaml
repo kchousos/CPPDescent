@@ -51,4 +51,5 @@ header-includes: |
   \fancyhead[R]{K. Chousos \& P. Seitanidis}
   \fancyhead[L]{\it CPPDescent}
   \pagestyle{fancy}
+  \usepackage{filecontents}
 ...
