@@ -13,6 +13,9 @@ described in [1], [2], [4].
 - [Konstantinos Chousos](https://github.com/kchousos) (1115202000215,
   sdi2000215 *at* di.uoa.gr)
 
+  <details>
+  <summary><em>Contributions</em></summary>
+
   - 1st submission
     - Build/Testing/Code coverage pipeline
     - ADTVector, ADTList, ADTPQueue
@@ -38,8 +41,13 @@ described in [1], [2], [4].
     - Script for experiments that outputs a csv file with the results
     - Recursive random projection trees [6], [5]
 
+  </details>
+
 - [Anastasios-Fedon Seitanidis](https://github.com/FedonSeitan)
   (1115202000179, sdi2000179 *at* di.uoa.gr)
+
+  <details>
+  <summary><em>Contributions</em></summary>
 
   - 1st submission
     - ADTMap, ADTGraph
@@ -51,6 +59,8 @@ described in [1], [2], [4].
     - `getMin()` property to Priority Queue
     - `remove()` property to Priority Queue
     - Implementation of `find()` helper function for Priority Queue
+
+  </details>
 
 ## Running the project
 
