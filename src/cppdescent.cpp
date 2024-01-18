@@ -156,7 +156,7 @@ Graph* cppdescent::readBinGraph(const char* fp, int dimensions) {
     for (int k = 0; k < K; k++) {
       fread(&pos, sizeof(int), 1, file);
       GraphVertex* v2 = (GraphVertex*)graph->getVec()->getAt(pos);
-      graph->insertEdge(v1, v2, 0);
+      graph->insertEdge(v1, v2);
     }
   }
 
@@ -228,7 +228,7 @@ Graph* cppdescent::KNNBruteForceGraph(Vector* data,
       neighbors->removeMax();
       Pointer vec = ((GraphVertexPair*)neighbor)->getVertex2();
       delete neighbor;
-      graph->insertEdge(a, vec, 0);
+      graph->insertEdge(a, vec);
     }
 
     delete neighbors;
@@ -276,7 +276,7 @@ Graph* sampleGraph(Vector* data, int K) {
         randPos = rand() % N;
         v2 = (Pointer)graph->getVec()->getAt(randPos);
       }
-      graph->insertEdge(v1, v2, 0);
+      graph->insertEdge(v1, v2);
     }
   }
 
@@ -294,7 +294,7 @@ int updateNN(Graph* graph,
   int K = direct->getSize();
 
   if (dist < maxDist) {
-    graph->insertEdge(u1, u2, dist);
+    graph->insertEdge(u1, u2);
     if (direct->getSize() == K + 1) {
       graph->removeEdge(u1, max);
       return 1;

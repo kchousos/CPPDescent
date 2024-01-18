@@ -107,12 +107,11 @@ void Graph::removeVertex(Pointer vertex) {
   delete gvertex;
 }
 
-void Graph::insertEdge(Pointer data1, Pointer data2, float dist) {
+void Graph::insertEdge(Pointer data1, Pointer data2) {
   GraphVertex* gvertex1 = (GraphVertex*)data1;
   GraphVertex* gvertex2 = (GraphVertex*)data2;
 
   GraphVertexPair* pair = new GraphVertexPair(this, gvertex1, gvertex2);
-  pair->setDist(dist);
 
   if (gvertex1->getNeighbors()->find(
           pair, (CompareFunc)cppdescent::compareGraphVertexPairs) != -1) {

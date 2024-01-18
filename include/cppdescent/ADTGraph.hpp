@@ -29,7 +29,7 @@ class Graph {
   void insertVertex(Pointer vertex);
   Vector* getVerticesV();
   void removeVertex(Pointer vertex);
-  void insertEdge(Pointer vertex1, Pointer vertex2, float dist);
+  void insertEdge(Pointer vertex1, Pointer vertex2);
   void removeEdge(Pointer vertex1, Pointer vertex2);
   Vector* getAdjacentV(Pointer vertex);
   Vector* getReverseAdjacentV(Pointer vertex);
@@ -83,13 +83,10 @@ class GraphVertexPair {
   Graph* getOwner() { return this->owner; };
   void setFalse() { this->flag = false; };
   bool getFlag() { return this->flag; };
-  void setDist(float dist) { this->dist = dist; };
-  float getDist() { return this->dist; };
 
  private:
   bool flag;
   Pointer vertex1;
   Pointer vertex2;
   Graph* owner;
-  float dist;
 };
