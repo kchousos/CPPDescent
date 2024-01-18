@@ -71,24 +71,23 @@ void cppdescent::RPT_ltK(Graph* graph,
   // We are at a leaf
   if (size <= D) {
     // connect all vertices in the leaf with eachother
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
       for (int j = 0; j < size; j++) {
         if (i == j)
           continue;
 
         graph->insertEdge(vec->getAt(i), vec->getAt(j));
       }
-    }
 
-    for (int d = size; d < K; d++) {
+    for (int d = size; d <= K; d++) {
       int randPos = rand() % graph->getSize();
 
-      while (vec->find(graph->getVec()->getAt(randPos), compareGraphVertices) !=
-             nullptr)
+      while (vec->find(graph->getVerticesV()->getAt(randPos),
+                       compareGraphVertices) != nullptr)
         randPos = rand() % graph->getSize();
 
       for (int i = 0; i < size; i++)
-        graph->insertEdge(vec->getAt(i), graph->getVec()->getAt(randPos));
+        graph->insertEdge(vec->getAt(i), graph->getVerticesV()->getAt(randPos));
     }
 
     return;
@@ -106,6 +105,7 @@ void cppdescent::RPT_ltK(Graph* graph,
   gsl_vector* midpoint = gsl_vector_alloc(dimensions);
   gsl_vector* hyperplane = gsl_vector_alloc(dimensions);
 
+#pragma omp parallel for
   for (int i = 0; i < dimensions; i++) {
     float mid_value = (gsl_vector_get((gsl_vector*)g0->getData(), i) +
                        gsl_vector_get((gsl_vector*)g1->getData(), i)) /
@@ -175,9 +175,12 @@ void cppdescent::RPT_ltK(Graph* graph,
       cnt1++;
     }
   }
-
-  RPT_ltK(graph, side0, K, D, dimensions);
-  RPT_ltK(graph, side1, K, D, dimensions);
+#pragma omp parallel sections
+  {
+    { RPT_ltK(graph, side0, K, D, dimensions); }
+#pragma omp section
+    { RPT_ltK(graph, side1, K, D, dimensions); }
+  }
 
   gsl_vector_free(midpoint);
   gsl_vector_free(hyperplane);
