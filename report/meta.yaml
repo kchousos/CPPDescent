@@ -1,0 +1,47 @@
+---
+mainfont: Libertinus Serif
+sansfont: Libertinus Sans
+monofont: Iosevka
+mathfont: Libertinus Math
+documentclass: article
+papersize: usletter
+numbersections: true
+biblio-style: ieee
+urlstyle: tt
+geometry:
+  - margin=1.3in
+linestretch: 1.1
+colorlinks: true
+boxlinks: false
+# linkcolor: red
+# anchorcolor: red
+citecolor: red
+filecolor: cyan
+# menucolor: red
+# runcolor: cyan
+urlcolor: blue
+# links-as-notes: false
+# Pandoc Cross-Ref
+codeBlockCaptions: true
+equationNumberTeX: \\tag
+eqnIndexTemplate: $$i$$
+linkReferences: true
+nameInLink: true
+subfigGrind: true
+# LaTeX
+header-includes: |
+  \usepackage[cache=false]{minted}
+  \setminted{frame=single, framesep=2mm, linenos, breaklines}
+  \usepackage[font={footnotesize}, margin=1cm, labelfont=bf]{caption}
+  \usepackage{subcaption}
+  \usepackage{multicol}
+  \usepackage{pgfplots}
+  \pgfplotsset{compat=newest, width=10cm}
+  \usepgfplotslibrary{groupplots}
+  \usepackage{extarrows}
+  \usepackage[sf,bf]{titlesec}
+  \usepackage{tikz}
+  \makeatletter
+  \let\listoflistings\@undefined
+  \makeatother
+...

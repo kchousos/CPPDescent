@@ -1,0 +1,21 @@
+---
+metadata-file: meta.yaml
+from: markdown+pipe_tables+wikilinks_title_after_pipe+mark+lists_without_preceding_blankline+rebase_relative_paths+link_attributes
+standalone: true
+cite-method: biblatex
+fail-if-warnings: false
+verbosity: ERROR
+# Filters
+filters:
+  - pandoc-crossref
+  - minted.lua
+  - rule.lua
+  - noexport.lua
+  - callouts.lua
+  - pandoc-div2env
+# LaTeX
+pdf-engine: latexmk
+pdf-engine-opts: 
+  # - '-outdir=/tmp/pandoc'
+  - '-f'
+...
