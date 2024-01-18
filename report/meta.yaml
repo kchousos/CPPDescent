@@ -9,7 +9,7 @@ numbersections: true
 biblio-style: ieee
 urlstyle: tt
 geometry:
-  - margin=1.3in
+  - margin=1.1in
 linestretch: 1.1
 colorlinks: true
 boxlinks: false

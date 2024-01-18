@@ -2,8 +2,8 @@
 title: "CPPDescent: A C++ library for the creation of K-NN graphs from multi-dimensional datasets"
 subtitle: Software Development for Computing Systems, Winter 2023-2024`\\\medskip Department of Informatics and Telecommunications, University of Athens`{=latex}
 author:
-	- Konstantinos Chousos`\thanks{ID:~1115202000215}`{=latex}
-	- Anastasios-Phaedon Seitanidis`\thanks{ID:~1115202000179}`{=latex}
+	- Konstantinos Chousos`\thanks{Student ID:~1115202000215}`{=latex}
+	- Anastasios-Phaedon Seitanidis`\thanks{Student ID:~1115202000179}`{=latex}
 bibliography: bibliography.bib
 date: \today
 lang: en
@@ -13,7 +13,7 @@ nocite: |
 
 > [!abstract]
 >
-> This library is a C++ implementation of the "NN-Descent" algorithm by Dong et al. [@dongEfficientKnearestNeighbor2011], with a few improvements and optimisations (e.g. usage of random projection trees [@dasguptaRandomProjectionTrees2008]). This implementation serves as an entry for the [ACM SIGMOD 2023 competition](https://2023.sigmod.org/sigmod_student_research_competition.shtml). It was developed as part of the *Software Development for Computing Systems* course of the Department of Informatics and Telecommunications, taught in the winter of 2023 [@ioannidisAnaptyxiLogismikoyGia]. The source code is available at [https://github.com/kchousos/CPPDescent](https://github.com/kchousos/CPPDescent).
+> This library is a C++ implementation of the "NN-Descent" algorithm by Dong et al. [@dongEfficientKnearestNeighbor2011], with a few improvements and optimisations (e.g. usage of random projection trees [@dasguptaRandomProjectionTrees2008]). This implementation serves as an entry for the [ACM SIGMOD 2023 competition](https://2023.sigmod.org/sigmod_student_research_competition.shtml). It was developed as part of the *Software Development for Computing Systems* course of the Department of Informatics and Telecommunications, taught in the winter of 2023 [@ioannidisAnaptyxiLogismikoyGia]. The source code is available at [https://github.com/kchousos/CPPDescent](https://github.com/kchousos/CPPDescent) [@chousosKchousosCPPDescent2024].
 
 ```{=latex}
 \begin{multicols}{2}
@@ -26,6 +26,12 @@ As is tradition for this course, our project for the semester was the challenge 
 A brute force approach to this problem has a complexity of $O(n^2)$, since each datapoint needs to check all others so that it can *weed out* the K points nearest to it. An answer to this problem was given in 2011 by Dong et al. in their paper titled "Efficient K-Nearest Neighbor Graph Construction for Generic Similarity Measures" [@dongEfficientKnearestNeighbor2011], where they present the *NN-Descent* algorithm. This algorithm is based at the very simple idea that *"a neighbor of a neighbor is also likely to be a neighbor"*. According to them, this algorithm is shown to have a complexity of $O(n^{1.14})$. This is a major step-up from the quadratic time, especially when it comes to big dataset.
 
 Our library does not only implement the NN-Descent algorithm. It also implements other optimizations that e.g. make the starting graph more like the one we want to end up with, lowering this way the number of iterations the algorithm must do to reach a satisfying result. These optimizations are discussed in [@sec:optimizations].
+
+## Parameters
+
+The full algorithm can be tweaked by a number of parameters. The ones that have to do with the NN-Descent algorithm are: $K$ for the number of nearest neighbors to search for, $\delta$ for the threshold to the early termination [@dongEfficientKnearestNeighbor2011, sec. 2.6] and $\rho$ for the sampling rate [@dongEfficientKnearestNeighbor2011, sec. 2.5].
+
+Apart from those, there are two other parameters that have to do with the creation of the starting graph when random projection trees are used ([@sec:rpt]): $D$ for the upper bound to the number of vertices each leaf must have and $T$ for the number of random projection trees to compute.
 
 ## Project layout
 
@@ -43,8 +49,72 @@ Our library does not only implement the NN-Descent algorithm. It also implements
 
 ## Data structures
 
+### Defunct Structures
+
+#### ADTMap using HashTable
+
+In the first and second submission we implemented the ADTGraph using an adjacency ADTMap, a map where we stored a pair of vertices (edge) as a key that was related with its weight. For the implementation of this ADTMap we used a hash table. In the final submission, we removed the map data type as we find a simpler and more efficient way to implement the graph data type.
+
+#### ADTList using LinkedList
+
+ In previous verisons we also used ADTList, implemented using Linked List to get access to some of the data stored in the mentioned graph. This data type is not used anymore as well, as we replaced it by the more efficient ADTPriorityQueue in some cases and ADTVector in other where having random access to the elements could be helpful.
+
+### Used Structures
+
+#### ADTGraph 
+
+In the final version the ADTGraph is implemented using a logic similar to the adjacency matrix. More specifically, in the graph is stored an ADTVector that contains its vertices each one of which are represented by a class called GraphVertex. In this class, we keep a PriorityQueue which contains the vertex's direct neighbors and one that contains its reverse neighbors.
+
+#### ADTPriorityQueue using Heap
+
+As we mentioned earlier, we use a PriorityQueue which is implemented by a heap data structure. In this data type we have added some functionality by implementing a `remove` function that removes from the queue the node that contains a value equivalent to a given one. The search in this case has time complexity $O(n)$, worst-case.
+
+## Library interface
+
+- `Vector* readBinData(const char* fp, int dimensions)`: reads data from a binary file and stores it in a vector.
+- `void writeBinGraph(const char* fp, Graph* graph, int K)`: writes an already computed graph in a binary file.
+- `Graph* readBinGraph(const char* fp, int dimensions)`: reads and returns a graph from a binary file. 
+- `float recall(Graph* bfGraph, Graph* nnGraph, int N, int K)`: returns the recall of the graph computed by NN-Descent, compared to the brute force graph.
+- `float euclideanDistance(Pointer a, Pointer b)`: metric function that computes the euclidean distance between 2 points.
+- `float manhattanDistance(Pointer a, Pointer b)`: metric function that computes the manhattan distance between 2 points.
+- `Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare)`: function that computes the K-NN graph using brute force.
+- `Graph* NNDescent_KNNGraph(Vector* data,int K,int D,int Trees,float delta,float rho,DistanceFunc distance)`: function that computes the K-NN graph for the given dataset using the NN-Descent algorithm.
+- `PQueue* NNDescent_Query(Graph* graph,int K,CompareFunc compare,Vector* query)`: function that computes the K Nearest Neighbors of the query point in the graph.
+- `void RPTree(Graph* graph, Vector* vec, int K, int D, int dimensions)`: creates a graph using random projection trees.
+
 
 # Optimizations {#sec:optimizations}
+
+Since this project was developed in three stages, each stage called for new optimizations upon the code of the previous one. The second assignment/submission was focused on the optimizations proposed by Dong et al. Namely *local join*, *incremental search*, *sampling* and *early termination*. Each of those is presented extensively on the NN-Descent paper, so there is no need to do the same here.
+
+On the other hand, the third assignment called for some more interesting optimizations: By utilizing linear algebra, it is possible to simplify the computation of a distance between two vectors by a lot. Another optimization is a different approach on the creation of the starting graph, from which the NN-Descent algorithm starts running iteratively. Lastly, a very simple and obvious optimization is making use of the powerful computing systems of today and introducing parallelization/multi-threading to the algorithm.
+
+## Precomputed vector norms
+
+Finding the distance between two points is a big chunk of this algorithm's computing time. Especially when we are talking about the *euclidean* distance for 100-dimensional points ([@eq:euclidean]).
+
+$$
+d_{\mathbf{x}, \mathbf{y}} = \sqrt{ (x_{1}-y_{1})^{2}+\ldots+(x_{N} - y_{N})^{2} }
+$$
+{#eq:euclidean}
+
+The first thing we observe is that for the needs of the algorithm, the square root is unnecessary. The resulting expression can be then rewritten as vector operations, like so:
+
+$$
+ds_{\mathbf{x}, \mathbf{y}} = \mathbf{x}^{2} + \mathbf{y}^{2} - 2\mathbf{xy},
+$$
+
+where $\mathbf{x}^{2}$ and $\mathbf{y}^{2}$ are the square euclidean norms of the respective vectors. This gives us the option to compute these values only once for each vector and save them, saving precious computing time.
+
+For the computation of the euclidean norms, the dot product of $\mathbf{xy}$, but also for the representation of the vectors themselves the GNU Scientific Library [@GSLGNUScientific] is used.
+
+## Random Projection Trees {#sec:rpt}
+
+Before the algorithm can begin improving a given graph, first a graph must be given. The default strategy is to draw $K$ random edges for each vertex in the newly read graph, thus getting a totally random head-start.
+
+A more sophisticated technique is the usage of random projection trees [@dasguptaRandomProjectionTrees2008] for the initialization of said graph. The idea is simple: For the given dataset, we take a line (actually hyperplane for dimensions > 2) and split it in two halves. Then, we do the same thing recursively until we have at most $D$ datapoints on each split --- these final areas are the tree's *leaves*.
+
+![A 2-dimensional dataset partitioned by a random projection tree [@dasguptaRandomProjectionTrees2008].](./static/rptree.png){#fig:rptree width=75%}
 
 # Experiments {#sec:experiments}
 

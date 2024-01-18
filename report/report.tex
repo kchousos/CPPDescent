@@ -43,7 +43,7 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\usepackage[margin=1.3in]{geometry}
+\usepackage[margin=1.1in]{geometry}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -54,6 +54,19 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -150,8 +163,8 @@ multi-dimensional datasets}
 \subtitle{Software Development for Computing Systems, Winter
 2023-2024\\\medskip Department of Informatics and Telecommunications, University of Athens}
 \author{Konstantinos
-Chousos\thanks{ID:~1115202000215} \and Anastasios-Phaedon
-Seitanidis\thanks{ID:~1115202000179}}
+Chousos\thanks{Student ID:~1115202000215} \and Anastasios-Phaedon
+Seitanidis\thanks{Student ID:~1115202000179}}
 \date{\today}
 
 \begin{document}
@@ -169,7 +182,8 @@ SIGMOD 2023 competition}. It was developed as part of the \emph{Software
 Development for Computing Systems} course of the Department of
 Informatics and Telecommunications, taught in the winter of 2023
 \autocite{ioannidisAnaptyxiLogismikoyGia}. The source code is available
-at \url{https://github.com/kchousos/CPPDescent}.%
+at \url{https://github.com/kchousos/CPPDescent}
+\autocite{chousosKchousosCPPDescent2024}.%
 \end{abstract}
 
 \begin{multicols}{2}
@@ -199,6 +213,21 @@ implements other optimizations that e.g.~make the starting graph more
 like the one we want to end up with, lowering this way the number of
 iterations the algorithm must do to reach a satisfying result. These
 optimizations are discussed in sec.~\ref{sec:optimizations}.
+
+\subsection{Parameters}\label{parameters}
+
+The full algorithm can be tweaked by a number of parameters. The ones
+that have to do with the NN-Descent algorithm are: \(K\) for the number
+of nearest neighbors to search for, \(\delta\) for the threshold to the
+early termination \autocite[sec.~2.6]{dongEfficientKnearestNeighbor2011}
+and \(\rho\) for the sampling rate
+\autocite[sec.~2.5]{dongEfficientKnearestNeighbor2011}.
+
+Apart from those, there are two other parameters that have to do with
+the creation of the starting graph when random projection trees are used
+(sec.~\ref{sec:rpt}): \(D\) for the upper bound to the number of
+vertices each leaf must have and \(T\) for the number of random
+projection trees to compute.
 
 \subsection{Project layout}\label{project-layout}
 
@@ -255,7 +284,154 @@ optimizations are discussed in sec.~\ref{sec:optimizations}.
 
 \subsection{Data structures}\label{data-structures}
 
+\subsubsection{Defunct Structures}\label{defunct-structures}
+
+\paragraph{ADTMap using HashTable}\label{adtmap-using-hashtable}
+
+In the first and second submission we implemented the ADTGraph using an
+adjacency ADTMap, a map where we stored a pair of vertices (edge) as a
+key that was related with its weight. For the implementation of this
+ADTMap we used a hash table. In the final submission, we removed the map
+data type as we find a simpler and more efficient way to implement the
+graph data type.
+
+\paragraph{ADTList using LinkedList}\label{adtlist-using-linkedlist}
+
+In previous verisons we also used ADTList, implemented using Linked List
+to get access to some of the data stored in the mentioned graph. This
+data type is not used anymore as well, as we replaced it by the more
+efficient ADTPriorityQueue in some cases and ADTVector in other where
+having random access to the elements could be helpful.
+
+\subsubsection{Used Structures}\label{used-structures}
+
+\paragraph{ADTGraph}\label{adtgraph}
+
+In the final version the ADTGraph is implemented using a logic similar
+to the adjacency matrix. More specifically, in the graph is stored an
+ADTVector that contains its vertices each one of which are represented
+by a class called GraphVertex. In this class, we keep a PriorityQueue
+which contains the vertex's direct neighbors and one that contains its
+reverse neighbors.
+
+\paragraph{ADTPriorityQueue using
+Heap}\label{adtpriorityqueue-using-heap}
+
+As we mentioned earlier, we use a PriorityQueue which is implemented by
+a heap data structure. In this data type we have added some
+functionality by implementing a \mintinline[]{text}{remove} function
+that removes from the queue the node that contains a value equivalent to
+a given one. The search in this case has time complexity \(O(n)\),
+worst-case.
+
+\subsection{Library interface}\label{library-interface}
+
+\begin{itemize}
+\tightlist
+\item
+  \mintinline[]{text}{Vector* readBinData(const char* fp, int dimensions)}:
+  reads data from a binary file and stores it in a vector.
+\item
+  \mintinline[]{text}{void writeBinGraph(const char* fp, Graph* graph, int K)}:
+  writes an already computed graph in a binary file.
+\item
+  \mintinline[]{text}{Graph* readBinGraph(const char* fp, int dimensions)}:
+  reads and returns a graph from a binary file.
+\item
+  \mintinline[]{text}{float recall(Graph* bfGraph, Graph* nnGraph, int N, int K)}:
+  returns the recall of the graph computed by NN-Descent, compared to
+  the brute force graph.
+\item
+  \mintinline[]{text}{float euclideanDistance(Pointer a, Pointer b)}:
+  metric function that computes the euclidean distance between 2 points.
+\item
+  \mintinline[]{text}{float manhattanDistance(Pointer a, Pointer b)}:
+  metric function that computes the manhattan distance between 2 points.
+\item
+  \mintinline[]{text}{Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare)}:
+  function that computes the K-NN graph using brute force.
+\item
+  \mintinline[]{text}{Graph* NNDescent_KNNGraph(Vector* data,int K,int D,int Trees,float delta,float rho,DistanceFunc distance)}:
+  function that computes the K-NN graph for the given dataset using the
+  NN-Descent algorithm.
+\item
+  \mintinline[]{text}{PQueue* NNDescent_Query(Graph* graph,int K,CompareFunc compare,Vector* query)}:
+  function that computes the K Nearest Neighbors of the query point in
+  the graph.
+\item
+  \mintinline[]{text}{void RPTree(Graph* graph, Vector* vec, int K, int D, int dimensions)}:
+  creates a graph using random projection trees.
+\end{itemize}
+
 \section{Optimizations}\label{sec:optimizations}
+
+Since this project was developed in three stages, each stage called for
+new optimizations upon the code of the previous one. The second
+assignment/submission was focused on the optimizations proposed by Dong
+et al.~Namely \emph{local join}, \emph{incremental search},
+\emph{sampling} and \emph{early termination}. Each of those is presented
+extensively on the NN-Descent paper, so there is no need to do the same
+here.
+
+On the other hand, the third assignment called for some more interesting
+optimizations: By utilizing linear algebra, it is possible to simplify
+the computation of a distance between two vectors by a lot. Another
+optimization is a different approach on the creation of the starting
+graph, from which the NN-Descent algorithm starts running iteratively.
+Lastly, a very simple and obvious optimization is making use of the
+powerful computing systems of today and introducing
+parallelization/multi-threading to the algorithm.
+
+\subsection{Precomputed vector norms}\label{precomputed-vector-norms}
+
+Finding the distance between two points is a big chunk of this
+algorithm's computing time. Especially when we are talking about the
+\emph{euclidean} distance for 100-dimensional points
+(eq.~\ref{eq:euclidean}).
+
+\begin{equation}\phantomsection\label{eq:euclidean}{
+d_{\mathbf{x}, \mathbf{y}} = \sqrt{ (x_{1}-y_{1})^{2}+\ldots+(x_{N} - y_{N})^{2} }
+}\end{equation}
+
+The first thing we observe is that for the needs of the algorithm, the
+square root is unnecessary. The resulting expression can be then
+rewritten as vector operations, like so:
+
+\[
+ds_{\mathbf{x}, \mathbf{y}} = \mathbf{x}^{2} + \mathbf{y}^{2} - 2\mathbf{xy},
+\]
+
+where \(\mathbf{x}^{2}\) and \(\mathbf{y}^{2}\) are the square euclidean
+norms of the respective vectors. This gives us the option to compute
+these values only once for each vector and save them, saving precious
+computing time.
+
+For the computation of the euclidean norms, the dot product of
+\(\mathbf{xy}\), but also for the representation of the vectors
+themselves the GNU Scientific Library \autocite{GSLGNUScientific} is
+used.
+
+\subsection{Random Projection Trees}\label{sec:rpt}
+
+Before the algorithm can begin improving a given graph, first a graph
+must be given. The default strategy is to draw \(K\) random edges for
+each vertex in the newly read graph, thus getting a totally random
+head-start.
+
+A more sophisticated technique is the usage of random projection trees
+\autocite{dasguptaRandomProjectionTrees2008} for the initialization of
+said graph. The idea is simple: For the given dataset, we take a line
+(actually hyperplane for dimensions \textgreater{} 2) and split it in
+two halves. Then, we do the same thing recursively until we have at most
+\(D\) datapoints on each split --- these final areas are the tree's
+\emph{leaves}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=\textheight]{./static/rptree.png}
+\caption{A 2-dimensional dataset partitioned by a random projection tree
+\autocite{dasguptaRandomProjectionTrees2008}.}\label{fig:rptree}
+\end{figure}
 
 \section{Experiments}\label{sec:experiments}
 
