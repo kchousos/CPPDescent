@@ -15,3 +15,8 @@ datasets/10000000.bin
 vgcore.*
 gmon.out
 callgrind*
+
+report/report.*
+!report/report.md
+report/report.pdf
+report/report.tex

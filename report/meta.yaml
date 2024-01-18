@@ -4,13 +4,14 @@ sansfont: Libertinus Sans
 monofont: Iosevka
 mathfont: Libertinus Math
 documentclass: article
-papersize: usletter
+classoption: twoside
+papersize: letterpaper
 numbersections: true
 biblio-style: ieee
 urlstyle: tt
 geometry:
   - margin=1.1in
-linestretch: 1.1
+linestretch: 1.0
 colorlinks: true
 boxlinks: false
 # linkcolor: red
@@ -39,9 +40,15 @@ header-includes: |
   \pgfplotsset{compat=newest, width=10cm}
   \usepgfplotslibrary{groupplots}
   \usepackage{extarrows}
-  \usepackage[sf,bf]{titlesec}
   \usepackage{tikz}
   \makeatletter
   \let\listoflistings\@undefined
   \makeatother
+   \makeatletter
+  \def\fps@figure{H}
+  \makeatother
+  \usepackage{fancyhdr}
+  \fancyhead[R]{K. Chousos \& P. Seitanidis}
+  \fancyhead[L]{\it CPPDescent}
+  \pagestyle{fancy}
 ...

@@ -2,8 +2,8 @@
 title: "CPPDescent: A C++ library for the creation of K-NN graphs from multi-dimensional datasets"
 subtitle: Software Development for Computing Systems, Winter 2023-2024`\\\medskip Department of Informatics and Telecommunications, University of Athens`{=latex}
 author:
-	- Konstantinos Chousos`\thanks{Student ID:~1115202000215}`{=latex}
-	- Anastasios-Phaedon Seitanidis`\thanks{Student ID:~1115202000179}`{=latex}
+	- Konstantinos Chousos`\\\medskip \small{Student ID:~1115202000215}`{=latex}
+	- Anastasios-Phaedon Seitanidis`\\\medskip \small{Student ID:~1115202000179}`{=latex}
 bibliography: bibliography.bib
 date: \today
 lang: en
@@ -13,7 +13,7 @@ nocite: |
 
 > [!abstract]
 >
-> This library is a C++ implementation of the "NN-Descent" algorithm by Dong et al. [@dongEfficientKnearestNeighbor2011], with a few improvements and optimisations (e.g. usage of random projection trees [@dasguptaRandomProjectionTrees2008]). This implementation serves as an entry for the [ACM SIGMOD 2023 competition](https://2023.sigmod.org/sigmod_student_research_competition.shtml). It was developed as part of the *Software Development for Computing Systems* course of the Department of Informatics and Telecommunications, taught in the winter of 2023 [@ioannidisAnaptyxiLogismikoyGia]. The source code is available at [https://github.com/kchousos/CPPDescent](https://github.com/kchousos/CPPDescent) [@chousosKchousosCPPDescent2024].
+> This library is a C++ implementation of the "NN-Descent" algorithm by @dongEfficientKnearestNeighbor2011, with a few improvements and optimisations (e.g. usage of random projection trees [@dasguptaRandomProjectionTrees2008]). This implementation serves as an entry for the [ACM SIGMOD 2023 competition](https://2023.sigmod.org/sigmod_student_research_competition.shtml). It was developed as part of the *Software Development for Computing Systems* course of the Department of Informatics and Telecommunications, taught in the winter of 2023 [@ioannidisAnaptyxiLogismikoyGia]. The source code is available at [https://github.com/kchousos/CPPDescent](https://github.com/kchousos/CPPDescent) [@chousosKchousosCPPDescent2024].
 
 ```{=latex}
 \begin{multicols}{2}
@@ -23,7 +23,7 @@ nocite: |
 
 As is tradition for this course, our project for the semester was the challenge of last spring's ACM SIGMOD Student Research Competition. The theme of the competition was the efficient and fast creation of a *K Nearest Neighbor* graph, where its vertices belong to a dataset of 100-dimensions vectors/datapoints of floats.
 
-A brute force approach to this problem has a complexity of $O(n^2)$, since each datapoint needs to check all others so that it can *weed out* the K points nearest to it. An answer to this problem was given in 2011 by Dong et al. in their paper titled "Efficient K-Nearest Neighbor Graph Construction for Generic Similarity Measures" [@dongEfficientKnearestNeighbor2011], where they present the *NN-Descent* algorithm. This algorithm is based at the very simple idea that *"a neighbor of a neighbor is also likely to be a neighbor"*. According to them, this algorithm is shown to have a complexity of $O(n^{1.14})$. This is a major step-up from the quadratic time, especially when it comes to big dataset.
+A brute force approach to this problem has a complexity of $O(n^2)$, since each datapoint needs to check all others so that it can *weed out* the K points nearest to it. An answer to this problem was given in 2011 by @dongEfficientKnearestNeighbor2011. in their paper titled "Efficient K-Nearest Neighbor Graph Construction for Generic Similarity Measures" [@dongEfficientKnearestNeighbor2011], where they present the *NN-Descent* algorithm. This algorithm is based at the very simple idea that *"a neighbor of a neighbor is also likely to be a neighbor"*. According to them, this algorithm is shown to have a complexity of $O(n^{1.14})$. This is a major step-up from the quadratic time, especially when it comes to big dataset.
 
 Our library does not only implement the NN-Descent algorithm. It also implements other optimizations that e.g. make the starting graph more like the one we want to end up with, lowering this way the number of iterations the algorithm must do to reach a satisfying result. These optimizations are discussed in [@sec:optimizations].
 
@@ -35,15 +35,23 @@ Apart from those, there are two other parameters that have to do with the creati
 
 ## Project layout
 
-- The library itself is stored in the `src/` directory. It is compiled to a `.a` file, so that it can be linked with any executable.
-- The main app that results to the main executable is in the `app/` directory. This file contains the only `main()` on the project, and can be thought as the API between the user and the library itself.
-- The directory `datasets/` contains a lot of the datasets of the SIGMOD competition in binary format. The subdirectory `computed/` contains some of the K-NN graphs that were computed using the brute force algorithm for comparison purposes. They are also in binary format. For which dataset and for which K they correspond to can be deduced from the respective filename. 
-- The `docs/` subdirectory contains the `html/` and `latex/` subdirectories that they themselves contain files respective to each format. It is documentation of the code, automatically generated by code comments using [Doxygen](https://www.doxygen.nl/). The `lcov/` subdirectory contains files that are generated by [LCOV](https://github.com/linux-test-project/lcov) and are used to monitor the code coverage provided by the tests (see below)[^1],
-- The `extern/` directory contains the source code for the [Google Test](https://github.com/google/googletest) suite. It is included as a git submodule.
-- The `include/` directory contains header files for the library and the home-made data structures it uses.
-- The `test/` directory contains unit tests for the library.
-- The `helper.sh` file is a bash script that is used to automate some repetitive tasks, such as execution of all the tests, or documentation generation.
-- The `experiments.sh` is a script that executes the main program in quiet mode, and outputs a `.csv` file that contains the results of different executions for different parameters (see [@sec:experiments]).
+The library itself is stored in the `src/` directory. It is compiled to a `.a` file, so that it can be linked with any executable.
+
+The main app that results to the main executable is in the `app/` directory. This file contains the only `main()` on the project, and can be thought as the API between the user and the library itself.
+
+The directory `datasets/` contains a lot of the datasets of the SIGMOD competition in binary format. The subdirectory `computed/` contains some of the K-NN graphs that were computed using the brute force algorithm for comparison purposes. They are also in binary format. For which dataset and for which K they correspond to can be deduced from the respective filename. 
+
+The `docs/` subdirectory contains the `html/` and `latex/` subdirectories that they themselves contain files respective to each format. It is documentation of the code, automatically generated by code comments using [Doxygen](https://www.doxygen.nl/). The `lcov/` subdirectory contains files that are generated by [LCOV](https://github.com/linux-test-project/lcov) and are used to monitor the code coverage provided by the tests (see below)[^1],
+
+The `extern/` directory contains the source code for the [Google Test](https://github.com/google/googletest) suite. It is included as a git submodule.
+
+The `include/` directory contains header files for the library and the home-made data structures it uses.
+
+The `test/` directory contains unit tests for the library.
+
+The `helper.sh` file is a bash script that is used to automate some repetitive tasks, such as execution of all the tests, or documentation generation.
+
+The `experiments.sh` is a script that executes the main program in quiet mode, and outputs a `.csv` file that contains the results of different executions for different parameters (see [@sec:experiments]).
 
 [^1]: At the moment, the code coverage of the `cppdescent` library itself is pretty low, since it went very recently under a large refactoring and overhaul.
 
@@ -71,21 +79,30 @@ As we mentioned earlier, we use a PriorityQueue which is implemented by a heap d
 
 ## Library interface
 
-- `Vector* readBinData(const char* fp, int dimensions)`: reads data from a binary file and stores it in a vector.
-- `void writeBinGraph(const char* fp, Graph* graph, int K)`: writes an already computed graph in a binary file.
-- `Graph* readBinGraph(const char* fp, int dimensions)`: reads and returns a graph from a binary file. 
-- `float recall(Graph* bfGraph, Graph* nnGraph, int N, int K)`: returns the recall of the graph computed by NN-Descent, compared to the brute force graph.
-- `float euclideanDistance(Pointer a, Pointer b)`: metric function that computes the euclidean distance between 2 points.
-- `float manhattanDistance(Pointer a, Pointer b)`: metric function that computes the manhattan distance between 2 points.
-- `Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare)`: function that computes the K-NN graph using brute force.
-- `Graph* NNDescent_KNNGraph(Vector* data,int K,int D,int Trees,float delta,float rho,DistanceFunc distance)`: function that computes the K-NN graph for the given dataset using the NN-Descent algorithm.
-- `PQueue* NNDescent_Query(Graph* graph,int K,CompareFunc compare,Vector* query)`: function that computes the K Nearest Neighbors of the query point in the graph.
-- `void RPTree(Graph* graph, Vector* vec, int K, int D, int dimensions)`: creates a graph using random projection trees.
+`Vector* readBinData(const char* fp, int dimensions)`: reads data from a binary file and stores it in a vector.
+
+`void writeBinGraph(const char* fp, Graph* graph, int K)`: writes an already computed graph in a binary file.
+
+`Graph* readBinGraph(const char* fp, int dimensions)`: reads and returns a graph from a binary file. 
+
+`float recall(Graph* bfGraph, Graph* nnGraph, int N, int K)`: returns the recall of the graph computed by NN-Descent, compared to the brute force graph.
+
+`float euclideanDistance(Pointer a, Pointer b)`: metric function that computes the euclidean distance between 2 points.
+
+`float manhattanDistance(Pointer a, Pointer b)`: metric function that computes the manhattan distance between 2 points.
+
+`Graph* KNNBruteForceGraph(Vector* data, int K, CompareFunc compare)`: function that computes the K-NN graph using brute force.
+
+`Graph* NNDescent_KNNGraph(Vector* data,int K,int D,int Trees,float delta,float rho,DistanceFunc distance)`: function that computes the K-NN graph for the given dataset using the NN-Descent algorithm.
+
+`PQueue* NNDescent_Query(Graph* graph,int K,CompareFunc compare,Vector* query)`: function that computes the K Nearest Neighbors of the query point in the graph.
+
+`void RPTree(Graph* graph, Vector* vec, int K, int D, int dimensions)`: creates a graph using random projection trees.
 
 
 # Optimizations {#sec:optimizations}
 
-Since this project was developed in three stages, each stage called for new optimizations upon the code of the previous one. The second assignment/submission was focused on the optimizations proposed by Dong et al. Namely *local join*, *incremental search*, *sampling* and *early termination*. Each of those is presented extensively on the NN-Descent paper, so there is no need to do the same here.
+Since this project was developed in three stages, each stage called for new optimizations upon the code of the previous one. The second assignment/submission was focused on the optimizations proposed by @dongEfficientKnearestNeighbor2011. Namely *local join*, *incremental search*, *sampling* and *early termination*. Each of those is presented extensively on the NN-Descent paper, so there is no need to do the same here.
 
 On the other hand, the third assignment called for some more interesting optimizations: By utilizing linear algebra, it is possible to simplify the computation of a distance between two vectors by a lot. Another optimization is a different approach on the creation of the starting graph, from which the NN-Descent algorithm starts running iteratively. Lastly, a very simple and obvious optimization is making use of the powerful computing systems of today and introducing parallelization/multi-threading to the algorithm.
 
@@ -114,7 +131,7 @@ Before the algorithm can begin improving a given graph, first a graph must be gi
 
 A more sophisticated technique is the usage of random projection trees [@dasguptaRandomProjectionTrees2008] for the initialization of said graph. The idea is simple: For the given dataset, we take a line (actually hyperplane for dimensions > 2) and split it in two halves. Then, we do the same thing recursively until we have at most $D$ datapoints on each split --- these final areas are the tree's *leaves*.
 
-![A 2-dimensional dataset partitioned by a random projection tree [@dasguptaRandomProjectionTrees2008].](./static/rptree.png){#fig:rptree width=75%}
+![A 2-dimensional dataset partitioned by a random projection tree [@dasguptaRandomProjectionTrees2008].](./static/rptree.png){#fig:rptree width=40%}
 
 # Experiments {#sec:experiments}
 
