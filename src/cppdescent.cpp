@@ -490,6 +490,11 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   int iterations = 0;
   float dist;
 
+  omp_lock_t* locks = new omp_lock_t[N];
+  for (int i = 0; i < N; i++) {
+    omp_init_lock(&locks[i]);
+  }
+
   struct sets* allSets = new struct sets[N];
 
   do {
@@ -507,6 +512,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       delete vAll;
     }
 
+    // #pragma omp parallel for
     for (int v = 0; v < N; v++) {
       struct sets sets = allSets[v];
 
@@ -514,17 +520,18 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       Vector* old_v = sets.old_v;
 
       for (int U1 = 0; U1 < new_v->getSize(); U1++) {
-        for (int U2 = U1 + 1; U2 < new_v->getSize(); U2++) {
-          GraphVertex* u1 = (GraphVertex*)new_v->getAt(U1);
-          GraphVertex* u2 = (GraphVertex*)new_v->getAt(U2);
+        GraphVertex* u1 = (GraphVertex*)new_v->getAt(U1);
+        omp_set_lock(&locks[u1->getPos()]);
 
+        for (int U2 = U1 + 1; U2 < new_v->getSize(); U2++) {
+          GraphVertex* u2 = (GraphVertex*)new_v->getAt(U2);
           dist = distance(u1, u2);
+
           c += updateNN(graph, K, u1, u2, dist, distance);
           c += updateNN(graph, K, u2, u1, dist, distance);
         }
 
         for (int U2 = 0; U2 < old_v->getSize(); U2++) {
-          GraphVertex* u1 = (GraphVertex*)new_v->getAt(U1);
           GraphVertex* u2 = (GraphVertex*)old_v->getAt(U2);
 
           dist = distance(u1, u2);
@@ -532,6 +539,8 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
           c += updateNN(graph, K, u1, u2, dist, distance);
           c += updateNN(graph, K, u2, u1, dist, distance);
         }
+
+        omp_unset_lock(&locks[u1->getPos()]);
       }
 
       delete new_v;
@@ -543,6 +552,10 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
   } while (c >= delta * N * K);
 
   delete[] allSets;
+  for (int i = 0; i < N; i++) {
+    omp_destroy_lock(&locks[i]);
+  }
+  delete[] locks;
 
   if (verbose)
     std::cout << "\tNN-Descent iterations: " << iterations << "\n";
