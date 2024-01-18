@@ -59,6 +59,13 @@ described in [1], [2], [4].
     - `getMin()` property to Priority Queue
     - `remove()` property to Priority Queue
     - Implementation of `find()` helper function for Priority Queue
+  - 3rd submission
+    - Implementation of AVLTree (not complete)
+    - Test implementation of the refactored ADTGraph
+    - Test update and minor fixes on ADTVector
+    - Test update and minor fixes on ADTPQueue
+    - Parallelism using threds (OpenMP)
+    - Report
 
   </details>
 
