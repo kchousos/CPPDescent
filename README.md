@@ -40,6 +40,8 @@ described in [1], [2], [4].
     - Refactoring of the lookup of a datapoint's neighbors, leading to major speed up
     - Script for experiments that outputs a csv file with the results
     - Recursive random projection trees [6], [5]
+    - Parallelism using the OpenMP library [8]
+    - Report
 
   </details>
 
@@ -64,7 +66,7 @@ described in [1], [2], [4].
     - Test implementation of the refactored ADTGraph
     - Test update and minor fixes on ADTVector
     - Test update and minor fixes on ADTPQueue
-    - Parallelism using threads (OpenMP)
+    - Parallelism using the OpenMP library [8]
     - Report
 
   </details>
@@ -170,3 +172,5 @@ on an apt-based linux distro, run the following commands:
 [6] S. Dasgupta and Y. Freund, “Random projection trees and low dimensional manifolds,” in Proceedings of the fortieth annual ACM symposium on Theory of computing, Victoria British Columbia Canada: ACM, May 2008, pp. 537–546. doi: 10.1145/1374376.1374452.
 
 [7] “GSL - GNU Scientific Library - GNU Project - Free Software Foundation.” Accessed: Jan. 15, 2024. [Online]. Available: https://www.gnu.org/software/gsl/
+
+[8] OpenMP Architecture Review Board, “OpenMP application program interface version 5.2.” Nov. 2021. [Online]. Available: https://www.openmp.org/wp-content/uploads/OpenMP-API-Specification-5-2.pdf

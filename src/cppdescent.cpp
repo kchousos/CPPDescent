@@ -338,6 +338,7 @@ struct sets {
  */
 struct sets getSets(Vector* neighbors, int K, float rho) {
   int** trueMetadata = new int*[neighbors->getSize()];
+
   for (int i = 0; i < neighbors->getSize(); ++i)
     trueMetadata[i] = new int[3];
 
@@ -468,6 +469,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
   Graph* graph = nullptr;
 
+  // Starting graph creation
   if (D != 0) {
     std::cout << "\tUsing random projection tree...\n";
     graph = new Graph(nullptr, nullptr);
@@ -505,7 +507,6 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
       delete vAll;
     }
 
-#pragma omp parallel for ordered schedule(dynamic)
     for (int v = 0; v < N; v++) {
       struct sets sets = allSets[v];
 
@@ -518,10 +519,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
           GraphVertex* u2 = (GraphVertex*)new_v->getAt(U2);
 
           dist = distance(u1, u2);
-
-#pragma omp ordered
           c += updateNN(graph, K, u1, u2, dist, distance);
-#pragma omp ordered
           c += updateNN(graph, K, u2, u1, dist, distance);
         }
 
@@ -531,9 +529,7 @@ Graph* cppdescent::NNDescent_KNNGraph(Vector* data,
 
           dist = distance(u1, u2);
 
-#pragma omp ordered
           c += updateNN(graph, K, u1, u2, dist, distance);
-#pragma omp ordered
           c += updateNN(graph, K, u2, u1, dist, distance);
         }
       }
@@ -674,16 +670,22 @@ void cppdescent::RPTree(Graph* graph,
   // We are at a leaf
   if (size <= D) {
     // connect all vertices in the leaf with eachother
-#pragma omp critical
+    // #pragma omp critical
     {
+#pragma omp parallel for collapse(2)
       for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
           if (i != j) {
-            float dist = euclideanDistance(vec->getAt(i), vec->getAt(j));
-            updateNN(graph, K, vec->getAt(i), vec->getAt(j), dist,
-                     euclideanDistance);
+            float dist;
+#pragma omp critical
+            {
+              dist = euclideanDistance(vec->getAt(i), vec->getAt(j));
+              updateNN(graph, K, vec->getAt(i), vec->getAt(j), dist,
+                       euclideanDistance);
+            }
           }
 
+#pragma omp parallel for
       for (int d = size; d <= K; d++) {
         int randPos = rand() % graph->getSize();
         while (vec->find(graph->getVerticesV()->getAt(randPos),
@@ -691,11 +693,14 @@ void cppdescent::RPTree(Graph* graph,
           randPos = rand() % graph->getSize();
 
         for (int i = 0; i < size; i++) {
-          float dist =
-              euclideanDistance(vec->getAt(i), graph->getVec()->getAt(randPos));
-          updateNN(graph, K, vec->getAt(i),
-                   graph->getVerticesV()->getAt(randPos), dist,
-                   euclideanDistance);
+#pragma omp critical
+          {
+            float dist = euclideanDistance(vec->getAt(i),
+                                           graph->getVec()->getAt(randPos));
+            updateNN(graph, K, vec->getAt(i),
+                     graph->getVerticesV()->getAt(randPos), dist,
+                     euclideanDistance);
+          }
         }
       }
     }
@@ -716,12 +721,16 @@ void cppdescent::RPTree(Graph* graph,
 
 #pragma omp parallel for
   for (int i = 0; i < dimensions; i++) {
-    float mid_value = (gsl_vector_get((gsl_vector*)g0->getData(), i) +
-                       gsl_vector_get((gsl_vector*)g1->getData(), i)) /
-                      2.0;
+    double a, b;
+    a = gsl_vector_get((gsl_vector*)g0->getData(), i);
+    b = gsl_vector_get((gsl_vector*)g1->getData(), i);
+    float mid_value;
+    float hyper_value;
+#pragma omp atomic write
+    mid_value = (a + b) / 2.0;
     gsl_vector_set(midpoint, i, mid_value);
-    float hyper_value = (gsl_vector_get((gsl_vector*)g0->getData(), i) -
-                         gsl_vector_get((gsl_vector*)g1->getData(), i));
+#pragma omp atomic write
+    hyper_value = (a - b);
     gsl_vector_set(hyperplane, i, hyper_value);
   }
 
@@ -733,12 +742,18 @@ void cppdescent::RPTree(Graph* graph,
 
   int* side = new int[size];
 
+#pragma omp parallel for
   // split the vertices
   for (int i = 0; i < size; i++) {
-    GraphVertex* gi = (GraphVertex*)vec->getAt(i);
-    gsl_vector* veci = (gsl_vector*)gi->getData();
+    GraphVertex* gi;
+    gsl_vector* veci;
 
+#pragma omp atomic write
+    gi = (GraphVertex*)vec->getAt(i);
+#pragma omp atomic write
+    veci = (gsl_vector*)gi->getData();
     double margin;
+#pragma omp critical
     gsl_blas_ddot(hyperplane, veci, &margin);
 
     if (margin > offset + epsilon) {
@@ -760,11 +775,14 @@ void cppdescent::RPTree(Graph* graph,
   if (cnt1 == 0 || cnt0 == 0) {
     cnt0 = 0;
     cnt1 = 0;
+#pragma omp parallel for
     for (int i = 0; i < size; ++i) {
       side[i] = rand() % 2;
       if (side[i] == 0) {
+#pragma omp atomic update
         ++cnt0;
       } else {
+#pragma omp atomic update
         ++cnt1;
       }
     }
@@ -784,6 +802,7 @@ void cppdescent::RPTree(Graph* graph,
       cnt1++;
     }
   }
+
 #pragma omp parallel sections
   {
     { RPTree(graph, side0, K, D, dimensions); }

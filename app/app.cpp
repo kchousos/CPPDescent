@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
   }
 
   if (D >= K) {
-    std::cout << "D must be greater than K. Please try again.\n";
+    std::cout << "D must be lesser than K. Please try again.\n";
     return -1;
   }
 

@@ -9,5 +9,8 @@
             "./datasets/00000200.bin",
         ],
         "cwd": "${workspaceFolder}/",
+    },
+    "files.associations": {
+        "ostream": "cpp"
     }
 }
