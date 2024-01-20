@@ -30,6 +30,9 @@ linkReferences: true
 nameInLink: true
 subfigGrind: true
 # LaTeX
+# \makeatletter
+# \def\fps@figure{H}
+# \makeatother
 header-includes: |
   \usepackage[cache=false]{minted}
   \setminted{frame=single, framesep=2mm, linenos, breaklines}
@@ -43,9 +46,6 @@ header-includes: |
   \usepackage{tikz}
   \makeatletter
   \let\listoflistings\@undefined
-  \makeatother
-   \makeatletter
-  \def\fps@figure{H}
   \makeatother
   \usepackage{fancyhdr}
   \fancyhead[R]{K. Chousos \& P. Seitanidis}

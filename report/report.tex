@@ -4,8 +4,9 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
+  10,
   letterpaperpaper,
-  twoside]{article}
+  twocolumn]{article}
 \usepackage{amsmath,amssymb}
 \usepackage{setspace}
 \usepackage{iftex}
@@ -97,9 +98,6 @@
 \makeatletter
 \let\listoflistings\@undefined
 \makeatother
- \makeatletter
-\def\fps@figure{H}
-\makeatother
 \usepackage{fancyhdr}
 \fancyhead[R]{K. Chousos \& P. Seitanidis}
 \fancyhead[L]{\it CPPDescent}
@@ -170,8 +168,8 @@ multi-dimensional datasets}
 \subtitle{Software Development for Computing Systems, Winter
 2023-2024\\\medskip Department of Informatics and Telecommunications, University of Athens}
 \author{Konstantinos
-Chousos\\\medskip \small{Student ID:~1115202000215} \and Anastasios-Phaedon
-Seitanidis\\\medskip \small{Student ID:~1115202000179}}
+Chousos\\\medskip \texttt{sdi2000215@di.uoa.gr} \and Anastasios-Phaedon
+Seitanidis\\\medskip \texttt{sdi2000179@di.uoa.gr}}
 \date{\today}
 
 \begin{document}
@@ -192,8 +190,6 @@ Informatics and Telecommunications, taught in the winter of 2023
 at \url{https://github.com/kchousos/CPPDescent}
 \autocite{chousosKchousosCPPDescent2024}.%
 \end{abstract}
-
-\begin{multicols}{2}
 
 \section{Introduction}\label{introduction}
 
@@ -428,7 +424,7 @@ the one shown in fig.~\ref{fig:rptree}.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth,height=\textheight]{./static/rptree.png}
+\includegraphics[width=0.5\textwidth,height=\textheight]{./static/rptree.png}
 \caption{A 2-dimensional dataset partitioned by a random projection tree
 \autocite{dasguptaRandomProjectionTrees2008}.}\label{fig:rptree}
 \end{figure}
@@ -451,12 +447,12 @@ and modify different things. For this purpose, the OpenMP Library
 add parallelization to your program.
 
 The parts that are parallelized were taken from Algorithm 2 of the paper
-\autocite[pp.~580(4)]{dongEfficientKnearestNeighbor2011}, as seen in
+\autocite[p.~580]{dongEfficientKnearestNeighbor2011}, as seen in
 fig.~\ref{fig:algo}.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.45\textwidth,height=\textheight]{./static/algo.png}
+\includegraphics[width=0.5\textwidth,height=\textheight]{./static/algo.png}
 \caption{The full NN-Descent algorithm as presented in
 \autocite{dongEfficientKnearestNeighbor2011}.}\label{fig:algo}
 \end{figure}
@@ -560,17 +556,46 @@ N,time
 \end{filecontents*}
 
 \begin{figure}
+
 \pgfplotsset{width=\linewidth}
 \centering
+
 \begin{tikzpicture}
 \begin{axis}[
-    xlabel=Dataset,
+    xlabel=Datapoints,
     ylabel=Time (ms),
+    domain=0:15000,
+    restrict y to domain=-1000:300000,
 ]
-\addplot table [x=N, y=time, col sep=comma] {data.csv};
+
+\addplot table[
+    color=blue,
+    x=N,
+    y=time, 
+    col sep=comma
+    ] {data.csv};
+    \addlegendentry{$\sim O(n^{1.355})$}
+
+\addplot[
+    color=red, 
+    samples=500, 
+    domain=0:10000,
+    dashed,
+    ] {x^2};
+    \addlegendentry{$O(n^2)$}
+
+\addplot[
+    color=green, 
+    samples=500, 
+    domain=0:10000,
+    ] {x^1.14};
+    \addlegendentry{$O(n^{1.14})$}
+
 \end{axis}
 \end{tikzpicture}
+
 \caption{Plot of execution time corresponding to the dataset. Data shown in \ref{tbl:performance}. This plot reinforces the claim that NN-Descent has a complexity of $O(n^{1.14})$ due to its shape.}
+
 \end{figure}
 
 \section{Known Issues/Future Work}\label{known-issuesfuture-work}
@@ -585,8 +610,6 @@ were not done by the writing of this report.
 We would like to thank our instructor Sarantis Paskalis for his guidance
 in regards to this project and our colleagues who generously shared tips
 and findings with us.
-
-\end{multicols}
 
 \printbibliography
 

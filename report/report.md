@@ -2,22 +2,20 @@
 title: "CPPDescent: A C++ library for the creation of K-NN graphs from multi-dimensional datasets"
 subtitle: Software Development for Computing Systems, Winter 2023-2024`\\\medskip Department of Informatics and Telecommunications, University of Athens`{=latex}
 author:
-	- Konstantinos Chousos`\\\medskip \small{Student ID:~1115202000215}`{=latex}
-	- Anastasios-Phaedon Seitanidis`\\\medskip \small{Student ID:~1115202000179}`{=latex}
+	- Konstantinos Chousos`\\\medskip \texttt{sdi2000215@di.uoa.gr}`{=latex}
+	- Anastasios-Phaedon Seitanidis`\\\medskip \texttt{sdi2000179@di.uoa.gr}`{=latex}
 bibliography: [bibliography.bib]
 date: \today
 lang: en
 nocite: |
 	@*
+classoption: twocolumn
+fontsize: 10
 ---
 
 > [!abstract]
 >
 > This library is a C++ implementation of the "NN-Descent" algorithm by @dongEfficientKnearestNeighbor2011, with a few improvements and optimisations (e.g. usage of random projection trees [@dasguptaRandomProjectionTrees2008]). This implementation serves as an entry for the [ACM SIGMOD 2023 competition](https://2023.sigmod.org/sigmod_student_research_competition.shtml). It was developed as part of the *Software Development for Computing Systems* course of the Department of Informatics and Telecommunications, taught in the winter of 2023 [@ioannidisAnaptyxiLogismikoyGia]. The source code is available at [https://github.com/kchousos/CPPDescent](https://github.com/kchousos/CPPDescent) [@chousosKchousosCPPDescent2024].
-
-```{=latex}
-\begin{multicols}{2}
-```
 
 # Introduction
 
@@ -131,7 +129,7 @@ Before the algorithm can begin improving a given graph, first a graph must be gi
 
 A more sophisticated technique is the usage of random projection trees [@dasguptaRandomProjectionTrees2008] for the initialization of said graph. The idea is simple: For the given dataset, we take a line (actually hyperplane for dimensions > 2) and split it in two halves. Then, we do the same thing recursively until we have at most $D$ datapoints on each split --- these final areas are the tree's *leaves*. The given dataset will then be splitted something like the one shown in [@fig:rptree].
 
-![A 2-dimensional dataset partitioned by a random projection tree [@dasguptaRandomProjectionTrees2008].](./static/rptree.png){#fig:rptree width=40%}
+![A 2-dimensional dataset partitioned by a random projection tree [@dasguptaRandomProjectionTrees2008].](./static/rptree.png){#fig:rptree width=50%}
 
 The only problem that this method brings is that there is a danger of the graph being non-connected. For this, we can do two things: Set $D$ strictly lower than $K$ and then add random neighbors until their number reaches $K$. Secondly, we can create more than one RPT. In this library, specifically in the `RPTree()` function, the RPTs are created recursively and concurrently, with each half of each split being "taken" by a new thread. This is done using the OpenMP Library [@openmp21], which is also used more generally in the program, as part of the next optimization: parallelization.
 
@@ -139,9 +137,9 @@ The only problem that this method brings is that there is a danger of the graph 
 
 Portions of the algorithm are executed in parallel, since they access and modify different things. For this purpose, the OpenMP Library [@openmp21] is used, since it provides an easy and quick way to add parallelization to your program.
 
-The parts that are parallelized were taken from Algorithm 2 of the paper [@dongEfficientKnearestNeighbor2011, pp. 580(4)], as seen in [@fig:algo].
+The parts that are parallelized were taken from Algorithm 2 of the paper [@dongEfficientKnearestNeighbor2011, p. 580], as seen in [@fig:algo].
 
-![The full NN-Descent algorithm as presented in [@dongEfficientKnearestNeighbor2011].](./static/algo.png){#fig:algo width=45%}
+![The full NN-Descent algorithm as presented in [@dongEfficientKnearestNeighbor2011].](./static/algo.png){#fig:algo width=50%}
 
 # Experiments {#sec:experiments}
 
@@ -198,17 +196,46 @@ N,time
 \end{filecontents*}
 
 \begin{figure}
+
 \pgfplotsset{width=\linewidth}
 \centering
+
 \begin{tikzpicture}
 \begin{axis}[
-	xlabel=Dataset,
+	xlabel=Datapoints,
 	ylabel=Time (ms),
+	domain=0:15000,
+	restrict y to domain=-1000:300000,
 ]
-\addplot table [x=N, y=time, col sep=comma] {data.csv};
+
+\addplot table[
+	color=blue,
+	x=N,
+	y=time, 
+	col sep=comma
+	] {data.csv};
+	\addlegendentry{$\sim O(n^{1.355})$}
+
+\addplot[
+	color=red, 
+	samples=500, 
+	domain=0:10000,
+	dashed,
+	] {x^2};
+	\addlegendentry{$O(n^2)$}
+
+\addplot[
+	color=green, 
+	samples=500, 
+	domain=0:10000,
+	] {x^1.14};
+	\addlegendentry{$O(n^{1.14})$}
+
 \end{axis}
 \end{tikzpicture}
+
 \caption{Plot of execution time corresponding to the dataset. Data shown in \ref{tbl:performance}. This plot reinforces the claim that NN-Descent has a complexity of $O(n^{1.14})$ due to its shape.}
+
 \end{figure}
 ```
 
@@ -221,7 +248,3 @@ As stated in [@sec:experiments], our heap implementation is not optimal. Right n
 # Acknowledgements
 
 We would like to thank our instructor Sarantis Paskalis for his guidance in regards to this project and our colleagues who generously shared tips and findings with us.
-
-```{=latex}
-\end{multicols}
-```
